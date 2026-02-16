@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771267827618,
+  "lastUpdate": 1771270256931,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "117115317+lrubasze@users.noreply.github.com",
-            "name": "Lukasz Rubaszewski",
-            "username": "lrubasze"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "7305f96aa8fc68b7249587c21f5fa2d4520c54cd",
-          "message": "CI - zombienet cumulus tests zombienet sdk (#8954)\n\n### This PR includes the following changes:\n\n- Migrates Zombienet Cumulus tests to `zombienet-sdk`\n- Re-enables the tests, with the following exceptions (to be addressed\nseparately):\n  - `zombienet-cumulus-0002-pov_recovery` - #8985 \n- `zombienet-cumulus-0006-rpc_collator_builds_blocks` - root cause the\nsame as #8985\n  - `zombienet-cumulus-0009-elastic_scaling_pov_recovery` – #8999\n- `zombienet-cumulus-0010-elastic_scaling_multiple_block_per_slot` –\n#9018\n- Adds the following tests to CI:\n  - `zombienet-cumulus-0011-dht-bootnodes`\n  - `zombienet-cumulus-0012-parachain_extrinsic_gets_finalized`\n  - `zombienet-cumulus-0013-elastic_scaling_slot_based_rp_offset`\n\n---------\n\nSigned-off-by: Iulian Barbu <iulian.barbu@parity.io>\nCo-authored-by: Javier Viola <javier@parity.io>\nCo-authored-by: Javier Viola <363911+pepoviola@users.noreply.github.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Anthony Lazam <xlzm.tech@gmail.com>\nCo-authored-by: Sebastian Kunert <skunert49@gmail.com>\nCo-authored-by: Iulian Barbu <14218860+iulianbarbu@users.noreply.github.com>\nCo-authored-by: Bastian Köcher <info@kchr.de>",
-          "timestamp": "2025-07-09T16:01:41Z",
-          "tree_id": "7b46e0ac8c2ed95e791c472fb7a82ebbc6a32685",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/7305f96aa8fc68b7249587c21f5fa2d4520c54cd"
-        },
-        "date": 1752081373398,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013178092153333331,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15815066932,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007196401773333312,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02253889848,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.010170475466666678,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "pgherveou@gmail.com",
+            "name": "PG Herveou",
+            "username": "pgherveou"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1897ae0d78945a7134df3386d53420939804d2ab",
+          "message": "Add revive substrate runtime-api integration tests for call & instantiate (#10919)\n\n## Summary\n- Add integration tests for revive runtime API\n- Test Fibonacci contract deployment and execution via substrate APIs\n\n## Changes\n- Add test for Fibonacci contract call via runtime API\n- Add test to verify large Fibonacci values run out of gas as expected\n- Update dev-node runtime configuration for testing\n\n## Test plan\n- Run new integration tests\n- Verify runtime API correctly handles contract deployment\n- Verify gas limits are enforced correctly\n\n---------\n\nCo-authored-by: Mónica Jin <monica@parity.io>",
+          "timestamp": "2026-02-16T18:18:05Z",
+          "tree_id": "8a480f343129688df685797b99c893755e99dfc5",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/1897ae0d78945a7134df3386d53420939804d2ab"
+        },
+        "date": 1771270233584,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14369266830666672,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.010334296953333324,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.00730703660666667,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.024808175433333326,
             "unit": "seconds"
           }
         ]

@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771202594313,
+  "lastUpdate": 1771243629841,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "bkontur@gmail.com",
-            "name": "Branislav Kontur",
-            "username": "bkontur"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "83afbeeb906131755fdcea3b891ea1883c4d17d0",
-          "message": "Expose more constants for pallet-xcm (#9139)\n\nLet's expose more constants, similar as `AdvertisedXcmVersion`.\n\n\n![image](https://github.com/user-attachments/assets/5ddc265f-546b-45a0-8235-3f53c3108823)\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-09T12:29:35Z",
-          "tree_id": "6fb2c4c504887609989d96ab44ba1a1afbe03294",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/83afbeeb906131755fdcea3b891ea1883c4d17d0"
-        },
-        "date": 1752068660300,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.281528648433333,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19584744169999993,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.12575804223333337,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "adrian@parity.io",
+            "name": "Adrian Catangiu",
+            "username": "acatangiu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "13236110860ec5003dfe8844ff27a4a7eda7cf62",
+          "message": "XCM executor keeps track and resolves all imbalances created by XCM operations (#10384)\n\nIntroduce \"ImbalanceAccounting\" traits for dynamic dispatch management\nof imbalances. These are helper traits to be used for generic Imbalance,\nhelpful for tracking multiple concrete types of `Imbalance` using\ndynamic dispatch of these traits.\n\n`xcm-executor` now tracks imbalances in holding.\n\nChange the xcm executor implementation and inner types and adapters so\nthat it keeps track of imbalances across the stack.\n\nPreviously, XCM operations on fungible assets would break the respective\nfungibles' total issuance invariants by burning and minting them in\ndifferent stages of XCM processing pipeline.\n\nThis commit fixes that by keeping track of the \"withdrawn\" or\n\"deposited\" fungible assets in holding and other XCM registers as\nimbalances. The imbalances are tied to the underlying pallet managing\nthe asset so that they keep the assets' total issuance correctness\nthroughout the execution of the XCM program.\n\nImbalances in XCM registers are resolved by the underlying pallets\nmanaging them whenever they move from XCM registers to other parts of\nthe stack (e.g. deposited to accounts, burned, etc).\n\nXCM emulated tests now also verify total issuance before/after\ntransfers, swaps, traps, claims, etc to guarantee implementation\ncorrectness.\n\n---------\n\nSigned-off-by: Adrian Catangiu <adrian@parity.io>\nSigned-off-by: Alexandru Gheorghe <alexandru.gheorghe@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Daniel Shiposha <dev@shiposha.com>\nCo-authored-by: Francisco Aguirre <franciscoaguirreperez@gmail.com>\nCo-authored-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>\nCo-authored-by: 0xRVE <robertvaneerdewijk@gmail.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>\nCo-authored-by: Sebastian Kunert <skunert49@gmail.com>\nCo-authored-by: Paolo La Camera <paolo@parity.io>\nCo-authored-by: Ankan <10196091+Ank4n@users.noreply.github.com>\nCo-authored-by: Alexander Samusev <41779041+alvicsam@users.noreply.github.com>\nCo-authored-by: Manuel Mauro <manuel.mauro@protonmail.com>\nCo-authored-by: Alexandre R. Baldé <alexandre.balde@parity.io>\nCo-authored-by: Omar <OmarAbdulla7@hotmail.com>\nCo-authored-by: BDevParity <bruno.devic@parity.io>\nCo-authored-by: Egor_P <egor@parity.io>\nCo-authored-by: Andrei Eres <eresav@me.com>\nCo-authored-by: Klapeyron <11329616+Klapeyron@users.noreply.github.com>\nCo-authored-by: Alexander Theißen <alex.theissen@me.com>\nCo-authored-by: Alexandru Gheorghe <49718502+alexggh@users.noreply.github.com>\nCo-authored-by: Xavier Lau <x@acg.box>\nCo-authored-by: Dónal Murray <donal.murray@parity.io>",
+          "timestamp": "2026-02-16T10:47:52Z",
+          "tree_id": "2b4879ee2258b11f546c8c21980a9a85ba19830b",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/13236110860ec5003dfe8844ff27a4a7eda7cf62"
+        },
+        "date": 1771243606377,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12108634073333338,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.0694237594,
             "unit": "seconds"
           }
         ]

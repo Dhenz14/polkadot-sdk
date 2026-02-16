@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771243725461,
+  "lastUpdate": 1771267893571,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "franciscoaguirreperez@gmail.com",
-            "name": "Francisco Aguirre",
-            "username": "franciscoaguirre"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "ba2a8dc536db30397c332a2aa2cd9f9863027093",
-          "message": "XCM precompile: small cleanup (#9135)\n\nFollow-up to\nhttps://github.com/paritytech/polkadot-sdk/pull/9125#discussion_r2192896809",
-          "timestamp": "2025-07-08T19:47:45Z",
-          "tree_id": "e7aeb64bf7cbd7d415bc142f30193c7d6ec3f579",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/ba2a8dc536db30397c332a2aa2cd9f9863027093"
-        },
-        "date": 1752008648602,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.94799999999994,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03371302796,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04381202277799993,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.03846041149800001,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "363911+pepoviola@users.noreply.github.com",
+            "name": "Javier Viola",
+            "username": "pepoviola"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f1b3e87606d56ecf469adcde334c6b3f9fed1f87",
+          "message": "bump zombienet version and change deprecated methods (#11061)\n\nbump zombienet to latest `v0.4.5` (and subxt to `0.44.`)\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-16T17:33:48Z",
+          "tree_id": "0fbbd9dc2698dc8c86d6c2c0e9825db3bda315b5",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/f1b3e87606d56ecf469adcde334c6b3f9fed1f87"
+        },
+        "date": 1771267869997,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.054,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.037888290341999996,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.06826584154399992,
             "unit": "seconds"
           }
         ]

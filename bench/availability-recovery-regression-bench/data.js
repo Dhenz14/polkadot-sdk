@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771008953677,
+  "lastUpdate": 1771202594313,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "egor@parity.io",
-            "name": "Egor_P",
-            "username": "EgorPopelyaev"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "cd39c26a4da04693b07b3ed752ea239f452795ea",
-          "message": "[Release|CI/CD] Move runtimes build to a separate pipeline and let it trigger the next flow (#9118)\n\nThis PR incudes the following changes:\n- Cut the runtimes build from the Create Draft flow into a standalone\npipeline\n- Add a trigger to the Build Runtimes pipeline that will be starting the\nCreate Draft flow automatically when the runtimes are built\nsuccessfully.\n\nCloses: https://github.com/paritytech/devops/issues/3827 and partially:\nhttps://github.com/paritytech/devops/issues/3828",
-          "timestamp": "2025-07-09T08:40:25Z",
-          "tree_id": "69aff4dc6192fec945b7a0b030222c92ac453a33",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/cd39c26a4da04693b07b3ed752ea239f452795ea"
-        },
-        "date": 1752054493087,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.307736328900006,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.2031111524333334,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 11.0974337255,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "paolo@parity.io",
+            "name": "Paolo La Camera",
+            "username": "sigurpol"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "bc42349097da2ad8e551e1dde174d3fc79fe8c5b",
+          "message": "frame-omni-bencher: enable  jemalloc-allocator (#11069)\n\nFix huge benchmark regression for storage-heavy extrinsics, enabling\njemalloc-allocator via polkadot-jemalloc-shim for omni-bencher, marked\nas optional in the scope of PR #10590.\n\nThis close https://github.com/paritytech/trie/issues/230.\n\nThanks @alexggh and @cheme for the help :bow: \n\nTested against `runtime / main` and\n[2.1.0](https://github.com/polkadot-fellows/runtimes/pull/1065) as\ndescribed\n[here](https://github.com/paritytech/trie/issues/230#issuecomment-3896270293).\nFor the `usual` exstrinsic `force_apply_min_commission` doing massive\nstorage allocation/deallocation on benchmark setup and then just 1read -\n2 write in the benchmark extrinsic itself, times goes down from ms to\nµs.\n\nThe regression was introduced by #10590 `sc-client-db: Make jemalloc\noptional`\n\n```bash\nruntimes git:(sigurpol-release-2_0_6) /home/paolo/github/polkadot-sdk/target/release/frame-omni-bencher v1 benchmark pallet --runtime ./target/release/wbuild/asset-hub-polkadot-runtime/asset_hub_polkadot_runtime.compact.compressed.wasm --pallet pallet_staking_async --extrinsic \"force_apply_min_commission\" --steps 2 --repeat 1\n2026-02-13T15:06:30.145367Z  INFO frame::benchmark::pallet: Initialized runtime log filter to 'INFO'\n2026-02-13T15:06:31.784936Z  INFO pallet_collator_selection::pallet: assembling new collators for new session 0 at #0\n2026-02-13T15:06:31.784966Z  INFO pallet_collator_selection::pallet: assembling new collators for new session 1 at #0\n2026-02-13T15:08:29.701636Z  INFO frame::benchmark::pallet: [  0 % ] Starting benchmark: pallet_staking_async::force_apply_min_commission\n2026-02-13T15:08:35.130403Z  INFO frame::benchmark::pallet: [  0 % ] Running  benchmark: pallet_staking_async::force_apply_min_commission (overtime)\nPallet: \"pallet_staking_async\", Extrinsic: \"force_apply_min_commission\", Lowest values: [], Highest values: [], Steps: 2, Repeat: 1\nRaw Storage Info\n========\nStorage: `Staking::MinCommission` (r:1 w:0)\nProof: `Staking::MinCommission` (`max_values`: Some(1), `max_size`: Some(4), added: 499, mode: `MaxEncodedLen`)\nStorage: `Staking::Validators` (r:1 w:1)\nProof: `Staking::Validators` (`max_values`: None, `max_size`: Some(45), added: 2520, mode: `MaxEncodedLen`)\n\nMedian Slopes Analysis\n========\n-- Extrinsic Time --\n\nModel:\nTime ~=    50.31\n              µs\n\nReads = 2\nWrites = 1\nRecorded proof Size = 564\n\nMin Squares Analysis\n========\n-- Extrinsic Time --\n\nModel:\nTime ~=    50.31\n              µs\n\nReads = 2\nWrites = 1\nRecorded proof Size = 564\n```\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
+          "timestamp": "2026-02-15T23:36:37Z",
+          "tree_id": "22330ac510c1ba76b6ba2d7475458b0872eb5dd5",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/bc42349097da2ad8e551e1dde174d3fc79fe8c5b"
+        },
+        "date": 1771202573840,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.0871170556,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12575804223333337,
             "unit": "seconds"
           }
         ]

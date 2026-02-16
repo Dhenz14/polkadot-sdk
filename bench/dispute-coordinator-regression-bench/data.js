@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771009087488,
+  "lastUpdate": 1771202700960,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "git@kchr.de",
-            "name": "Bastian Köcher",
-            "username": "bkchr"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "cb12563ae4e532876c29b67be9a7f5d06fdc9fc3",
-          "message": "Replace `assert_para_throughput` with `assert_finalized_para_throughput` (#9117)\n\nThere is no need to have two functions which are essentially doing the\nsame. It is also better to oberserve the finalized blocks, which also\nsimplifies the code. So, this pull request is replacing the\n`assert_para_throughput` with `assert_finalized_para_throughput`. It\nalso replaces any usage of `assert_finalized_para_throughput` with\n`assert_para_throughput`.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-08T16:04:23Z",
-          "tree_id": "faed545176a9de8b004b29e5ee7e4b5c2ccecef6",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/cb12563ae4e532876c29b67be9a7f5d06fdc9fc3"
-        },
-        "date": 1751995024154,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0026695474100000005,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.00859867911999999,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005122107889999993,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-distribution",
             "value": 0.009021117459999986,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "paolo@parity.io",
+            "name": "Paolo La Camera",
+            "username": "sigurpol"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "bc42349097da2ad8e551e1dde174d3fc79fe8c5b",
+          "message": "frame-omni-bencher: enable  jemalloc-allocator (#11069)\n\nFix huge benchmark regression for storage-heavy extrinsics, enabling\njemalloc-allocator via polkadot-jemalloc-shim for omni-bencher, marked\nas optional in the scope of PR #10590.\n\nThis close https://github.com/paritytech/trie/issues/230.\n\nThanks @alexggh and @cheme for the help :bow: \n\nTested against `runtime / main` and\n[2.1.0](https://github.com/polkadot-fellows/runtimes/pull/1065) as\ndescribed\n[here](https://github.com/paritytech/trie/issues/230#issuecomment-3896270293).\nFor the `usual` exstrinsic `force_apply_min_commission` doing massive\nstorage allocation/deallocation on benchmark setup and then just 1read -\n2 write in the benchmark extrinsic itself, times goes down from ms to\nµs.\n\nThe regression was introduced by #10590 `sc-client-db: Make jemalloc\noptional`\n\n```bash\nruntimes git:(sigurpol-release-2_0_6) /home/paolo/github/polkadot-sdk/target/release/frame-omni-bencher v1 benchmark pallet --runtime ./target/release/wbuild/asset-hub-polkadot-runtime/asset_hub_polkadot_runtime.compact.compressed.wasm --pallet pallet_staking_async --extrinsic \"force_apply_min_commission\" --steps 2 --repeat 1\n2026-02-13T15:06:30.145367Z  INFO frame::benchmark::pallet: Initialized runtime log filter to 'INFO'\n2026-02-13T15:06:31.784936Z  INFO pallet_collator_selection::pallet: assembling new collators for new session 0 at #0\n2026-02-13T15:06:31.784966Z  INFO pallet_collator_selection::pallet: assembling new collators for new session 1 at #0\n2026-02-13T15:08:29.701636Z  INFO frame::benchmark::pallet: [  0 % ] Starting benchmark: pallet_staking_async::force_apply_min_commission\n2026-02-13T15:08:35.130403Z  INFO frame::benchmark::pallet: [  0 % ] Running  benchmark: pallet_staking_async::force_apply_min_commission (overtime)\nPallet: \"pallet_staking_async\", Extrinsic: \"force_apply_min_commission\", Lowest values: [], Highest values: [], Steps: 2, Repeat: 1\nRaw Storage Info\n========\nStorage: `Staking::MinCommission` (r:1 w:0)\nProof: `Staking::MinCommission` (`max_values`: Some(1), `max_size`: Some(4), added: 499, mode: `MaxEncodedLen`)\nStorage: `Staking::Validators` (r:1 w:1)\nProof: `Staking::Validators` (`max_values`: None, `max_size`: Some(45), added: 2520, mode: `MaxEncodedLen`)\n\nMedian Slopes Analysis\n========\n-- Extrinsic Time --\n\nModel:\nTime ~=    50.31\n              µs\n\nReads = 2\nWrites = 1\nRecorded proof Size = 564\n\nMin Squares Analysis\n========\n-- Extrinsic Time --\n\nModel:\nTime ~=    50.31\n              µs\n\nReads = 2\nWrites = 1\nRecorded proof Size = 564\n```\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
+          "timestamp": "2026-02-15T23:36:37Z",
+          "tree_id": "22330ac510c1ba76b6ba2d7475458b0872eb5dd5",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/bc42349097da2ad8e551e1dde174d3fc79fe8c5b"
+        },
+        "date": 1771202680527,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.006814409289999995,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.002643300129999999,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009389786369999986,
             "unit": "seconds"
           }
         ]

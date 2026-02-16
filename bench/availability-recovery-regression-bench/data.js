@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771267795201,
+  "lastUpdate": 1771270224927,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "117115317+lrubasze@users.noreply.github.com",
-            "name": "Lukasz Rubaszewski",
-            "username": "lrubasze"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "409587adfb4cc5e28e28272e768361afdbea2191",
-          "message": "Enable parachain-templates zombienet tests (#9131)\n\nThis PR includes the following changes:\n- Refactor Parachain Templates workflow to run tests individually\n- Enables Zombienet Parachain Templates tests in CI\n\n---------\n\nSigned-off-by: Iulian Barbu <iulian.barbu@parity.io>\nCo-authored-by: Javier Viola <javier@parity.io>\nCo-authored-by: Javier Viola <363911+pepoviola@users.noreply.github.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Anthony Lazam <xlzm.tech@gmail.com>\nCo-authored-by: Sebastian Kunert <skunert49@gmail.com>\nCo-authored-by: Iulian Barbu <14218860+iulianbarbu@users.noreply.github.com>",
-          "timestamp": "2025-07-10T06:33:27Z",
-          "tree_id": "36c66069301310187811ad4f0537df4b18e2050f",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/409587adfb4cc5e28e28272e768361afdbea2191"
-        },
-        "date": 1752133105451,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.1931222805,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.27587472566667,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.12514214823333333,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "pgherveou@gmail.com",
+            "name": "PG Herveou",
+            "username": "pgherveou"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1897ae0d78945a7134df3386d53420939804d2ab",
+          "message": "Add revive substrate runtime-api integration tests for call & instantiate (#10919)\n\n## Summary\n- Add integration tests for revive runtime API\n- Test Fibonacci contract deployment and execution via substrate APIs\n\n## Changes\n- Add test for Fibonacci contract call via runtime API\n- Add test to verify large Fibonacci values run out of gas as expected\n- Update dev-node runtime configuration for testing\n\n## Test plan\n- Run new integration tests\n- Verify runtime API correctly handles contract deployment\n- Verify gas limits are enforced correctly\n\n---------\n\nCo-authored-by: Mónica Jin <monica@parity.io>",
+          "timestamp": "2026-02-16T18:18:05Z",
+          "tree_id": "8a480f343129688df685797b99c893755e99dfc5",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/1897ae0d78945a7134df3386d53420939804d2ab"
+        },
+        "date": 1771270201220,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.146814642400003,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12571723070000002,
             "unit": "seconds"
           }
         ]

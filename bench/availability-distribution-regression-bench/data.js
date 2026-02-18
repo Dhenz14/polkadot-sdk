@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771413820484,
+  "lastUpdate": 1771423870595,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "178801527+raymondkfcheung@users.noreply.github.com",
-            "name": "Raymond Cheung",
-            "username": "raymondkfcheung"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "466149d0eac8e608a6e6b6db8cda98a555b6c7e8",
-          "message": "Replace `log` with `tracing` on XCM-related modules (#8732)\n\nThis PR replaces `log` with `tracing` instrumentation on XCM-related\nmodules to significantly improve debugging capabilities for XCM\nexecution flows.\n\nContinues #8724 and partially addresses #6119 by providing structured\nlogging throughout XCM components, making it easier to diagnose\nexecution failures, fee calculation errors, and routing issues.\n\n## Key Features\n\n- **Consistent targets**: All components use predictable `xcm::*` log\ntargets\n- **Structured fields**: Uses `?variable` syntax for automatic Debug\nformatting\n- **Zero runtime impact**: No behavioural changes, only observability\nimprovements",
-          "timestamp": "2025-07-10T12:54:12Z",
-          "tree_id": "363cb00f3cfd55c0e8a1f74f8964ebc2e32b0156",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/466149d0eac8e608a6e6b6db8cda98a555b6c7e8"
-        },
-        "date": 1752156572759,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013391459946666674,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007366436399999965,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022469151266666668,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15761804939333338,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "bitfield-distribution",
             "value": 0.02524370062000001,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "bruno.devic@parity.io",
+            "name": "BDevParity",
+            "username": "BDevParity"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "8c106ffcc5174b9920a842415f84024bcb558724",
+          "message": "Improve crates publishing flow (#11056)\n\nCo-authored-by: Egor_P <egor@parity.io>\nCo-authored-by: ParityReleases <release-team@parity.io>",
+          "timestamp": "2026-02-18T12:38:39Z",
+          "tree_id": "03f0f5617e40bab3041642f513f2476040fbbafa",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/8c106ffcc5174b9920a842415f84024bcb558724"
+        },
+        "date": 1771423849476,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.024705589513333334,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007024419113333331,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009695113899999984,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14384199972666672,
             "unit": "seconds"
           }
         ]

@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771423952893,
+  "lastUpdate": 1771442910544,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "egor@parity.io",
-            "name": "Egor_P",
-            "username": "EgorPopelyaev"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "cd39c26a4da04693b07b3ed752ea239f452795ea",
-          "message": "[Release|CI/CD] Move runtimes build to a separate pipeline and let it trigger the next flow (#9118)\n\nThis PR incudes the following changes:\n- Cut the runtimes build from the Create Draft flow into a standalone\npipeline\n- Add a trigger to the Build Runtimes pipeline that will be starting the\nCreate Draft flow automatically when the runtimes are built\nsuccessfully.\n\nCloses: https://github.com/paritytech/devops/issues/3827 and partially:\nhttps://github.com/paritytech/devops/issues/3828",
-          "timestamp": "2025-07-09T08:40:25Z",
-          "tree_id": "69aff4dc6192fec945b7a0b030222c92ac453a33",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/cd39c26a4da04693b07b3ed752ea239f452795ea"
-        },
-        "date": 1752054592670,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.00271226005,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005194933789999989,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008831572839999986,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-coordinator",
             "value": 0.0026655524699999997,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "skunert49@gmail.com",
+            "name": "Sebastian Kunert",
+            "username": "skunert"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "37c9bed5901d4b3a021f5c9dfd567fbfd7e81772",
+          "message": "Cumulus: Simplify parent search for block-building (#10998)\n\nWhile reviewing #10973 I found once more that our parent search is\ntotally overengineered:\n- It offers the option to search branches that do not contain the\npending block -> These branches can never be taken\n- It returns a list of potential parents -> Nobody uses the list, we\nonly care about the latest block that we should build on\n\nBy eliminating these two annoyances, the code is a lot more simple and\neasier to follow. There are still some defensive checks that are not\nstrictly necessary, but does not hurt to keep them.\n\nIn summary, the mental model is: Build on the latest descendant of the\npending block that is still inside the relay parent ancestry. If no\npending block is available, use the included block in its place.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-18T17:58:52Z",
+          "tree_id": "c441657ee4e90dac570e53cb1a8fb5c112bfcbad",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/37c9bed5901d4b3a021f5c9dfd567fbfd7e81772"
+        },
+        "date": 1771442885878,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.006737893549999994,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.0026826472999999995,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009377722899999986,
             "unit": "seconds"
           }
         ]

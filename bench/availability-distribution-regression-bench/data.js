@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771367802964,
+  "lastUpdate": 1771413820484,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "49718502+alexggh@users.noreply.github.com",
-            "name": "Alexandru Gheorghe",
-            "username": "alexggh"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "12ddb5a71ddd744e48bbf49a4cc0b44c5381747e",
-          "message": "bitfield_distribution: fix subsystem clogged at begining of a session (#9094)\n\n`handle_peer_view_change` gets called on NewGossipTopology with the\nexisting view of the peer to cover for the case when the topology might\narrive late, but in that case in the view will contain old blocks from\nprevious session, so since the X/Y neighbour change because of the\ntopology change you end up sending a lot of messages for blocks before\nthe session changed.\n\nFix it by checking the send message only for relay chains that are in\nthe same session as the current topology.\n\n---------\n\nSigned-off-by: Alexandru Gheorghe <alexandru.gheorghe@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-10T10:00:44Z",
-          "tree_id": "0adae7550a477fef6b79346b2a017a665b321042",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/12ddb5a71ddd744e48bbf49a4cc0b44c5381747e"
-        },
-        "date": 1752145911218,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022574530546666676,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007067050453333319,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012958209660000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.1591142196133334,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "bitfield-distribution",
             "value": 0.025025653926666665,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "skunert49@gmail.com",
+            "name": "Sebastian Kunert",
+            "username": "skunert"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3ee8c826e2e59a21b1a77429ad9112e36ce7d1f7",
+          "message": "Do not prune blocks with Grandpa justifications (#10893)\n\nWarp sync requires GRANDPA justifications at authority set change\nboundaries to construct proofs. When block pruning is enabled, all block\nbodies are removed regardless of whether they contain important\njustifications. The pruned nodes can then not be used to fetch warp\nproofs.\n\nIn this PR I add the capability to filter which blocks can be safely\npruned. For parachain nodes, everything can be pruned, solochain nodes\nusing grandpa keep blocks with justifications.\n\n## Overview:\n ### sc-client-db\n  - Add BlockPruningFilter trait with blanket impl for closures\n  - Add block_pruning_filters field to DatabaseSettings and Backend\n  - Check filters in prune_blocks() before removing block bodies\n\n ### sc-consensus-grandpa\n- Add GrandpaBlockPruningFilter that preserves blocks with GRANDPA\njustifications\n\n ### sc-service\n- Add block_pruning_filters parameter to new_full_parts and\nnew_full_parts_record_import\n\n ### Nodes updated\n  - polkadot-service: uses GrandpaBlockPruningFilter\n  - staging-node-cli (kitchensink): uses GrandpaBlockPruningFilter\n  - solochain-template: uses GrandpaBlockPruningFilter\n  - parachain-template / omni-node / polkadot-parachain: empty filters \n\n\n\nfixes #2733\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-18T10:18:21Z",
+          "tree_id": "11e683326f177c0e21407dcc11f81f38550963d5",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/3ee8c826e2e59a21b1a77429ad9112e36ce7d1f7"
+        },
+        "date": 1771413800185,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009974851666666656,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.00700007414,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14615928788666674,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.02524370062000001,
             "unit": "seconds"
           }
         ]

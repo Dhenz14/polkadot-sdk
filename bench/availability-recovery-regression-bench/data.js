@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771367770760,
+  "lastUpdate": 1771413794049,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "178801527+raymondkfcheung@users.noreply.github.com",
-            "name": "Raymond Cheung",
-            "username": "raymondkfcheung"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "466149d0eac8e608a6e6b6db8cda98a555b6c7e8",
-          "message": "Replace `log` with `tracing` on XCM-related modules (#8732)\n\nThis PR replaces `log` with `tracing` instrumentation on XCM-related\nmodules to significantly improve debugging capabilities for XCM\nexecution flows.\n\nContinues #8724 and partially addresses #6119 by providing structured\nlogging throughout XCM components, making it easier to diagnose\nexecution failures, fee calculation errors, and routing issues.\n\n## Key Features\n\n- **Consistent targets**: All components use predictable `xcm::*` log\ntargets\n- **Structured fields**: Uses `?variable` syntax for automatic Debug\nformatting\n- **Zero runtime impact**: No behavioural changes, only observability\nimprovements",
-          "timestamp": "2025-07-10T12:54:12Z",
-          "tree_id": "363cb00f3cfd55c0e8a1f74f8964ebc2e32b0156",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/466149d0eac8e608a6e6b6db8cda98a555b6c7e8"
-        },
-        "date": 1752156548314,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.401192714533334,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19869359653333332,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.12838058303333338,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "skunert49@gmail.com",
+            "name": "Sebastian Kunert",
+            "username": "skunert"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3ee8c826e2e59a21b1a77429ad9112e36ce7d1f7",
+          "message": "Do not prune blocks with Grandpa justifications (#10893)\n\nWarp sync requires GRANDPA justifications at authority set change\nboundaries to construct proofs. When block pruning is enabled, all block\nbodies are removed regardless of whether they contain important\njustifications. The pruned nodes can then not be used to fetch warp\nproofs.\n\nIn this PR I add the capability to filter which blocks can be safely\npruned. For parachain nodes, everything can be pruned, solochain nodes\nusing grandpa keep blocks with justifications.\n\n## Overview:\n ### sc-client-db\n  - Add BlockPruningFilter trait with blanket impl for closures\n  - Add block_pruning_filters field to DatabaseSettings and Backend\n  - Check filters in prune_blocks() before removing block bodies\n\n ### sc-consensus-grandpa\n- Add GrandpaBlockPruningFilter that preserves blocks with GRANDPA\njustifications\n\n ### sc-service\n- Add block_pruning_filters parameter to new_full_parts and\nnew_full_parts_record_import\n\n ### Nodes updated\n  - polkadot-service: uses GrandpaBlockPruningFilter\n  - staging-node-cli (kitchensink): uses GrandpaBlockPruningFilter\n  - solochain-template: uses GrandpaBlockPruningFilter\n  - parachain-template / omni-node / polkadot-parachain: empty filters \n\n\n\nfixes #2733\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-18T10:18:21Z",
+          "tree_id": "11e683326f177c0e21407dcc11f81f38550963d5",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/3ee8c826e2e59a21b1a77429ad9112e36ce7d1f7"
+        },
+        "date": 1771413773615,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.468774830300001,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12490022269999997,
             "unit": "seconds"
           }
         ]

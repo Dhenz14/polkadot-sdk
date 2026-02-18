@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771367867589,
+  "lastUpdate": 1771413872329,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "egor@parity.io",
-            "name": "Egor_P",
-            "username": "EgorPopelyaev"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "cd39c26a4da04693b07b3ed752ea239f452795ea",
-          "message": "[Release|CI/CD] Move runtimes build to a separate pipeline and let it trigger the next flow (#9118)\n\nThis PR incudes the following changes:\n- Cut the runtimes build from the Create Draft flow into a standalone\npipeline\n- Add a trigger to the Build Runtimes pipeline that will be starting the\nCreate Draft flow automatically when the runtimes are built\nsuccessfully.\n\nCloses: https://github.com/paritytech/devops/issues/3827 and partially:\nhttps://github.com/paritytech/devops/issues/3828",
-          "timestamp": "2025-07-09T08:40:25Z",
-          "tree_id": "69aff4dc6192fec945b7a0b030222c92ac453a33",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/cd39c26a4da04693b07b3ed752ea239f452795ea"
-        },
-        "date": 1752054567911,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 127.95599999999995,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.034825476132000016,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.045266538775999926,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.037422865146,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "skunert49@gmail.com",
+            "name": "Sebastian Kunert",
+            "username": "skunert"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3ee8c826e2e59a21b1a77429ad9112e36ce7d1f7",
+          "message": "Do not prune blocks with Grandpa justifications (#10893)\n\nWarp sync requires GRANDPA justifications at authority set change\nboundaries to construct proofs. When block pruning is enabled, all block\nbodies are removed regardless of whether they contain important\njustifications. The pruned nodes can then not be used to fetch warp\nproofs.\n\nIn this PR I add the capability to filter which blocks can be safely\npruned. For parachain nodes, everything can be pruned, solochain nodes\nusing grandpa keep blocks with justifications.\n\n## Overview:\n ### sc-client-db\n  - Add BlockPruningFilter trait with blanket impl for closures\n  - Add block_pruning_filters field to DatabaseSettings and Backend\n  - Check filters in prune_blocks() before removing block bodies\n\n ### sc-consensus-grandpa\n- Add GrandpaBlockPruningFilter that preserves blocks with GRANDPA\njustifications\n\n ### sc-service\n- Add block_pruning_filters parameter to new_full_parts and\nnew_full_parts_record_import\n\n ### Nodes updated\n  - polkadot-service: uses GrandpaBlockPruningFilter\n  - staging-node-cli (kitchensink): uses GrandpaBlockPruningFilter\n  - solochain-template: uses GrandpaBlockPruningFilter\n  - parachain-template / omni-node / polkadot-parachain: empty filters \n\n\n\nfixes #2733\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-18T10:18:21Z",
+          "tree_id": "11e683326f177c0e21407dcc11f81f38550963d5",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/3ee8c826e2e59a21b1a77429ad9112e36ce7d1f7"
+        },
+        "date": 1771413852218,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.06999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.03758086177399999,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.06660383348399992,
             "unit": "seconds"
           }
         ]

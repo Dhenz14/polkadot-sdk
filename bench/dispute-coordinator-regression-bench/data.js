@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771367900146,
+  "lastUpdate": 1771413899183,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "dharjeezy@gmail.com",
-            "name": "dharjeezy",
-            "username": "dharjeezy"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "cc972542e0df0266cde2ead4cfac3b1558c860af",
-          "message": "pallet bounties v2 benchmark (#8952)\n\ncloses #8649\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
-          "timestamp": "2025-07-08T21:47:29Z",
-          "tree_id": "92ea303bb8df02e5752f9903f5541e35918ac3a9",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/cc972542e0df0266cde2ead4cfac3b1558c860af"
-        },
-        "date": 1752015675272,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0026522110800000004,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008721413299999987,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005168960659999988,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-distribution",
             "value": 0.00929143930999997,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "skunert49@gmail.com",
+            "name": "Sebastian Kunert",
+            "username": "skunert"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3ee8c826e2e59a21b1a77429ad9112e36ce7d1f7",
+          "message": "Do not prune blocks with Grandpa justifications (#10893)\n\nWarp sync requires GRANDPA justifications at authority set change\nboundaries to construct proofs. When block pruning is enabled, all block\nbodies are removed regardless of whether they contain important\njustifications. The pruned nodes can then not be used to fetch warp\nproofs.\n\nIn this PR I add the capability to filter which blocks can be safely\npruned. For parachain nodes, everything can be pruned, solochain nodes\nusing grandpa keep blocks with justifications.\n\n## Overview:\n ### sc-client-db\n  - Add BlockPruningFilter trait with blanket impl for closures\n  - Add block_pruning_filters field to DatabaseSettings and Backend\n  - Check filters in prune_blocks() before removing block bodies\n\n ### sc-consensus-grandpa\n- Add GrandpaBlockPruningFilter that preserves blocks with GRANDPA\njustifications\n\n ### sc-service\n- Add block_pruning_filters parameter to new_full_parts and\nnew_full_parts_record_import\n\n ### Nodes updated\n  - polkadot-service: uses GrandpaBlockPruningFilter\n  - staging-node-cli (kitchensink): uses GrandpaBlockPruningFilter\n  - solochain-template: uses GrandpaBlockPruningFilter\n  - parachain-template / omni-node / polkadot-parachain: empty filters \n\n\n\nfixes #2733\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-18T10:18:21Z",
+          "tree_id": "11e683326f177c0e21407dcc11f81f38550963d5",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/3ee8c826e2e59a21b1a77429ad9112e36ce7d1f7"
+        },
+        "date": 1771413878702,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.002638700950000001,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.006618245239999992,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009167181309999991,
             "unit": "seconds"
           }
         ]

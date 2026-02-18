@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771413872329,
+  "lastUpdate": 1771423925642,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "bkontur@gmail.com",
-            "name": "Branislav Kontur",
-            "username": "bkontur"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "83afbeeb906131755fdcea3b891ea1883c4d17d0",
-          "message": "Expose more constants for pallet-xcm (#9139)\n\nLet's expose more constants, similar as `AdvertisedXcmVersion`.\n\n\n![image](https://github.com/user-attachments/assets/5ddc265f-546b-45a0-8235-3f53c3108823)\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-09T12:29:35Z",
-          "tree_id": "6fb2c4c504887609989d96ab44ba1a1afbe03294",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/83afbeeb906131755fdcea3b891ea1883c4d17d0"
-        },
-        "date": 1752068732743,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.94799999999995,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.034086026692,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04455184152999995,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.06660383348399992,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "bruno.devic@parity.io",
+            "name": "BDevParity",
+            "username": "BDevParity"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "8c106ffcc5174b9920a842415f84024bcb558724",
+          "message": "Improve crates publishing flow (#11056)\n\nCo-authored-by: Egor_P <egor@parity.io>\nCo-authored-by: ParityReleases <release-team@parity.io>",
+          "timestamp": "2026-02-18T12:38:39Z",
+          "tree_id": "03f0f5617e40bab3041642f513f2476040fbbafa",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/8c106ffcc5174b9920a842415f84024bcb558724"
+        },
+        "date": 1771423904475,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.07600000000002,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.037231771106,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.06483701120399993,
             "unit": "seconds"
           }
         ]

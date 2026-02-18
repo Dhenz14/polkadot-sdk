@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771442843108,
+  "lastUpdate": 1771453045079,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "178801527+raymondkfcheung@users.noreply.github.com",
-            "name": "Raymond Cheung",
-            "username": "raymondkfcheung"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "466149d0eac8e608a6e6b6db8cda98a555b6c7e8",
-          "message": "Replace `log` with `tracing` on XCM-related modules (#8732)\n\nThis PR replaces `log` with `tracing` instrumentation on XCM-related\nmodules to significantly improve debugging capabilities for XCM\nexecution flows.\n\nContinues #8724 and partially addresses #6119 by providing structured\nlogging throughout XCM components, making it easier to diagnose\nexecution failures, fee calculation errors, and routing issues.\n\n## Key Features\n\n- **Consistent targets**: All components use predictable `xcm::*` log\ntargets\n- **Structured fields**: Uses `?variable` syntax for automatic Debug\nformatting\n- **Zero runtime impact**: No behavioural changes, only observability\nimprovements",
-          "timestamp": "2025-07-10T12:54:12Z",
-          "tree_id": "363cb00f3cfd55c0e8a1f74f8964ebc2e32b0156",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/466149d0eac8e608a6e6b6db8cda98a555b6c7e8"
-        },
-        "date": 1752156596648,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52938.40000000001,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63616.48,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.372762622650006,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.48059607353,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.5036099905800016,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.4821599202000035,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.4413988680500015,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.00001853833,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.00001824552,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.00001824552,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005828355480000005,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.4818892146000007,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.6896366598107138,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.00001853833,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9772802002099996,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting-parallel/approval-voting-parallel-db",
             "value": 2.3501082537200038,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@kchr.de",
+            "name": "Bastian Köcher",
+            "username": "bkchr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "00fb736fb7aedce81d74d85113791a7968e20f35",
+          "message": "`prefix_logs_with`: Ensure the macro works correctly for futures (#11095)\n\nWhen setting up a tracing span in an async future, it may gets\ninvalidated by any `await` point. The problem is that after continuing a\nfuture, it may runs on a different thread where the `span` isn't active\nanymore. The solution for this is to `instrument` the future properly.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-18T21:04:19Z",
+          "tree_id": "0a7e2fc4cb39cffcbe9d70ac2dfd1c157cbb96eb",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/00fb736fb7aedce81d74d85113791a7968e20f35"
+        },
+        "date": 1771453021133,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 52942.7,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 63637.14,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.857505215550011,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.000033078539999999994,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.000033078539999999994,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.000025205089999999996,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 13.860138744330007,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.000025205089999999996,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.3136166214599996,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.671279672483026,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.7082613115799994,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.67958863551,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.656616830389999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.6390547156499995,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005495414190000002,
             "unit": "seconds"
           }
         ]

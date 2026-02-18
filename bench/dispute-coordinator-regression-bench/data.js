@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771442910544,
+  "lastUpdate": 1771453110723,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "bkontur@gmail.com",
-            "name": "Branislav Kontur",
-            "username": "bkontur"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "83afbeeb906131755fdcea3b891ea1883c4d17d0",
-          "message": "Expose more constants for pallet-xcm (#9139)\n\nLet's expose more constants, similar as `AdvertisedXcmVersion`.\n\n\n![image](https://github.com/user-attachments/assets/5ddc265f-546b-45a0-8235-3f53c3108823)\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-09T12:29:35Z",
-          "tree_id": "6fb2c4c504887609989d96ab44ba1a1afbe03294",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/83afbeeb906131755fdcea3b891ea1883c4d17d0"
-        },
-        "date": 1752068758017,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005127152969999997,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.00260139055,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.00855473461999999,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-distribution",
             "value": 0.009377722899999986,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@kchr.de",
+            "name": "Bastian Köcher",
+            "username": "bkchr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "00fb736fb7aedce81d74d85113791a7968e20f35",
+          "message": "`prefix_logs_with`: Ensure the macro works correctly for futures (#11095)\n\nWhen setting up a tracing span in an async future, it may gets\ninvalidated by any `await` point. The problem is that after continuing a\nfuture, it may runs on a different thread where the `span` isn't active\nanymore. The solution for this is to `instrument` the future properly.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-18T21:04:19Z",
+          "tree_id": "0a7e2fc4cb39cffcbe9d70ac2dfd1c157cbb96eb",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/00fb736fb7aedce81d74d85113791a7968e20f35"
+        },
+        "date": 1771453087138,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.0026636429099999993,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.006548468029999997,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.00921850146999999,
             "unit": "seconds"
           }
         ]

@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771423843127,
+  "lastUpdate": 1771442775668,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "psykyodai@gmail.com",
-            "name": "psykyo-dai(精神 大)",
-            "username": "PsyKyodai"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "874a8dbdd9cbc7fdbfffc4c307f6f21974650a55",
-          "message": "Add BlockNumberProvider to PureCreated Event (#9107)\n\n[AHM] [Proxy] Add creation block number to PureCreated event\n\nCloses #9066 \n\n## Problem\nAfter AHM, killing pure proxies requires the relay chain block height at\ncreation time. This information is non-trivial to obtain since the proxy\npallet lives on Asset Hub while the block height refers to Relay Chain.\n\n## Solution\nAdd `at: BlockNumberFor<T>` field to `Event::PureCreated` to include the\ncreation block height. This is populated using the `BlockNumberProvider`\nat creation time.\n\n## Changes\n1. Added `at` field to `Event::PureCreated` containing current block\nnumber\n2. Modified tests and benchmarks to reflect new event structure\n\n---------\n\nCo-authored-by: Bastian Köcher <git@kchr.de>\nCo-authored-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>",
-          "timestamp": "2025-07-10T15:19:15Z",
-          "tree_id": "e16c795118f66c71b0a031259521c3beef122083",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/874a8dbdd9cbc7fdbfffc4c307f6f21974650a55"
-        },
-        "date": 1752165345289,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.1988805879666667,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.2790731191,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 11.422083955600002,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "skunert49@gmail.com",
+            "name": "Sebastian Kunert",
+            "username": "skunert"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "37c9bed5901d4b3a021f5c9dfd567fbfd7e81772",
+          "message": "Cumulus: Simplify parent search for block-building (#10998)\n\nWhile reviewing #10973 I found once more that our parent search is\ntotally overengineered:\n- It offers the option to search branches that do not contain the\npending block -> These branches can never be taken\n- It returns a list of potential parents -> Nobody uses the list, we\nonly care about the latest block that we should build on\n\nBy eliminating these two annoyances, the code is a lot more simple and\neasier to follow. There are still some defensive checks that are not\nstrictly necessary, but does not hurt to keep them.\n\nIn summary, the mental model is: Build on the latest descendant of the\npending block that is still inside the relay parent ancestry. If no\npending block is available, use the included block in its place.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-18T17:58:52Z",
+          "tree_id": "c441657ee4e90dac570e53cb1a8fb5c112bfcbad",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/37c9bed5901d4b3a021f5c9dfd567fbfd7e81772"
+        },
+        "date": 1771442750959,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12120798219999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.290387854233332,
             "unit": "seconds"
           }
         ]

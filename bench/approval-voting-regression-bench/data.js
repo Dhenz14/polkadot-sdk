@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771413846648,
+  "lastUpdate": 1771423897457,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "117115317+lrubasze@users.noreply.github.com",
-            "name": "Lukasz Rubaszewski",
-            "username": "lrubasze"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "409587adfb4cc5e28e28272e768361afdbea2191",
-          "message": "Enable parachain-templates zombienet tests (#9131)\n\nThis PR includes the following changes:\n- Refactor Parachain Templates workflow to run tests individually\n- Enables Zombienet Parachain Templates tests in CI\n\n---------\n\nSigned-off-by: Iulian Barbu <iulian.barbu@parity.io>\nCo-authored-by: Javier Viola <javier@parity.io>\nCo-authored-by: Javier Viola <363911+pepoviola@users.noreply.github.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Anthony Lazam <xlzm.tech@gmail.com>\nCo-authored-by: Sebastian Kunert <skunert49@gmail.com>\nCo-authored-by: Iulian Barbu <14218860+iulianbarbu@users.noreply.github.com>",
-          "timestamp": "2025-07-10T06:33:27Z",
-          "tree_id": "36c66069301310187811ad4f0537df4b18e2050f",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/409587adfb4cc5e28e28272e768361afdbea2191"
-        },
-        "date": 1752133156234,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52942.8,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63629.31,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.0000189733,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.0000189733,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.4541378329599994,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9509731916399975,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.271586504559995,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.4422863876799997,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.471533021379998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.006169194959999999,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.00001996407,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4614663537699997,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.48502052217,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.7349397887710887,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.00001996407,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting-parallel",
             "value": 13.774313007940018,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "bruno.devic@parity.io",
+            "name": "BDevParity",
+            "username": "BDevParity"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "8c106ffcc5174b9920a842415f84024bcb558724",
+          "message": "Improve crates publishing flow (#11056)\n\nCo-authored-by: Egor_P <egor@parity.io>\nCo-authored-by: ParityReleases <release-team@parity.io>",
+          "timestamp": "2026-02-18T12:38:39Z",
+          "tree_id": "03f0f5617e40bab3041642f513f2476040fbbafa",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/8c106ffcc5174b9920a842415f84024bcb558724"
+        },
+        "date": 1771423876427,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 52943.90000000001,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 63629.30999999998,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.00002196389,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 13.799651080630028,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.00002506272,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.00002506272,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.00598222337,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.6483769143200004,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.6517628494600003,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.654136790690002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.6462678736500003,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.3613376274299926,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.8317868017100313,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.5436505931333055,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.00002196389,
             "unit": "seconds"
           }
         ]

@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771452980203,
+  "lastUpdate": 1771502512319,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "serban@parity.io",
-            "name": "Serban Iorga",
-            "username": "serban300"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "540941cc654ece30dcd5dfed3cbc93828cd25b81",
-          "message": "Improve `pr_8860.prdoc` (#9171)\n\nImproved PR doc for https://github.com/paritytech/polkadot-sdk/pull/8860\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Adrian Catangiu <adrian@parity.io>",
-          "timestamp": "2025-07-11T10:53:15Z",
-          "tree_id": "8b1fbfcc7a1599623446a446914cc1e37a981b75",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/540941cc654ece30dcd5dfed3cbc93828cd25b81"
-        },
-        "date": 1752235373819,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.277772395300001,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.2011855643333333,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.1278406173,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "jesuswrites20043@gmail.com",
+            "name": "dotdev.",
+            "username": "dotandev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "045528198e3189eef3824fa088a1ab77692b7edb",
+          "message": "polkadot-omni-node-lib: emit warnings for aura authority id type assumptions (#11102)\n\ncloses https://github.com/paritytech/polkadot-sdk/issues/11026\n\nThis PR adds explicit warnings at node startup to surface these\nassumptions:\n\n- When the chain spec id starts with `asset-hub-polkadot` or\n`statemint`,\nthe node assumes `ed25519` as the Aura authority id type and now emits a\n  warning documenting this specific assumption.\n- For all other chains, the node assumes `sr25519` by default and now\nemits\n  a warning noting that `ed25519` runtimes  are not yet\n  supported.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-19T10:57:16Z",
+          "tree_id": "46e4d2e109e610fa7db2880d85b8e851dc0c1029",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/045528198e3189eef3824fa088a1ab77692b7edb"
+        },
+        "date": 1771502491250,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1325674375666667,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.576819417466666,
             "unit": "seconds"
           }
         ]

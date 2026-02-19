@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771453012680,
+  "lastUpdate": 1771502539870,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "5588131+kianenigma@users.noreply.github.com",
-            "name": "Kian Paimani",
-            "username": "kianenigma"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "d4e4773ea531db55149191693f038e65d64f8107",
-          "message": "use correct era planning config in westend-asset-hub (#9152)\n\ntiny mistake of the past, will use the automatic type rather than\nhard-coding it.",
-          "timestamp": "2025-07-10T21:44:42Z",
-          "tree_id": "325fb85d58fc53b2a8bd2826058c53e9398eb817",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/d4e4773ea531db55149191693f038e65d64f8107"
-        },
-        "date": 1752187975563,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012921469066666667,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15657947178666676,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022290233179999994,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007021611959999966,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-distribution",
             "value": 0.007068171339999998,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "jesuswrites20043@gmail.com",
+            "name": "dotdev.",
+            "username": "dotandev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "045528198e3189eef3824fa088a1ab77692b7edb",
+          "message": "polkadot-omni-node-lib: emit warnings for aura authority id type assumptions (#11102)\n\ncloses https://github.com/paritytech/polkadot-sdk/issues/11026\n\nThis PR adds explicit warnings at node startup to surface these\nassumptions:\n\n- When the chain spec id starts with `asset-hub-polkadot` or\n`statemint`,\nthe node assumes `ed25519` as the Aura authority id type and now emits a\n  warning documenting this specific assumption.\n- For all other chains, the node assumes `sr25519` by default and now\nemits\n  a warning noting that `ed25519` runtimes  are not yet\n  supported.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-19T10:57:16Z",
+          "tree_id": "46e4d2e109e610fa7db2880d85b8e851dc0c1029",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/045528198e3189eef3824fa088a1ab77692b7edb"
+        },
+        "date": 1771502518832,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.1443477831466667,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009900263539999983,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.02501800292666666,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.00685206392,
             "unit": "seconds"
           }
         ]

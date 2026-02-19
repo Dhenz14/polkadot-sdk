@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771502566682,
+  "lastUpdate": 1771520215483,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "psykyodai@gmail.com",
-            "name": "psykyo-dai(精神 大)",
-            "username": "PsyKyodai"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "874a8dbdd9cbc7fdbfffc4c307f6f21974650a55",
-          "message": "Add BlockNumberProvider to PureCreated Event (#9107)\n\n[AHM] [Proxy] Add creation block number to PureCreated event\n\nCloses #9066 \n\n## Problem\nAfter AHM, killing pure proxies requires the relay chain block height at\ncreation time. This information is non-trivial to obtain since the proxy\npallet lives on Asset Hub while the block height refers to Relay Chain.\n\n## Solution\nAdd `at: BlockNumberFor<T>` field to `Event::PureCreated` to include the\ncreation block height. This is populated using the `BlockNumberProvider`\nat creation time.\n\n## Changes\n1. Added `at` field to `Event::PureCreated` containing current block\nnumber\n2. Modified tests and benchmarks to reflect new event structure\n\n---------\n\nCo-authored-by: Bastian Köcher <git@kchr.de>\nCo-authored-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>",
-          "timestamp": "2025-07-10T15:19:15Z",
-          "tree_id": "e16c795118f66c71b0a031259521c3beef122083",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/874a8dbdd9cbc7fdbfffc4c307f6f21974650a55"
-        },
-        "date": 1752165394269,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 63636.009999999995,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 52938.3,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.00001889391,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.6757152424011155,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.486456103660003,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4853725535899995,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.982572531669992,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.00001928328,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.392859171219994,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.4771063676299994,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.4340534780399962,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.00001928328,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.5214935497300006,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.00001889391,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005804586899999998,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting-parallel/approval-voting-parallel-0",
             "value": 2.6944603097799984,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "cf88f8c344c1f6abdd52693e0718ffa48ea382c8",
+          "message": "[Release|CI/CD] Replace direct use of inputs with ENVs (#11116)\n\nReplace direct use of inputs with ENVs in release pieplines\n\ncc: https://github.com/paritytech/release-engineering/issues/284",
+          "timestamp": "2026-02-19T15:31:08Z",
+          "tree_id": "9709563132726125cf0ff1caf55eb6504ed6cb3a",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/cf88f8c344c1f6abdd52693e0718ffa48ea382c8"
+        },
+        "date": 1771520190753,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 52937.3,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 63617.05999999998,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.00002185975,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.5522149843429425,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.697800852700003,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.7171952286899996,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005499620480000005,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.69441255141,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.00002122165,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.00002122165,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.00002185975,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.329047236760011,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.6663206150399996,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.8434116989400072,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 13.953687804020017,
             "unit": "seconds"
           }
         ]

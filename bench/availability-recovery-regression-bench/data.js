@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771502512319,
+  "lastUpdate": 1771520147750,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "49718502+alexggh@users.noreply.github.com",
-            "name": "Alexandru Gheorghe",
-            "username": "alexggh"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "7058819a45ed5b74cedd6d21698f1c2ac2445d6b",
-          "message": "add block hashes to the randomness used by hashmaps and friends in validation context (#9127)\n\nhttps://github.com/paritytech/polkadot-sdk/pull/8606\nhttps://github.com/paritytech/trie/pull/221 replaced the usage of\nBTreeMap with HashMaps in validation context. The keys are already\nderived with a cryptographic hash function from user data, so users\nshould not be able to manipulate it.\n\nTo be on safe side this PR also modifies the TrieCache, TrieRecorder and\nMemoryDB to use a hasher that on top of the default generated randomness\nalso adds randomness generated from the hash of the relaychain and that\nof the parachain blocks, which is not something users can control or\nguess ahead of time.\n\n---------\n\nSigned-off-by: Alexandru Gheorghe <alexandru.gheorghe@parity.io>\nCo-authored-by: Bastian Köcher <git@kchr.de>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-11T15:34:56Z",
-          "tree_id": "6b0e66c2eaa94537bb1ed602b345585455da88be",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/7058819a45ed5b74cedd6d21698f1c2ac2445d6b"
-        },
-        "date": 1752252862609,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.193000787733332,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.20159544269999996,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 11.576819417466666,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "cf88f8c344c1f6abdd52693e0718ffa48ea382c8",
+          "message": "[Release|CI/CD] Replace direct use of inputs with ENVs (#11116)\n\nReplace direct use of inputs with ENVs in release pieplines\n\ncc: https://github.com/paritytech/release-engineering/issues/284",
+          "timestamp": "2026-02-19T15:31:08Z",
+          "tree_id": "9709563132726125cf0ff1caf55eb6504ed6cb3a",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/cf88f8c344c1f6abdd52693e0718ffa48ea382c8"
+        },
+        "date": 1771520123280,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.11997380540000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.285051383966664,
             "unit": "seconds"
           }
         ]

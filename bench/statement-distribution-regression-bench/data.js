@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771520249448,
+  "lastUpdate": 1771542899103,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "1728078+michalkucharczyk@users.noreply.github.com",
-            "name": "Michal Kucharczyk",
-            "username": "michalkucharczyk"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "62a9808172832e13ca2ae02c1888491ee74b03fb",
-          "message": "`fatxpool`: debug levels adjusted (#9159)\n\nThis PR removes redundant debug message and lowers the info about\ntimeout in `ready_at`.\n\nRelated: #9151\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-10T13:42:24Z",
-          "tree_id": "cbedb9094437416e71f65e6fc550c42db2cc5e48",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/62a9808172832e13ca2ae02c1888491ee74b03fb"
-        },
-        "date": 1752159136851,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.96399999999998,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03417375054,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04491631049199995,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.037468661138,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "luka.ciric2106@gmail.com",
+            "name": "Luka Ciric",
+            "username": "cirko33"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5049801bd6c2030260ba9a1eea5ade6f81016076",
+          "message": "Remove MaxSessionKeysLength and MaxSessionKeysProofLength (#11115)\n\nfixes the issue #11083 where MaxSessionKeysLength and\nMaxSessionKeysProofLength were unnecessary because there are not stored,\njust validated.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-19T21:54:31Z",
+          "tree_id": "c3feb5acaf3532afcd3c159253ce760a85ce27a6",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/5049801bd6c2030260ba9a1eea5ade6f81016076"
+        },
+        "date": 1771542874563,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.04799999999994,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.037680736208000006,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.06590948784599997,
             "unit": "seconds"
           }
         ]

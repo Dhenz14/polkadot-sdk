@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771520283429,
+  "lastUpdate": 1771542932757,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "49718502+alexggh@users.noreply.github.com",
-            "name": "Alexandru Gheorghe",
-            "username": "alexggh"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "12ddb5a71ddd744e48bbf49a4cc0b44c5381747e",
-          "message": "bitfield_distribution: fix subsystem clogged at begining of a session (#9094)\n\n`handle_peer_view_change` gets called on NewGossipTopology with the\nexisting view of the peer to cover for the case when the topology might\narrive late, but in that case in the view will contain old blocks from\nprevious session, so since the X/Y neighbour change because of the\ntopology change you end up sending a lot of messages for blocks before\nthe session changed.\n\nFix it by checking the send message only for relay chains that are in\nthe same session as the current topology.\n\n---------\n\nSigned-off-by: Alexandru Gheorghe <alexandru.gheorghe@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-10T10:00:44Z",
-          "tree_id": "0adae7550a477fef6b79346b2a017a665b321042",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/12ddb5a71ddd744e48bbf49a4cc0b44c5381747e"
-        },
-        "date": 1752145985591,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005142384619999992,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0026690400299999996,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008612664559999986,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.0063159517300000025,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "luka.ciric2106@gmail.com",
+            "name": "Luka Ciric",
+            "username": "cirko33"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5049801bd6c2030260ba9a1eea5ade6f81016076",
+          "message": "Remove MaxSessionKeysLength and MaxSessionKeysProofLength (#11115)\n\nfixes the issue #11083 where MaxSessionKeysLength and\nMaxSessionKeysProofLength were unnecessary because there are not stored,\njust validated.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-19T21:54:31Z",
+          "tree_id": "c3feb5acaf3532afcd3c159253ce760a85ce27a6",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/5049801bd6c2030260ba9a1eea5ade6f81016076"
+        },
+        "date": 1771542908420,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.0066749460499999965,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009333774489999983,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.0026596458499999996,
             "unit": "seconds"
           }
         ]

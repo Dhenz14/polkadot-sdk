@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771542899103,
+  "lastUpdate": 1771583185683,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "psykyodai@gmail.com",
-            "name": "psykyo-dai(精神 大)",
-            "username": "PsyKyodai"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "874a8dbdd9cbc7fdbfffc4c307f6f21974650a55",
-          "message": "Add BlockNumberProvider to PureCreated Event (#9107)\n\n[AHM] [Proxy] Add creation block number to PureCreated event\n\nCloses #9066 \n\n## Problem\nAfter AHM, killing pure proxies requires the relay chain block height at\ncreation time. This information is non-trivial to obtain since the proxy\npallet lives on Asset Hub while the block height refers to Relay Chain.\n\n## Solution\nAdd `at: BlockNumberFor<T>` field to `Event::PureCreated` to include the\ncreation block height. This is populated using the `BlockNumberProvider`\nat creation time.\n\n## Changes\n1. Added `at` field to `Event::PureCreated` containing current block\nnumber\n2. Modified tests and benchmarks to reflect new event structure\n\n---------\n\nCo-authored-by: Bastian Köcher <git@kchr.de>\nCo-authored-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>",
-          "timestamp": "2025-07-10T15:19:15Z",
-          "tree_id": "e16c795118f66c71b0a031259521c3beef122083",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/874a8dbdd9cbc7fdbfffc4c307f6f21974650a55"
-        },
-        "date": 1752165418302,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 127.95,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04417123571399993,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03393989596200002,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.06590948784599997,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "dc18933ad1040534648a191bbfdc698a4de36ab3",
+          "message": "statement-store: fix benchmark EMFILE by pooling RPC connections (#11070)\n\n# Description\n\n- Fix \"Too many open files\" (EMFILE) error in all statement-store\nbenchmarks\n- Replace per-participant RPC connections with a shared connection pool\n(100 per node)\n- Participants share connections via RpcClient::clone() which\nmultiplexes over the same transport\n\n## Root Cause\nEach of ~50,000 benchmark participants called `node.rpc().await?` to\ncreate its own\nTCP/WebSocket connection, exhausting the OS per-process file descriptor\nlimit (EMFILE error 24)\n\n## Fix\nIntroduce `RPC_POOL_SIZE = 100` constant. Create a pool of conn per\nnode, then\ndistribute them round-robin to participants reduces tot file descriptors\nfrom ~50,000 to at most 600 (6 nodes x 100)\n\n## Test plan\n- [x] Run `statement_store_many_nodes_bench` with zombienet to verify no\nEMFILE error\n- [x] Verify benchmarks complete successfully with pooled connections",
+          "timestamp": "2026-02-20T09:00:19Z",
+          "tree_id": "7c45276c612ff0f3506c4268f2e8dc9b00d0ec7c",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/dc18933ad1040534648a191bbfdc698a4de36ab3"
+        },
+        "date": 1771583164149,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.05800000000002,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.06713525976199994,
+            "unit": "seconds"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.037909318593999985,
             "unit": "seconds"
           }
         ]

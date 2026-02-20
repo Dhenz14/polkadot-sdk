@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771542798236,
+  "lastUpdate": 1771583101694,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "jesse.chejieh@gmail.com",
-            "name": "Doordashcon",
-            "username": "Doordashcon"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "9339acc7e4eb58498fe7a4c412dfb9f8e75ae72a",
-          "message": "Add Missing Events for Balances Pallet (#7250)\n\nAttempts to resolve #6974\n\n---------\n\nCo-authored-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
-          "timestamp": "2025-07-13T00:04:30+02:00",
-          "tree_id": "c5a5b6fa875bb790a7f98206b6d220ac1a957b32",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/9339acc7e4eb58498fe7a4c412dfb9f8e75ae72a"
-        },
-        "date": 1752359848706,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.281061597800003,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.20108045503333333,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.11874574876666666,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "dc18933ad1040534648a191bbfdc698a4de36ab3",
+          "message": "statement-store: fix benchmark EMFILE by pooling RPC connections (#11070)\n\n# Description\n\n- Fix \"Too many open files\" (EMFILE) error in all statement-store\nbenchmarks\n- Replace per-participant RPC connections with a shared connection pool\n(100 per node)\n- Participants share connections via RpcClient::clone() which\nmultiplexes over the same transport\n\n## Root Cause\nEach of ~50,000 benchmark participants called `node.rpc().await?` to\ncreate its own\nTCP/WebSocket connection, exhausting the OS per-process file descriptor\nlimit (EMFILE error 24)\n\n## Fix\nIntroduce `RPC_POOL_SIZE = 100` constant. Create a pool of conn per\nnode, then\ndistribute them round-robin to participants reduces tot file descriptors\nfrom ~50,000 to at most 600 (6 nodes x 100)\n\n## Test plan\n- [x] Run `statement_store_many_nodes_bench` with zombienet to verify no\nEMFILE error\n- [x] Verify benchmarks complete successfully with pooled connections",
+          "timestamp": "2026-02-20T09:00:19Z",
+          "tree_id": "7c45276c612ff0f3506c4268f2e8dc9b00d0ec7c",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/dc18933ad1040534648a191bbfdc698a4de36ab3"
+        },
+        "date": 1771583079473,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12597946796666665,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.190330704933336,
             "unit": "seconds"
           }
         ]

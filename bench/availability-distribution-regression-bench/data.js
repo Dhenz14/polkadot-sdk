@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771542832053,
+  "lastUpdate": 1771583130026,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "5588131+kianenigma@users.noreply.github.com",
-            "name": "Kian Paimani",
-            "username": "kianenigma"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "064512ed11042b34ca7330b93e39aa864219d475",
-          "message": "pallet-bags-list: Emit `ScoreUpdated` event only if it has changed (#9166)\n\nquick follow-up to https://github.com/paritytech/polkadot-sdk/pull/8684,\nensuring all blocks don't have x events when the feature is enabled (as\nit is now in WAH)\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-12T16:17:44Z",
-          "tree_id": "bcdf93b2b053f979c59ad0094670fadf95855c33",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/064512ed11042b34ca7330b93e39aa864219d475"
-        },
-        "date": 1752341091695,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022348999946666667,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15735532816666672,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013011674820000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007252550473333334,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "bitfield-distribution",
             "value": 0.02465731097333332,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "dc18933ad1040534648a191bbfdc698a4de36ab3",
+          "message": "statement-store: fix benchmark EMFILE by pooling RPC connections (#11070)\n\n# Description\n\n- Fix \"Too many open files\" (EMFILE) error in all statement-store\nbenchmarks\n- Replace per-participant RPC connections with a shared connection pool\n(100 per node)\n- Participants share connections via RpcClient::clone() which\nmultiplexes over the same transport\n\n## Root Cause\nEach of ~50,000 benchmark participants called `node.rpc().await?` to\ncreate its own\nTCP/WebSocket connection, exhausting the OS per-process file descriptor\nlimit (EMFILE error 24)\n\n## Fix\nIntroduce `RPC_POOL_SIZE = 100` constant. Create a pool of conn per\nnode, then\ndistribute them round-robin to participants reduces tot file descriptors\nfrom ~50,000 to at most 600 (6 nodes x 100)\n\n## Test plan\n- [x] Run `statement_store_many_nodes_bench` with zombienet to verify no\nEMFILE error\n- [x] Verify benchmarks complete successfully with pooled connections",
+          "timestamp": "2026-02-20T09:00:19Z",
+          "tree_id": "7c45276c612ff0f3506c4268f2e8dc9b00d0ec7c",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/dc18933ad1040534648a191bbfdc698a4de36ab3"
+        },
+        "date": 1771583107882,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14400836933333333,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.006828321073333333,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.02473397336,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.00987226360000001,
             "unit": "seconds"
           }
         ]

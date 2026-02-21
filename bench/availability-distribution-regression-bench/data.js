@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771583130026,
+  "lastUpdate": 1771632254194,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "jesse.chejieh@gmail.com",
-            "name": "Doordashcon",
-            "username": "Doordashcon"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "9339acc7e4eb58498fe7a4c412dfb9f8e75ae72a",
-          "message": "Add Missing Events for Balances Pallet (#7250)\n\nAttempts to resolve #6974\n\n---------\n\nCo-authored-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
-          "timestamp": "2025-07-13T00:04:30+02:00",
-          "tree_id": "c5a5b6fa875bb790a7f98206b6d220ac1a957b32",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/9339acc7e4eb58498fe7a4c412dfb9f8e75ae72a"
-        },
-        "date": 1752359872319,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15665486098666678,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007033348899999976,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012944104713333328,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022403466879999997,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.00987226360000001,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@kchr.de",
+            "name": "Bastian Köcher",
+            "username": "bkchr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3f9ad6a571035b4b9a5263d79a5abb3aa1d5eaa1",
+          "message": "Sync: Gracefully handle blocks from an unknown fork (#11085)\n\nThere is the possibility that node A connects to node B. Both are at the\nsame best block (20). Shortly after this, node B announces a block 21\nthat is from a completely different fork (started at e.g. block 15).\nRight now this leads to node A downloading this block 21 and then\nfailing to import it because it doesn't have the parent block.\n\nThis pull request solves this situation by putting the peer into\nancestry search when it detects a fork that is \"unknown\".\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-20T22:57:04Z",
+          "tree_id": "c119e3e7313808e195194f08e0ba4a454b798a95",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/3f9ad6a571035b4b9a5263d79a5abb3aa1d5eaa1"
+        },
+        "date": 1771632230018,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007183549719999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14871383257333337,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009805625893333322,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.0254179428,
             "unit": "seconds"
           }
         ]

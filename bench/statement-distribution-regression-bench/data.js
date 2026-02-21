@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771583185683,
+  "lastUpdate": 1771632320188,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "5588131+kianenigma@users.noreply.github.com",
-            "name": "Kian Paimani",
-            "username": "kianenigma"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "d4e4773ea531db55149191693f038e65d64f8107",
-          "message": "use correct era planning config in westend-asset-hub (#9152)\n\ntiny mistake of the past, will use the automatic type rather than\nhard-coding it.",
-          "timestamp": "2025-07-10T21:44:42Z",
-          "tree_id": "325fb85d58fc53b2a8bd2826058c53e9398eb817",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/d4e4773ea531db55149191693f038e65d64f8107"
-        },
-        "date": 1752188024468,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.95399999999994,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.033804183498000004,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.044033905663999916,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.037909318593999985,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@kchr.de",
+            "name": "Bastian Köcher",
+            "username": "bkchr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3f9ad6a571035b4b9a5263d79a5abb3aa1d5eaa1",
+          "message": "Sync: Gracefully handle blocks from an unknown fork (#11085)\n\nThere is the possibility that node A connects to node B. Both are at the\nsame best block (20). Shortly after this, node B announces a block 21\nthat is from a completely different fork (started at e.g. block 15).\nRight now this leads to node A downloading this block 21 and then\nfailing to import it because it doesn't have the parent block.\n\nThis pull request solves this situation by putting the peer into\nancestry search when it detects a fork that is \"unknown\".\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-20T22:57:04Z",
+          "tree_id": "c119e3e7313808e195194f08e0ba4a454b798a95",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/3f9ad6a571035b4b9a5263d79a5abb3aa1d5eaa1"
+        },
+        "date": 1771632296265,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.02199999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.06723474441199989,
+            "unit": "seconds"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.03797406540800001,
             "unit": "seconds"
           }
         ]

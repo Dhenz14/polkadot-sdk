@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771632353093,
+  "lastUpdate": 1771794779487,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "psykyodai@gmail.com",
-            "name": "psykyo-dai(精神 大)",
-            "username": "PsyKyodai"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "874a8dbdd9cbc7fdbfffc4c307f6f21974650a55",
-          "message": "Add BlockNumberProvider to PureCreated Event (#9107)\n\n[AHM] [Proxy] Add creation block number to PureCreated event\n\nCloses #9066 \n\n## Problem\nAfter AHM, killing pure proxies requires the relay chain block height at\ncreation time. This information is non-trivial to obtain since the proxy\npallet lives on Asset Hub while the block height refers to Relay Chain.\n\n## Solution\nAdd `at: BlockNumberFor<T>` field to `Event::PureCreated` to include the\ncreation block height. This is populated using the `BlockNumberProvider`\nat creation time.\n\n## Changes\n1. Added `at` field to `Event::PureCreated` containing current block\nnumber\n2. Modified tests and benchmarks to reflect new event structure\n\n---------\n\nCo-authored-by: Bastian Köcher <git@kchr.de>\nCo-authored-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>",
-          "timestamp": "2025-07-10T15:19:15Z",
-          "tree_id": "e16c795118f66c71b0a031259521c3beef122083",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/874a8dbdd9cbc7fdbfffc4c307f6f21974650a55"
-        },
-        "date": 1752165442081,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008586072849999992,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0026598708800000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005140858249999995,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.006417222699999994,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "60601340+lexnv@users.noreply.github.com",
+            "name": "Alexandru Vasile",
+            "username": "lexnv"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e30a412c6cd957afedbb3157dac9cf4b424b0fa6",
+          "message": "net: Strip previous p2p prefix before concatenating addresses (#11078)\n\nThis PR ensures that a `MultiaddrWithPeerId` will always remain valid\nafter a concatenating process.\n\nThe litep2p code will concatanate the provided multiaddr-with-peerID\nregardless if the address already contains a `p2p/..` prefix:\n\n\nhttps://github.com/paritytech/polkadot-sdk/blob/e85be1c07adedcc86554affa4f6af536c4a2efc1/substrate/client/network/src/litep2p/service.rs#L427-L434\n\n\nThis then can lead to addresses for reserved peers to never be dialed by\nthe network backend as they are considered invalid.\n\nThis has been discovered by running the networking benchmarks:\n\nhttps://github.com/paritytech/polkadot-sdk/blob/e85be1c07adedcc86554affa4f6af536c4a2efc1/substrate/client/network/benches/notifications_protocol.rs#L143-L148\n\nPart of the cleanups for:\n- https://github.com/paritytech/polkadot-sdk/issues/10425\n\n---------\n\nSigned-off-by: Alexandru Vasile <alexandru.vasile@parity.io>\nCo-authored-by: Bastian Köcher <git@kchr.de>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-22T19:52:39Z",
+          "tree_id": "e0b7771005d72b671ade97ec038e2f28910c9b82",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/e30a412c6cd957afedbb3157dac9cf4b424b0fa6"
+        },
+        "date": 1771794755482,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.0026687172200000006,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009280932639999996,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.006750507319999996,
             "unit": "seconds"
           }
         ]

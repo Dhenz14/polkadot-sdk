@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771879616109,
+  "lastUpdate": 1771882104513,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "franciscoaguirreperez@gmail.com",
-            "name": "Francisco Aguirre",
-            "username": "franciscoaguirre"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "efa765b6d9fbab59dd9bab944f99b40a157d0d64",
-          "message": "Pallet XCM - `transfer_assets` pre-ahm patch (#9137)\n\nAddresses https://github.com/paritytech/polkadot-sdk/issues/9054\n\n`transfer_assets` automatically figures out the reserve for a\ncross-chain transfer\nbased on on-chain configurations like `IsReserve` and the asset ids.\nThe Asset Hub Migration (AHM) will make it unable to return the correct\nreserve for\nthe network native asset (DOT, KSM, WND, PAS) since its reserve will\nmove from the\nRelay Chain to the Asset Hub.\n\nBefore the migration, it'll be disabled to do network native reserve\ntransfers\nvia `transfer_assets`. After the migration, once everything is\nconfigured properly,\nit'll be patched to use the correct reserve.\n\n## TODO\n\n- [x] Patch\n- [x] Tests\n- [x] PRDoc",
-          "timestamp": "2025-07-14T19:28:37Z",
-          "tree_id": "13bb2dff7ac3a2f86d6b38b9817c02e34410e467",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/efa765b6d9fbab59dd9bab944f99b40a157d0d64"
-        },
-        "date": 1752525478963,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02243714404666667,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15681224536000005,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007309225306666634,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013279752260000006,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-distribution",
             "value": 0.006914688786666667,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "davxy@datawok.net",
+            "name": "Davide Galassi",
+            "username": "davxy"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3f2be402b5079f0b51d90723019e46dcd9e6cac8",
+          "message": "sp-crypto-ec-utils: Fix no_std (#11150)",
+          "timestamp": "2026-02-23T20:05:40Z",
+          "tree_id": "c5b3d69afff26e422675893ad3cbb613a24d89c3",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/3f2be402b5079f0b51d90723019e46dcd9e6cac8"
+        },
+        "date": 1771882080007,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.0068123843066666655,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14097685773333338,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.010037158199999981,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.024028597846666663,
             "unit": "seconds"
           }
         ]

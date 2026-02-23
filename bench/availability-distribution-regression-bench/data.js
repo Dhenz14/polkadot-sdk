@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771840435515,
+  "lastUpdate": 1771854403591,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "serban@parity.io",
-            "name": "Serban Iorga",
-            "username": "serban300"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "f8a1fe64c29b1ddcb5824bbb3bf327f528f18d40",
-          "message": "Deduplicate client-side inherents checking logic (#9175)\n\nStumbled upon this while working on other issue\n(https://github.com/paritytech/polkadot-sdk/pull/7902). I thought I\nmight need to change the `CheckInherentsResult` and this deduplication\nwould have made everything easier. Probably changing\n`CheckInherentsResult` won't be needed in the end, but even so it would\nbe nice to reduce the duplication.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-14T08:22:53Z",
-          "tree_id": "bfca803819835b7f3000ebe25955951078a64f09",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/f8a1fe64c29b1ddcb5824bbb3bf327f528f18d40"
-        },
-        "date": 1752486555353,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013118011313333336,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022398577686666674,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007353065499999989,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15772380814666676,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-distribution",
             "value": 0.007056914193333332,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "alex.theissen@me.com",
+            "name": "Alexander Theißen",
+            "username": "athei"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6e5b1ddc44380b06d518e4c819faca37694a7278",
+          "message": "Update to Rust 1.93 (#10816)\n\n## Summary\n\nThis PR fixes all new clippy warnings introduced when upgrading from\nRust 1.88 to Rust 1.92.\n\n## Changes\n\n### 1. Use `is_multiple_of()` instead of manual modulo checks\nReplace manual modulo divisibility checks with the more idiomatic\n`is_multiple_of()` method:\n- `x % n == 0` → `x.is_multiple_of(n)`\n- `x % n != 0` → `!x.is_multiple_of(n)`\n\n### 2. Resolve `unnecessary_unwrap` warnings\nUse pattern matching instead of checking `is_some()`/`is_none()` before\ncalling `unwrap()`:\n```rust\n// Before\nif weight_of_authorize.is_some() && authorize.is_none() {\n    return Err(syn::Error::new(weight_of_authorize.unwrap().span(), msg))\n}\n\n// After\nif let (Some(weight_of_authorize_expr), None) = (&weight_of_authorize, &authorize) {\n    return Err(syn::Error::new(weight_of_authorize_expr.span(), msg))\n}\n```\n\n### 3. Resolve `hidden_lifetime` warnings\nMake elided lifetimes explicit to avoid confusion when lifetimes are\nused in return types but not visible in function signatures.\n\n### 4. Derive `Default` instead of manual implementation\nReplace manual `Default` impl with `#[derive(Default)]` and `#[default]`\nattribute for `RingMembersState` enum.\n\n### 5. Remove unused imports\nRemove unused imports of `crate::log`, `vec` macro, `sp_std::vec`, and\n`super::*` in test modules.\n\n### 6. Remove unnecessary parentheses\nRemove unnecessary parentheses around:\n- Closure bodies: `|x| (x.clone())` → `|x| x.clone()`\n- `impl Trait` types in function parameters\n- `dyn` trait types in `Box` casts\n\n### 7. Suppress dead code warnings in tests and mocks\nAdd `#[allow(dead_code)]` to structs, traits, and enums in test/mock\ncode that are required for trait implementations but never directly\nconstructed. Also add `#![allow(unused_assignments)]` for\n`pallet::tasks_experimental` macro-generated code.\n\n---------\n\nCo-authored-by: Evgeny Snitko <evgeny@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>\nCo-authored-by: Bastian Köcher <info@kchr.de>",
+          "timestamp": "2026-02-23T12:28:08Z",
+          "tree_id": "4240586f2beb0cb9cfdefbdd0fe10a8ba4309c21",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/6e5b1ddc44380b06d518e4c819faca37694a7278"
+        },
+        "date": 1771854379420,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.024230384086666657,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14576043843333333,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009789052939999989,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.0070833863866666645,
             "unit": "seconds"
           }
         ]

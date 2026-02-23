@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771864170794,
+  "lastUpdate": 1771878671745,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -58967,6 +58967,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2466536478,
             "range": "± 15763710",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "48632512+s0me0ne-unkn0wn@users.noreply.github.com",
+            "name": "s0me0ne-unkn0wn",
+            "username": "s0me0ne-unkn0wn"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "c90277ace6ffc77ea2931c61153cbd10e8ba6ece",
+          "message": "Enforce statement allowances (#10823)\n\nThis PR aims to enforce statement allowances during storage maintenance.\n\nCloses #10569.\n\n---------\n\nCo-authored-by: Andrei Eres <eresav@me.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-23T19:27:56Z",
+          "tree_id": "77c3e606e443318a96559a06d35c6596a184b0af",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/c90277ace6ffc77ea2931c61153cbd10e8ba6ece"
+        },
+        "date": 1771878650249,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18177642,
+            "range": "± 760707",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18442519,
+            "range": "± 90787",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20020727,
+            "range": "± 87268",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24242476,
+            "range": "± 469307",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 55568663,
+            "range": "± 599721",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 330625291,
+            "range": "± 8484245",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2463898119,
+            "range": "± 29068056",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15577314,
+            "range": "± 207587",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15602202,
+            "range": "± 169025",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16321232,
+            "range": "± 209284",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20699996,
+            "range": "± 85400",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 54904492,
+            "range": "± 307734",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 317201165,
+            "range": "± 5217163",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2481453155,
+            "range": "± 37254053",
             "unit": "ns/iter"
           }
         ]

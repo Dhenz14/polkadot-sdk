@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771879716064,
+  "lastUpdate": 1771882203777,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "jesse.chejieh@gmail.com",
-            "name": "Doordashcon",
-            "username": "Doordashcon"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "9339acc7e4eb58498fe7a4c412dfb9f8e75ae72a",
-          "message": "Add Missing Events for Balances Pallet (#7250)\n\nAttempts to resolve #6974\n\n---------\n\nCo-authored-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
-          "timestamp": "2025-07-13T00:04:30+02:00",
-          "tree_id": "c5a5b6fa875bb790a7f98206b6d220ac1a957b32",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/9339acc7e4eb58498fe7a4c412dfb9f8e75ae72a"
-        },
-        "date": 1752359944023,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005217768139999995,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008592346529999993,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0025697406199999993,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-coordinator",
             "value": 0.0026488011099999997,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "davxy@datawok.net",
+            "name": "Davide Galassi",
+            "username": "davxy"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3f2be402b5079f0b51d90723019e46dcd9e6cac8",
+          "message": "sp-crypto-ec-utils: Fix no_std (#11150)",
+          "timestamp": "2026-02-23T20:05:40Z",
+          "tree_id": "c5b3d69afff26e422675893ad3cbb613a24d89c3",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/3f2be402b5079f0b51d90723019e46dcd9e6cac8"
+        },
+        "date": 1771882179494,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.0026350835199999995,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009345289099999984,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.006651213479999997,
             "unit": "seconds"
           }
         ]

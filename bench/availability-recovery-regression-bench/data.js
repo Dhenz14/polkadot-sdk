@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771840402668,
+  "lastUpdate": 1771854370172,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "evgeny@parity.io",
-            "name": "Evgeny Snitko",
-            "username": "AndWeHaveAPlan"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "8f4d80071a4f478a4540aa8ab63dc1a1b26a8187",
-          "message": "Update forklift to 0.14.1 (#9163)\n\ncc https://github.com/paritytech/polkadot-sdk/issues/9123\n\ncc https://github.com/paritytech/devops/issues/4151\n\n---------\n\nCo-authored-by: Alexander Samusev <41779041+alvicsam@users.noreply.github.com>\nCo-authored-by: alvicsam <alvicsam@gmail.com>",
-          "timestamp": "2025-07-14T10:59:34Z",
-          "tree_id": "ed66147a2d1d0f7bcd93cfeaa94fba29aacdfe07",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/8f4d80071a4f478a4540aa8ab63dc1a1b26a8187"
-        },
-        "date": 1752495670043,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.2517603485,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19732415099999998,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.12395346550000001,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "alex.theissen@me.com",
+            "name": "Alexander Theißen",
+            "username": "athei"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6e5b1ddc44380b06d518e4c819faca37694a7278",
+          "message": "Update to Rust 1.93 (#10816)\n\n## Summary\n\nThis PR fixes all new clippy warnings introduced when upgrading from\nRust 1.88 to Rust 1.92.\n\n## Changes\n\n### 1. Use `is_multiple_of()` instead of manual modulo checks\nReplace manual modulo divisibility checks with the more idiomatic\n`is_multiple_of()` method:\n- `x % n == 0` → `x.is_multiple_of(n)`\n- `x % n != 0` → `!x.is_multiple_of(n)`\n\n### 2. Resolve `unnecessary_unwrap` warnings\nUse pattern matching instead of checking `is_some()`/`is_none()` before\ncalling `unwrap()`:\n```rust\n// Before\nif weight_of_authorize.is_some() && authorize.is_none() {\n    return Err(syn::Error::new(weight_of_authorize.unwrap().span(), msg))\n}\n\n// After\nif let (Some(weight_of_authorize_expr), None) = (&weight_of_authorize, &authorize) {\n    return Err(syn::Error::new(weight_of_authorize_expr.span(), msg))\n}\n```\n\n### 3. Resolve `hidden_lifetime` warnings\nMake elided lifetimes explicit to avoid confusion when lifetimes are\nused in return types but not visible in function signatures.\n\n### 4. Derive `Default` instead of manual implementation\nReplace manual `Default` impl with `#[derive(Default)]` and `#[default]`\nattribute for `RingMembersState` enum.\n\n### 5. Remove unused imports\nRemove unused imports of `crate::log`, `vec` macro, `sp_std::vec`, and\n`super::*` in test modules.\n\n### 6. Remove unnecessary parentheses\nRemove unnecessary parentheses around:\n- Closure bodies: `|x| (x.clone())` → `|x| x.clone()`\n- `impl Trait` types in function parameters\n- `dyn` trait types in `Box` casts\n\n### 7. Suppress dead code warnings in tests and mocks\nAdd `#[allow(dead_code)]` to structs, traits, and enums in test/mock\ncode that are required for trait implementations but never directly\nconstructed. Also add `#![allow(unused_assignments)]` for\n`pallet::tasks_experimental` macro-generated code.\n\n---------\n\nCo-authored-by: Evgeny Snitko <evgeny@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>\nCo-authored-by: Bastian Köcher <info@kchr.de>",
+          "timestamp": "2026-02-23T12:28:08Z",
+          "tree_id": "4240586f2beb0cb9cfdefbdd0fe10a8ba4309c21",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/6e5b1ddc44380b06d518e4c819faca37694a7278"
+        },
+        "date": 1771854345568,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.138975221499999,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1249659477666667,
             "unit": "seconds"
           }
         ]

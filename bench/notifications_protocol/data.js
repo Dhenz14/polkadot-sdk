@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771839403760,
+  "lastUpdate": 1771853595702,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "notifications_protocol": [
@@ -105407,6 +105407,198 @@ window.BENCHMARK_DATA = {
             "name": "notifications_protocol/litep2p/with_backpressure/16MB",
             "value": 2160742978,
             "range": "± 48288528",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "alex.theissen@me.com",
+            "name": "Alexander Theißen",
+            "username": "athei"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6e5b1ddc44380b06d518e4c819faca37694a7278",
+          "message": "Update to Rust 1.93 (#10816)\n\n## Summary\n\nThis PR fixes all new clippy warnings introduced when upgrading from\nRust 1.88 to Rust 1.92.\n\n## Changes\n\n### 1. Use `is_multiple_of()` instead of manual modulo checks\nReplace manual modulo divisibility checks with the more idiomatic\n`is_multiple_of()` method:\n- `x % n == 0` → `x.is_multiple_of(n)`\n- `x % n != 0` → `!x.is_multiple_of(n)`\n\n### 2. Resolve `unnecessary_unwrap` warnings\nUse pattern matching instead of checking `is_some()`/`is_none()` before\ncalling `unwrap()`:\n```rust\n// Before\nif weight_of_authorize.is_some() && authorize.is_none() {\n    return Err(syn::Error::new(weight_of_authorize.unwrap().span(), msg))\n}\n\n// After\nif let (Some(weight_of_authorize_expr), None) = (&weight_of_authorize, &authorize) {\n    return Err(syn::Error::new(weight_of_authorize_expr.span(), msg))\n}\n```\n\n### 3. Resolve `hidden_lifetime` warnings\nMake elided lifetimes explicit to avoid confusion when lifetimes are\nused in return types but not visible in function signatures.\n\n### 4. Derive `Default` instead of manual implementation\nReplace manual `Default` impl with `#[derive(Default)]` and `#[default]`\nattribute for `RingMembersState` enum.\n\n### 5. Remove unused imports\nRemove unused imports of `crate::log`, `vec` macro, `sp_std::vec`, and\n`super::*` in test modules.\n\n### 6. Remove unnecessary parentheses\nRemove unnecessary parentheses around:\n- Closure bodies: `|x| (x.clone())` → `|x| x.clone()`\n- `impl Trait` types in function parameters\n- `dyn` trait types in `Box` casts\n\n### 7. Suppress dead code warnings in tests and mocks\nAdd `#[allow(dead_code)]` to structs, traits, and enums in test/mock\ncode that are required for trait implementations but never directly\nconstructed. Also add `#![allow(unused_assignments)]` for\n`pallet::tasks_experimental` macro-generated code.\n\n---------\n\nCo-authored-by: Evgeny Snitko <evgeny@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>\nCo-authored-by: Bastian Köcher <info@kchr.de>",
+          "timestamp": "2026-02-23T12:28:08Z",
+          "tree_id": "4240586f2beb0cb9cfdefbdd0fe10a8ba4309c21",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/6e5b1ddc44380b06d518e4c819faca37694a7278"
+        },
+        "date": 1771853573763,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "notifications_protocol/libp2p/serially/64B",
+            "value": 4037920,
+            "range": "± 28722",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64B",
+            "value": 302743,
+            "range": "± 3660",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/512B",
+            "value": 4168748,
+            "range": "± 20366",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/512B",
+            "value": 380467,
+            "range": "± 6744",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/4KB",
+            "value": 4764242,
+            "range": "± 26027",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/4KB",
+            "value": 873449,
+            "range": "± 7998",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/64KB",
+            "value": 10083264,
+            "range": "± 142161",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64KB",
+            "value": 4915574,
+            "range": "± 70022",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/256KB",
+            "value": 45235057,
+            "range": "± 496267",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/256KB",
+            "value": 38907674,
+            "range": "± 710504",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/2MB",
+            "value": 343558703,
+            "range": "± 5831557",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/2MB",
+            "value": 287645615,
+            "range": "± 5847879",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/16MB",
+            "value": 2459552937,
+            "range": "± 13315403",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/16MB",
+            "value": 2645601815,
+            "range": "± 79686685",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64B",
+            "value": 3111661,
+            "range": "± 23813",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64B",
+            "value": 1567954,
+            "range": "± 15355",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/512B",
+            "value": 3303771,
+            "range": "± 27973",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/512B",
+            "value": 1643343,
+            "range": "± 17772",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/4KB",
+            "value": 3867506,
+            "range": "± 36790",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/4KB",
+            "value": 1997171,
+            "range": "± 12944",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64KB",
+            "value": 7764060,
+            "range": "± 52330",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64KB",
+            "value": 5090441,
+            "range": "± 49772",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/256KB",
+            "value": 36164793,
+            "range": "± 1377224",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/256KB",
+            "value": 35606537,
+            "range": "± 624882",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/2MB",
+            "value": 307759279,
+            "range": "± 7008735",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/2MB",
+            "value": 267623862,
+            "range": "± 2406565",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/16MB",
+            "value": 2419308262,
+            "range": "± 19950625",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/16MB",
+            "value": 2266629486,
+            "range": "± 86075857",
             "unit": "ns/iter"
           }
         ]

@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771840468522,
+  "lastUpdate": 1771854435861,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "cyrill@parity.io",
-            "name": "xermicus",
-            "username": "xermicus"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "fb0d310e07438caafcc2dda4d502eba040ecf06c",
-          "message": "emit sparse debug info in unoptimized builds (#8646)\n\nSee\n[here](https://kobzol.github.io/rust/rustc/2025/05/20/disable-debuginfo-to-improve-rust-compile-times.html)\nfor more details.\n\nI found that on my host, this reduces `cargo build` (after `cargo\nclean`) from 19m 35s to 17m 50s, or about 10%.\n\nThanks @pgherveou\n\n---------\n\nSigned-off-by: Cyrill Leutwiler <bigcyrill@hotmail.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
-          "timestamp": "2025-07-13T22:45:18Z",
-          "tree_id": "6fa4ad83ce7581d17e6bfc24fc886cf3fe8b40d7",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/fb0d310e07438caafcc2dda4d502eba040ecf06c"
-        },
-        "date": 1752450930870,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52939.09999999999,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63626.40000000001,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.5256145159299996,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4748581485700014,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000019009220000000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.4380358267900009,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.689159397390862,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000019009220000000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.4913302936900004,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.00001982954,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.38592448101999,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.4844872956599993,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005825520390000012,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.00001982954,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9657728799899896,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting-parallel/approval-voting-parallel-2",
             "value": 2.643666325409998,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "alex.theissen@me.com",
+            "name": "Alexander Theißen",
+            "username": "athei"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6e5b1ddc44380b06d518e4c819faca37694a7278",
+          "message": "Update to Rust 1.93 (#10816)\n\n## Summary\n\nThis PR fixes all new clippy warnings introduced when upgrading from\nRust 1.88 to Rust 1.92.\n\n## Changes\n\n### 1. Use `is_multiple_of()` instead of manual modulo checks\nReplace manual modulo divisibility checks with the more idiomatic\n`is_multiple_of()` method:\n- `x % n == 0` → `x.is_multiple_of(n)`\n- `x % n != 0` → `!x.is_multiple_of(n)`\n\n### 2. Resolve `unnecessary_unwrap` warnings\nUse pattern matching instead of checking `is_some()`/`is_none()` before\ncalling `unwrap()`:\n```rust\n// Before\nif weight_of_authorize.is_some() && authorize.is_none() {\n    return Err(syn::Error::new(weight_of_authorize.unwrap().span(), msg))\n}\n\n// After\nif let (Some(weight_of_authorize_expr), None) = (&weight_of_authorize, &authorize) {\n    return Err(syn::Error::new(weight_of_authorize_expr.span(), msg))\n}\n```\n\n### 3. Resolve `hidden_lifetime` warnings\nMake elided lifetimes explicit to avoid confusion when lifetimes are\nused in return types but not visible in function signatures.\n\n### 4. Derive `Default` instead of manual implementation\nReplace manual `Default` impl with `#[derive(Default)]` and `#[default]`\nattribute for `RingMembersState` enum.\n\n### 5. Remove unused imports\nRemove unused imports of `crate::log`, `vec` macro, `sp_std::vec`, and\n`super::*` in test modules.\n\n### 6. Remove unnecessary parentheses\nRemove unnecessary parentheses around:\n- Closure bodies: `|x| (x.clone())` → `|x| x.clone()`\n- `impl Trait` types in function parameters\n- `dyn` trait types in `Box` casts\n\n### 7. Suppress dead code warnings in tests and mocks\nAdd `#[allow(dead_code)]` to structs, traits, and enums in test/mock\ncode that are required for trait implementations but never directly\nconstructed. Also add `#![allow(unused_assignments)]` for\n`pallet::tasks_experimental` macro-generated code.\n\n---------\n\nCo-authored-by: Evgeny Snitko <evgeny@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>\nCo-authored-by: Bastian Köcher <info@kchr.de>",
+          "timestamp": "2026-02-23T12:28:08Z",
+          "tree_id": "4240586f2beb0cb9cfdefbdd0fe10a8ba4309c21",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/6e5b1ddc44380b06d518e4c819faca37694a7278"
+        },
+        "date": 1771854412297,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 52941.09999999999,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 63635.090000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.798623252479999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.7324384172499987,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.00002181705,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.3806717228399945,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7922192766900025,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.35294483806282,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.779140597150002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.23643178029,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.000025388089999999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.000025388089999999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.00002181705,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005496121620000001,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.7478423922600017,
             "unit": "seconds"
           }
         ]

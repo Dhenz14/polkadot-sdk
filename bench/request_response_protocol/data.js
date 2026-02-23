@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771793815553,
+  "lastUpdate": 1771839437701,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -58643,6 +58643,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2554871716,
             "range": "± 19894138",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49718502+alexggh@users.noreply.github.com",
+            "name": "Alexandru Gheorghe",
+            "username": "alexggh"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e3a9fcd296ef596cf697c578a2a7b76e974e5ce2",
+          "message": "statement-store: do not populate recent on restart (#11117)\n\nOn restart populate rebuilds the entire index and it uses the\n`insert_new` which ended up populating recent with all the statements in\nthe statement store.\n\nThat is bad, because then take_recent_statements would read all\nstatements in DB and have to hold them in memory.\n\nThe statement in the DB are not recent, so it does not make sense for\nthem to be marked as recent, fix that by making insert_new conditional.\n\n---------\n\nSigned-off-by: Alexandru Gheorghe <alexandru.gheorghe@parity.io>",
+          "timestamp": "2026-02-23T08:40:23Z",
+          "tree_id": "3c02d56eca1dd83f6741e136dad78ab4d2f14043",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/e3a9fcd296ef596cf697c578a2a7b76e974e5ce2"
+        },
+        "date": 1771839413373,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18066656,
+            "range": "± 1594720",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18512444,
+            "range": "± 320688",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20190830,
+            "range": "± 102356",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 23807706,
+            "range": "± 190091",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 55002200,
+            "range": "± 620127",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 319145667,
+            "range": "± 5438458",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2257257375,
+            "range": "± 71485839",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15916258,
+            "range": "± 108792",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15872424,
+            "range": "± 133369",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16535739,
+            "range": "± 869750",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20771445,
+            "range": "± 188319",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 53790795,
+            "range": "± 407944",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 305442383,
+            "range": "± 2134251",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2401867923,
+            "range": "± 19930730",
             "unit": "ns/iter"
           }
         ]

@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771854469103,
+  "lastUpdate": 1771864664431,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "jesse.chejieh@gmail.com",
-            "name": "Doordashcon",
-            "username": "Doordashcon"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "9339acc7e4eb58498fe7a4c412dfb9f8e75ae72a",
-          "message": "Add Missing Events for Balances Pallet (#7250)\n\nAttempts to resolve #6974\n\n---------\n\nCo-authored-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
-          "timestamp": "2025-07-13T00:04:30+02:00",
-          "tree_id": "c5a5b6fa875bb790a7f98206b6d220ac1a957b32",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/9339acc7e4eb58498fe7a4c412dfb9f8e75ae72a"
-        },
-        "date": 1752359920429,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.954,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04446945470399994,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03392826288200001,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.07096643811199992,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "pgherveou@gmail.com",
+            "name": "PG Herveou",
+            "username": "pgherveou"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "fb71b25620c5ce246a1151d5eca21491bac012b1",
+          "message": "pallet-revive: eth-rpc improve submit (#10328)\n\nWith these udpates, we now listen to the tx event stream and only return\nwhen the Ready or Future\nis emitted.\n\nDepends on https://github.com/paritytech/polkadot-sdk/issues/10332\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Sebastian Kunert <skunert49@gmail.com>\nCo-authored-by: Michal Kucharczyk <1728078+michalkucharczyk@users.noreply.github.com>",
+          "timestamp": "2026-02-23T15:14:25Z",
+          "tree_id": "6872fa950d2a9663492821329d18a2447c2e1b62",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/fb71b25620c5ce246a1151d5eca21491bac012b1"
+        },
+        "date": 1771864640763,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.40199999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.10400000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.03798952948799998,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.06964476920199991,
             "unit": "seconds"
           }
         ]

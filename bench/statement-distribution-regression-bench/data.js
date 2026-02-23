@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771840502615,
+  "lastUpdate": 1771854469103,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "5588131+kianenigma@users.noreply.github.com",
-            "name": "Kian Paimani",
-            "username": "kianenigma"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "064512ed11042b34ca7330b93e39aa864219d475",
-          "message": "pallet-bags-list: Emit `ScoreUpdated` event only if it has changed (#9166)\n\nquick follow-up to https://github.com/paritytech/polkadot-sdk/pull/8684,\nensuring all blocks don't have x events when the feature is enabled (as\nit is now in WAH)\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-12T16:17:44Z",
-          "tree_id": "bcdf93b2b053f979c59ad0094670fadf95855c33",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/064512ed11042b34ca7330b93e39aa864219d475"
-        },
-        "date": 1752341139742,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.95399999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04438336547599993,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03389837962999998,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.06689653963599994,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "alex.theissen@me.com",
+            "name": "Alexander Theißen",
+            "username": "athei"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6e5b1ddc44380b06d518e4c819faca37694a7278",
+          "message": "Update to Rust 1.93 (#10816)\n\n## Summary\n\nThis PR fixes all new clippy warnings introduced when upgrading from\nRust 1.88 to Rust 1.92.\n\n## Changes\n\n### 1. Use `is_multiple_of()` instead of manual modulo checks\nReplace manual modulo divisibility checks with the more idiomatic\n`is_multiple_of()` method:\n- `x % n == 0` → `x.is_multiple_of(n)`\n- `x % n != 0` → `!x.is_multiple_of(n)`\n\n### 2. Resolve `unnecessary_unwrap` warnings\nUse pattern matching instead of checking `is_some()`/`is_none()` before\ncalling `unwrap()`:\n```rust\n// Before\nif weight_of_authorize.is_some() && authorize.is_none() {\n    return Err(syn::Error::new(weight_of_authorize.unwrap().span(), msg))\n}\n\n// After\nif let (Some(weight_of_authorize_expr), None) = (&weight_of_authorize, &authorize) {\n    return Err(syn::Error::new(weight_of_authorize_expr.span(), msg))\n}\n```\n\n### 3. Resolve `hidden_lifetime` warnings\nMake elided lifetimes explicit to avoid confusion when lifetimes are\nused in return types but not visible in function signatures.\n\n### 4. Derive `Default` instead of manual implementation\nReplace manual `Default` impl with `#[derive(Default)]` and `#[default]`\nattribute for `RingMembersState` enum.\n\n### 5. Remove unused imports\nRemove unused imports of `crate::log`, `vec` macro, `sp_std::vec`, and\n`super::*` in test modules.\n\n### 6. Remove unnecessary parentheses\nRemove unnecessary parentheses around:\n- Closure bodies: `|x| (x.clone())` → `|x| x.clone()`\n- `impl Trait` types in function parameters\n- `dyn` trait types in `Box` casts\n\n### 7. Suppress dead code warnings in tests and mocks\nAdd `#[allow(dead_code)]` to structs, traits, and enums in test/mock\ncode that are required for trait implementations but never directly\nconstructed. Also add `#![allow(unused_assignments)]` for\n`pallet::tasks_experimental` macro-generated code.\n\n---------\n\nCo-authored-by: Evgeny Snitko <evgeny@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>\nCo-authored-by: Bastian Köcher <info@kchr.de>",
+          "timestamp": "2026-02-23T12:28:08Z",
+          "tree_id": "4240586f2beb0cb9cfdefbdd0fe10a8ba4309c21",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/6e5b1ddc44380b06d518e4c819faca37694a7278"
+        },
+        "date": 1771854444883,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.03199999999998,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.03805219455,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.07096643811199992,
             "unit": "seconds"
           }
         ]

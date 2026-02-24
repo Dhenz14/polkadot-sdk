@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771931362542,
+  "lastUpdate": 1771940189183,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "32168055+antkve@users.noreply.github.com",
-            "name": "Anthony Kveder",
-            "username": "antkve"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "999b4fa90ea0073a193662b1162b5f1f25f3beb6",
-          "message": "Fixed westend asset hub ID (#9191)\n\nAddresses #9190 by adding cumulus_primitives_core::GetParachainInfo impl\nto the AHW runtime.\n\n---------\n\nCo-authored-by: Karol Kokoszka <karol@parity.io>",
-          "timestamp": "2025-07-15T10:47:05Z",
-          "tree_id": "db38b696266f561a16f37e601e33a516a9086616",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/999b4fa90ea0073a193662b1162b5f1f25f3beb6"
-        },
-        "date": 1752580437610,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.01300822362666667,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022605506213333338,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007470545546666634,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.1572144001733334,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "bitfield-distribution",
             "value": 0.024071134286666664,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49718502+alexggh@users.noreply.github.com",
+            "name": "Alexandru Gheorghe",
+            "username": "alexggh"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "30d11a70e09186ac0917e11a2e9cc743c3a4bb34",
+          "message": "make subscription return statement event  instead of bytes (#11139)\n\n## Problem\n\nIn the current implementation of the subscription, applications have no\nway to tell if there is anything in the store for their subscription,\nbecause we are not sending any information when zero statements match\nthe filter, so they have the problem of not knowing if the subscription\nwill produce any items or if it is just slow.\n\nAnother worthy optimisation is that, when we connect we can send more\nthan one statement in one notification rather than send them one by one,\nwhich creates more churn and is slower.\n\n## Proposal.\n\nModify the API, so instead of returning a stream of bytes that represent\nscale encoded statements, to return\n```\npub enum StatementEvent {\n\t/// A batch of statements matching the subscription filter. Each entry is a SCALE-encoded\n\t/// statement.\n\tNewStatements(Vec<Bytes>),\n}\n```\n\nWhen subscription is initiated if there are no matching statements in\nthe store we send an empty array..\n\nThis changes slightly the json-rpc schema of the message:\n\n## Before this change:\n- Receiving a statement\n```\n{\n  \"jsonrpc\": \"2.0\",\n  \"method\": \"statement_statement\",\n  \"params\": {\n    \"subscription\": 2759293729543571,\n    \"result\": \"0x1000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000201000000ffffffff040000000000000000000000000000000000000000000000000000000000000000050101010101010101010101010101010101010101010101010101010101010101\"\n  }\n}\n```\n\n## After this change:\n- When there are no matching statements in the store you first receive\nan empty array and as new matching statements arrive in the node they\nget forwarded to the client.\n```\n{\n    \"jsonrpc\": \"2.0\",\n    \"method\": \"statement_statement\",\n    \"params\": {\n        \"subscription\": 4851578855668545,\n        \"result\": {\n            \"event\": \"newStatements\",\n            \"data\": {\n                \"statements\": [],\n                \"remaining\": 0\n            }\n        }\n    }\n}\n```\n\n- If there are matching statements in the store you receive them in\nbatches of newStatements events, with remaining telling you how many\nstatements you have remaining, this guarantees you that the subscription\nwill receive at least this amount of statements.\n```\n{\n    \"jsonrpc\": \"2.0\",\n    \"method\": \"statement_statement\",\n    \"params\": {\n        \"subscription\": 1710164133533157,\n        \"result\": {\n            \"event\": \"newStatements\",\n            \"data\": {\n                \"statements\": [\n                    \"0x1000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000201000000ffffffff040000000000000000000000000000000000000000000000000000000000000000050202020202020202020202020202020202020202020202020202020202020202\",\n                    \"0x1000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000201000000ffffffff040000000000000000000000000000000000000000000000000000000000000000050101010101010101010101010101010101010101010101010101010101010101\"\n                ],\n                \"remaining\": 10\n            }\n        }\n    }\n}\n```\n\n- If new statements arrive in the store they get delivered as they are\nwithout any `remaining` information.\n```\n{\n    \"jsonrpc\": \"2.0\",\n    \"method\": \"statement_statement\",\n    \"params\": {\n        \"subscription\": 2661920166788434,\n        \"result\": {\n            \"event\": \"newStatements\",\n            \"data\": {\n                \"statements\": [                 \"0x1000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000201000000ffffffff040000000000000000000000000000000000000000000000000000000000000000050101010101010101010101010101010101010101010101010101010101010101\"\n                ]\n            }\n        }\n    }\n}\n```\n\n---------\n\nSigned-off-by: Alexandru Gheorghe <alexandru.gheorghe@parity.io>",
+          "timestamp": "2026-02-24T12:19:17Z",
+          "tree_id": "063b08a2ad2606c50cfd5860bc47d390d0ad93bf",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/30d11a70e09186ac0917e11a2e9cc743c3a4bb34"
+        },
+        "date": 1771940165546,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.024025671726666652,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.006471549893333333,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009654385046666632,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.1427985359066667,
             "unit": "seconds"
           }
         ]

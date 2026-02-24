@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771948484055,
+  "lastUpdate": 1771965570987,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "22591718+RomarQ@users.noreply.github.com",
-            "name": "Rodrigo Quelhas",
-            "username": "RomarQ"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "6ecd83761b4fcac8c2c02ee05e8ec7213bacbc30",
-          "message": "feat(pallet-xcm): Add supported_version to pallet-xcm genesis config (#9225)\n\nRelates to: https://github.com/polkadot-fellows/runtimes/issues/544\nCloses https://github.com/paritytech/polkadot-sdk/issues/9075\n\nAdds a `supported_version` field to the pallet-xcm genesis config. Which\nallows specifying versioned locations at genesis.",
-          "timestamp": "2025-07-17T08:34:46Z",
-          "tree_id": "4c37cf3bac9a7da5b7949782b000a08141fc207b",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/6ecd83761b4fcac8c2c02ee05e8ec7213bacbc30"
-        },
-        "date": 1752745446321,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.2096901227,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19612141853333337,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.1340583041,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "paolo@parity.io",
+            "name": "Paolo La Camera",
+            "username": "sigurpol"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c34ff1e4271f7367d45a50a39a58f7b3af90274b",
+          "message": "Add timeout + people-westend to check-runtime CI  (#11158)\n\n@polkadot-api/check-runtime hangs in case the RPC endpoint is not\nreachable. A timeout is added to handle this case gracefully, similar to\nruntime's change\n[here](https://github.com/polkadot-fellows/runtimes/pull/1086).\n\nDriven-by: add support for metadata-hash extension on `people-westend`\nand add it to the list of chains to check.\n\n```bash\nnpx @polkadot-api/check-runtime@latest problems wss://westend-people-rpc.polkadot.io:443 --wasm target/release/wbuild/people-westend-runtime/people_westend_runtime.compact.wasm\n[ora] Multiple concurrent spinners detected. This may cause visual corruption. Use one spinner at a time.\n[ora] Multiple concurrent spinners detected. This may cause visual corruption. Use one spinner at a time.\nusing deprecated parameters for `initSync()`; pass a single object instead\n✔ Everything looks great!\n```\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-24T19:19:34Z",
+          "tree_id": "d0324f94392e092bc79f81dac47a176fc87c22fc",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/c34ff1e4271f7367d45a50a39a58f7b3af90274b"
+        },
+        "date": 1771965545934,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 10.8752949107,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1206239548333333,
             "unit": "seconds"
           }
         ]

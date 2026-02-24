@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771881147276,
+  "lastUpdate": 1771930440778,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -59183,6 +59183,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2437891451,
             "range": "± 21468857",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "109252977+YichiZhang0613@users.noreply.github.com",
+            "name": "Yichi Zhang",
+            "username": "YichiZhang0613"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e164dd120a27a4e30f7a3d9b887af5c52d160221",
+          "message": "[pallet-revive] Fix assertion message (#10923)\n\n# Description\nFor below assertion, it looks like the message is inaccurate. the\nmessage always says \"deposit mismatch\" even when other fields fail\n(owner, refcount, code_len, etc.). This could be misleading.\n```rust\nassert_eq!(\n\t\t\tmigrated,\n\t\t\tnew::CodeInfo {\n\t\t\t\towner: old_code_info.owner.clone(),\n\t\t\t\tdeposit: old_code_info.deposit,\n\t\t\t\trefcount: old_code_info.refcount,\n\t\t\t\tcode_len: old_code_info.code_len,\n\t\t\t\tbehaviour_version: old_code_info.behaviour_version,\n\t\t\t\tcode_type: BytecodeType::Pvm,\n\t\t\t},\n\t\t\t\"Migration failed: deposit mismatch for key {code_hash:?}\",\n\t\t);\n```",
+          "timestamp": "2026-02-24T09:48:36Z",
+          "tree_id": "3cb60ddf8da6402a21e856ef6c32210e2f0faf29",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/e164dd120a27a4e30f7a3d9b887af5c52d160221"
+        },
+        "date": 1771930416966,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18347028,
+            "range": "± 149303",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18552567,
+            "range": "± 129544",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20180021,
+            "range": "± 242343",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 23912192,
+            "range": "± 107541",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 56087445,
+            "range": "± 2434979",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 332082612,
+            "range": "± 6519472",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2483456542,
+            "range": "± 71256132",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15483148,
+            "range": "± 112509",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15698013,
+            "range": "± 148110",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16337721,
+            "range": "± 206941",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20988897,
+            "range": "± 201779",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 56652642,
+            "range": "± 392004",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 329566347,
+            "range": "± 2641986",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2592773452,
+            "range": "± 31658613",
             "unit": "ns/iter"
           }
         ]

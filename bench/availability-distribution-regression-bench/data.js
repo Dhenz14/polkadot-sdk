@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771948518164,
+  "lastUpdate": 1771965605306,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "bkontur@gmail.com",
-            "name": "Branislav Kontur",
-            "username": "bkontur"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "40e1a2a7c99c67fe5201145e473c87e1aea4bf05",
-          "message": "Allow create backport branches to unstable by A4-backport-unstable* tag (#9167)\n\nIn this\n[PR](https://github.com/paritytech/polkadot-sdk/pull/9139#issuecomment-3052828167),\nI added the `A4-backport-unstable2507` label, but no backport branch was\ncreated for `unstable2507`.\n\nWas this intentional or just an oversight or did I miss anything in the\nrelease channel?\nHow do we do backports to unstable2507? If manually, just close this.\n\ncc: @EgorPopelyaev - this PR is just a blind draft (not sure if it\nworks), probably more needs to be fixed and properly tested. If we\nreally need this, could you please take it over the finish line? If not,\njust close it :)\n\nCo-authored-by: Egor_P <egor@parity.io>",
-          "timestamp": "2025-07-16T16:23:51Z",
-          "tree_id": "42f9ddd2a1ed680cc694879a7f84761b03ea1e9c",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/40e1a2a7c99c67fe5201145e473c87e1aea4bf05"
-        },
-        "date": 1752687070648,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013079982806666666,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02244753284666666,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15815474354000006,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.006988766506666664,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "bitfield-distribution",
             "value": 0.024091444659999996,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "paolo@parity.io",
+            "name": "Paolo La Camera",
+            "username": "sigurpol"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c34ff1e4271f7367d45a50a39a58f7b3af90274b",
+          "message": "Add timeout + people-westend to check-runtime CI  (#11158)\n\n@polkadot-api/check-runtime hangs in case the RPC endpoint is not\nreachable. A timeout is added to handle this case gracefully, similar to\nruntime's change\n[here](https://github.com/polkadot-fellows/runtimes/pull/1086).\n\nDriven-by: add support for metadata-hash extension on `people-westend`\nand add it to the list of chains to check.\n\n```bash\nnpx @polkadot-api/check-runtime@latest problems wss://westend-people-rpc.polkadot.io:443 --wasm target/release/wbuild/people-westend-runtime/people_westend_runtime.compact.wasm\n[ora] Multiple concurrent spinners detected. This may cause visual corruption. Use one spinner at a time.\n[ora] Multiple concurrent spinners detected. This may cause visual corruption. Use one spinner at a time.\nusing deprecated parameters for `initSync()`; pass a single object instead\n✔ Everything looks great!\n```\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-24T19:19:34Z",
+          "tree_id": "d0324f94392e092bc79f81dac47a176fc87c22fc",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/c34ff1e4271f7367d45a50a39a58f7b3af90274b"
+        },
+        "date": 1771965580080,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.006994986046666667,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009670419413333306,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.02410073001333333,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.1448660765533334,
             "unit": "seconds"
           }
         ]

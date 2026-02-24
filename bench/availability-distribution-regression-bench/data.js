@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771882104513,
+  "lastUpdate": 1771931362542,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "ismailov.m.h@gmail.com",
-            "name": "muharem",
-            "username": "muharem"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "ec6e6843b847de92be649073317fa729898d0e1b",
-          "message": "Asset Hub Westend: nfts block provider is RC (#9141)\n\nAsset Hub Westend: nfts block provider is Relay Chain.\n\nnfts pallet uses the blocks to define `mint.start_block` and\n`mint.end_block` for collections. therefor the RC is a better choice\nhere since its more time accurate.\n\nthis does not requires a migration since there is no single collection\nwith the start and end block set.\n\nit would be nice to deploy this change asap to let clients test this\nbefore it hit production on Kusama and Polkadot.",
-          "timestamp": "2025-07-14T20:25:23Z",
-          "tree_id": "06fb447dd706c0508dbf8c601711dc3d56a98d56",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/ec6e6843b847de92be649073317fa729898d0e1b"
-        },
-        "date": 1752528668550,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013353811780000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02273889692666666,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15965339783333335,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007570348673333319,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "bitfield-distribution",
             "value": 0.024028597846666663,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "109252977+YichiZhang0613@users.noreply.github.com",
+            "name": "Yichi Zhang",
+            "username": "YichiZhang0613"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e164dd120a27a4e30f7a3d9b887af5c52d160221",
+          "message": "[pallet-revive] Fix assertion message (#10923)\n\n# Description\nFor below assertion, it looks like the message is inaccurate. the\nmessage always says \"deposit mismatch\" even when other fields fail\n(owner, refcount, code_len, etc.). This could be misleading.\n```rust\nassert_eq!(\n\t\t\tmigrated,\n\t\t\tnew::CodeInfo {\n\t\t\t\towner: old_code_info.owner.clone(),\n\t\t\t\tdeposit: old_code_info.deposit,\n\t\t\t\trefcount: old_code_info.refcount,\n\t\t\t\tcode_len: old_code_info.code_len,\n\t\t\t\tbehaviour_version: old_code_info.behaviour_version,\n\t\t\t\tcode_type: BytecodeType::Pvm,\n\t\t\t},\n\t\t\t\"Migration failed: deposit mismatch for key {code_hash:?}\",\n\t\t);\n```",
+          "timestamp": "2026-02-24T09:48:36Z",
+          "tree_id": "3cb60ddf8da6402a21e856ef6c32210e2f0faf29",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/e164dd120a27a4e30f7a3d9b887af5c52d160221"
+        },
+        "date": 1771931335366,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007070299153333332,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009468567259999961,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14201461020666667,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.024071134286666664,
             "unit": "seconds"
           }
         ]

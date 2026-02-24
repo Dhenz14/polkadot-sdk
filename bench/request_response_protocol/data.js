@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771939257970,
+  "lastUpdate": 1771942511347,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -59399,6 +59399,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2700386149,
             "range": "± 43797496",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "luka.ciric2106@gmail.com",
+            "name": "Luka Ciric",
+            "username": "cirko33"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f6e430ef28716084bed0b3af47256069c75e79d7",
+          "message": "Meta Transactions - Benchmarking update (#10982)\n\nUpdate of benchmarking logic to remove possibility of `quadratic\ncomplexity` not being weighted when executed. Introducing witness\nparameter that would define length of `meta_tx` encoded size.\n\nUpdate of weight annotation to `saturating add` instead of `add`.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-24T13:12:59Z",
+          "tree_id": "207392576e969d65c1be0bee5cd3675684a06673",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/f6e430ef28716084bed0b3af47256069c75e79d7"
+        },
+        "date": 1771942486288,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18287858,
+            "range": "± 116365",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18454574,
+            "range": "± 214310",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20423104,
+            "range": "± 92817",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24083626,
+            "range": "± 179906",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 54530387,
+            "range": "± 1182405",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 324305418,
+            "range": "± 15249368",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2392499790,
+            "range": "± 75234183",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15223284,
+            "range": "± 97796",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15309538,
+            "range": "± 211213",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16044307,
+            "range": "± 159365",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20289364,
+            "range": "± 116584",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 54208474,
+            "range": "± 522450",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 306883821,
+            "range": "± 2563120",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2469957752,
+            "range": "± 36747488",
             "unit": "ns/iter"
           }
         ]

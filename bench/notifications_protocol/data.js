@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1772034588404,
+  "lastUpdate": 1772053001298,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "notifications_protocol": [
@@ -108287,6 +108287,198 @@ window.BENCHMARK_DATA = {
             "name": "notifications_protocol/litep2p/with_backpressure/16MB",
             "value": 2850972720,
             "range": "± 186386514",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "57529355+iceseer@users.noreply.github.com",
+            "name": "Alexander Lednev",
+            "username": "iceseer"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c3503ef3df0fe48be7f8cd0bffbe695bdd5e34d8",
+          "message": "Feature/`slot_duration` migration (#10022)\n\n# Description\n\nThis PR addresses the problem of censoring a parachain node, where\nseveral collators of the same parachain can isolate a particular\ncollator and stop sending it messages. The collator that has been\nisolated must then obtain the up-to-date state from availability. That\nrequires additional time, so it must be possible to increase the slot\nduration. This PR allows increasing the slot duration during a parachain\nruntime upgrade. It contains migration code `CurrentSlot`, whose job is\nto recalculate and store the `CurrentSlot` value with the new slot\nduration. The PR also includes an additional zombienet test which:\n\n1. spins up a test network of 4 validators and 1 collator;\n2. waits until the parachain starts producing blocks;\n3. performs a parachain runtime upgrade that increases the slot\nduration;\n4. verifies that the parachain and the relay chain continue producing\nblocks.\n\n## Integration\n\nTo run test natively, you should execute(add `---features fast-runtime`\nto run with short epochs):\n```\ncd ~/polkadot-sdk\ncargo build --release -p cumulus-test-service --bin test-parachain\ncargo build --release -p polkadot --bin polkadot\ncp target/release/wbuild/cumulus-test-runtime/wasm_binary_slot_duration_18s.rs.compact.compressed.wasm /tmp/\nZOMBIE_PROVIDER=native cargo test --release -p polkadot-zombienet-sdk-tests --features zombie-ci parachain_runtime_upgrade_test -- --nocapture\n```\n\n## Review Notes\n\n*In depth notes about the **implementation** details of your PR. This\nshould be the main guide for reviewers to\nunderstand your approach and effectively review it. If too long, use\n\n[`<details>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details)*.\n\n*Imagine that someone who is depending on the old code wants to\nintegrate your new code and the only information that\nthey get is this section. It helps to include example usage and default\nvalue here, with a `diff` code-block to show\npossibly integration.*\n\n*Include your leftover TODOs, if any, here.*\n\n# Checklist\n\n* [ ] My PR includes a detailed description as outlined in the\n\"Description\" and its two subsections above.\n* [ ] My PR follows the [labeling requirements](\n\nhttps://github.com/paritytech/polkadot-sdk/blob/master/docs/contributor/CONTRIBUTING.md#Process\n) of this project (at minimum one label for `T` required)\n* External contributors: ask maintainers to put the right label on your\nPR.\n* [ ] I have made corresponding changes to the documentation (if\napplicable)\n* [ ] I have added tests that prove my fix is effective or that my\nfeature works (if applicable)\n\nYou can remove the \"Checklist\" section once all have been checked. Thank\nyou for your contribution!\n\n✄\n-----------------------------------------------------------------------------\n\n---------\n\nSigned-off-by: Alexander Lednev <iceseer@gmail.com>\nCo-authored-by: Bastian Köcher <info@kchr.de>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
+          "timestamp": "2026-02-25T19:53:14Z",
+          "tree_id": "251be15e02a3336026f6b0c16bc711919681c69c",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/c3503ef3df0fe48be7f8cd0bffbe695bdd5e34d8"
+        },
+        "date": 1772052976548,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "notifications_protocol/libp2p/serially/64B",
+            "value": 4179953,
+            "range": "± 43347",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64B",
+            "value": 325939,
+            "range": "± 7095",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/512B",
+            "value": 4332779,
+            "range": "± 66908",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/512B",
+            "value": 395922,
+            "range": "± 6169",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/4KB",
+            "value": 4973819,
+            "range": "± 101229",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/4KB",
+            "value": 942128,
+            "range": "± 28157",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/64KB",
+            "value": 10786236,
+            "range": "± 219586",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64KB",
+            "value": 5371554,
+            "range": "± 117436",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/256KB",
+            "value": 48780517,
+            "range": "± 1696468",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/256KB",
+            "value": 39536629,
+            "range": "± 512707",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/2MB",
+            "value": 375202794,
+            "range": "± 5970627",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/2MB",
+            "value": 307928724,
+            "range": "± 3808933",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/16MB",
+            "value": 2597381761,
+            "range": "± 31584148",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/16MB",
+            "value": 2732763945,
+            "range": "± 111269287",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64B",
+            "value": 3434377,
+            "range": "± 64353",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64B",
+            "value": 1632163,
+            "range": "± 10891",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/512B",
+            "value": 3364268,
+            "range": "± 53191",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/512B",
+            "value": 1689533,
+            "range": "± 10031",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/4KB",
+            "value": 4068241,
+            "range": "± 79504",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/4KB",
+            "value": 2153938,
+            "range": "± 33008",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64KB",
+            "value": 8561724,
+            "range": "± 108758",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64KB",
+            "value": 5417144,
+            "range": "± 100611",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/256KB",
+            "value": 37215519,
+            "range": "± 739396",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/256KB",
+            "value": 37531889,
+            "range": "± 584660",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/2MB",
+            "value": 325253842,
+            "range": "± 3858670",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/2MB",
+            "value": 291034962,
+            "range": "± 4126606",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/16MB",
+            "value": 2629939291,
+            "range": "± 40876160",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/16MB",
+            "value": 2564423040,
+            "range": "± 62002543",
             "unit": "ns/iter"
           }
         ]

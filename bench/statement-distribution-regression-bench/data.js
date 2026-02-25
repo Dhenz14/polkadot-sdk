@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1772007446702,
+  "lastUpdate": 1772013494771,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "git@kchr.de",
-            "name": "Bastian Köcher",
-            "username": "bkchr"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "607a1b24b7902a657426ce2412e316a57b61894b",
-          "message": "`apply_authorized_force_set_current_code` does not need to consume the whole block (#9202)\n\nThere is no need that this dispatchable consumes the full block as this\nis just writing the given value to storage. On a chain this is done,\nbecause the runtime changes and thus, a lot of stuff potentially\nchanges. In the case of the relay chain only on parachain changes and\nnot the relay chain runtime itself.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Branislav Kontur <bkontur@gmail.com>\nCo-authored-by: Adrian Catangiu <adrian@parity.io>",
-          "timestamp": "2025-07-15T11:47:13Z",
-          "tree_id": "275460b2842ffe07aa0ea2d00e95f080163d9b74",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/607a1b24b7902a657426ce2412e316a57b61894b"
-        },
-        "date": 1752584706602,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 127.93999999999994,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04491162430999993,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03438373479199999,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.06760526184199994,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "serban@parity.io",
+            "name": "Serban Iorga",
+            "username": "serban300"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ac667bdcafaf38c9e731febbcea8373fd1e28b67",
+          "message": "Grandpa `on_new_session()`: simplification + fix (#11160)\n\nKill `Stalled::<T>` only if `schedule_change()` has succeeded\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-25T08:25:46Z",
+          "tree_id": "4cba678e1188c882b923a464c024ff1c585d2208",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/ac667bdcafaf38c9e731febbcea8373fd1e28b67"
+        },
+        "date": 1772013472902,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.06400000000005,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.06606446319199992,
+            "unit": "seconds"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.03760267498,
             "unit": "seconds"
           }
         ]

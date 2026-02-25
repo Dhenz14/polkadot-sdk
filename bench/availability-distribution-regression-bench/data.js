@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771965605306,
+  "lastUpdate": 1772007377668,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "22591718+RomarQ@users.noreply.github.com",
-            "name": "Rodrigo Quelhas",
-            "username": "RomarQ"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "6ecd83761b4fcac8c2c02ee05e8ec7213bacbc30",
-          "message": "feat(pallet-xcm): Add supported_version to pallet-xcm genesis config (#9225)\n\nRelates to: https://github.com/polkadot-fellows/runtimes/issues/544\nCloses https://github.com/paritytech/polkadot-sdk/issues/9075\n\nAdds a `supported_version` field to the pallet-xcm genesis config. Which\nallows specifying versioned locations at genesis.",
-          "timestamp": "2025-07-17T08:34:46Z",
-          "tree_id": "4c37cf3bac9a7da5b7949782b000a08141fc207b",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/6ecd83761b4fcac8c2c02ee05e8ec7213bacbc30"
-        },
-        "date": 1752745471093,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022308152673333324,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.01313871086666667,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007534647779999986,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15725125933333342,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-store",
             "value": 0.1448660765533334,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "68e6cf12cbc7a1edc06cfd88767f3b173bfd045c",
+          "message": "Version bumps stable2512-2 (#11163)\n\nThis PR backports regular version bumps and prdocs reorderings from\nstable2512 release branch back to master\n\n---------\n\nCo-authored-by: ParityReleases <release-team@parity.io>",
+          "timestamp": "2026-02-25T06:57:12Z",
+          "tree_id": "5d95cd77a153b2ba454c4016f9a7d9a9d635448c",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/68e6cf12cbc7a1edc06cfd88767f3b173bfd045c"
+        },
+        "date": 1772007352152,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007055812586666666,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.024112514986666663,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14294424808666667,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009618971299999987,
             "unit": "seconds"
           }
         ]

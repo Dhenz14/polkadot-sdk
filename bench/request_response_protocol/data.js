@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1772025816215,
+  "lastUpdate": 1772027005358,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -60155,6 +60155,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2580982187,
             "range": "± 63074302",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "jfanatiker@gmx.at",
+            "name": "eskimor",
+            "username": "eskimor"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "67b479495397373f8d3c9675199db036741673fd",
+          "message": "Prospective parachains cleanup (#10650)\n\nFound a bug when reviewing a PR, that wasn't hit, because of code rot:\nThe implicit view is barely used/only abused by prospective parachains -\nmost of the functionality is not used, essentially it was only used as a\nHashMap, a redundant one even, as all the contained data was kept\nseparately already.\n\n## Summary\n\nRemoves redundant tracking between prospective-parachains and backing\nimplicit view, and simplifies both subsystems to prepare for the\nscheduling_parent design where execution context (relay_parent) and\nscheduling context (scheduling_parent) will diverge.\n\n## What Changed\n\n### 1. Remove ImplicitView from prospective-parachains (7f085d95bc1)\n\n**Problem**: Prospective-parachains maintained its own relay chain\nancestry in fragment chain scopes, but also fed the same data to\nImplicitView and queried it back—pure redundancy.\n\n**Fixed**: \n- Removed ImplicitView field from prospective-parachains\n- Implement relay parent retention directly using fragment chain scopes\n- Removed buggy `activate_leaf_from_prospective_parachains()` method\nfrom ImplicitView (had a bug where leaf hash wasn't included in\nallowed_relay_parents_contiguous, violating documented invariants)\n\nImplicitView tracks *scheduling* context (when to back),\nprospective-parachains tracks *execution* context (what can build). With\nscheduling_parent, these become completely different.\n\n### 2. Separate relay chain scope from para scope (dea725b2cb9)\n\n**Changed**: Split prospective-parachains `Scope` into two:\n- `RelayChainScope`: relay parent + ancestors (shared across all paras)\n- `Scope`: pending availability + base constraints (para-specific)\n\nRelay chain ancestry is shared data; separating it improves clarity and\nefficiency.\n\n### 3. Remove GetMinimumRelayParents message (b8369d4b708)\n\n**Removed**: `ProspectiveParachainsMessage::GetMinimumRelayParents` \n\nThis message was used by ImplicitView to query prospective-parachains\nfor minimum relay parents. With ImplicitView now computing allowed relay\nparents directly from `scheduling_lookahead`, this query is no longer\nneeded. This was another example of code rot: We queried and kept state\nof this per parachain, while it is the same for all parachains at a\ngiven relay parent. Code is simpler now, with less dependencies.\n\n### 4. Simplify ImplicitView to per-relay-parent model (5d3b3683a43)\n\n**Simplified**: Removed per-para tracking from ImplicitView\n- No more `collating_for` parameter, now single code path\n- No more `para_id` in `known_allowed_relay_parents_under()`\n- No more `minimum_relay_parents` HashMap\n\nAllowed relay parents for *scheduling* are determined by\n`scheduling_lookahead` (a global relay chain parameter). All paras share\nthe same allowed relay parents at any relay block.\n\n**Test improvements**: Added helpers reducing ~150 lines duplication,\ncomprehensive docs explaining what each test verifies, positive\nassertions for retained blocks.",
+          "timestamp": "2026-02-25T12:40:09Z",
+          "tree_id": "c2614fab277e75a5fd7f1396475856a6c049d0f2",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/67b479495397373f8d3c9675199db036741673fd"
+        },
+        "date": 1772026980748,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 22720321,
+            "range": "± 379532",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 22981391,
+            "range": "± 353406",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 24969981,
+            "range": "± 249684",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 30090734,
+            "range": "± 339350",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 72817077,
+            "range": "± 1302901",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 467591027,
+            "range": "± 5340037",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2821227087,
+            "range": "± 98061738",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 18826570,
+            "range": "± 874540",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 19057573,
+            "range": "± 283360",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 19613550,
+            "range": "± 285790",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 25473542,
+            "range": "± 294602",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 70932060,
+            "range": "± 1090042",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 406200254,
+            "range": "± 9163356",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 3139449431,
+            "range": "± 82313829",
             "unit": "ns/iter"
           }
         ]

@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1772053036003,
+  "lastUpdate": 1772061441262,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -60479,6 +60479,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2850896810,
             "range": "± 39507593",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "arturgontijo@users.noreply.github.com",
+            "name": "Artur Gontijo",
+            "username": "arturgontijo"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5e8782adcd35723bd51d89eeb74555c423822117",
+          "message": "[benchmarking-cli] Add `--keys-limit=Option<usize>` and `--random-seed=Option<u64>` (#10884)\n\n# Description\n\nThis PR adds two optional new params to the `benchmark` cli subcommand:\n\n1 - `--keys-limit=N`: Limits the number of keys processed during read\nand write benchmarks.\n2 - `--random-seed=M`: Provides deterministic randomness for benchmark\nreproducibility by seeding the random number generator used for key\nshuffling.\n\nThe motivation here is that dealing with huge storage (multiple\nterabytes) the benchmark workflow could easily eat all the target\nmachine resources, making it impossible (or very expensive) to complete.\n\n---------\n\nCo-authored-by: Éloïs <c@elo.tf>",
+          "timestamp": "2026-02-25T22:13:43Z",
+          "tree_id": "e9c38c0528f6db4f1722bb1d4b0bcf3438c496e3",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/5e8782adcd35723bd51d89eeb74555c423822117"
+        },
+        "date": 1772061416609,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 21831887,
+            "range": "± 244804",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 22194096,
+            "range": "± 415150",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 23807655,
+            "range": "± 305885",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 28100460,
+            "range": "± 292731",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 67224429,
+            "range": "± 2197015",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 434870064,
+            "range": "± 5992535",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2912572707,
+            "range": "± 135676656",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 17117280,
+            "range": "± 212513",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 17157998,
+            "range": "± 166201",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 17918478,
+            "range": "± 145938",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 22698697,
+            "range": "± 520513",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 61779496,
+            "range": "± 763762",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 371441500,
+            "range": "± 5130688",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2869574286,
+            "range": "± 34959260",
             "unit": "ns/iter"
           }
         ]

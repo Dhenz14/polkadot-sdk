@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1772025788820,
+  "lastUpdate": 1772026971620,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "notifications_protocol": [
@@ -107903,6 +107903,198 @@ window.BENCHMARK_DATA = {
             "name": "notifications_protocol/litep2p/with_backpressure/16MB",
             "value": 2281142865,
             "range": "± 73335766",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "jfanatiker@gmx.at",
+            "name": "eskimor",
+            "username": "eskimor"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "67b479495397373f8d3c9675199db036741673fd",
+          "message": "Prospective parachains cleanup (#10650)\n\nFound a bug when reviewing a PR, that wasn't hit, because of code rot:\nThe implicit view is barely used/only abused by prospective parachains -\nmost of the functionality is not used, essentially it was only used as a\nHashMap, a redundant one even, as all the contained data was kept\nseparately already.\n\n## Summary\n\nRemoves redundant tracking between prospective-parachains and backing\nimplicit view, and simplifies both subsystems to prepare for the\nscheduling_parent design where execution context (relay_parent) and\nscheduling context (scheduling_parent) will diverge.\n\n## What Changed\n\n### 1. Remove ImplicitView from prospective-parachains (7f085d95bc1)\n\n**Problem**: Prospective-parachains maintained its own relay chain\nancestry in fragment chain scopes, but also fed the same data to\nImplicitView and queried it back—pure redundancy.\n\n**Fixed**: \n- Removed ImplicitView field from prospective-parachains\n- Implement relay parent retention directly using fragment chain scopes\n- Removed buggy `activate_leaf_from_prospective_parachains()` method\nfrom ImplicitView (had a bug where leaf hash wasn't included in\nallowed_relay_parents_contiguous, violating documented invariants)\n\nImplicitView tracks *scheduling* context (when to back),\nprospective-parachains tracks *execution* context (what can build). With\nscheduling_parent, these become completely different.\n\n### 2. Separate relay chain scope from para scope (dea725b2cb9)\n\n**Changed**: Split prospective-parachains `Scope` into two:\n- `RelayChainScope`: relay parent + ancestors (shared across all paras)\n- `Scope`: pending availability + base constraints (para-specific)\n\nRelay chain ancestry is shared data; separating it improves clarity and\nefficiency.\n\n### 3. Remove GetMinimumRelayParents message (b8369d4b708)\n\n**Removed**: `ProspectiveParachainsMessage::GetMinimumRelayParents` \n\nThis message was used by ImplicitView to query prospective-parachains\nfor minimum relay parents. With ImplicitView now computing allowed relay\nparents directly from `scheduling_lookahead`, this query is no longer\nneeded. This was another example of code rot: We queried and kept state\nof this per parachain, while it is the same for all parachains at a\ngiven relay parent. Code is simpler now, with less dependencies.\n\n### 4. Simplify ImplicitView to per-relay-parent model (5d3b3683a43)\n\n**Simplified**: Removed per-para tracking from ImplicitView\n- No more `collating_for` parameter, now single code path\n- No more `para_id` in `known_allowed_relay_parents_under()`\n- No more `minimum_relay_parents` HashMap\n\nAllowed relay parents for *scheduling* are determined by\n`scheduling_lookahead` (a global relay chain parameter). All paras share\nthe same allowed relay parents at any relay block.\n\n**Test improvements**: Added helpers reducing ~150 lines duplication,\ncomprehensive docs explaining what each test verifies, positive\nassertions for retained blocks.",
+          "timestamp": "2026-02-25T12:40:09Z",
+          "tree_id": "c2614fab277e75a5fd7f1396475856a6c049d0f2",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/67b479495397373f8d3c9675199db036741673fd"
+        },
+        "date": 1772026947066,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "notifications_protocol/libp2p/serially/64B",
+            "value": 3954912,
+            "range": "± 56806",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64B",
+            "value": 297808,
+            "range": "± 5254",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/512B",
+            "value": 4103182,
+            "range": "± 49431",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/512B",
+            "value": 377108,
+            "range": "± 6490",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/4KB",
+            "value": 4807206,
+            "range": "± 58249",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/4KB",
+            "value": 891827,
+            "range": "± 18847",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/64KB",
+            "value": 10317574,
+            "range": "± 99108",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64KB",
+            "value": 4870779,
+            "range": "± 116669",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/256KB",
+            "value": 43243174,
+            "range": "± 874899",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/256KB",
+            "value": 37364272,
+            "range": "± 693903",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/2MB",
+            "value": 329303958,
+            "range": "± 2847111",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/2MB",
+            "value": 284495349,
+            "range": "± 3612799",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/16MB",
+            "value": 2436880532,
+            "range": "± 12396088",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/16MB",
+            "value": 2518600941,
+            "range": "± 99756130",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64B",
+            "value": 3076194,
+            "range": "± 26847",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64B",
+            "value": 1575991,
+            "range": "± 10368",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/512B",
+            "value": 3218525,
+            "range": "± 29174",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/512B",
+            "value": 1650836,
+            "range": "± 12377",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/4KB",
+            "value": 3842618,
+            "range": "± 25680",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/4KB",
+            "value": 1981101,
+            "range": "± 15569",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64KB",
+            "value": 7738082,
+            "range": "± 72027",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64KB",
+            "value": 4932550,
+            "range": "± 38163",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/256KB",
+            "value": 34899476,
+            "range": "± 717685",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/256KB",
+            "value": 34008630,
+            "range": "± 351141",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/2MB",
+            "value": 304774955,
+            "range": "± 8248021",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/2MB",
+            "value": 265542227,
+            "range": "± 2328268",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/16MB",
+            "value": 2351852278,
+            "range": "± 27143788",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/16MB",
+            "value": 2411854213,
+            "range": "± 67302074",
             "unit": "ns/iter"
           }
         ]

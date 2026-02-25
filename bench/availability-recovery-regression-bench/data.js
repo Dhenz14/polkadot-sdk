@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1772013411187,
+  "lastUpdate": 1772021369658,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "32168055+antkve@users.noreply.github.com",
-            "name": "Anthony Kveder",
-            "username": "antkve"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "0ae5c5bbd96a600aed81358339be2f16bade4a81",
-          "message": "Fixed genesis config presets for bridge tests (#9185)\n\nCloses: https://github.com/paritytech/polkadot-sdk/issues/9116\n\n---------\n\nCo-authored-by: Branislav Kontur <bkontur@gmail.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Karol Kokoszka <karol@parity.io>",
-          "timestamp": "2025-07-17T16:04:44Z",
-          "tree_id": "19d750bba6685e132f90c471118eb1342e943c9f",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/0ae5c5bbd96a600aed81358339be2f16bade4a81"
-        },
-        "date": 1752775868453,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.567043915100001,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19551351700000003,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.1210952378,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "paolo@parity.io",
+            "name": "Paolo La Camera",
+            "username": "sigurpol"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "79bc8a968a2eda1ae127740ee1a20ff10e375950",
+          "message": "Add MinSetKeysBond check in rc_client::set_keys (#11168)\n\nAdd a configurable MinSetKeysBond threshold that rejects set_keys when\nactive bond is insufficient.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-25T10:49:51Z",
+          "tree_id": "4086235cf72cc7dfd7ebc40caca9746e90c02ea1",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/79bc8a968a2eda1ae127740ee1a20ff10e375950"
+        },
+        "date": 1772021345778,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.070881630966667,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13104414943333334,
             "unit": "seconds"
           }
         ]

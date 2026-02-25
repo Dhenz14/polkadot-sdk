@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1772007342475,
+  "lastUpdate": 1772013411187,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "diego2737@gmail.com",
-            "name": "Diego",
-            "username": "dimartiro"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "6b17df5ae96f7970109ec3934c7d288f05baa23b",
-          "message": "Remove unused deps (#9235)\n\n# Description\n\nRemove unused deps using `cargo udeps`\n\nPart of: #6906\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Branislav Kontur <bkontur@gmail.com>",
-          "timestamp": "2025-07-17T14:18:53Z",
-          "tree_id": "20c94cc5015d6ff1c010a46fd69c90c70442033b",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/6b17df5ae96f7970109ec3934c7d288f05baa23b"
-        },
-        "date": 1752766940805,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19748901976666663,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.32377973586667,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.12515280099999998,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "serban@parity.io",
+            "name": "Serban Iorga",
+            "username": "serban300"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ac667bdcafaf38c9e731febbcea8373fd1e28b67",
+          "message": "Grandpa `on_new_session()`: simplification + fix (#11160)\n\nKill `Stalled::<T>` only if `schedule_change()` has succeeded\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-25T08:25:46Z",
+          "tree_id": "4cba678e1188c882b923a464c024ff1c585d2208",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/ac667bdcafaf38c9e731febbcea8373fd1e28b67"
+        },
+        "date": 1772013389833,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.049541200433335,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1210952378,
             "unit": "seconds"
           }
         ]

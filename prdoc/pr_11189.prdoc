@@ -1,0 +1,6 @@
+title: 'Collator revamp: v1 collator interop zombienet test'
+doc:
+- audience: Node Dev
+  description: A zombienet-sdk test verifying that old V1 collators work with validators
+    using the experimental implementation
+crates: []

@@ -13,6 +13,10 @@ use zombienet_sdk::{
 	NetworkConfigBuilder,
 };
 
+// The last master commit where adder-collator still speaks V1 is 5a2833cceb8, the commit just
+// before 7cbe0c76ef8 which introduced V2.
+const PRE_ASYNC_BACKING_COLLATOR_IMAGE: &str = "paritypr/colander:master-5a2833cc";
+
 #[tokio::test(flavor = "multi_thread")]
 async fn old_v1_collator_interop() -> Result<(), anyhow::Error> {
 	let _ = env_logger::try_init_from_env(
@@ -48,9 +52,7 @@ async fn old_v1_collator_interop() -> Result<(), anyhow::Error> {
 			p.with_id(2000)
 				.with_default_command("adder-collator")
 				.with_default_image(
-					std::env::var("COL_IMAGE")
-						.unwrap_or("docker.io/paritypr/colander:latest".to_string())
-						.as_str(),
+					PRE_ASYNC_BACKING_COLLATOR_IMAGE
 				)
 				.cumulus_based(false)
 				.with_default_args(vec![("-lparachain=debug").into()])

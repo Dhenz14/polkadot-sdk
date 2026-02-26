@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1772097655734,
+  "lastUpdate": 1772112147557,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "notifications_protocol": [
@@ -108863,6 +108863,198 @@ window.BENCHMARK_DATA = {
             "name": "notifications_protocol/litep2p/with_backpressure/16MB",
             "value": 2306070613,
             "range": "± 37251108",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "jfanatiker@gmx.at",
+            "name": "eskimor",
+            "username": "eskimor"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "b4479cc39322eed91c8bacee48da04b6472b85b0",
+          "message": "Fix coretime partioning + super low latency on-demand (#10184)\n\n## Description\n\nFixes how we build the claim queue for core assignments. Previously we\nstatically pre-populated it by popping from assignment providers, which\nwas broken because we weren't advancing blocks correctly. If a new\nassignment came in upcoming blocks, we'd miss it.\n\nNow we build the claim queue on-the-fly by simulating block advancement\nwith the correct block numbers. This fixes the coretime partitioning\nissue and simplifies session handling - no need to push anything back to\nassignment providers anymore.\n\n**Bonus**: On-demand orders are now instant. They show up in the claim\nqueue in the same block the order is placed.\n\n## Changes\n\n- Moved coretime assigner logic from separate pallet into scheduler\n- Migrated on-demand pallet v1 → v2 (single queue instead of affinity\nqueues, this allows us to pop all on-demand cores of a block at once -\nwhich makes affinity redundant, as we can now sensure that a particular\nparaid is unique per height)\n- Scheduler migration v3 → v4 (removes claim queue storage)\n- Removed obsolete `assigner_coretime` pallet\n- Updated on-demand benchmarks (removed linear `s` parameter)\n\n## Breaking Changes\n\n- `assigner_coretime` pallet → `scheduler::assigner_coretime` module\n- On-demand storage structure changed (migration handles it)\n- Scheduler storage now v4\n\nTODOS:\n\n- [x] Make it typecheck\n- [x] Make CoreState one state item for all cores\n- [x] Runtime APIs must look into the future (retrieve claim queue for\nnow +1)\n- [x] Update scheduler + paras_inherent to use the new pop all cores at\nonce API\n- [x] Fix scheduler and paras_inherent to use the new API\n- [x] Add back duplication of first assignment for on-demand\n- [x] Limit assignments returned by the scheduler to availability cores\ncount\n- [x] Fix peek for on-demand\n- [x] Fix benchmarks\n- [x] Migrations\n- [x] Add test that peek at block x correctly predicts pops at block x +\nn\n- [x] Add test that on-demand order on empty core shows up in two next\nblocks (and no more)\n- [x] Add test that bulk assignment coming in on an unoccupied core gets\nduplicated before the start\n- [x] Add test that peek does not modify state (multiple calls will\nyield the same result)\n- [x] Fix tests\n- [x] Update docs\n- [x] Drop other parachain assigner\n- [x] Move coretime & ondemand assigner into scheduler folder\n- [x] Polish\n\nFixes: #1312 #6563 #5529\n\n---------\n\nCo-authored-by: eskimor <eskimor@no-such-url.com>\nCo-authored-by: eskimor <eskimor@users.noreply.github.com>\nCo-authored-by: eskimor <eskimor@noreply.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-26T12:19:46Z",
+          "tree_id": "6cce16ca471d82e4bafd39752c913b57b3fd3bb4",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/b4479cc39322eed91c8bacee48da04b6472b85b0"
+        },
+        "date": 1772112123340,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "notifications_protocol/libp2p/serially/64B",
+            "value": 3899454,
+            "range": "± 22142",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64B",
+            "value": 295839,
+            "range": "± 4785",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/512B",
+            "value": 3848879,
+            "range": "± 21400",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/512B",
+            "value": 373097,
+            "range": "± 4108",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/4KB",
+            "value": 4656897,
+            "range": "± 32294",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/4KB",
+            "value": 885627,
+            "range": "± 11547",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/64KB",
+            "value": 10070353,
+            "range": "± 88652",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64KB",
+            "value": 4766884,
+            "range": "± 104675",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/256KB",
+            "value": 44540816,
+            "range": "± 1104391",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/256KB",
+            "value": 36419289,
+            "range": "± 634527",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/2MB",
+            "value": 335101466,
+            "range": "± 3829577",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/2MB",
+            "value": 280531829,
+            "range": "± 3905128",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/16MB",
+            "value": 2460811828,
+            "range": "± 25567264",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/16MB",
+            "value": 2494840302,
+            "range": "± 85448467",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64B",
+            "value": 3055242,
+            "range": "± 18847",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64B",
+            "value": 1610792,
+            "range": "± 7891",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/512B",
+            "value": 3310936,
+            "range": "± 24472",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/512B",
+            "value": 1679342,
+            "range": "± 70357",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/4KB",
+            "value": 3925501,
+            "range": "± 28002",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/4KB",
+            "value": 1985291,
+            "range": "± 30853",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64KB",
+            "value": 7602567,
+            "range": "± 69591",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64KB",
+            "value": 4878670,
+            "range": "± 72028",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/256KB",
+            "value": 35165851,
+            "range": "± 289971",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/256KB",
+            "value": 33710938,
+            "range": "± 241696",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/2MB",
+            "value": 300205134,
+            "range": "± 3094784",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/2MB",
+            "value": 261930183,
+            "range": "± 3578686",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/16MB",
+            "value": 2399754257,
+            "range": "± 24940306",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/16MB",
+            "value": 2348869097,
+            "range": "± 81836183",
             "unit": "ns/iter"
           }
         ]

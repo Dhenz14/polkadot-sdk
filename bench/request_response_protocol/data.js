@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1772097689220,
+  "lastUpdate": 1772112180617,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -60695,6 +60695,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2644688342,
             "range": "± 37341534",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "jfanatiker@gmx.at",
+            "name": "eskimor",
+            "username": "eskimor"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "b4479cc39322eed91c8bacee48da04b6472b85b0",
+          "message": "Fix coretime partioning + super low latency on-demand (#10184)\n\n## Description\n\nFixes how we build the claim queue for core assignments. Previously we\nstatically pre-populated it by popping from assignment providers, which\nwas broken because we weren't advancing blocks correctly. If a new\nassignment came in upcoming blocks, we'd miss it.\n\nNow we build the claim queue on-the-fly by simulating block advancement\nwith the correct block numbers. This fixes the coretime partitioning\nissue and simplifies session handling - no need to push anything back to\nassignment providers anymore.\n\n**Bonus**: On-demand orders are now instant. They show up in the claim\nqueue in the same block the order is placed.\n\n## Changes\n\n- Moved coretime assigner logic from separate pallet into scheduler\n- Migrated on-demand pallet v1 → v2 (single queue instead of affinity\nqueues, this allows us to pop all on-demand cores of a block at once -\nwhich makes affinity redundant, as we can now sensure that a particular\nparaid is unique per height)\n- Scheduler migration v3 → v4 (removes claim queue storage)\n- Removed obsolete `assigner_coretime` pallet\n- Updated on-demand benchmarks (removed linear `s` parameter)\n\n## Breaking Changes\n\n- `assigner_coretime` pallet → `scheduler::assigner_coretime` module\n- On-demand storage structure changed (migration handles it)\n- Scheduler storage now v4\n\nTODOS:\n\n- [x] Make it typecheck\n- [x] Make CoreState one state item for all cores\n- [x] Runtime APIs must look into the future (retrieve claim queue for\nnow +1)\n- [x] Update scheduler + paras_inherent to use the new pop all cores at\nonce API\n- [x] Fix scheduler and paras_inherent to use the new API\n- [x] Add back duplication of first assignment for on-demand\n- [x] Limit assignments returned by the scheduler to availability cores\ncount\n- [x] Fix peek for on-demand\n- [x] Fix benchmarks\n- [x] Migrations\n- [x] Add test that peek at block x correctly predicts pops at block x +\nn\n- [x] Add test that on-demand order on empty core shows up in two next\nblocks (and no more)\n- [x] Add test that bulk assignment coming in on an unoccupied core gets\nduplicated before the start\n- [x] Add test that peek does not modify state (multiple calls will\nyield the same result)\n- [x] Fix tests\n- [x] Update docs\n- [x] Drop other parachain assigner\n- [x] Move coretime & ondemand assigner into scheduler folder\n- [x] Polish\n\nFixes: #1312 #6563 #5529\n\n---------\n\nCo-authored-by: eskimor <eskimor@no-such-url.com>\nCo-authored-by: eskimor <eskimor@users.noreply.github.com>\nCo-authored-by: eskimor <eskimor@noreply.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-26T12:19:46Z",
+          "tree_id": "6cce16ca471d82e4bafd39752c913b57b3fd3bb4",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/b4479cc39322eed91c8bacee48da04b6472b85b0"
+        },
+        "date": 1772112156368,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18740824,
+            "range": "± 204971",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18998536,
+            "range": "± 244889",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20743400,
+            "range": "± 208033",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 25525999,
+            "range": "± 353865",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 61281097,
+            "range": "± 1285923",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 373763399,
+            "range": "± 4301001",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2557547128,
+            "range": "± 211505166",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15830348,
+            "range": "± 230941",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 16348706,
+            "range": "± 372712",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16584898,
+            "range": "± 252621",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21410059,
+            "range": "± 172803",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 58544235,
+            "range": "± 1764543",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 334329540,
+            "range": "± 4677388",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2617515430,
+            "range": "± 41828313",
             "unit": "ns/iter"
           }
         ]

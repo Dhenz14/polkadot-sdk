@@ -258,3 +258,7 @@
   runner-type: "default"
   use-zombienet-sdk: true
 
+- job-name: "zombienet-polkadot-collator-revamp-interop-test"
+  test-filter: "smoke::old_v1_collator_interop"
+  runner-type: "default"
+  use-zombienet-sdk: true

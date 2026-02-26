@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1772061441262,
+  "lastUpdate": 1772097689220,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -60587,6 +60587,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2869574286,
             "range": "± 34959260",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "gioyik@gmail.com",
+            "name": "Giovanny Gongora",
+            "username": "Gioyik"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "052d77c900a51c3b9c82397c749229eb2482d961",
+          "message": "update SECURITY.md (#7872)\n\nthe `SECURITY.md` file now reflect the actual state of security, deleted\nduplicates and added a symbolic link to the root.",
+          "timestamp": "2026-02-26T08:19:18Z",
+          "tree_id": "ab1dfafbc6c0277ae780e957e89968e326f61bfe",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/052d77c900a51c3b9c82397c749229eb2482d961"
+        },
+        "date": 1772097664900,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18270359,
+            "range": "± 102296",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18788744,
+            "range": "± 507076",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20252285,
+            "range": "± 140842",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24592471,
+            "range": "± 369342",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 59349800,
+            "range": "± 1252696",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 345366464,
+            "range": "± 7235618",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2308893848,
+            "range": "± 127487341",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15760292,
+            "range": "± 145727",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15934318,
+            "range": "± 112861",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16780480,
+            "range": "± 197394",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21348870,
+            "range": "± 162396",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 58019427,
+            "range": "± 801475",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 337136978,
+            "range": "± 4267303",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2644688342,
+            "range": "± 37341534",
             "unit": "ns/iter"
           }
         ]

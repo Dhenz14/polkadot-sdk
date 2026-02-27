@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1772163805663,
+  "lastUpdate": 1772187661472,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -61343,6 +61343,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2619543836,
             "range": "± 25059639",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "tsvetomir@parity.io",
+            "name": "Tsvetomir Dimitrov",
+            "username": "tdimitrov"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "26bb41ac541de7359350c79aa917a6cced095eb3",
+          "message": "Collator protocol revamp - update `calculate_delay` (#11008)\n\nA followup from https://github.com/paritytech/polkadot-sdk/pull/8541\nwith changes requested by @eskimor:\n- Adjust the protocol parameters and add comments about the picked\nvalues\n- Simpler fetch mechanism - advertisements from unknown collators (those\nwith 0 reputation) are delayed. Everything else is fetched immediately.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-27T09:18:49Z",
+          "tree_id": "bef89c2c233f95f529d7a9b09948325c31fdc6c4",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/26bb41ac541de7359350c79aa917a6cced095eb3"
+        },
+        "date": 1772187636878,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18519529,
+            "range": "± 158156",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18775352,
+            "range": "± 202100",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20728212,
+            "range": "± 213907",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24805270,
+            "range": "± 335251",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 62686973,
+            "range": "± 1212918",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 372083997,
+            "range": "± 6676437",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2830457750,
+            "range": "± 55778950",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15761018,
+            "range": "± 268597",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15808022,
+            "range": "± 122913",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16581072,
+            "range": "± 177950",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21103831,
+            "range": "± 257011",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 57014305,
+            "range": "± 609867",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 329699738,
+            "range": "± 10248275",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2646384838,
+            "range": "± 16483579",
             "unit": "ns/iter"
           }
         ]

@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1772187661472,
+  "lastUpdate": 1772205833377,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -61451,6 +61451,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2646384838,
             "range": "± 16483579",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "paolo@parity.io",
+            "name": "Paolo La Camera",
+            "username": "sigurpol"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1139ac761ff7c788fb4f7e7399f2765e625838ee",
+          "message": "asset-hub-westend: restrict StakingOperator proxy to explicit utility  batch calls (#11203)\n\nReplace the RuntimeCall::Utility { .. } wildcard with explicit batch,\nbatch_all, and force_batch calls only.\nThe wildcard unnecessarily exposed as_derivative, dispatch_as, and\nwith_weight which have no legitimate use for staking operations, and\nfuture utility pallet additions would be automatically exposed.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-27T14:19:12Z",
+          "tree_id": "85773bd7b372340d9eb0edf693916d807d8bae2d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/1139ac761ff7c788fb4f7e7399f2765e625838ee"
+        },
+        "date": 1772205809378,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18242209,
+            "range": "± 257372",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18576588,
+            "range": "± 198665",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 19936753,
+            "range": "± 135962",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24250602,
+            "range": "± 235120",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 54276778,
+            "range": "± 597433",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 313237222,
+            "range": "± 9039122",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2292358163,
+            "range": "± 29165122",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15164513,
+            "range": "± 158197",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15296073,
+            "range": "± 89522",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16045429,
+            "range": "± 634479",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20243809,
+            "range": "± 125834",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 52713299,
+            "range": "± 349568",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 303160276,
+            "range": "± 7597662",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2388429426,
+            "range": "± 23347810",
             "unit": "ns/iter"
           }
         ]

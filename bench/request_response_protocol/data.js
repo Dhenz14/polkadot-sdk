@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1772132374261,
+  "lastUpdate": 1772150796354,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -61127,6 +61127,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2606715264,
             "range": "± 162136203",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "skunert49@gmail.com",
+            "name": "Sebastian Kunert",
+            "username": "skunert"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "44a03f017e2610f163c9ac26dee7ba158418384f",
+          "message": "Warp sync: Warp proof block import should not mark as leaf (#11152)\n\nWhile warp syncing a node, I saw some huge stalls. What happens:\n\n- During warp sync we store warp proofs\n- After warp sync we start gap sync\n- Problem: Once gap sync finishes, node starts looking for displaced\nleaves from all the warp proof blocks, which was over 2500 in my\nobserved case. This led to a 30minutes stall.\n\nIn this PR I propose to import the blocks during warp sync with a\nDisconnected state, which does not add them as leaves. This fixes the\ndowntime.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-26T22:59:04Z",
+          "tree_id": "3771c9385206e9b5a6b9aaa1bae16cce34d551b3",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/44a03f017e2610f163c9ac26dee7ba158418384f"
+        },
+        "date": 1772150771426,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 19279058,
+            "range": "± 98143",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 19565132,
+            "range": "± 136739",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 21436540,
+            "range": "± 223895",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 26627408,
+            "range": "± 535713",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 57729772,
+            "range": "± 597218",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 331680407,
+            "range": "± 10272235",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2363648474,
+            "range": "± 43594116",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 16405415,
+            "range": "± 145717",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 16538106,
+            "range": "± 315974",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 17126144,
+            "range": "± 180599",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21448607,
+            "range": "± 170732",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 57069127,
+            "range": "± 1558538",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 338333019,
+            "range": "± 24163535",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2818017583,
+            "range": "± 62798133",
             "unit": "ns/iter"
           }
         ]

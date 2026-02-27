@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1772205833377,
+  "lastUpdate": 1772212998256,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -61559,6 +61559,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2388429426,
             "range": "± 23347810",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "marian@parity.io",
+            "name": "Marian Radu",
+            "username": "marian-radu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5f121acf12dc4dcaaa4d6d9a9d6342897c216ad2",
+          "message": "[eth-rpc]: cap block_number_to_hashes map size (#11193)\n\nWhen keep_latest_n_blocks (cache-size) is None, every processed block is\ninserted into the BTreeMap used for detecting reorgs, but never removed,\nexcept during reorgs. Since reorgs deeper than 256 blocks are unlikely,\ncap the map at 256 to prevent unbounded growth.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-27T16:06:06Z",
+          "tree_id": "0db5f41527d5e5b823b9f66c2b2ba4c8dd1f0d49",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/5f121acf12dc4dcaaa4d6d9a9d6342897c216ad2"
+        },
+        "date": 1772212973744,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18095444,
+            "range": "± 131189",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18409834,
+            "range": "± 162628",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20084455,
+            "range": "± 158550",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24159289,
+            "range": "± 278183",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 56125931,
+            "range": "± 600883",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 327758700,
+            "range": "± 8864249",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2501002994,
+            "range": "± 76897455",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15696419,
+            "range": "± 163767",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15701738,
+            "range": "± 118731",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16455126,
+            "range": "± 164064",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21007048,
+            "range": "± 184800",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 55344647,
+            "range": "± 699904",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 317807942,
+            "range": "± 4537397",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2514049512,
+            "range": "± 33524555",
             "unit": "ns/iter"
           }
         ]

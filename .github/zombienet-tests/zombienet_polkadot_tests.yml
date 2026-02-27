@@ -262,7 +262,8 @@
   test-filter: "functional::coretime_partitioning::coretime_assignment_boundary_test"
   runner-type: "default"
   use-zombienet-sdk: true
+
 - job-name: "zombienet-polkadot-collator-revamp-interop-test"
-  test-filter: "smoke::old_v1_collator_interop"
+  test-filter: "smoke::collator_revamp_interop::old_v1_collator_interop"
   runner-type: "default"
   use-zombienet-sdk: true

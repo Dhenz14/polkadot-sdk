@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1772212998256,
+  "lastUpdate": 1772226899526,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -61667,6 +61667,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2514049512,
             "range": "± 33524555",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "paolo@parity.io",
+            "name": "Paolo La Camera",
+            "username": "sigurpol"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b965285668028754a4e9d77c9fddfe092f074d0b",
+          "message": "pallet-session: track consumer refs and release deposits for externally set keys (#11197)\n\nTracks whether session keys were set externally (via `SessionInterface`,\ne.g. from AH) or locally.\nTransitions between the two paths correctly manage the key deposit and\nconsumer ref in both directions.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-02-27T20:10:46Z",
+          "tree_id": "6bc7044b9bffa3a39ad3144882d461210834b2fb",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/b965285668028754a4e9d77c9fddfe092f074d0b"
+        },
+        "date": 1772226875136,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18262084,
+            "range": "± 181358",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18585770,
+            "range": "± 125570",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20178632,
+            "range": "± 173794",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24304815,
+            "range": "± 176958",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 55496512,
+            "range": "± 809388",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 325851985,
+            "range": "± 12239371",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2448961505,
+            "range": "± 114873835",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15691968,
+            "range": "± 159236",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15848656,
+            "range": "± 160672",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16174949,
+            "range": "± 83022",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20738482,
+            "range": "± 119381",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 54956118,
+            "range": "± 575696",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 317201441,
+            "range": "± 2485804",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2548480413,
+            "range": "± 37949351",
             "unit": "ns/iter"
           }
         ]

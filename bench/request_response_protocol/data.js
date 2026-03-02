@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1772455431929,
+  "lastUpdate": 1772464811119,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -61883,6 +61883,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2683429982,
             "range": "± 19345722",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "dmitry@markin.tech",
+            "name": "Dmitry Markin",
+            "username": "dmitry-markin"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a54733715b76fab04ef87926de4ce8746f63e8ef",
+          "message": "Upgrade litep2p v0.13.0 -> v0.13.2 (#11204)\n\nThis PR brings litep2p\n[v0.13.1](https://github.com/paritytech/litep2p/releases/tag/v0.13.1) to\npolkadot-sdk. The improvements include:\n\n1. When dialing remote peers, all addresses from the DHT are tried,\nstarting from the public addresses. Before litep2p v0.13.1, only up to 8\naddresses were tried, leading to dial failures when due to\nmisconfiguration there was a lot of private addresses in the DHT.\n2. Protocols are now notified about connected peers before the library\nuser, fixing failures in opening substreams when the user command\narrived before the connection event.\n3. Ping protocol implementation now conforms to the spec. This improves\nthe connection stability between polkadot-sdk and\n[smoldot](https://github.com/smol-dot/smoldot) dramatically. Before this\nPR, smoldot always disconnected polkadot-sdk peers every 15 seconds for\n5 seconds due to failed pings.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-02T14:13:16Z",
+          "tree_id": "835b06fea277b6d4c35f8ef76bc715e72a988b20",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/a54733715b76fab04ef87926de4ce8746f63e8ef"
+        },
+        "date": 1772464787460,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18283214,
+            "range": "± 144143",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18691820,
+            "range": "± 185117",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20281691,
+            "range": "± 123630",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24115396,
+            "range": "± 299599",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 56468445,
+            "range": "± 2143798",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 337293625,
+            "range": "± 8467520",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2584601325,
+            "range": "± 166161789",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15602749,
+            "range": "± 177901",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15723516,
+            "range": "± 142096",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16243632,
+            "range": "± 97624",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20713171,
+            "range": "± 176590",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 56293178,
+            "range": "± 853867",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 323445909,
+            "range": "± 4391982",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2549114539,
+            "range": "± 34875558",
             "unit": "ns/iter"
           }
         ]

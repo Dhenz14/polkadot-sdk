@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1772536330821,
+  "lastUpdate": 1772540424020,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -62315,6 +62315,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2546541558,
             "range": "± 27713171",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "marian@parity.io",
+            "name": "Marian Radu",
+            "username": "marian-radu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "9d70d96ddb160b56eaa3d7c83fd74b0123c2c826",
+          "message": "pallet-revive: Enable call_invalid_opcode test (#10849)\n\nFixes https://github.com/paritytech/contract-issues/issues/206\n\nThis PR enables the call_invalid_opcode test, which verifies that the\nINVALID opcode consumes all forwarded gas when executed in a nested\ncall. The underlying issue was fixed in the following PRs:\nhttps://github.com/paritytech/revive/pull/433\nhttps://github.com/paritytech/polkadot-sdk/pull/9997\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Robert van Eerdewijk <robertvaneerdewijk@gmail.com>",
+          "timestamp": "2026-03-03T11:06:39Z",
+          "tree_id": "c8293ea97570dcf3431e7b8d8612493f4f33d99d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/9d70d96ddb160b56eaa3d7c83fd74b0123c2c826"
+        },
+        "date": 1772540400038,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18818581,
+            "range": "± 223260",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 19216359,
+            "range": "± 184364",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20845829,
+            "range": "± 80809",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24781743,
+            "range": "± 199366",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 55964368,
+            "range": "± 807361",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 339213734,
+            "range": "± 4296788",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2634694632,
+            "range": "± 99511162",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 16002447,
+            "range": "± 80896",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 16083462,
+            "range": "± 285364",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16865916,
+            "range": "± 153681",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21036686,
+            "range": "± 143333",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 59200780,
+            "range": "± 859289",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 348539131,
+            "range": "± 3752883",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2677104856,
+            "range": "± 24394560",
             "unit": "ns/iter"
           }
         ]

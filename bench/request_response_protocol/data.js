@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1772483733746,
+  "lastUpdate": 1772536330821,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -62207,6 +62207,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2487003013,
             "range": "± 22252577",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "pgherveou@gmail.com",
+            "name": "PG Herveou",
+            "username": "pgherveou"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d17cd91ab7e092c08ce1a002309f031df7f804a5",
+          "message": "pallet-revive: add zero-value transfer/send stipend tests (#11227)\n\n## Summary\n\nAdd tests that verify the `AllowNext` reentrancy path is triggered for\nzero-value `transfer` and `send` calls.\n\n### How solc 0.8.30 handles the 2300 gas stipend\n\n| Solidity call | value | gas passed by compiler | Stipend source |\n|---|---|---|---|\n| `target.transfer(amount)` | > 0 | `0` | EVM adds 2300 automatically |\n| `target.send(amount)` | > 0 | `0` | EVM adds 2300 automatically |\n| `target.transfer(0)` | 0 | `2300` | Compiler injects explicitly |\n| `target.send(0)` | 0 | `2300` | Compiler injects explicitly |\n| `target.call{value: v}(\"\")` | any | remaining gas | No stipend\n(forwards all gas) |\n\nThe zero-value case is the one detected by our `gas_limit ==\nCALL_STIPEND` heuristic, which triggers `AllowNext`.\n\n## Changes\n\n- Add `testTransferZero` / `testSendZero` to `Stipends.sol` fixture —\nthese call `transfer(0)` and `send(0)` on EOA, DoNothingReceiver, and\nSimpleReceiver\n- Add corresponding Rust tests that exercise the `AllowNext` path\n- Add trace logs to the call stipend match for debugging\n\n## Test plan\n\n- [x] `evm_call_stipends_work_for_transfer_zero` passes, logs show\n`gas_limit=2300` → `AllowNext`\n- [x] `evm_call_stipends_work_for_send_zero` passes, logs show\n`gas_limit=2300` → `AllowNext`\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-03T10:08:12Z",
+          "tree_id": "81ecf4d75b6ebb9bc971c71409c664ce9563ab37",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/d17cd91ab7e092c08ce1a002309f031df7f804a5"
+        },
+        "date": 1772536306671,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18538895,
+            "range": "± 87334",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18909219,
+            "range": "± 161524",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20659341,
+            "range": "± 137204",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24606855,
+            "range": "± 196108",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 54993436,
+            "range": "± 888589",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 316885200,
+            "range": "± 2790920",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2466844036,
+            "range": "± 56622585",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15478660,
+            "range": "± 328679",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15667817,
+            "range": "± 106743",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16410011,
+            "range": "± 143043",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20583894,
+            "range": "± 124225",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 55078075,
+            "range": "± 580942",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 321392784,
+            "range": "± 2840707",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2546541558,
+            "range": "± 27713171",
             "unit": "ns/iter"
           }
         ]

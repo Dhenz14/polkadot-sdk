@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1772576734303,
+  "lastUpdate": 1772622731523,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "notifications_protocol": [
@@ -112511,6 +112511,198 @@ window.BENCHMARK_DATA = {
             "name": "notifications_protocol/litep2p/with_backpressure/16MB",
             "value": 2289420823,
             "range": "± 21260814",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "monica@parity.io",
+            "name": "Monica Jin",
+            "username": "mokita-j"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f664a32ca13a353afd6be8ac532e659b0c8c1914",
+          "message": "[pallet-revive] Fix evm_sized and update call stipend (#11151)\n\n# Description\n\nFix evm_sized benchmark helper to use proper EVM init code instead of\nraw runtime bytecode.\n\nPreviously, `evm_sized(size) `created a Vec of size `STOP` opcodes and\npassed it directly as the contract code. However, in the EVM deployment\nmodel the code supplied is init code (constructor), not runtime code.\nThe EVM executes the init code and whatever it `RETURN`s becomes the\nstored runtime code. Passing raw `STOP` bytes meant the init code would\nimmediately halt and return nothing, resulting in an empty contract, not\na contract of the requested size.\n\nThis PR replaces the implementation with proper EVM init code (PUSH3\nsize, PUSH1 0, RETURN) that returns size bytes from zero-initialized\nmemory, producing a runtime code blob of exactly size bytes (all 0x00 /\nSTOP opcodes). This makes the benchmark helper behave correctly and\nproduce contracts whose `PristineCode` actually matches the requested\nsize.\n\n### Regenerated benchmark weights\n\nSince the evm_sized fix changes benchmark behavior, pallet-revive\nweights were regenerated from CI.\n\n ### Call stipend update\n\nChanged `determine_call_stipend()` to `CALL_STIPEND + DepositEvent`\nweight. The Ethereum 2300 gas stipend allows a called contract to emit a\nLOG event, but the DepositEvent weight includes a per-byte surcharge\nthat can exceed 2300 gas worth of evm_opcode weight. The stipend now\ncovers both the base gas operations and emitting an event.\nAdded reentrancy tests verifying that the stipend prevents a malicious\nreceiver from calling back into the sender via transfer or send.\n\n### Expected differential test failures\n\n12 revert.sol differential tests (6 cases × 2 compiler modes) added to\nthe expectations file. The weight regeneration changed\n`ref_time_per_fuel`. The tests are failing with `OutofGas` error.\n\n# Review Notes\n  The new init code is 7 bytes:\n```\n  PUSH3 <b1> <b2> <b3>   // push the desired runtime code size (up to 16M)\n  PUSH1 0x00              // push memory offset 0\n  RETURN                  // return size bytes from offset 0\n```\n\nEVM memory is zero-initialized, so RETURN(0, size) produces size bytes\nof 0x00 (STOP opcode). This runtime code is what gets stored in\nPristineCode and loaded on every subsequent call.\nThe size is encoded as 3 bytes (PUSH3), supporting sizes up to ~16M\nwhich is well above any practical benchmark need.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-04T10:07:45Z",
+          "tree_id": "1f04a3671a464e45162fea5b5e479c701a1ac17d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/f664a32ca13a353afd6be8ac532e659b0c8c1914"
+        },
+        "date": 1772622707881,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "notifications_protocol/libp2p/serially/64B",
+            "value": 3819134,
+            "range": "± 25399",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64B",
+            "value": 282300,
+            "range": "± 2496",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/512B",
+            "value": 3851681,
+            "range": "± 44632",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/512B",
+            "value": 360052,
+            "range": "± 4711",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/4KB",
+            "value": 4568209,
+            "range": "± 81042",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/4KB",
+            "value": 874624,
+            "range": "± 175514",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/64KB",
+            "value": 10037430,
+            "range": "± 124993",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64KB",
+            "value": 4866452,
+            "range": "± 105091",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/256KB",
+            "value": 44270060,
+            "range": "± 749437",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/256KB",
+            "value": 37279064,
+            "range": "± 864992",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/2MB",
+            "value": 337973773,
+            "range": "± 5022702",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/2MB",
+            "value": 287409597,
+            "range": "± 3931764",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/16MB",
+            "value": 2641090481,
+            "range": "± 31237506",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/16MB",
+            "value": 2685612784,
+            "range": "± 103271579",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64B",
+            "value": 3118787,
+            "range": "± 18087",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64B",
+            "value": 1589584,
+            "range": "± 16573",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/512B",
+            "value": 3218891,
+            "range": "± 17036",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/512B",
+            "value": 1642105,
+            "range": "± 3789",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/4KB",
+            "value": 3874903,
+            "range": "± 26191",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/4KB",
+            "value": 1978068,
+            "range": "± 9894",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64KB",
+            "value": 7882671,
+            "range": "± 62001",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64KB",
+            "value": 5063175,
+            "range": "± 57927",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/256KB",
+            "value": 36132432,
+            "range": "± 987953",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/256KB",
+            "value": 34593314,
+            "range": "± 524118",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/2MB",
+            "value": 314381595,
+            "range": "± 2308103",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/2MB",
+            "value": 268341275,
+            "range": "± 3690477",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/16MB",
+            "value": 2491725641,
+            "range": "± 103814447",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/16MB",
+            "value": 2222156147,
+            "range": "± 19971200",
             "unit": "ns/iter"
           }
         ]

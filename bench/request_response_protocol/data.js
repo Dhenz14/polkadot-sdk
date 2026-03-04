@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1772622763935,
+  "lastUpdate": 1772631903917,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -62855,6 +62855,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2564392979,
             "range": "± 18529756",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "eresav@me.com",
+            "name": "Andrei Eres",
+            "username": "AndreiEres"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ca7612f3587d6a011ab7bfdabe4115817fa5e623",
+          "message": "statement-store. Add latency bench cli (#11234)\n\n# Description\n\nRelated to https://github.com/paritytech/polkadot-sdk/issues/10850\n\nCLI tool for benchmarking statement store latency at scale. Clients form\na ring topology where each subscribes to statements from the next\nclient, measuring propagation latency across the network.\n\nThis tool is designed to run as a Kubernetes Job, with multiple\ninstances running concurrently to simulate realistic load on\nstatement-store nodes.\n\n---------\n\nSigned-off-by: Alexandru Gheorghe <alexandru.gheorghe@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Alexandru Gheorghe <49718502+alexggh@users.noreply.github.com>\nCo-authored-by: Alexandru Gheorghe <alexandru.gheorghe@parity.io>",
+          "timestamp": "2026-03-04T12:39:27Z",
+          "tree_id": "caea7a41d282c6a17567dc35808a7cebf696012e",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/ca7612f3587d6a011ab7bfdabe4115817fa5e623"
+        },
+        "date": 1772631879063,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18338991,
+            "range": "± 76581",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18605182,
+            "range": "± 178764",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20505169,
+            "range": "± 154611",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24097926,
+            "range": "± 149658",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 54276927,
+            "range": "± 452924",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 302798550,
+            "range": "± 6749275",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2251084533,
+            "range": "± 14027617",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15476399,
+            "range": "± 80695",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15721142,
+            "range": "± 91656",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16144981,
+            "range": "± 175035",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20407254,
+            "range": "± 107219",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 54747248,
+            "range": "± 792677",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 316214124,
+            "range": "± 5988403",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2437583288,
+            "range": "± 12269614",
             "unit": "ns/iter"
           }
         ]

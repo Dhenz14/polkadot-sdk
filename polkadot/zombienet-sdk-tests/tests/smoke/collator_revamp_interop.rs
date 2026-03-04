@@ -15,7 +15,8 @@ use zombienet_sdk::{
 
 // The last master commit where adder-collator still speaks V1 is 5a2833cceb8, the commit just
 // before 7cbe0c76ef8 which introduced V2.
-const PRE_ASYNC_BACKING_COLLATOR_IMAGE: &str = "paritypr/colander:master-5a2833cc";
+// The last version without async backing is polkadot-v1.1.0
+const PRE_ASYNC_BACKING_COLLATOR_IMAGE: &str = "parity/polkadot-parachain:1.1.0";
 
 #[tokio::test(flavor = "multi_thread")]
 async fn old_v1_collator_interop() -> Result<(), anyhow::Error> {
@@ -50,7 +51,7 @@ async fn old_v1_collator_interop() -> Result<(), anyhow::Error> {
 		})
 		.with_parachain(|p| {
 			p.with_id(2000)
-				.with_default_command("adder-collator")
+				.with_default_command("test-parachain")
 				.with_default_image(
 					PRE_ASYNC_BACKING_COLLATOR_IMAGE
 				)

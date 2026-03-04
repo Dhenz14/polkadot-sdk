@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1772576767364,
+  "lastUpdate": 1772622763935,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -62747,6 +62747,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2847200087,
             "range": "± 116125862",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "monica@parity.io",
+            "name": "Monica Jin",
+            "username": "mokita-j"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f664a32ca13a353afd6be8ac532e659b0c8c1914",
+          "message": "[pallet-revive] Fix evm_sized and update call stipend (#11151)\n\n# Description\n\nFix evm_sized benchmark helper to use proper EVM init code instead of\nraw runtime bytecode.\n\nPreviously, `evm_sized(size) `created a Vec of size `STOP` opcodes and\npassed it directly as the contract code. However, in the EVM deployment\nmodel the code supplied is init code (constructor), not runtime code.\nThe EVM executes the init code and whatever it `RETURN`s becomes the\nstored runtime code. Passing raw `STOP` bytes meant the init code would\nimmediately halt and return nothing, resulting in an empty contract, not\na contract of the requested size.\n\nThis PR replaces the implementation with proper EVM init code (PUSH3\nsize, PUSH1 0, RETURN) that returns size bytes from zero-initialized\nmemory, producing a runtime code blob of exactly size bytes (all 0x00 /\nSTOP opcodes). This makes the benchmark helper behave correctly and\nproduce contracts whose `PristineCode` actually matches the requested\nsize.\n\n### Regenerated benchmark weights\n\nSince the evm_sized fix changes benchmark behavior, pallet-revive\nweights were regenerated from CI.\n\n ### Call stipend update\n\nChanged `determine_call_stipend()` to `CALL_STIPEND + DepositEvent`\nweight. The Ethereum 2300 gas stipend allows a called contract to emit a\nLOG event, but the DepositEvent weight includes a per-byte surcharge\nthat can exceed 2300 gas worth of evm_opcode weight. The stipend now\ncovers both the base gas operations and emitting an event.\nAdded reentrancy tests verifying that the stipend prevents a malicious\nreceiver from calling back into the sender via transfer or send.\n\n### Expected differential test failures\n\n12 revert.sol differential tests (6 cases × 2 compiler modes) added to\nthe expectations file. The weight regeneration changed\n`ref_time_per_fuel`. The tests are failing with `OutofGas` error.\n\n# Review Notes\n  The new init code is 7 bytes:\n```\n  PUSH3 <b1> <b2> <b3>   // push the desired runtime code size (up to 16M)\n  PUSH1 0x00              // push memory offset 0\n  RETURN                  // return size bytes from offset 0\n```\n\nEVM memory is zero-initialized, so RETURN(0, size) produces size bytes\nof 0x00 (STOP opcode). This runtime code is what gets stored in\nPristineCode and loaded on every subsequent call.\nThe size is encoded as 3 bytes (PUSH3), supporting sizes up to ~16M\nwhich is well above any practical benchmark need.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-04T10:07:45Z",
+          "tree_id": "1f04a3671a464e45162fea5b5e479c701a1ac17d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/f664a32ca13a353afd6be8ac532e659b0c8c1914"
+        },
+        "date": 1772622740106,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18583422,
+            "range": "± 162595",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 19025533,
+            "range": "± 234618",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20571107,
+            "range": "± 138202",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24737531,
+            "range": "± 239509",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 56648100,
+            "range": "± 714782",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 335758821,
+            "range": "± 7930260",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2548940460,
+            "range": "± 75400625",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15593788,
+            "range": "± 406754",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15767946,
+            "range": "± 416708",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16281040,
+            "range": "± 144560",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20638720,
+            "range": "± 149614",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 56408801,
+            "range": "± 802954",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 326910288,
+            "range": "± 3393547",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2564392979,
+            "range": "± 18529756",
             "unit": "ns/iter"
           }
         ]

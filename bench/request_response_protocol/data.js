@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1772717917728,
+  "lastUpdate": 1772719890185,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -63395,6 +63395,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2779542277,
             "range": "± 27448025",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@kchr.de",
+            "name": "Bastian Köcher",
+            "username": "bkchr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "1acb17a2854cd677ca154039b4f978e210544f83",
+          "message": "grandpa: Ensure to send `Commit` message before rebuilding the voter (#11273)\n\nWhen there is an authority change, grandpa internally rebuilds the\n`voter`. This leads to the node not sending the `Commit` message for the\nfinalized block. Light clients that follow these commit messages then\nneed to wait for a justification.\n\nThis pull request fixes the issue by directly sending a commit message,\nwhen an authority set change is detected. The message is send before the\nvoter is rebuild.\n\nCloses: https://github.com/paritytech/polkadot-sdk/issues/9300\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-05T13:10:06Z",
+          "tree_id": "efdd7f375c9bc619e6806e17fbdafd0598db04cb",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/1acb17a2854cd677ca154039b4f978e210544f83"
+        },
+        "date": 1772719866178,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18023945,
+            "range": "± 102824",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18553709,
+            "range": "± 118414",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20559320,
+            "range": "± 142059",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24351357,
+            "range": "± 207800",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 54889215,
+            "range": "± 1136587",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 316594325,
+            "range": "± 8165042",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2298523790,
+            "range": "± 71344405",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15582846,
+            "range": "± 97382",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15815176,
+            "range": "± 249683",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16301856,
+            "range": "± 100844",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20624416,
+            "range": "± 118936",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 54991346,
+            "range": "± 450081",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 317668366,
+            "range": "± 4974015",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2522014095,
+            "range": "± 20908678",
             "unit": "ns/iter"
           }
         ]

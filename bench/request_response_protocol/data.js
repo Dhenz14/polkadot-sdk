@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1772705436965,
+  "lastUpdate": 1772716622278,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -63179,6 +63179,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2474106101,
             "range": "± 38779038",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laurogripa@gmail.com",
+            "name": "Lauro Gripa",
+            "username": "laurogripa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "695397fd47e7db71c5acf284ef4e4d868a80a98f",
+          "message": "Add kick_member to Society pallet (#11154)\n\nAdds a kick_member extrinsic to pallet-society, callable by the Founder,\nthat removes a member,slashes its payout and returns funds to the\nSociety pot.\n\n\n### Context\nRecently, a collusion was discovered where a member managed to claim\nmembership without providing PoI. This change introduces a way for the\nFounder to kick and slash the bad actors.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>\nCo-authored-by: Paolo La Camera <paolo@parity.io>",
+          "timestamp": "2026-03-05T12:09:04Z",
+          "tree_id": "a060bfe07239b3c0c1891e5abd5cced8b3205fc2",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/695397fd47e7db71c5acf284ef4e4d868a80a98f"
+        },
+        "date": 1772716598622,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 19609234,
+            "range": "± 111620",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 20048073,
+            "range": "± 146714",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 21580784,
+            "range": "± 184634",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 25544848,
+            "range": "± 227531",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 56823800,
+            "range": "± 490669",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 342071587,
+            "range": "± 2926836",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2445158246,
+            "range": "± 106954347",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 16158910,
+            "range": "± 566808",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 16111622,
+            "range": "± 228619",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16778605,
+            "range": "± 119402",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21157464,
+            "range": "± 131173",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 58500423,
+            "range": "± 3501858",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 344392552,
+            "range": "± 3799163",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2686485974,
+            "range": "± 23935214",
             "unit": "ns/iter"
           }
         ]

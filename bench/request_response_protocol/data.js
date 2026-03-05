@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1772740971390,
+  "lastUpdate": 1772744431277,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -63719,6 +63719,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 3364786278,
             "range": "± 116878025",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "363911+pepoviola@users.noreply.github.com",
+            "name": "Javier Viola",
+            "username": "pepoviola"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "579e181002adb85d4fb2bf7a13bc43228a09596c",
+          "message": "Zombienet fix test `zombienet-cumulus-0015-parachain-runtime-upgrade` (#11268)\n\nFix for `zombienet-cumulus-0015-parachain-runtime-upgrade` by Wait one\nblock before check the slot duration.\n\nCurrently is failing \n<img width=\"1011\" height=\"211\" alt=\"image\"\nsrc=\"https://github.com/user-attachments/assets/456fab11-8c2d-49e0-9eff-433306a48ab5\"\n/>\n\n\nhttps://paritytech.github.io/zombienet-jobs-monitor/web/?search=cumulus-0015-parachain-runtime-upgrade&startDate=2026-03-03&endDate=2026-03-04\n\nThx!\n\nFix https://github.com/paritytech/polkadot-sdk/issues/11262\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>\nCo-authored-by: Bastian Köcher <info@kchr.de>",
+          "timestamp": "2026-03-05T19:52:03Z",
+          "tree_id": "19141ac48399215763b6ca90b369d2295e494fd7",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/579e181002adb85d4fb2bf7a13bc43228a09596c"
+        },
+        "date": 1772744407229,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18379416,
+            "range": "± 91222",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18729604,
+            "range": "± 144289",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20427223,
+            "range": "± 83338",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24169247,
+            "range": "± 131624",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 54719533,
+            "range": "± 700528",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 322608528,
+            "range": "± 3151476",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2502474939,
+            "range": "± 64138397",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15366744,
+            "range": "± 421142",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15665235,
+            "range": "± 186646",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16300447,
+            "range": "± 144341",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20380932,
+            "range": "± 135111",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 55109968,
+            "range": "± 403811",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 322786261,
+            "range": "± 1662982",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2486453759,
+            "range": "± 44221832",
             "unit": "ns/iter"
           }
         ]

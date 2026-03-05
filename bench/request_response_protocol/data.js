@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1772639479475,
+  "lastUpdate": 1772705436965,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -63071,6 +63071,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2601823535,
             "range": "± 15210461",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "jfanatiker@gmx.at",
+            "name": "eskimor",
+            "username": "eskimor"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "14852d21031496e20bd7a6480dce6bd606b96026",
+          "message": " V3 Candidate Descriptor Support with Explicit Scheduling Parent + node feature (#10472)\n\n## Overview\n\nThis PR introduces **V3 candidate descriptors** with an explicit\n`scheduling_parent` field, separating the scheduling context (which\ndetermines validator group assignment) from the execution context (which\ndetermines parachain state). This is a critical foundation for enabling\nlookahead scheduling and improving parachain block production\nflexibility in async backing.\n\n**Key Innovation:** V3 candidates can be scheduled based on a different\nrelay chain block than the one they execute against, enabling validators\nto assign backing responsibilities ahead of time while maintaining\ncorrect execution semantics.\n\n## Problem\n\nIn V1 and V2 candidate descriptors, the `relay_parent` field serves a\ndual purpose:\n1. **Execution context**: Determines which relay chain state the\nparachain block executes against\n2. **Scheduling context**: Determines which validator group is assigned\nto back the candidate\n\nThis tight coupling limits flexibility:\n- Candidates must be scheduled on the exact block they execute against\n- No lookahead scheduling possible\n- Reduces predictability for parachains about when they can produce\nblocks\n\n## Solution\n\nV3 candidates introduce an explicit `scheduling_parent` field that\ndecouples these concerns:\n\n- **`relay_parent`**: Determines execution context (parachain state\nroot, claim queue state for core assignment)\n- **`scheduling_parent`**: Determines validator group assignment (which\nvalidators back this candidate)\n\n**For backward compatibility:**\n- V1/V2 candidates: `scheduling_parent == relay_parent` (implicit,\nbehavior unchanged)\n- V3 candidates: `scheduling_parent` can differ from `relay_parent`\n(explicit field in descriptor)\n\nThis separation enables lookahead scheduling where parachains can be\nassigned to validator groups on future relay chain blocks while still\nexecuting against older state.\n\n## Key Changes\n\n### Primitives (`polkadot/primitives/src/v9/mod.rs`)\n\n- **`CandidateDescriptorVersion::V3`**: New enum variant for version\ndetection\n- **`CandidateDescriptorV2::new_v3()`**: Constructor accepting explicit\n`scheduling_parent` parameter\n- **`scheduling_parent(v3_enabled: bool) -> Hash`**: Accessor returning\nscheduling_parent for V3, relay_parent for V1/V2\n- **`scheduling_session(v3_enabled: bool) -> Option<SessionIndex>`**:\nAccessor for scheduling session (offset-based for V3)\n- **Version detection**: Feature-gated logic (`CandidateReceiptV3` node\nfeature) to distinguish V1 from V3 using reserved fields\n\n### PVF Extension (`polkadot/parachain/src/primitives.rs`)\n\n- **`ValidationParamsExtension::V3`**: New extension type containing\nboth `relay_parent` and `scheduling_parent` hashes\n- **`TrailingOption<T>`**: Backward-compatible wrapper that decodes `T`\nfrom trailing bytes if present, or `None` if at EOF\n  - V3 candidates: PVF receives extension with both hashes\n- V1/V2 candidates: PVF receives no extension bytes (TrailingOption\ndecodes as None)\n- Old PVFs: Gracefully ignore trailing extension bytes (don't fail to\ndecode)\n\n### Subsystem Messages (`polkadot/node/subsystem-types/src/messages.rs`)\n\n- **`BackableCandidateRef`**: New struct containing `candidate_hash` and\n`scheduling_parent` (replaces bare `CandidateHash`)\n- **`CandidateBackingMessage::Second`**: Now includes explicit\n`scheduling_parent: Hash` parameter\n- **`CandidateBackingMessage::Statement`**: Now includes explicit\n`scheduling_parent: Hash` parameter\n- **`CandidateBackingMessage::GetBackableCandidates`**: Uses\n`Vec<BackableCandidateRef>` instead of `Vec<CandidateHash>`\n- **`CanSecondRequest`**: Includes `candidate_scheduling_parent` field\nfor validator group lookup\n\n### Core Subsystems\n\n#### **Candidate Backing** (`polkadot/node/core/backing/`)\n- Use `scheduling_parent` (not `relay_parent`) for validator group\nlookups\n- Track per-scheduling-parent state instead of per-relay-parent\n- Validate candidates against scheduling_parent context (session, group\nassignment)\n\n#### **Candidate Validation**\n(`polkadot/node/core/candidate-validation/`)\n- For V3: Append `ValidationParamsExtension::V3` bytes to PVF validation\ninput\n- For V1/V2: No extension bytes appended (backward compatible)\n- PVF workers decode extension using `TrailingOption` pattern\n\n#### **Prospective Parachains**\n(`polkadot/node/core/prospective-parachains/`)\n- Track candidates with their `scheduling_parent` hash\n- Validate `scheduling_parent` is in active leaves before accepting\ncandidates\n- Support fragment chains with mixed V1/V2/V3 candidates\n\n### Network Protocol\n\n#### **Collator Protocol** (`polkadot/node/network/collator-protocol/`)\n- Track collations **per-scheduling-parent** instead of per-relay-parent\n- `PendingCollation` and `FetchedCollation` now include\n`scheduling_parent` field\n- Validate advertised `scheduling_parent` matches fetched descriptor's\nactual `scheduling_parent(v3_enabled)`\n- Ensure `scheduling_parent` is an active leaf before accepting\ncollations\n\n#### **Statement Distribution**\n(`polkadot/node/network/statement-distribution/src/v2/`)\n- Rename `PerRelayParentState` → `PerSchedulingParentState`\n- Rename `per_relay_parent` map → `per_scheduling_parent`\n- Use `scheduling_parent` as key for state lookups (validator groups,\ncandidate tracking)\n- Add clarifying comments in tests explaining `relay_parent` serves dual\nrole for V1/V2\n\n### Test Infrastructure\n\n- **Remove 114 lines** of obsolete `CandidateReceiptV2` node feature\nchecks (V2 now enabled everywhere)\n- Add V3-specific tests:\n- `v3_descriptors_are_accepted_when_enabled`: V3 with UMP signals\naccepted\n- `v3_descriptors_without_ump_signals_are_rejected`: V3 without UMP\nsignals rejected\n- `v3_descriptors_rejected_as_v1_when_disabled`: V3 rejected as V1 when\nfeature disabled\n- Update all test call sites to use new descriptor version enum\n\n## Backward Compatibility\n\nMultiple layers of protection ensure safe gradual rollout:\n\n1. **Node Feature Gating**: V3 only recognized when `CandidateReceiptV3`\nnode feature enabled (requires 2/3+ validator upgrade)\n\n2. **Mandatory UMP Signals**: V3 candidates MUST include UMP signals\n(`SelectCore` at minimum)\n- Prevents old nodes from mistakenly backing V3 candidates (they'd see\nthem as invalid V1)\n   - No slashing risk for validators during transition period\n\n3. **TrailingOption Pattern**: PVF extension gracefully handled\n   - Old PVFs: Don't decode extension, behave as before\n   - New PVFs: Decode extension if present, use both hashes\n\n4. **Version Detection**: Backwards compatible logic distinguishes V1\nfrom V3\n   - V3 uses `version == 1` (vs V2's `version == 0`)\n   - Reserved fields checked to prevent misidentification\n   - Old nodes see V3 as invalid V1 (missing UMP signals)\n\n5. **Runtime Protection**: Runtime drops candidates violating\nversion-specific rules\n   - V3 without UMP signals: Rejected\n   - V3 with invalid scheduling_parent: Rejected\n\n## Review Focus\n\n### High Priority - Correctness\n\n1. **Version detection logic**\n(`polkadot/primitives/src/v9/mod.rs:CandidateDescriptorV2::version()`)\n   - Ensures V1 and V3 are correctly distinguished\n   - Verify old nodes cannot misinterpret V3 as V1\n\n2. **TrailingOption safety** (`polkadot/parachain/src/primitives.rs`,\n`polkadot/node/core/pvf/execute-worker/`)\n- Confirm it only works as final field (documented with safety warnings)\n   - Verify old PVFs don't fail when extension bytes absent\n\n3. **Scheduling_parent validation**\n(`polkadot/node/network/collator-protocol/`,\n`polkadot/node/core/backing/`)\n   - Must be active leaf before accepting candidates\n   - Used correctly for validator group lookups\n\n4. **UMP signal enforcement**\n(`polkadot/runtime/parachains/src/paras_inherent/mod.rs`)\n   - Runtime rejects V3 without mandatory UMP signals\n   - Prevents security issues with old nodes\n\n### Medium Priority - Architecture\n\n5. **Message flow** (`polkadot/node/subsystem-types/src/messages.rs`)\n   - `scheduling_parent` correctly threaded through subsystem messages\n   - `BackableCandidateRef` used consistently\n\n6. **State tracking** (`polkadot/node/core/backing/`,\n`polkadot/node/network/statement-distribution/`)\n   - Per-scheduling-parent state management (not per-relay-parent)\n   - Correct hashmap key usage\n\n7. **PVF extension encoding/decoding**\n(`polkadot/node/core/candidate-validation/`)\n   - Extension appended correctly for V3\n   - No extension for V1/V2 (backward compatible)\n\n### Lower Priority - Cleanup\n\n8. **Obsolete V2 feature checks removed** (114 lines in\n`paras_inherent/tests.rs`)\n9. **Naming consistency** (`per_relay_parent` → `per_scheduling_parent`)\n10. **Test infrastructure refactoring** (descriptor version enum in\n`builder.rs`)\n\n## CI Coverage\n\nCI verifies:\n- All affected packages compile successfully\n- All existing tests pass (runtime, subsystems, network protocols)\n- New V3-specific tests validate:\n  - V3 descriptors accepted when feature enabled\n  - V3 descriptors rejected without mandatory UMP signals\n  - V3 descriptors rejected as V1 when feature disabled\n  - Scheduling_parent validation in collator-protocol and backing\n\n## Critical Invariants\n\n1. **No slashing risk**: Old validators cannot mistakenly back V3\ncandidates (UMP signal requirement prevents this)\n2. **Correct validator grouping**: Always determined by\n`scheduling_parent`, never `relay_parent` (for V3)\n3. **Active leaf requirement**: `scheduling_parent` must be in\nvalidator's active leaves\n4. **Core assignment correctness**: UMP `SelectCore` signal matches\nclaim queue assignment\n5. **PVF safety**: V1/V2 PVFs don't fail when `TrailingOption` decodes\nas None\n\n## Related\n\n- **Base PR**: #10650 (`rk-prospective-parachains-cleanup`) - used for\nseparate review\n\n---\n\n**Scope**: ~4,500 lines added, ~2,350 lines removed across 58 files\n\n---------\n\nSigned-off-by: Iulian Barbu <iulian.barbu@parity.io>\nCo-authored-by: eskimor <eskimor@noreply.com>\nCo-authored-by: Iulian Barbu <iulian.barbu@parity.io>\nCo-authored-by: Iulian Barbu <14218860+iulianbarbu@users.noreply.github.com>",
+          "timestamp": "2026-03-05T09:02:30Z",
+          "tree_id": "4b8b729c4d2c75b31f1043154478879332307e4f",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/14852d21031496e20bd7a6480dce6bd606b96026"
+        },
+        "date": 1772705412717,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18469260,
+            "range": "± 142137",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18885928,
+            "range": "± 147945",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20406183,
+            "range": "± 91723",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24235087,
+            "range": "± 103925",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 54622900,
+            "range": "± 826801",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 304655402,
+            "range": "± 8816060",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2230800620,
+            "range": "± 76404845",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15388697,
+            "range": "± 203627",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15614366,
+            "range": "± 153615",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16270137,
+            "range": "± 402663",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20395668,
+            "range": "± 147021",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 54668258,
+            "range": "± 600515",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 314087611,
+            "range": "± 2110843",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2474106101,
+            "range": "± 38779038",
             "unit": "ns/iter"
           }
         ]

@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1772826568528,
+  "lastUpdate": 1773043705728,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -64043,6 +64043,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2809269452,
             "range": "± 44310537",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "10196091+Ank4n@users.noreply.github.com",
+            "name": "Ankan",
+            "username": "Ank4n"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d4f1c4b280d36439ccecbcf7adad4343d71050dc",
+          "message": "[Pool] Claim trapped balance (#11018)\n\ncloses https://github.com/paritytech/polkadot-sdk/issues/10993\n\n## Context\nThe staking pallet tracks two types of eras:\n- Active Era\n- Planning Era (this is the era that is being planned)\n\nPlanning Era was historically called CurrentEra and its storage is still\nnamed CurrentEra, which adds to confusion. Ideally, Planning Era should\nonly be used for validator election logic, but this was unfortunately\nnot the case - we mixed usages throughout the codebase.\n(https://github.com/paritytech/polkadot-sdk/pull/10986 fixes this with\nStakingInterface only exposing ActiveEra going forward.)\n\nStaking-async pallet was using Active Era for unbonding and withdrawals,\nwhile nomination pools were using Planning Era.\n\nWhat happened in #10993: pools dissolved points (issued in return for\nheld DOTs) for the Planning Era, while staking only unlocked chunks up\nto the Active Era (where Planning Era = Active Era + 1). This caused\nmore points to be burned than DOTs returned to the user.\n\nThe DOTs remained locked in the pool member's account but became\ntrapped. That is, the user doesn't have enough points to claim them.\n\n## Changes\n- Adds to nomination pool a public fn to claim trapped balance, as well\nas an unversioned migration `ClaimTrappedBalance`.\n- The migration is no-op if there is no trapped balance so not ideal but\nsafe to call multiple times.\n- The migration/claim function applies pending slash and then tries to\nwithdraw the trapped funds to the user account.\n- A remote test `np_claim_trapped_balance` to test all pool members\nagainst asset hub state.\n\n## Remote Externality Test Results\n\n### PAH\n```\nChecking trapped balance for all pool members...\n\nmember,pool_id,trapped_dot\nd11964e74f0571827c231ee07fc7268fc835499db3a0089c9e6f02c2435f50fc (5GnsQf8Z...),296,1731.61\n\n--- Summary ---\nTotal members: 36157\nSuccessful claims: 1\nTotal claimed: 1731.61 DOT\ntest remote_test::np_claim_trapped_balance ... ok\n```\n### KAH\n```\nChecking trapped balance for all pool members...\n\nmember,pool_id,trapped_dot\n\n--- Summary ---\nTotal members: 3090\nSuccessful claims: 0\nTotal claimed: 0.00 DOT\ntest remote_test::np_claim_trapped_balance ... ok\n```\n### WAH\n```\nChecking trapped balance for all pool members...\n\nmember,pool_id,trapped_dot\n\n--- Summary ---\nTotal members: 12304\nSuccessful claims: 0\nTotal claimed: 0.00 DOT\ntest remote_test::np_claim_trapped_balance ... ok\n```\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-09T06:59:16Z",
+          "tree_id": "fadd0a3f8c2684c56b8078e7d812dabecdbbaf56",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/d4f1c4b280d36439ccecbcf7adad4343d71050dc"
+        },
+        "date": 1773043681546,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18245274,
+            "range": "± 74664",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18594367,
+            "range": "± 71192",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20197303,
+            "range": "± 171344",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24014967,
+            "range": "± 143063",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 54913951,
+            "range": "± 752570",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 315555777,
+            "range": "± 4327275",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2459340899,
+            "range": "± 21776559",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15368188,
+            "range": "± 105029",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15307532,
+            "range": "± 603810",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16094193,
+            "range": "± 108276",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20073724,
+            "range": "± 101292",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 53551832,
+            "range": "± 725910",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 308461272,
+            "range": "± 2685085",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2408347231,
+            "range": "± 41298270",
             "unit": "ns/iter"
           }
         ]

@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773043705728,
+  "lastUpdate": 1773054573873,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -64151,6 +64151,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2408347231,
             "range": "± 41298270",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "pgherveou@gmail.com",
+            "name": "PG Herveou",
+            "username": "pgherveou"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "46463b35c4a6c452189d762997668295165747d5",
+          "message": "[CI] Download resolc from GitHub release instead of artifact (#11282)\n\n- Replace the hardcoded artifact-by-ID download of `resolc` in\n`tests-evm.yml` with a download from the GitHub release (`v1.0.0`)\n- Artifact IDs expire and break CI; release assets are stable and\nversioned\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-09T09:59:51Z",
+          "tree_id": "1d3e45e51445c855350eef4aefabaab60eece2cf",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/46463b35c4a6c452189d762997668295165747d5"
+        },
+        "date": 1773054549721,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18085041,
+            "range": "± 86757",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18277482,
+            "range": "± 166499",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 19969068,
+            "range": "± 64932",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 23773243,
+            "range": "± 303039",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 53272864,
+            "range": "± 370875",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 311243660,
+            "range": "± 9157196",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2217924664,
+            "range": "± 69377401",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15268576,
+            "range": "± 715863",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15431319,
+            "range": "± 94285",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16058169,
+            "range": "± 188707",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20101639,
+            "range": "± 133355",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 53819786,
+            "range": "± 372802",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 312361041,
+            "range": "± 3981623",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2428899725,
+            "range": "± 25078865",
             "unit": "ns/iter"
           }
         ]

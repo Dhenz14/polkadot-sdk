@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773061427872,
+  "lastUpdate": 1773063217018,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -64367,6 +64367,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2453857234,
             "range": "± 47237497",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "robertvaneerdewijk@gmail.com",
+            "name": "0xRVE",
+            "username": "0xRVE"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "444df94c5e5fcb3885f87ddeda99699f61b30a7b",
+          "message": "[pallet-assets-precompiles] Add EIP-2612 permit support for gasless approvals (#11044)\n\nfixes https://github.com/paritytech/polkadot-sdk/issues/8660\n\n- Implements EIP-2612 permit functionality for ERC20 asset precompiles,\nenabling gasless token approvals via signed messages\n- Adds new `permit` pallet to manage nonces and EIP-712 signature\nverification\n- Extends `IERC20.sol` interface with `permit()`, `nonces()`, and\n`DOMAIN_SEPARATOR()` functions\n- bugfix in `precompiles/src/lib.rs` where `fn allowance` returned the\nwrong encoding\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-09T12:16:53Z",
+          "tree_id": "a93d84a44cb6ccf5e0d1c99bd68a8c46e91f0b42",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/444df94c5e5fcb3885f87ddeda99699f61b30a7b"
+        },
+        "date": 1773063192873,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18184524,
+            "range": "± 85991",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18524539,
+            "range": "± 103197",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20133771,
+            "range": "± 82978",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 23995859,
+            "range": "± 165781",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 53650204,
+            "range": "± 731961",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 314886327,
+            "range": "± 3794539",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2369352450,
+            "range": "± 62171436",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15332049,
+            "range": "± 143384",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15393098,
+            "range": "± 89212",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 15921795,
+            "range": "± 77333",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20197205,
+            "range": "± 123480",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 54266134,
+            "range": "± 331634",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 315895410,
+            "range": "± 1308949",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2523511368,
+            "range": "± 27859792",
             "unit": "ns/iter"
           }
         ]

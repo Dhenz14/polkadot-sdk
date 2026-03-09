@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773054573873,
+  "lastUpdate": 1773061427872,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -64259,6 +64259,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2428899725,
             "range": "± 25078865",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "pgherveou@gmail.com",
+            "name": "PG Herveou",
+            "username": "pgherveou"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "ded6501b8342825e9c382dc656614f6931cbb460",
+          "message": "revive: cap remaining_gas to u64::MAX in substrate_execution (#10924)\n\n## Summary\n\n- Fixes proxy contract calls failing with OutOfGas when using\nReviveApi.call (Substrate runtime API)\n- The same calls succeed through eth_transact (Ethereum RPC)\n\nsee https://github.com/paritytech/contract-issues/issues/256\n\n## Problem\n\nWhen calculating resource limits for nested calls through\n`substrate_execution::new_nested_meter`, the ratio-based scaling fails\nwhen `deposit_left` is very large (e.g., `u128::MAX` default for\nunlimited deposit).\n\nThe calculation flow:\n1. `remaining_gas = weight_gas + deposit_gas` → huge number (deposit\ndominates at ~10^38)\n2. Contract requests all gas: `requested_gas = u64::MAX` (~10^19)\n3. `ratio = requested_gas / remaining_gas` ≈ 0.0000000000000027\n4. `nested_weight_limit = ratio × weight_left` ≈ 0\n5. Nested call immediately fails with OutOfGas\n\n## Solution\n\nCap `remaining_gas` to `u64::MAX` since Ethereum gas is a u64 value.\nThis ensures the ratio is 1.0 when a contract requests all gas, giving\nthe nested call the full remaining weight.\n\ndepends on https://github.com/paritytech/polkadot-sdk/pull/11276\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-09T11:58:54Z",
+          "tree_id": "3f27148a9ebec147de170b667a305fcffa966f93",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/ded6501b8342825e9c382dc656614f6931cbb460"
+        },
+        "date": 1773061403494,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18398810,
+            "range": "± 137620",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18727059,
+            "range": "± 117990",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20482170,
+            "range": "± 114344",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24129419,
+            "range": "± 174237",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 54668002,
+            "range": "± 508242",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 311268124,
+            "range": "± 5277067",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2397880922,
+            "range": "± 84889556",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15178063,
+            "range": "± 228481",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15295622,
+            "range": "± 249118",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 15855457,
+            "range": "± 167039",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20097043,
+            "range": "± 72053",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 53580667,
+            "range": "± 1284475",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 312560963,
+            "range": "± 2852671",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2453857234,
+            "range": "± 47237497",
             "unit": "ns/iter"
           }
         ]

@@ -16,7 +16,8 @@ use zombienet_sdk::{
 // The last master commit where adder-collator still speaks V1 is 5a2833cceb8, the commit just
 // before 7cbe0c76ef8 which introduced V2.
 // The last version without async backing is polkadot-v1.1.0
-const PRE_ASYNC_BACKING_COLLATOR_IMAGE: &str = "parity/polkadot-parachain:1.1.0";
+// const PRE_ASYNC_BACKING_COLLATOR_IMAGE: &str = "parity/polkadot-parachain:1.1.0";
+const PRE_ASYNC_BACKING_COLLATOR_IMAGE: &str = "paritypr/test-parachain:master-5a2833cc";
 
 #[tokio::test(flavor = "multi_thread")]
 async fn old_v1_collator_interop() -> Result<(), anyhow::Error> {
@@ -57,7 +58,7 @@ async fn old_v1_collator_interop() -> Result<(), anyhow::Error> {
 				)
 				.cumulus_based(false)
 				.with_default_args(vec![("-lparachain=debug").into()])
-				.with_collator(|n| n.with_name("collator-adder-2000"))
+				.with_collator(|n| n.with_name("collator-2000"))
 		})
 		.with_parachain(|p| {
 			p.with_id(2001)
@@ -90,7 +91,7 @@ async fn old_v1_collator_interop() -> Result<(), anyhow::Error> {
 
 	// Assert the parachain finalized block height is also on par with the number of backed
 	// candidates. We can only do this for the collator based on cumulus.
-	let para_node_2000 = network.get_node("collator-adder-2000")?;
+	let para_node_2000 = network.get_node("collator-2000")?;
 	let para_node_2001 = network.get_node("collator-2001")?;
 
 	assert_finality_lag(&para_node_2000.wait_client().await?, 6).await?;

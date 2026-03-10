@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773138305644,
+  "lastUpdate": 1773142208850,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -64691,6 +64691,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2568988456,
             "range": "± 16408933",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "eresav@me.com",
+            "name": "Andrei Eres",
+            "username": "AndreiEres"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5a82c9637e495b660bae35079ae0c3c549b0a2b9",
+          "message": "statement-store: remove outdated benchmarks (#11314)\n\n`statement_store_one_node_bench` and `statement_store_many_nodes_bench`\nserved their purposes well, but they are now outdated and should be\nreplaced with latency benchmark.",
+          "timestamp": "2026-03-10T10:23:30Z",
+          "tree_id": "0b00048bda0dde0852350faf3f62e350d5eb45ba",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/5a82c9637e495b660bae35079ae0c3c549b0a2b9"
+        },
+        "date": 1773142184881,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18800266,
+            "range": "± 412019",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 21271477,
+            "range": "± 192889",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 22412720,
+            "range": "± 201896",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 26703459,
+            "range": "± 713508",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 61826351,
+            "range": "± 1487565",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 347433110,
+            "range": "± 18438363",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2560543326,
+            "range": "± 86523183",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15762747,
+            "range": "± 733157",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15905297,
+            "range": "± 190436",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16256112,
+            "range": "± 160123",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20836275,
+            "range": "± 263072",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 55718840,
+            "range": "± 787598",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 321915518,
+            "range": "± 5106313",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2529588727,
+            "range": "± 31819819",
             "unit": "ns/iter"
           }
         ]

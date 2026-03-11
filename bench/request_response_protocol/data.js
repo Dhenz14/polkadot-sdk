@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773142208850,
+  "lastUpdate": 1773236418640,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -64799,6 +64799,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2529588727,
             "range": "± 31819819",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "serban@parity.io",
+            "name": "Serban Iorga",
+            "username": "serban300"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0bb1645f61faf86f213f74c547f4c2c3315cff9e",
+          "message": "XCMP: implement `ConcatenatedOpaqueVersionedXcm` negotiation (#11263)\n\nFollow-up for: https://github.com/paritytech/polkadot-sdk/pull/9588\n\nAs part of https://github.com/paritytech/polkadot-sdk/pull/9588 we added\na new `ConcatenatedOpaqueVersionedXcm` XCMP page format (which uses\ndouble encoded XCMs), but we didn't switch to always using it, since we\ndon't know which parachains support it. This PR introduces a negotiation\nstrategy between parachains in order to switch to using the\n`ConcatenatedOpaqueVersionedXcm` format when supported.\n\nThe high-level idea is the following:\n- let's say we have an HRMP channel between parachains A and B\n- parachain A is updated and starts supporting\n`ConcatenatedOpaqueVersionedXcm`\n- when the sending queue is empty, it sends a notification to parachain\nB that it supports `ConcatenatedOpaqueVersionedXcm`. Basically it sends\nan empty `ConcatenatedOpaqueVersionedXcm` page. This notification is\nsent only once during the entire lifetime of the HRMP channel.\n- if parachain B supports `ConcatenatedOpaqueVersionedXcm`, it starts\nsending `ConcatenatedOpaqueVersionedXcm` pages to parachain A instead of\n`ConcatenatedVersionedXcm`\n- if parachain B doesn't support `ConcatenatedOpaqueVersionedXcm`, it\ndoesn't do anything for the moment and they continue using\n`ConcatenatedVersionedXcm`. When parachain B is updated, it sends a\nsimilar notification to parachain A that it supports\n`ConcatenatedOpaqueVersionedXcm` (basically it also sends an empty\n`ConcatenatedOpaqueVersionedXcm` page).\n- when parachain A receives a `ConcatenatedOpaqueVersionedXcm` page from\nparachain B, it concludes that parachain B also supports\n`ConcatenatedOpaqueVersionedXcm` and starts using\n`ConcatenatedOpaqueVersionedXcm` instead of `ConcatenatedVersionedXcm`\nwhen sending messages to parachain B\n\nThe information of whether a recipient parachain supports\n`ConcatenatedOpaqueVersionedXcm` or if a notification related to the\n`ConcatenatedOpaqueVersionedXcm` support was sent to it is stored in\n`OutboundXcmpStatus` by adding a new `flags` field. For this we also\nneed to do a migration\n(`cumulus_pallet_xcmp_queue::migration::v6::MigrateV5ToV6`).\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-11T12:36:41Z",
+          "tree_id": "e2bef685613d67fd30d9b4e5c570723dbc1a264e",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/0bb1645f61faf86f213f74c547f4c2c3315cff9e"
+        },
+        "date": 1773236394325,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18240834,
+            "range": "± 268005",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18599422,
+            "range": "± 134766",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20300294,
+            "range": "± 77302",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24250248,
+            "range": "± 178794",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 54291885,
+            "range": "± 312704",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 299373886,
+            "range": "± 5544720",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2315510927,
+            "range": "± 78410163",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15411516,
+            "range": "± 53436",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15546307,
+            "range": "± 92933",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16223923,
+            "range": "± 110837",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20360272,
+            "range": "± 185322",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 53808697,
+            "range": "± 964469",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 306297336,
+            "range": "± 2032824",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2411672570,
+            "range": "± 13569094",
             "unit": "ns/iter"
           }
         ]

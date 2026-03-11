@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773242597582,
+  "lastUpdate": 1773251582696,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -65015,6 +65015,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2563428912,
             "range": "± 31629861",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "eresav@me.com",
+            "name": "Andrei Eres",
+            "username": "AndreiEres"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "da683f086a25e1459e13efb3f74058785d6ae45b",
+          "message": "subsystem-bench: adjust benchmark thresholds (#10760)\n\n# Description\n\nBenchmark thresholds slightly adjusted to current runs average: up to\n4%.",
+          "timestamp": "2026-03-11T16:44:42Z",
+          "tree_id": "3c3d9fc497e8c1611256dd5ce9adad1af66b087e",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/da683f086a25e1459e13efb3f74058785d6ae45b"
+        },
+        "date": 1773251559212,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 20193895,
+            "range": "± 161250",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 20708151,
+            "range": "± 108244",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 21985643,
+            "range": "± 194185",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 26440523,
+            "range": "± 153636",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 59139273,
+            "range": "± 537812",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 358444620,
+            "range": "± 5242472",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2666358047,
+            "range": "± 143947343",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 16293848,
+            "range": "± 116105",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 16305706,
+            "range": "± 160504",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 17031806,
+            "range": "± 169657",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21317695,
+            "range": "± 173428",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 57269356,
+            "range": "± 1015723",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 332025120,
+            "range": "± 3413312",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2637112028,
+            "range": "± 25808370",
             "unit": "ns/iter"
           }
         ]

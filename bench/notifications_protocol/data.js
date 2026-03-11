@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773142175457,
+  "lastUpdate": 1773236384939,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "notifications_protocol": [
@@ -116159,6 +116159,198 @@ window.BENCHMARK_DATA = {
             "name": "notifications_protocol/litep2p/with_backpressure/16MB",
             "value": 2263297435,
             "range": "± 52029205",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "serban@parity.io",
+            "name": "Serban Iorga",
+            "username": "serban300"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0bb1645f61faf86f213f74c547f4c2c3315cff9e",
+          "message": "XCMP: implement `ConcatenatedOpaqueVersionedXcm` negotiation (#11263)\n\nFollow-up for: https://github.com/paritytech/polkadot-sdk/pull/9588\n\nAs part of https://github.com/paritytech/polkadot-sdk/pull/9588 we added\na new `ConcatenatedOpaqueVersionedXcm` XCMP page format (which uses\ndouble encoded XCMs), but we didn't switch to always using it, since we\ndon't know which parachains support it. This PR introduces a negotiation\nstrategy between parachains in order to switch to using the\n`ConcatenatedOpaqueVersionedXcm` format when supported.\n\nThe high-level idea is the following:\n- let's say we have an HRMP channel between parachains A and B\n- parachain A is updated and starts supporting\n`ConcatenatedOpaqueVersionedXcm`\n- when the sending queue is empty, it sends a notification to parachain\nB that it supports `ConcatenatedOpaqueVersionedXcm`. Basically it sends\nan empty `ConcatenatedOpaqueVersionedXcm` page. This notification is\nsent only once during the entire lifetime of the HRMP channel.\n- if parachain B supports `ConcatenatedOpaqueVersionedXcm`, it starts\nsending `ConcatenatedOpaqueVersionedXcm` pages to parachain A instead of\n`ConcatenatedVersionedXcm`\n- if parachain B doesn't support `ConcatenatedOpaqueVersionedXcm`, it\ndoesn't do anything for the moment and they continue using\n`ConcatenatedVersionedXcm`. When parachain B is updated, it sends a\nsimilar notification to parachain A that it supports\n`ConcatenatedOpaqueVersionedXcm` (basically it also sends an empty\n`ConcatenatedOpaqueVersionedXcm` page).\n- when parachain A receives a `ConcatenatedOpaqueVersionedXcm` page from\nparachain B, it concludes that parachain B also supports\n`ConcatenatedOpaqueVersionedXcm` and starts using\n`ConcatenatedOpaqueVersionedXcm` instead of `ConcatenatedVersionedXcm`\nwhen sending messages to parachain B\n\nThe information of whether a recipient parachain supports\n`ConcatenatedOpaqueVersionedXcm` or if a notification related to the\n`ConcatenatedOpaqueVersionedXcm` support was sent to it is stored in\n`OutboundXcmpStatus` by adding a new `flags` field. For this we also\nneed to do a migration\n(`cumulus_pallet_xcmp_queue::migration::v6::MigrateV5ToV6`).\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-11T12:36:41Z",
+          "tree_id": "e2bef685613d67fd30d9b4e5c570723dbc1a264e",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/0bb1645f61faf86f213f74c547f4c2c3315cff9e"
+        },
+        "date": 1773236360200,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "notifications_protocol/libp2p/serially/64B",
+            "value": 4157313,
+            "range": "± 35971",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64B",
+            "value": 305649,
+            "range": "± 3286",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/512B",
+            "value": 4288303,
+            "range": "± 75854",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/512B",
+            "value": 393738,
+            "range": "± 5076",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/4KB",
+            "value": 4865331,
+            "range": "± 91232",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/4KB",
+            "value": 931284,
+            "range": "± 26007",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/64KB",
+            "value": 10637169,
+            "range": "± 148553",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64KB",
+            "value": 5110416,
+            "range": "± 75829",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/256KB",
+            "value": 47097150,
+            "range": "± 1373476",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/256KB",
+            "value": 39383974,
+            "range": "± 660598",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/2MB",
+            "value": 364837376,
+            "range": "± 9936085",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/2MB",
+            "value": 293078206,
+            "range": "± 4248106",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/16MB",
+            "value": 2547533315,
+            "range": "± 24902009",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/16MB",
+            "value": 2255345120,
+            "range": "± 48332345",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64B",
+            "value": 3243311,
+            "range": "± 28510",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64B",
+            "value": 1624755,
+            "range": "± 7297",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/512B",
+            "value": 3354556,
+            "range": "± 24431",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/512B",
+            "value": 1690708,
+            "range": "± 8902",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/4KB",
+            "value": 4021385,
+            "range": "± 46928",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/4KB",
+            "value": 2060262,
+            "range": "± 25116",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64KB",
+            "value": 8272980,
+            "range": "± 135969",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64KB",
+            "value": 5244467,
+            "range": "± 54121",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/256KB",
+            "value": 38164689,
+            "range": "± 1105703",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/256KB",
+            "value": 37286363,
+            "range": "± 769401",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/2MB",
+            "value": 327567791,
+            "range": "± 4605553",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/2MB",
+            "value": 283113534,
+            "range": "± 3042848",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/16MB",
+            "value": 2625152180,
+            "range": "± 40018541",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/16MB",
+            "value": 2291320065,
+            "range": "± 52893415",
             "unit": "ns/iter"
           }
         ]

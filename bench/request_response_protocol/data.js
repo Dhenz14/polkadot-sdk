@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773236418640,
+  "lastUpdate": 1773242597582,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -64907,6 +64907,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2411672570,
             "range": "± 13569094",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "14218860+iulianbarbu@users.noreply.github.com",
+            "name": "Iulian Barbu",
+            "username": "iulianbarbu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4ad511e82a5b9d7faf9ec10314aa011b566fd157",
+          "message": "collator-protocol: check v3 candidate against last finished slot block (#11239)\n\n# Description\n\nThis PR achieves the following:\n1) removes the assumption that the scheduling parent sent with a\ncandidate descriptor is an active leaf on the collator-side\n2) adds a minor reputation penalty for collators advertisements with an\ninvalid scheduling parent, which ends up in a collator ban and\ndisconnect only when abuse happens (see #11339).\n3) checks on the validator_side that the candidate descriptor's\nscheduling parent is the rc block corresponding to the last finished rc\nslot's block.\n\n## Integration\n\nN/A\n\n## Review Notes\n\nFixes #11169 \n\nCumulus side here: https://github.com/paritytech/polkadot-sdk/pull/11241\nTests were done against the cumulus PR + the corresponding scheduling\nparent picking logic when building block (async backing with v2/v3\ncollations). Additional tests were made for the case of elastic scaling\ntoo (v2 & v3 alike). As a bonus, the changed logic removes the\n`slot_offset` for V3 collations building.\n\n---------\n\nSigned-off-by: Iulian Barbu <iulian.barbu@parity.io>\nCo-authored-by: eskimor <robert@gonimo.com>\nCo-authored-by: eskimor <eskimor@noreply.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: eskimor <jfanatiker@gmx.at>",
+          "timestamp": "2026-03-11T14:14:27Z",
+          "tree_id": "d9f2067a06303d9239f0f859e3aad6897918ef8f",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/4ad511e82a5b9d7faf9ec10314aa011b566fd157"
+        },
+        "date": 1773242572845,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18590761,
+            "range": "± 71856",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 19117144,
+            "range": "± 128379",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20503598,
+            "range": "± 252906",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24507033,
+            "range": "± 180851",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 54878821,
+            "range": "± 591657",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 328536367,
+            "range": "± 4032082",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2483894465,
+            "range": "± 99511575",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15692659,
+            "range": "± 196795",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15747479,
+            "range": "± 130343",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16484544,
+            "range": "± 199502",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20722260,
+            "range": "± 225157",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 57144169,
+            "range": "± 617425",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 323416159,
+            "range": "± 3956417",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2563428912,
+            "range": "± 31629861",
             "unit": "ns/iter"
           }
         ]

@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773318029112,
+  "lastUpdate": 1773319566542,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -65447,6 +65447,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2400877103,
             "range": "± 36424798",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "60601340+lexnv@users.noreply.github.com",
+            "name": "Alexandru Vasile",
+            "username": "lexnv"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3c93291ee80a9dae849d5892184069ef429da0ae",
+          "message": "aura/import: Skip block execution when collators have no parent block state (#11330)\n\nThis PR skips the execution of blocks when they are propagated to\nimporting via `StateAction::Skip`.\n\nThere is a bug in the import queue that is affecting collators, which is\nthat they should not execute blocks for non-archive collators that are\npart of Gap Sync.\n\nThe bug has surfaced by changing the `import_existing` from false to\ntrue in:\n- https://github.com/paritytech/polkadot-sdk/pull/10373 \n\n### Issue\n\nThe issue manifests for collators that have an unfilled block gap in\ntheir DB.\n\nDuring restarting with #10373, a collator would try the following:\n- client info has detected a gap at block 5800 with length 1\n- collator [X] requests the block 5800 with `fields: HEADER | BODY |\nJUSTIFICATION, from: Number(5800)`\n- the other 2 collators respond with the full block, including the body,\nbecause by default collators will keep around the canonical chain but\ndiscard the block state\n- collator [X] tries to import the block because `import_existing` is\ntrue and we continue execution after the following check:\n\n\nhttps://github.com/paritytech/polkadot-sdk/blob/2b9576c163b1c2408291e2b6c98ae0f2465b4818/substrate/client/service/src/client/client.rs#L1809-L1812\n\n- Before the changes, the code returned `return\nOk(ImportResult::AlreadyInChain)` which short-circuited the importing of\nthe block\n\n- collator [X] imports the block but fails with `State already\ndiscarded`\n- the error is propagated back to the sync engine that decides to\nrestart the sync process with the same block gap `Restarting sync with\nclient ...`\n- This results in a vicious cycle where the collator [X] requests the\nsame block again, then restarts the sync engine\n- Eventually at the 3 request the other collators will notice that this\nbehavior is malicious and ban and disconnect the peers.\n\n### Fix\n\nThe fix is to skip executing blocks when the gap sync has marked blocks\nas `StateAction::Skip`.\n\nPlease note we are still dealing with the following, which should be\npart of a different PR:\n- Gap Sync was never closed from the database\n- When the node starts with a block gap, the node will always initiate a\nblock request over the sync protocol to close the gap\n- Before the gap was marked as `import_existing: false` which short\nciruited the circuit and returned `AlreadyInChain`\n- Effectively nodes would re-request the gap on reboot wasting\nnetworking bandwidth to close the gap \"in memory\" only, but this was\nnever commited to the DB\n\n\n### Full Logs\n\n```rust\n2026-03-10 13:43:41.138 DEBUG                 main sync: [Parachain] Restarting sync with client info Info { best_hash: 0xcb03c2aa7dd61f84b27d4c7db42ab848d2eaee9da77ddedc827e070ece063102, best_number: 5883392, genesis_hash: 0x8692fdabb7e55c3347c0f887343e3c0f3fbb560c5f52c9cdc1f7660a1f183c5d, finalized_hash: 0x43664710059a72b37c11db9f99a0f38323b478fbdc82afac058c530c7b002e4d, finalized_number: 5883372, finalized_state: Some((0x43664710059a72b37c11db9f99a0f38323b478fbdc82afac058c530c7b002e4d, 5883372)), number_leaves: 1,\n\tblock_gap: Some(BlockGap { start: 5800, end: 5800, gap_type: MissingBody }) }\n2026-03-10 13:43:41.138 DEBUG                 main sync: [Parachain] Starting gap sync #5800 - #5800 (old gap best and target: None)    \n2026-03-10 13:43:41.138 TRACE                 main sync: [Parachain] Restarted sync at #5883392 (0xcb03c2aa7dd61f84b27d4c7db42ab848d2eaee9da77ddedc827e070ece063102)\n\n\n2026-03-10 13:45:17.775 TRACE tokio-runtime-worker sync: [Parachain] New gap block request for 12D3KooWRejf1JYYjaaKhHAn28VJJR9ryZqs3wiGPsVjk6eFLLrn, (best:5883362, common:5883362)\n\tBlockRequest { id: 0, fields: HEADER | BODY | JUSTIFICATION, from: Number(5800), direction: Descending, max: Some(1) } \n\n2026-03-10 13:45:17.784 DEBUG tokio-runtime-worker sync::import-queue: [Parachain] Starting import of 1 blocks  (5800) (origin: GapSync)    \n2026-03-10 13:45:17.784 TRACE tokio-runtime-worker sync::import-queue: [Parachain] Block 5800 (0x26dc…1cda) has 4 logs (origin: GapSync)    \n2026-03-10 13:45:17.792 DEBUG tokio-runtime-worker sync::import-queue: [Parachain] Error importing block 5800: 0x26dca166cfefe439262d201b10a8d2679edc4bd98ae59fe12d7f7eef9b871cda:\n\tApi called for an unknown Block: State already discarded for 0x4739cf07649d6383bb19d2adccbe9d3f5b1ed91ef5fd6530bc8e69e560b5be91\n\n2026-03-10 13:45:17.792  WARN tokio-runtime-worker sync: [Parachain] 💔 Error importing block 0x26dca166cfefe439262d201b10a8d2679edc4bd98ae59fe12d7f7eef9b871cda: consensus error: Api called for an unknown Block: State already discarded for 0x4739cf07649d6383bb19d2adccbe9d3f5b1ed91ef5fd6530bc8e69e560b5be91    \n2026-03-10 13:45:17.792 DEBUG tokio-runtime-worker sync: [Parachain] Restarting sync with client info Info { best_hash: 0xcb03c2aa7dd61f84b27d4c7db42ab848d2eaee9da77ddedc827e070ece063102, best_number: 5883392, genesis_hash: 0x8692fdabb7e55c3347c0f887343e3c0f3fbb560c5f52c9cdc1f7660a1f183c5d, finalized_hash: 0xcb03c2aa7dd61f84b27d4c7db42ab848d2eaee9da77ddedc827e070ece063102, finalized_number: 5883392, finalized_state: Some((0xcb03c2aa7dd61f84b27d4c7db42ab848d2eaee9da77ddedc827e070ece063102, 5883392)), number_leaves: 1,\n\t\tblock_gap: Some(BlockGap { start: 5800, end: 5800, gap_type: MissingBody }) }\n\n\t\n2026-03-10 13:45:17.792 DEBUG tokio-runtime-worker sync: [Parachain] Starting gap sync #5800 - #5800 (old gap best and target: Some((5800, 5800)))    \n2026-03-10 13:45:17.792 TRACE tokio-runtime-worker sync: [Parachain] Restarted sync at #5883392 (0xcb03c2aa7dd61f84b27d4c7db42ab848d2eaee9da77ddedc827e070ece063102)    \n```\n\n### Testing Done\n\n- unblocks kusama yap 3392:\nhttps://grafana.teleport.parity.io/goto/KBKfuhKDR?orgId=1\n- left side of the graph is origin/master, right side is the patch\napplied with connected peers\n\n\nCloses:\n- https://github.com/paritytech/polkadot-sdk/issues/11299\n\n---------\n\nSigned-off-by: Alexandru Vasile <alexandru.vasile@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-12T11:40:55Z",
+          "tree_id": "cc4cee042b258639837511b7c76413c9acfcaa12",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/3c93291ee80a9dae849d5892184069ef429da0ae"
+        },
+        "date": 1773319545443,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18581015,
+            "range": "± 60076",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18847398,
+            "range": "± 209644",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20400229,
+            "range": "± 253275",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24744038,
+            "range": "± 292908",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 56442938,
+            "range": "± 1033603",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 326529695,
+            "range": "± 9560458",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2369547249,
+            "range": "± 140474915",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15771485,
+            "range": "± 183515",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 16055938,
+            "range": "± 132113",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16430355,
+            "range": "± 141159",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20760757,
+            "range": "± 143608",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 56535749,
+            "range": "± 748011",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 319989142,
+            "range": "± 3819922",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2556239000,
+            "range": "± 31321170",
             "unit": "ns/iter"
           }
         ]

@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773310351590,
+  "lastUpdate": 1773318029112,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -65339,6 +65339,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2663880001,
             "range": "± 25880588",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "oliver.tale-yazdi@parity.io",
+            "name": "Oliver Tale-Yazdi",
+            "username": "ggwpez"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "43e3c3cdec217d7def434025875dae0ae19657f8",
+          "message": "MBM: Add ForceUnstuck handler (#11194)\n\nFor chains doing governance we should be force-unstucking the chain on\nfailed MBMs instead of freezing. This is equivalent to\nsingle-block-migration error handling. There is also a handler for safe\nmode once we have that, which would be ideal.\nWould have been useful for\nhttps://github.com/polkadot-fellows/runtimes/pull/1085\n\nChanges:\n- Add a handler to unlock all locked calls and proceed\n\n---------\n\nSigned-off-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>",
+          "timestamp": "2026-03-12T11:17:50Z",
+          "tree_id": "18f548c91b9e9bf49e6cc2365fb4ea729faef744",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/43e3c3cdec217d7def434025875dae0ae19657f8"
+        },
+        "date": 1773318005352,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18364216,
+            "range": "± 139933",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18546271,
+            "range": "± 123398",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20018068,
+            "range": "± 126026",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 23735932,
+            "range": "± 99127",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 54471710,
+            "range": "± 963855",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 323247330,
+            "range": "± 2684150",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2495026683,
+            "range": "± 123723683",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15241402,
+            "range": "± 735366",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15522526,
+            "range": "± 151010",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16221494,
+            "range": "± 139308",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20355008,
+            "range": "± 74027",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 53634668,
+            "range": "± 290402",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 312612661,
+            "range": "± 3160556",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2400877103,
+            "range": "± 36424798",
             "unit": "ns/iter"
           }
         ]

@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773319566542,
+  "lastUpdate": 1773326342839,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -65555,6 +65555,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2556239000,
             "range": "± 31321170",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "yrong1997@gmail.com",
+            "name": "Ron",
+            "username": "yrong"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "8884f273adece60f7cd094fbd4539bbd5d7f6c0f",
+          "message": "Snowbridge: receipt verification with alloy primitives (#11144)\n\n### Context\n\n- The new verifier checks both the root and the exact receipt key\n(transaction index), aligning with how proofs are generated and\npreventing proofs that follow a valid hash chain but reference the wrong\nkey.\n- Using `alloy_trie::verify_proof` reduces custom MPT code and improves\ncorrectness and maintainability.\n- Removing `snowbridge-ethereum` and the legacy beacon receipt module\nalso eliminates unused code and unnecessary dependencies.",
+          "timestamp": "2026-03-12T13:16:30Z",
+          "tree_id": "1e12319960afc362ce92dcc38b6e9fa1bf8019cf",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/8884f273adece60f7cd094fbd4539bbd5d7f6c0f"
+        },
+        "date": 1773326318710,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18862205,
+            "range": "± 201312",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 19103331,
+            "range": "± 282654",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 21136413,
+            "range": "± 1568368",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 25047285,
+            "range": "± 254676",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 56517652,
+            "range": "± 1056389",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 344861656,
+            "range": "± 4313914",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2766748065,
+            "range": "± 55291854",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15828262,
+            "range": "± 192831",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 16079733,
+            "range": "± 255588",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 17078388,
+            "range": "± 176110",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21234524,
+            "range": "± 216082",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 58528088,
+            "range": "± 1056646",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 353370661,
+            "range": "± 6170458",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2702166439,
+            "range": "± 36511594",
             "unit": "ns/iter"
           }
         ]

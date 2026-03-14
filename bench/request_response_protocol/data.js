@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773334892439,
+  "lastUpdate": 1773529377636,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -65771,6 +65771,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2962339496,
             "range": "± 31358724",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@kchr.de",
+            "name": "Bastian Köcher",
+            "username": "bkchr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "2c5feefbfe33b2488d64ce1035587cb150769b9a",
+          "message": "Introduce `MaxParachainBlockWeight` and related functionality (#10315)\n\nThis pull request introduces `MaxParachainBlockWeight` to calculate the\nmax weight per parachain block. This is a preparation for [Block\nBundling](https://github.com/paritytech/polkadot-sdk/issues/6495) which\nrequires that the maximum block weight is dynamic. Block bundling\nrequires a dynamic maximum block weight because it bundles multiple\nblocks into one `PoV`. Each `PoV` gets `2s` of execution time and\n`10MiB` of proof size. These resources need to be split up between all\nthe blocks of one `PoV`. This doesn't require the weight to be dynamic.\nHowever, it gets complicated when a transaction should be applied that\nrequires more resources than what one of these blocks can provide, e.g.\nfor doing a runtime upgrade. In this case `MaxParachainBlockWeight`\nsupports to increase the block weight of one block to take up the weight\nof the full `PoV`. The feature will not only be useful for things like\nruntime upgrade, but also could enable users to pay for running some\nhuge contracts or whatever. For more information, please refer to the\ndocs provided in the code of this pull request.\n\nFor `MaxParachainBlockWeight` to work correctly, it provides a\npre-inherent hook and a transaction extension. Both are required to\ntrack the weight correctly.\n\n---------\n\nCo-authored-by: Guillaume Thiolliere <gui.thiolliere@gmail.com>\nCo-authored-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-14T21:54:24Z",
+          "tree_id": "c99f795ef9c03e265b51e18c09649e8812868900",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/2c5feefbfe33b2488d64ce1035587cb150769b9a"
+        },
+        "date": 1773529353138,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 20666883,
+            "range": "± 160437",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 20985206,
+            "range": "± 301356",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 22153345,
+            "range": "± 170747",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 26284274,
+            "range": "± 236181",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 59187769,
+            "range": "± 1061030",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 359406981,
+            "range": "± 9846149",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2656459748,
+            "range": "± 126594773",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 16250432,
+            "range": "± 272324",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 16259192,
+            "range": "± 465692",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 17070523,
+            "range": "± 263946",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21942012,
+            "range": "± 189034",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 58016619,
+            "range": "± 796393",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 337373323,
+            "range": "± 8604893",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2625200520,
+            "range": "± 35163629",
             "unit": "ns/iter"
           }
         ]

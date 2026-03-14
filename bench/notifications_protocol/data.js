@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773334858403,
+  "lastUpdate": 1773529344084,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "notifications_protocol": [
@@ -117887,6 +117887,198 @@ window.BENCHMARK_DATA = {
             "name": "notifications_protocol/litep2p/with_backpressure/16MB",
             "value": 2401392873,
             "range": "± 116405000",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@kchr.de",
+            "name": "Bastian Köcher",
+            "username": "bkchr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "2c5feefbfe33b2488d64ce1035587cb150769b9a",
+          "message": "Introduce `MaxParachainBlockWeight` and related functionality (#10315)\n\nThis pull request introduces `MaxParachainBlockWeight` to calculate the\nmax weight per parachain block. This is a preparation for [Block\nBundling](https://github.com/paritytech/polkadot-sdk/issues/6495) which\nrequires that the maximum block weight is dynamic. Block bundling\nrequires a dynamic maximum block weight because it bundles multiple\nblocks into one `PoV`. Each `PoV` gets `2s` of execution time and\n`10MiB` of proof size. These resources need to be split up between all\nthe blocks of one `PoV`. This doesn't require the weight to be dynamic.\nHowever, it gets complicated when a transaction should be applied that\nrequires more resources than what one of these blocks can provide, e.g.\nfor doing a runtime upgrade. In this case `MaxParachainBlockWeight`\nsupports to increase the block weight of one block to take up the weight\nof the full `PoV`. The feature will not only be useful for things like\nruntime upgrade, but also could enable users to pay for running some\nhuge contracts or whatever. For more information, please refer to the\ndocs provided in the code of this pull request.\n\nFor `MaxParachainBlockWeight` to work correctly, it provides a\npre-inherent hook and a transaction extension. Both are required to\ntrack the weight correctly.\n\n---------\n\nCo-authored-by: Guillaume Thiolliere <gui.thiolliere@gmail.com>\nCo-authored-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-14T21:54:24Z",
+          "tree_id": "c99f795ef9c03e265b51e18c09649e8812868900",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/2c5feefbfe33b2488d64ce1035587cb150769b9a"
+        },
+        "date": 1773529319619,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "notifications_protocol/libp2p/serially/64B",
+            "value": 4075310,
+            "range": "± 43373",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64B",
+            "value": 307568,
+            "range": "± 3529",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/512B",
+            "value": 4146582,
+            "range": "± 57918",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/512B",
+            "value": 389290,
+            "range": "± 6097",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/4KB",
+            "value": 4846319,
+            "range": "± 80565",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/4KB",
+            "value": 897949,
+            "range": "± 16769",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/64KB",
+            "value": 10400799,
+            "range": "± 80522",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64KB",
+            "value": 4950041,
+            "range": "± 100914",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/256KB",
+            "value": 45195512,
+            "range": "± 693130",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/256KB",
+            "value": 37091551,
+            "range": "± 669646",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/2MB",
+            "value": 343686975,
+            "range": "± 2833263",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/2MB",
+            "value": 287143203,
+            "range": "± 2951114",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/16MB",
+            "value": 2516696032,
+            "range": "± 32863113",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/16MB",
+            "value": 2668082992,
+            "range": "± 60644460",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64B",
+            "value": 3156269,
+            "range": "± 31010",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64B",
+            "value": 1616638,
+            "range": "± 11093",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/512B",
+            "value": 3258260,
+            "range": "± 28677",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/512B",
+            "value": 1667750,
+            "range": "± 8121",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/4KB",
+            "value": 3925447,
+            "range": "± 47248",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/4KB",
+            "value": 1993877,
+            "range": "± 14486",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64KB",
+            "value": 7746954,
+            "range": "± 77710",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64KB",
+            "value": 4941044,
+            "range": "± 108715",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/256KB",
+            "value": 34126920,
+            "range": "± 159695",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/256KB",
+            "value": 33732480,
+            "range": "± 391960",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/2MB",
+            "value": 299410746,
+            "range": "± 1604366",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/2MB",
+            "value": 258789478,
+            "range": "± 2454589",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/16MB",
+            "value": 2268373984,
+            "range": "± 38877456",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/16MB",
+            "value": 2154620910,
+            "range": "± 36039828",
             "unit": "ns/iter"
           }
         ]

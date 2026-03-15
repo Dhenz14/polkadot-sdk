@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773529377636,
+  "lastUpdate": 1773607607962,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -65879,6 +65879,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2625200520,
             "range": "± 35163629",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@kchr.de",
+            "name": "Bastian Köcher",
+            "username": "bkchr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "596014f1058b34cba2b9a7ea5eea21a5c6ca38d5",
+          "message": "Check runtime compatibility: Fix Westend check (#11371)\n\nThis is required to have the migrations running. The check is trying to\nbuild a block and without the migration it trigger an expensive\niteration. Because `OldestRelayParentSession` is set to `0` and not the\ncorrect value.\n\nSo, with a higher spec_version the migration is first executed and it is\nrunning faster.",
+          "timestamp": "2026-03-15T19:28:01Z",
+          "tree_id": "86bc31f71788fe3df4b2b13c67a88f08742df5cb",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/596014f1058b34cba2b9a7ea5eea21a5c6ca38d5"
+        },
+        "date": 1773607584271,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 19654247,
+            "range": "± 134355",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 20200700,
+            "range": "± 291161",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 21985679,
+            "range": "± 160553",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 26514313,
+            "range": "± 242341",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 58977956,
+            "range": "± 939553",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 356811134,
+            "range": "± 4750321",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2457754532,
+            "range": "± 92441266",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 16438187,
+            "range": "± 276282",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 16819914,
+            "range": "± 178779",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 18551532,
+            "range": "± 707247",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21775928,
+            "range": "± 480442",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 61855892,
+            "range": "± 828679",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 362832759,
+            "range": "± 4328711",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2863559824,
+            "range": "± 56836507",
             "unit": "ns/iter"
           }
         ]

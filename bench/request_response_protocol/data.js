@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773607607962,
+  "lastUpdate": 1773680536631,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -65987,6 +65987,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2863559824,
             "range": "± 56836507",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "22990920+coax1d@users.noreply.github.com",
+            "name": "Andrew",
+            "username": "coax1d"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b7e7e89063fa039d3e643e7d112f7455632b1a3f",
+          "message": "Add Pallas and Vesta curve host functions to sp-crypto-ec-utils (#11035)\n\n## Summary\n\n- Add host function modules for **Pallas** and **Vesta** elliptic curves\nin `sp-crypto-ec-utils`, following the established pattern used by\nexisting curves (bls12-377, bls12-381, bw6-761, ed-on-bls12-377,\ned-on-bls12-381-bandersnatch)\n- Each curve exposes two host functions: multi-scalar multiplication\n(`msm_sw`) and scalar multiplication (`mul_sw`) via Short Weierstrass\noperations\n- Add `ark-pallas`, `ark-pallas-ext`, `ark-vesta`, `ark-vesta-ext` as\nworkspace dependencies\n- Add `pallas` and `vesta` feature flags to the crate, included in\n`all-curves`\n\nPallas and Vesta form a curve cycle used in Halo 2 proof systems. The\n`ark-pallas-ext` and `ark-vesta-ext` crates from\n[arkworks-extensions](https://github.com/paritytech/arkworks-extensions)\nprovide the hookable curve configurations that delegate expensive\noperations to the host.\n\n## Test plan\n\n- [x] `cargo test -p sp-crypto-ec-utils --features pallas` — 2 tests\npass (mul, msm)\n- [x] `cargo test -p sp-crypto-ec-utils --features vesta` — 2 tests pass\n(mul, msm)\n- [x] `cargo clippy -p sp-crypto-ec-utils --all-targets --features\nall-curves` — clean\n- [x] `cargo check -p sp-crypto-ec-utils --features all-curves` —\ncompiles\n\n---------\n\nSigned-off-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>\nCo-authored-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>",
+          "timestamp": "2026-03-16T15:59:11Z",
+          "tree_id": "7a103a8b5a38ede531d084d2c2fb106ba857ff4d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/b7e7e89063fa039d3e643e7d112f7455632b1a3f"
+        },
+        "date": 1773680515120,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 19475705,
+            "range": "± 70355",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 19759753,
+            "range": "± 218237",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 21699134,
+            "range": "± 251115",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 25796123,
+            "range": "± 260551",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 60245035,
+            "range": "± 1297912",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 371119173,
+            "range": "± 9603635",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2454144618,
+            "range": "± 167556248",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15726183,
+            "range": "± 243085",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 16172647,
+            "range": "± 227968",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16521165,
+            "range": "± 191314",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20605221,
+            "range": "± 114200",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 56545361,
+            "range": "± 1502921",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 338651284,
+            "range": "± 7252136",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2561456918,
+            "range": "± 36357991",
             "unit": "ns/iter"
           }
         ]

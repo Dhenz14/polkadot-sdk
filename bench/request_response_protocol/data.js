@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773692869590,
+  "lastUpdate": 1773699807802,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -66203,6 +66203,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 3007012978,
             "range": "± 345061530",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "60601340+lexnv@users.noreply.github.com",
+            "name": "Alexandru Vasile",
+            "username": "lexnv"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "aae1b85b3d6efd87c5ddf7a6192856ba9d6f6df8",
+          "message": "docs/elastic: Align unincluded with expected formula (#11386)\n\nTiny update for the elastic scaling documentation / guideline:\n- UNINCLUDED_SEGMENT_CAPACITY formula is updated to the latest expected\nvalues\n- mention the multiple blocks per slot must be set\n\ncc @sandreim @skunert  🙏\n\n---------\n\nSigned-off-by: Alexandru Vasile <alexandru.vasile@parity.io>",
+          "timestamp": "2026-03-16T21:17:37Z",
+          "tree_id": "aa24f6b84b2399c1c08ba130a1fb06bd95b8fd19",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/aae1b85b3d6efd87c5ddf7a6192856ba9d6f6df8"
+        },
+        "date": 1773699785945,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 19621491,
+            "range": "± 197452",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 19921714,
+            "range": "± 244868",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 21642964,
+            "range": "± 229306",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 26270226,
+            "range": "± 728082",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 61685538,
+            "range": "± 1484256",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 355651881,
+            "range": "± 5196831",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2774724940,
+            "range": "± 38456336",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 16120373,
+            "range": "± 344957",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 16077623,
+            "range": "± 125487",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16749819,
+            "range": "± 277770",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21415027,
+            "range": "± 125793",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 60544814,
+            "range": "± 1296755",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 357261962,
+            "range": "± 4120550",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2783062382,
+            "range": "± 33877452",
             "unit": "ns/iter"
           }
         ]

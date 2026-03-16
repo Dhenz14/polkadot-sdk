@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773680536631,
+  "lastUpdate": 1773692869590,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -66095,6 +66095,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2561456918,
             "range": "± 36357991",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "davxy@datawok.net",
+            "name": "Davide Galassi",
+            "username": "davxy"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "280296b96e1daf1ce2466cc8952e3d094b4a12d4",
+          "message": "Remove Bandersnatch SW form hostcalls (#11384)\n\nRFC includes only Twisted Edwards form (ref:\nhttps://github.com/polkadot-fellows/RFCs/blob/main/text/0163-ec-host-functions.md#ed-on-bls12-381-bandersnatch)\n\n---------\n\nCo-authored-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>",
+          "timestamp": "2026-03-16T19:19:20Z",
+          "tree_id": "0069a8a623847f37ef07b001419364919767177f",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/280296b96e1daf1ce2466cc8952e3d094b4a12d4"
+        },
+        "date": 1773692846159,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18243199,
+            "range": "± 80434",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18525342,
+            "range": "± 80039",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20130296,
+            "range": "± 132176",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24856613,
+            "range": "± 519324",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 56540862,
+            "range": "± 1791179",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 333333709,
+            "range": "± 4094743",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 3181126094,
+            "range": "± 350054428",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 30096183,
+            "range": "± 1083159",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 29910018,
+            "range": "± 1807706",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 25446562,
+            "range": "± 822804",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 29484137,
+            "range": "± 1024276",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 75970893,
+            "range": "± 1717271",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 441257330,
+            "range": "± 9455975",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 3007012978,
+            "range": "± 345061530",
             "unit": "ns/iter"
           }
         ]

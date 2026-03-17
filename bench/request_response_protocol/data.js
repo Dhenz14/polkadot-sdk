@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773749442311,
+  "lastUpdate": 1773751989879,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -66635,6 +66635,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2620013816,
             "range": "± 17356498",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "41654186+0bmario@users.noreply.github.com",
+            "name": "Mario M. Orozco",
+            "username": "0bmario"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "552bbb8d6c3599580132d275a18e9f595f784a68",
+          "message": "Sync .rustfmt.toml into parachain template (#11385)\n\n# Description\n\nAdd a parachain-only sync step so the published\n`polkadot-sdk-parachain-template` receives a top-level `.rustfmt.toml`\ncopied from the SDK root config.\n\n## Integration\n\nNo crate, runtime, or downstream integration is required.\n\nThe only published effect is that the parachain template repository\ngains a top-level `.rustfmt.toml` when synchronized from the sdk.\n\n## Review Notes\nThe PR adds one extra step guarded by `matrix.template == 'parachain'`\n    \n    \n# Checklist\n\n* [x] My PR includes a detailed description as outlined in the\n\"Description\" and its two subsections above.\n* [x] My PR follows the [labeling requirements](\n\nhttps://github.com/paritytech/polkadot-sdk/blob/master/docs/contributor/CONTRIBUTING.md#Process\n) of this project (at minimum one label for T required)\n    * External contributors: Use /cmd label <label-name> to add labels\n    * Maintainers can also add labels manually\n* [x] I have made corresponding changes to the documentation (if\napplicable)\n* [x] I have added tests that prove my fix is effective or that my\nfeature works (if applicable)",
+          "timestamp": "2026-03-17T11:46:53Z",
+          "tree_id": "902c428300533a6bb7ce62d0aef6862294a3e7df",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/552bbb8d6c3599580132d275a18e9f595f784a68"
+        },
+        "date": 1773751965623,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18534788,
+            "range": "± 156075",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18836045,
+            "range": "± 234438",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 27192631,
+            "range": "± 904818",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 33168432,
+            "range": "± 504997",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 77553470,
+            "range": "± 1674136",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 482111778,
+            "range": "± 11254749",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2554277115,
+            "range": "± 315252193",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15962829,
+            "range": "± 279486",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15504514,
+            "range": "± 183272",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16152181,
+            "range": "± 179010",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20580137,
+            "range": "± 197888",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 54691995,
+            "range": "± 967384",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 317594857,
+            "range": "± 4180212",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2473326420,
+            "range": "± 41936333",
             "unit": "ns/iter"
           }
         ]

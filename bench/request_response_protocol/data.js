@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773699807802,
+  "lastUpdate": 1773738486637,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -66311,6 +66311,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2783062382,
             "range": "± 33877452",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "robertvaneerdewijk@gmail.com",
+            "name": "0xRVE",
+            "username": "0xRVE"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4eaf055371ba7127e7890dbff37cc4e5e4c63876",
+          "message": "[pallet-assets-precompiles] Idiomatic Rust cleanups (#11322)\n\n## Summary\n- Remove explicit `return` statements in favor of idiomatic tail\nexpressions\n- Use `take()` instead of `get()` + `remove()` for atomic map operations\n- Remove redundant type conversions (`.into()`, `H160::from()`)\n- Flatten nested `if let` using `let...else` pattern in migration logic\n- Fix typos and comments (doc comment, module description, duplicate\nlicense header)\n- Added pallet-assets-precompiles to westend benchmark\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-17T08:04:25Z",
+          "tree_id": "7ef2505068deec32531ee8ee0c27b906e219281f",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/4eaf055371ba7127e7890dbff37cc4e5e4c63876"
+        },
+        "date": 1773738462039,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18679584,
+            "range": "± 282537",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18856613,
+            "range": "± 133430",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20776256,
+            "range": "± 131751",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 25168932,
+            "range": "± 431603",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 57689674,
+            "range": "± 989345",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 346564613,
+            "range": "± 5501698",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2509104720,
+            "range": "± 72333297",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15732051,
+            "range": "± 131142",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15889039,
+            "range": "± 243401",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16575604,
+            "range": "± 209250",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21063733,
+            "range": "± 183605",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 57487522,
+            "range": "± 2569574",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 327453791,
+            "range": "± 7051330",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2578457971,
+            "range": "± 38346995",
             "unit": "ns/iter"
           }
         ]

@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773831289014,
+  "lastUpdate": 1773851788728,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -67175,6 +67175,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2627224848,
             "range": "± 22744318",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "pisarevkir@gmail.com",
+            "name": "Kirill",
+            "username": "P1sar"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "665aabcf98c0981db9a90525780c61a9c6ba830e",
+          "message": "StatementStore: readme update with dev node running guide (#11187)\n\nUpdate readme file of Statement store to provide a guidance how to run a\ndevelopment node locally.\n\n---------\n\nCo-authored-by: s0me0ne-unkn0wn <48632512+s0me0ne-unkn0wn@users.noreply.github.com>\nCo-authored-by: Andrei Eres <eresav@me.com>",
+          "timestamp": "2026-03-18T15:15:20Z",
+          "tree_id": "2c7a4cbbe500bb718c853ce6ab103be407b0cd17",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/665aabcf98c0981db9a90525780c61a9c6ba830e"
+        },
+        "date": 1773851764853,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 21309382,
+            "range": "± 253084",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 20847414,
+            "range": "± 231080",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 23424734,
+            "range": "± 476287",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 26721846,
+            "range": "± 420216",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 65042815,
+            "range": "± 2114634",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 385427633,
+            "range": "± 26225493",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 3028627759,
+            "range": "± 244248506",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 20524908,
+            "range": "± 510882",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 20480616,
+            "range": "± 775362",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 20236019,
+            "range": "± 751536",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 23534969,
+            "range": "± 594109",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 65446134,
+            "range": "± 2104276",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 418923285,
+            "range": "± 9449961",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 3086201225,
+            "range": "± 101711745",
             "unit": "ns/iter"
           }
         ]

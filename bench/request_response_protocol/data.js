@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773855150042,
+  "lastUpdate": 1773861670403,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -67391,6 +67391,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2560514492,
             "range": "± 24564364",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "37865735+clangenb@users.noreply.github.com",
+            "name": "clangenb",
+            "username": "clangenb"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "8747f319747fac35544844573bd7735a64c77f6f",
+          "message": "Fix: AssetTrapped event with Fungible(0) due to `SwapFirstAssetTrader::buy_weight` for exact trades (#11389)\n\nWhen `PayFees` contained the exact quoted fee,\n`SwapFirstAssetTrader::buy_weight` produces zero swap change. This\n0-amount credit was unconditionally wrapped into an `AssetsInHolding`\nentry, which propagated through `fees` → `refund_surplus` → `holding` →\n`drop_assets`, emitting an `AssetsTrapped` event with `Fungible(0)` that\nfails to decode.\n\nThis PR simply guards that by checking if value is 0 before putting it\ninto the holding, and omitting the step if the value is 0.\n\nCloses #11388\n\n---------\n\nCo-authored-by: clangenb <clangenb@users.noreply.github.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Branislav Kontur <bkontur@gmail.com>",
+          "timestamp": "2026-03-18T18:13:54Z",
+          "tree_id": "22126675142f51591c0714f78dae4bb370605c0d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/8747f319747fac35544844573bd7735a64c77f6f"
+        },
+        "date": 1773861646331,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18600216,
+            "range": "± 233152",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18721656,
+            "range": "± 141701",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20133674,
+            "range": "± 116449",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24273200,
+            "range": "± 455827",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 55537516,
+            "range": "± 1400742",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 326866778,
+            "range": "± 12703733",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2355182907,
+            "range": "± 154569765",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15232477,
+            "range": "± 106213",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15350393,
+            "range": "± 436341",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 15978826,
+            "range": "± 68785",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 19984828,
+            "range": "± 153738",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 54752548,
+            "range": "± 671577",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 309725312,
+            "range": "± 2071898",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2432324372,
+            "range": "± 32511306",
             "unit": "ns/iter"
           }
         ]

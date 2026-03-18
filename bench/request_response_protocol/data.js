@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773861670403,
+  "lastUpdate": 1773874013945,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -67499,6 +67499,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2432324372,
             "range": "± 32511306",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "02ec8d455cfb5e692f133520c4b367ef4f513f6e",
+          "message": "[Release|CI/CD] Add error handling if crates release fails (#11418)\n\nThis PR's adds a mechanism to preserve release state and resume a crates\nrelease if pipeline fails during the run, to not start it from scratch",
+          "timestamp": "2026-03-18T21:41:21Z",
+          "tree_id": "e9b88a7dfb11f8f0f47443c79df534141bc0d4ed",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/02ec8d455cfb5e692f133520c4b367ef4f513f6e"
+        },
+        "date": 1773873990605,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18721812,
+            "range": "± 103801",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18988262,
+            "range": "± 413611",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20692732,
+            "range": "± 506357",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24869575,
+            "range": "± 341771",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 56613579,
+            "range": "± 1008331",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 330792275,
+            "range": "± 6488817",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2475541206,
+            "range": "± 97069851",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15613998,
+            "range": "± 196047",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15726112,
+            "range": "± 161835",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16308553,
+            "range": "± 126671",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20940980,
+            "range": "± 246780",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 54902274,
+            "range": "± 627267",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 322707523,
+            "range": "± 3121252",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2557368825,
+            "range": "± 29262449",
             "unit": "ns/iter"
           }
         ]

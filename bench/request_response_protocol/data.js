@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773851788728,
+  "lastUpdate": 1773855150042,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -67283,6 +67283,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 3086201225,
             "range": "± 101711745",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "alin@parity.io",
+            "name": "Alin Dima",
+            "username": "alindima"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f02ad9e7811340e504c8b7323d7b077c99c31153",
+          "message": "add relay parent to advertisement v3 (#11393)\n\nSee discussion here:\nhttps://github.com/paritytech/polkadot-sdk/pull/11306#discussion_r2905022725\n\nalso fixes a bug, where for held off advertisements we would assume v3\ndescriptors are never used.",
+          "timestamp": "2026-03-18T16:06:49Z",
+          "tree_id": "08b43c64830864908f15932db22e11009a88f724",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/f02ad9e7811340e504c8b7323d7b077c99c31153"
+        },
+        "date": 1773855125328,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 19212822,
+            "range": "± 246365",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 19442340,
+            "range": "± 164182",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 21180333,
+            "range": "± 86893",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 25216920,
+            "range": "± 248772",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 57412955,
+            "range": "± 892208",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 342037272,
+            "range": "± 5560825",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2462702021,
+            "range": "± 82664294",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 16079181,
+            "range": "± 137410",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 16072054,
+            "range": "± 485326",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16746198,
+            "range": "± 443001",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20943096,
+            "range": "± 159750",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 56548582,
+            "range": "± 755465",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 326107908,
+            "range": "± 3474646",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2560514492,
+            "range": "± 24564364",
             "unit": "ns/iter"
           }
         ]

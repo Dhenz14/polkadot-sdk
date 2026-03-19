@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773937811362,
+  "lastUpdate": 1773955344682,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -67931,6 +67931,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2843068425,
             "range": "± 29872193",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15174476+TorstenStueber@users.noreply.github.com",
+            "name": "Torsten Stüber",
+            "username": "TorstenStueber"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "2ca02c71569a782e2cdd7ee3426871ae060ed347",
+          "message": "Set a proper proof size block limit (#10535)\n\nThe current block limit of the revive dev node defined its `proof_size`\nas `u64::MAX`.\n\nThis is a reasonable setting for a standalone chain as the PoV as a\nlimiting resource is only relevant for parachains.\n\nHowever, this gives some confusing gas mapping calculations: they are\ncorrect and consistent but the resulting `proof_size` weights are\nunexpectedly high.\n\nThis PR sets the `proof_size` of the block limit to the same value as\nthe Polkadot Asset Hub.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: pgherveou <pgherveou@gmail.com>",
+          "timestamp": "2026-03-19T20:17:32Z",
+          "tree_id": "74f7fa2387c17095524f599c2eb359ee7b7fcb79",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/2ca02c71569a782e2cdd7ee3426871ae060ed347"
+        },
+        "date": 1773955320675,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18898613,
+            "range": "± 234698",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 19283713,
+            "range": "± 147345",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 21056653,
+            "range": "± 202319",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24873134,
+            "range": "± 230766",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 58950389,
+            "range": "± 1090756",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 353025264,
+            "range": "± 7968365",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2733966189,
+            "range": "± 104976326",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 16151861,
+            "range": "± 151493",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 16204735,
+            "range": "± 173097",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 17189353,
+            "range": "± 218270",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21239675,
+            "range": "± 195777",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 58629055,
+            "range": "± 842856",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 352434417,
+            "range": "± 4452648",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2709048994,
+            "range": "± 48106464",
             "unit": "ns/iter"
           }
         ]

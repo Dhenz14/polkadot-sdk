@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773874013945,
+  "lastUpdate": 1773920688108,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -67607,6 +67607,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2557368825,
             "range": "± 29262449",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "robertvaneerdewijk@gmail.com",
+            "name": "0xRVE",
+            "username": "0xRVE"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "029f0e9ff32012c50660acc6fae39656a18700cd",
+          "message": "[pallet-assets] Fix ERC-20 approve semantics in precompile (#11279)\n\nThe ERC-20 approve(spender, amount) spec sets the allowance to amount.\nThe precompile was calling do_approve_transfer, which adds to the\nexisting allowance — breaking ERC-20 compliance.\n\nThis PR fixes the precompile's approve to use set semantics by composing\nexisting pallet-assets primitives. No changes to pallet-assets itself.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Alexander Theißen <alex.theissen@me.com>",
+          "timestamp": "2026-03-19T10:41:17Z",
+          "tree_id": "40690f185087e8c8c736c5d90c3abd65d48f9a09",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/029f0e9ff32012c50660acc6fae39656a18700cd"
+        },
+        "date": 1773920667364,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 19218461,
+            "range": "± 334973",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 20019967,
+            "range": "± 174337",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 21030085,
+            "range": "± 222585",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 25941177,
+            "range": "± 288805",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 62763947,
+            "range": "± 1116009",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 356275254,
+            "range": "± 5423784",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2642031862,
+            "range": "± 70198945",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 16435051,
+            "range": "± 247947",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 16470030,
+            "range": "± 280480",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 17499551,
+            "range": "± 139444",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21910931,
+            "range": "± 300517",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 61075553,
+            "range": "± 572704",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 346152312,
+            "range": "± 4441976",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2712581354,
+            "range": "± 28989568",
             "unit": "ns/iter"
           }
         ]

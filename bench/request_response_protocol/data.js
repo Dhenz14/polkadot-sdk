@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773920688108,
+  "lastUpdate": 1773922272310,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -67715,6 +67715,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2712581354,
             "range": "± 28989568",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "fa14a5ade0771ffbafc8be66c765d5937a6cd915",
+          "message": "[Release|CI/CD] Add parallel crates publishing (#11433)\n\nThis PR adds option to publish crates in parallel to the Publish Crates\nflow",
+          "timestamp": "2026-03-19T11:07:50Z",
+          "tree_id": "f8763b4588d53a9a12c1fbd91a8aab72b338f330",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/fa14a5ade0771ffbafc8be66c765d5937a6cd915"
+        },
+        "date": 1773922248615,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 19029525,
+            "range": "± 123912",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 19309786,
+            "range": "± 333363",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 21141911,
+            "range": "± 266096",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 25282718,
+            "range": "± 222128",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 59606645,
+            "range": "± 792498",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 332826716,
+            "range": "± 3549233",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2665675477,
+            "range": "± 138131626",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15609001,
+            "range": "± 91074",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15944550,
+            "range": "± 141345",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16306647,
+            "range": "± 626327",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 22070873,
+            "range": "± 182345",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 59558075,
+            "range": "± 1135586",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 341784168,
+            "range": "± 5126283",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2718540275,
+            "range": "± 46532387",
             "unit": "ns/iter"
           }
         ]

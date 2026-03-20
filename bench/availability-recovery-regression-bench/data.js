@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1772021369658,
+  "lastUpdate": 1774016560959,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "git@kchr.de",
-            "name": "Bastian Köcher",
-            "username": "bkchr"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "b9fd81b1d511c1b82d44129ae6e3592620508d85",
-          "message": "Remove `subwasmlib` (#9252)\n\nThis removes `subwasmlib` and replaces it with some custom code to fetch\nthe metadata. Main point of this change is the removal of some external\ndependency.\n\nCloses: https://github.com/paritytech/polkadot-sdk/issues/9203\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-18T11:26:43Z",
-          "tree_id": "8158e2688a0180b1512385a845c592f5319d7f2d",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/b9fd81b1d511c1b82d44129ae6e3592620508d85"
-        },
-        "date": 1752842182453,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.312403123033336,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.20535833100000006,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.13104414943333334,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "OmarAbdulla7@hotmail.com",
+            "name": "Omar",
+            "username": "0xOmarA"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "1c2eeb77e605b3c9d17649ca6b08dea99d5b3f94",
+          "message": "Revive, Estimate Gas with Binary Search (#11000)\n\n# Description\n\nThis PR implements binary search for the gas estimation logic in the\neth-rpc which means that gas estimations are no longer just simple dry\nruns but that binary search is now used to find the smallest gas limit\nat which the transaction would run.\n\nThis PR closes https://github.com/paritytech/contract-issues/issues/217\nand also _kind of_ fixes\nhttps://github.com/paritytech/contract-issues/issues/259 or at least\nmakes it harder to trigger the case in which we observe it, but the\nunderlying issue still exists.\n\nThe binary search algorithm implemented in this PR is as close as\npossible to that used in Geth\n\n# Note\n\nThis PR **does not** fix\nhttps://github.com/paritytech/contract-issues/issues/259 where the dry\nrun could fail but the submission succeeds. It makes it so that it's\nharder for that case to be triggered by the underlying issue causing\nhttps://github.com/paritytech/contract-issues/issues/259 is still there\nand it's caused by the overflows and saturations that happen in the gas\n-> fee -> weight computations\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-20T13:04:25Z",
+          "tree_id": "78385e67f8f6c591acab1f0e52fceb68a042e628",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/1c2eeb77e605b3c9d17649ca6b08dea99d5b3f94"
+        },
+        "date": 1774016536760,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.238385343199997,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12083078839999999,
             "unit": "seconds"
           }
         ]

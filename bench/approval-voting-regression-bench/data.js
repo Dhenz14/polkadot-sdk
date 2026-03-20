@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1772021434589,
+  "lastUpdate": 1774016627245,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "egor@parity.io",
-            "name": "Egor_P",
-            "username": "EgorPopelyaev"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "86d2a410ca95643e589f270808a6fa57de41369f",
-          "message": "Don't use labels for branch names creation in the backport bot (#9243)",
-          "timestamp": "2025-07-17T10:25:22Z",
-          "tree_id": "438b192e6b4d0c685f1c5920b5081911a4e5283b",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/86d2a410ca95643e589f270808a6fa57de41369f"
-        },
-        "date": 1752753156662,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52938.3,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63631.67,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.006025387110000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.40118433817,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4834446054400017,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.439933232220001,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.6071177696108445,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.4988519858699982,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.00001695973,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.53148656871,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.00001892478,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.4807191971799987,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9607233616399982,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.00001695973,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.00001892478,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting-parallel/approval-voting-parallel-2",
             "value": 2.76132749801,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "OmarAbdulla7@hotmail.com",
+            "name": "Omar",
+            "username": "0xOmarA"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "1c2eeb77e605b3c9d17649ca6b08dea99d5b3f94",
+          "message": "Revive, Estimate Gas with Binary Search (#11000)\n\n# Description\n\nThis PR implements binary search for the gas estimation logic in the\neth-rpc which means that gas estimations are no longer just simple dry\nruns but that binary search is now used to find the smallest gas limit\nat which the transaction would run.\n\nThis PR closes https://github.com/paritytech/contract-issues/issues/217\nand also _kind of_ fixes\nhttps://github.com/paritytech/contract-issues/issues/259 or at least\nmakes it harder to trigger the case in which we observe it, but the\nunderlying issue still exists.\n\nThe binary search algorithm implemented in this PR is as close as\npossible to that used in Geth\n\n# Note\n\nThis PR **does not** fix\nhttps://github.com/paritytech/contract-issues/issues/259 where the dry\nrun could fail but the submission succeeds. It makes it so that it's\nharder for that case to be triggered by the underlying issue causing\nhttps://github.com/paritytech/contract-issues/issues/259 is still there\nand it's caused by the overflows and saturations that happen in the gas\n-> fee -> weight computations\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-20T13:04:25Z",
+          "tree_id": "78385e67f8f6c591acab1f0e52fceb68a042e628",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/1c2eeb77e605b3c9d17649ca6b08dea99d5b3f94"
+        },
+        "date": 1774016603011,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 52940.7,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 63621.96000000001,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.330088721512896,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7846327612699455,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.00573497158,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.863360660859999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.000023581389999999997,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.000023581389999999997,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.74847195773,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.00002388985,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.00002388985,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.75750502304,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.765164533259999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.4391468925799957,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.36401680031994,
             "unit": "seconds"
           }
         ]

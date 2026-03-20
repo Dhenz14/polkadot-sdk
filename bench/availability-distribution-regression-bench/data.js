@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1772021401706,
+  "lastUpdate": 1774016594095,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "32168055+antkve@users.noreply.github.com",
-            "name": "Anthony Kveder",
-            "username": "antkve"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "0ae5c5bbd96a600aed81358339be2f16bade4a81",
-          "message": "Fixed genesis config presets for bridge tests (#9185)\n\nCloses: https://github.com/paritytech/polkadot-sdk/issues/9116\n\n---------\n\nCo-authored-by: Branislav Kontur <bkontur@gmail.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Karol Kokoszka <karol@parity.io>",
-          "timestamp": "2025-07-17T16:04:44Z",
-          "tree_id": "19d750bba6685e132f90c471118eb1342e943c9f",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/0ae5c5bbd96a600aed81358339be2f16bade4a81"
-        },
-        "date": 1752775893183,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007045628646666654,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012977416640000006,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15702606359999996,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022400364133333336,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "bitfield-distribution",
             "value": 0.024308959460000005,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "OmarAbdulla7@hotmail.com",
+            "name": "Omar",
+            "username": "0xOmarA"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "1c2eeb77e605b3c9d17649ca6b08dea99d5b3f94",
+          "message": "Revive, Estimate Gas with Binary Search (#11000)\n\n# Description\n\nThis PR implements binary search for the gas estimation logic in the\neth-rpc which means that gas estimations are no longer just simple dry\nruns but that binary search is now used to find the smallest gas limit\nat which the transaction would run.\n\nThis PR closes https://github.com/paritytech/contract-issues/issues/217\nand also _kind of_ fixes\nhttps://github.com/paritytech/contract-issues/issues/259 or at least\nmakes it harder to trigger the case in which we observe it, but the\nunderlying issue still exists.\n\nThe binary search algorithm implemented in this PR is as close as\npossible to that used in Geth\n\n# Note\n\nThis PR **does not** fix\nhttps://github.com/paritytech/contract-issues/issues/259 where the dry\nrun could fail but the submission succeeds. It makes it so that it's\nharder for that case to be triggered by the underlying issue causing\nhttps://github.com/paritytech/contract-issues/issues/259 is still there\nand it's caused by the overflows and saturations that happen in the gas\n-> fee -> weight computations\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-20T13:04:25Z",
+          "tree_id": "78385e67f8f6c591acab1f0e52fceb68a042e628",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/1c2eeb77e605b3c9d17649ca6b08dea99d5b3f94"
+        },
+        "date": 1774016569965,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.024256809473333335,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.1466239234733334,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007131869860000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009981830593333322,
             "unit": "seconds"
           }
         ]

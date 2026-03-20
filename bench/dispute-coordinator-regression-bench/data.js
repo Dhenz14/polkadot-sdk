@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774016694034,
+  "lastUpdate": 1774028317345,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "14218860+iulianbarbu@users.noreply.github.com",
-            "name": "Iulian Barbu",
-            "username": "iulianbarbu"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "495d5a24c8078a0da1eb5e0fe8742a09f1f1bd5c",
-          "message": "fix(minimal): pre-seal a first block to trigger maintain (#9207)\n\n# Description\n\nAfter making fork aware txpool the default, instant seal of minimal node\nstopped working as expected because any transaction sent to it got stuck\nin mempool , since there are no active views to include the tx in.\n\nTo overcome this we can create a first view by pre-sealing a first empty\nblock, which triggers the `maintain` phase and view building logic. This\nis compatible with single-state tx pool too.\n\n## Integration\n\nN/A\n\n## Review Notes\n\nN/A\n\n---------\n\nSigned-off-by: Iulian Barbu <iulian.barbu@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-16T06:51:33Z",
-          "tree_id": "7fac401304e67f49b7999d7b132e8d00bd241316",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/495d5a24c8078a0da1eb5e0fe8742a09f1f1bd5c"
-        },
-        "date": 1752652753636,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.00260627661,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008597162699999978,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005186324109999997,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-coordinator",
             "value": 0.0026896914299999997,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "OmarAbdulla7@hotmail.com",
+            "name": "Omar",
+            "username": "0xOmarA"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f4899717f48581ee5f7d88f3597597c1d728f824",
+          "message": "Implement `eth_subscribe` (#11081)\n\n# Description\n\nImplemented `eth_subscribe` in the eth-rpc. The subscription kinds\nimplemented is `newHeads` and `logs`.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-20T16:14:32Z",
+          "tree_id": "41c9026ec0399b25b5a2439f06d1b8e17978ad80",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/f4899717f48581ee5f7d88f3597597c1d728f824"
+        },
+        "date": 1774028293370,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.0026089860699999995,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009420712499999984,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.00977958122,
             "unit": "seconds"
           }
         ]

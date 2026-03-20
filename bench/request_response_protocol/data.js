@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773955344682,
+  "lastUpdate": 1774008251986,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -68039,6 +68039,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2709048994,
             "range": "± 48106464",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "marian@parity.io",
+            "name": "Marian Radu",
+            "username": "marian-radu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "8c6f7606348edee72a7a1abf14807e38bec5ca17",
+          "message": "[eth-rpc]: add resumable block sync and improve CLI arguments (#11153)\n\n### Resumable block sync\n- New `block_sync` module syncs backward from the latest finalized block\nto the first EVM block, with restart-safe checkpoint tracking via a\n`sync_state` SQLite table.\n- On restart, fills only the top gap (new blocks) and bottom gap\n(remaining backfill) without re-syncing completed ranges.\n- Auto-discovers and persists `first_evm_block` — the lowest block with\nEVM support on the chain.\n- Chain identity verification: stores genesis hash in `sync_state` and\nvalidates on startup; detects stale boundaries after reorgs.\n\n### CLI rework\nNew `--eth-pruning` flag replaces `--database-url`, `--cache-size`,\n`--index-last-n-blocks`, and `--earliest-receipt-block`:\n- `--eth-pruning archive` (default): persistent on-disk DB with backward\nhistorical sync.\n- `--eth-pruning <N>`: in-memory DB keeping the latest N blocks.\n\n### CLI migration guide\n\n| Previous flag | Replacement | Notes |\n|---|---|---|\n| `--cache-size N` | `--eth-pruning N` | In-memory DB, keeps latest N\nblocks |\n| `--database-url sqlite::memory:` | `--eth-pruning N` | --eth-pruning N\nalways uses in-memory DB |\n| `--database-url /path/to/db.sqlite` | `--base-path /path/to/dir` |\nPersistent DB stored as `eth-rpc.db` inside the directory |\n| `--index-last-n-blocks N` | `--eth-pruning archive` | Syncs all\nfinalized blocks down to the first EVM block |\n| `--earliest-receipt-block N` | _(removed)_ | Replaced by\nauto-discovered `first_evm_block` |\n\n> **Note:** `--dev` automatically uses a temporary directory with an\non-disk DB, which is deleted on exit.\n\n> **Note:** When `--base-path` is omitted, the DB is stored in the\ndefault OS data directory:\n> - macOS: `~/Library/Application Support/eth-rpc/`\n> - Linux: `~/.local/share/eth-rpc/`\n> - Windows: `%APPDATA%\\eth-rpc\\`\n\n### Examples\n\n```bash\n# Local dev node (on-disk DB in a temporary directory, deleted on exit)\neth-rpc --dev\n\n# In-memory DB, keep only the latest 512 blocks\neth-rpc --node-rpc-url wss://example.com:443 --eth-pruning 512\n\n# Persistent DB with historical sync (default, --eth-pruning archive is implicit)\neth-rpc --node-rpc-url wss://example.com:443\n\n# Persistent DB with historical sync at a custom path\neth-rpc --node-rpc-url wss://example.com:443 --base-path /data/eth-rpc\n\n# Explicit archive mode\neth-rpc --node-rpc-url wss://example.com:443 --eth-pruning archive\n\nhttps://github.com/paritytech/contract-issues/issues/271\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-20T10:45:49Z",
+          "tree_id": "0f9a8dca2d453ac019f7d17d98e02ff1c2fd2c83",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/8c6f7606348edee72a7a1abf14807e38bec5ca17"
+        },
+        "date": 1774008226864,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18708980,
+            "range": "± 126871",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 19043703,
+            "range": "± 136044",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20715246,
+            "range": "± 395990",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 25241716,
+            "range": "± 332538",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 57906201,
+            "range": "± 1016276",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 349237557,
+            "range": "± 5316070",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2675273704,
+            "range": "± 94934920",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15801956,
+            "range": "± 103564",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15938763,
+            "range": "± 587904",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16534418,
+            "range": "± 188901",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20885053,
+            "range": "± 187373",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 58265915,
+            "range": "± 1647090",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 344606504,
+            "range": "± 5767444",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2623156953,
+            "range": "± 30661589",
             "unit": "ns/iter"
           }
         ]

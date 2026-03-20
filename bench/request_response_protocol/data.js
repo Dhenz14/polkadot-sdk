@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774008251986,
+  "lastUpdate": 1774014558579,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -68147,6 +68147,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2623156953,
             "range": "± 30661589",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "jfanatiker@gmx.at",
+            "name": "eskimor",
+            "username": "eskimor"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "fec27905e9c7a7c712916f4d5a4723893f747e48",
+          "message": "Fix issue #11272 (#11290)\n\nAlso:\n\n- more relay_parent -> scheduling_parent fixes.\n- Some candidate validation cleanup (a bit less spaghetti)\n- Make sure we don't use the relay parent to fetch state anywhere -\nstate might not be available now\n- Make sure usages of scheduling parent in disputes for fetching state\nare sound\n- Via fixing 11272: Simpler backing pipeline - no threading of node\nfeatures everywhere",
+          "timestamp": "2026-03-20T12:35:50Z",
+          "tree_id": "cc6240c11e0fa68508d31e30a05c31ae73baa128",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/fec27905e9c7a7c712916f4d5a4723893f747e48"
+        },
+        "date": 1774014534569,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 19043447,
+            "range": "± 74067",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 19404418,
+            "range": "± 166495",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20733180,
+            "range": "± 313357",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 25825772,
+            "range": "± 401586",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 58882976,
+            "range": "± 882810",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 355371711,
+            "range": "± 1829966",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2677781958,
+            "range": "± 166565697",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 16284834,
+            "range": "± 206808",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 16313724,
+            "range": "± 722641",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16909934,
+            "range": "± 196774",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21342803,
+            "range": "± 197179",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 59491765,
+            "range": "± 1030300",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 346236500,
+            "range": "± 7853661",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2716637314,
+            "range": "± 36872163",
             "unit": "ns/iter"
           }
         ]

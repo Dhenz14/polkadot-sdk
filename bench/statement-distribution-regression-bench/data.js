@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1772021466836,
+  "lastUpdate": 1774016660385,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "bkontur@gmail.com",
-            "name": "Branislav Kontur",
-            "username": "bkontur"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "40e1a2a7c99c67fe5201145e473c87e1aea4bf05",
-          "message": "Allow create backport branches to unstable by A4-backport-unstable* tag (#9167)\n\nIn this\n[PR](https://github.com/paritytech/polkadot-sdk/pull/9139#issuecomment-3052828167),\nI added the `A4-backport-unstable2507` label, but no backport branch was\ncreated for `unstable2507`.\n\nWas this intentional or just an oversight or did I miss anything in the\nrelease channel?\nHow do we do backports to unstable2507? If manually, just close this.\n\ncc: @EgorPopelyaev - this PR is just a blind draft (not sure if it\nworks), probably more needs to be fixed and properly tested. If we\nreally need this, could you please take it over the finish line? If not,\njust close it :)\n\nCo-authored-by: Egor_P <egor@parity.io>",
-          "timestamp": "2025-07-16T16:23:51Z",
-          "tree_id": "42f9ddd2a1ed680cc694879a7f84761b03ea1e9c",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/40e1a2a7c99c67fe5201145e473c87e1aea4bf05"
-        },
-        "date": 1752687120386,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 127.95199999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.044477028381999933,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.034103478346,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.037410661716,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "OmarAbdulla7@hotmail.com",
+            "name": "Omar",
+            "username": "0xOmarA"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "1c2eeb77e605b3c9d17649ca6b08dea99d5b3f94",
+          "message": "Revive, Estimate Gas with Binary Search (#11000)\n\n# Description\n\nThis PR implements binary search for the gas estimation logic in the\neth-rpc which means that gas estimations are no longer just simple dry\nruns but that binary search is now used to find the smallest gas limit\nat which the transaction would run.\n\nThis PR closes https://github.com/paritytech/contract-issues/issues/217\nand also _kind of_ fixes\nhttps://github.com/paritytech/contract-issues/issues/259 or at least\nmakes it harder to trigger the case in which we observe it, but the\nunderlying issue still exists.\n\nThe binary search algorithm implemented in this PR is as close as\npossible to that used in Geth\n\n# Note\n\nThis PR **does not** fix\nhttps://github.com/paritytech/contract-issues/issues/259 where the dry\nrun could fail but the submission succeeds. It makes it so that it's\nharder for that case to be triggered by the underlying issue causing\nhttps://github.com/paritytech/contract-issues/issues/259 is still there\nand it's caused by the overflows and saturations that happen in the gas\n-> fee -> weight computations\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-20T13:04:25Z",
+          "tree_id": "78385e67f8f6c591acab1f0e52fceb68a042e628",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/1c2eeb77e605b3c9d17649ca6b08dea99d5b3f94"
+        },
+        "date": 1774016636487,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.07999999999998,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08778587806999992,
+            "unit": "seconds"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038507834324000005,
             "unit": "seconds"
           }
         ]

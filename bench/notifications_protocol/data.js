@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774007228887,
+  "lastUpdate": 1774008217804,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "notifications_protocol": [
@@ -122111,6 +122111,198 @@ window.BENCHMARK_DATA = {
             "name": "notifications_protocol/litep2p/with_backpressure/16MB",
             "value": 2156420875,
             "range": "± 30746152",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "marian@parity.io",
+            "name": "Marian Radu",
+            "username": "marian-radu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "8c6f7606348edee72a7a1abf14807e38bec5ca17",
+          "message": "[eth-rpc]: add resumable block sync and improve CLI arguments (#11153)\n\n### Resumable block sync\n- New `block_sync` module syncs backward from the latest finalized block\nto the first EVM block, with restart-safe checkpoint tracking via a\n`sync_state` SQLite table.\n- On restart, fills only the top gap (new blocks) and bottom gap\n(remaining backfill) without re-syncing completed ranges.\n- Auto-discovers and persists `first_evm_block` — the lowest block with\nEVM support on the chain.\n- Chain identity verification: stores genesis hash in `sync_state` and\nvalidates on startup; detects stale boundaries after reorgs.\n\n### CLI rework\nNew `--eth-pruning` flag replaces `--database-url`, `--cache-size`,\n`--index-last-n-blocks`, and `--earliest-receipt-block`:\n- `--eth-pruning archive` (default): persistent on-disk DB with backward\nhistorical sync.\n- `--eth-pruning <N>`: in-memory DB keeping the latest N blocks.\n\n### CLI migration guide\n\n| Previous flag | Replacement | Notes |\n|---|---|---|\n| `--cache-size N` | `--eth-pruning N` | In-memory DB, keeps latest N\nblocks |\n| `--database-url sqlite::memory:` | `--eth-pruning N` | --eth-pruning N\nalways uses in-memory DB |\n| `--database-url /path/to/db.sqlite` | `--base-path /path/to/dir` |\nPersistent DB stored as `eth-rpc.db` inside the directory |\n| `--index-last-n-blocks N` | `--eth-pruning archive` | Syncs all\nfinalized blocks down to the first EVM block |\n| `--earliest-receipt-block N` | _(removed)_ | Replaced by\nauto-discovered `first_evm_block` |\n\n> **Note:** `--dev` automatically uses a temporary directory with an\non-disk DB, which is deleted on exit.\n\n> **Note:** When `--base-path` is omitted, the DB is stored in the\ndefault OS data directory:\n> - macOS: `~/Library/Application Support/eth-rpc/`\n> - Linux: `~/.local/share/eth-rpc/`\n> - Windows: `%APPDATA%\\eth-rpc\\`\n\n### Examples\n\n```bash\n# Local dev node (on-disk DB in a temporary directory, deleted on exit)\neth-rpc --dev\n\n# In-memory DB, keep only the latest 512 blocks\neth-rpc --node-rpc-url wss://example.com:443 --eth-pruning 512\n\n# Persistent DB with historical sync (default, --eth-pruning archive is implicit)\neth-rpc --node-rpc-url wss://example.com:443\n\n# Persistent DB with historical sync at a custom path\neth-rpc --node-rpc-url wss://example.com:443 --base-path /data/eth-rpc\n\n# Explicit archive mode\neth-rpc --node-rpc-url wss://example.com:443 --eth-pruning archive\n\nhttps://github.com/paritytech/contract-issues/issues/271\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-20T10:45:49Z",
+          "tree_id": "0f9a8dca2d453ac019f7d17d98e02ff1c2fd2c83",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/8c6f7606348edee72a7a1abf14807e38bec5ca17"
+        },
+        "date": 1774008193299,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "notifications_protocol/libp2p/serially/64B",
+            "value": 4037483,
+            "range": "± 31606",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64B",
+            "value": 300524,
+            "range": "± 4900",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/512B",
+            "value": 4058481,
+            "range": "± 32503",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/512B",
+            "value": 373552,
+            "range": "± 3393",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/4KB",
+            "value": 4651803,
+            "range": "± 20601",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/4KB",
+            "value": 859416,
+            "range": "± 15106",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/64KB",
+            "value": 10094766,
+            "range": "± 83035",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64KB",
+            "value": 4700019,
+            "range": "± 95077",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/256KB",
+            "value": 42634668,
+            "range": "± 387436",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/256KB",
+            "value": 37170400,
+            "range": "± 338211",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/2MB",
+            "value": 342923442,
+            "range": "± 3898110",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/2MB",
+            "value": 286927293,
+            "range": "± 2517996",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/16MB",
+            "value": 2493208891,
+            "range": "± 12168186",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/16MB",
+            "value": 2185427929,
+            "range": "± 20690362",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64B",
+            "value": 3113637,
+            "range": "± 25615",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64B",
+            "value": 1592758,
+            "range": "± 8557",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/512B",
+            "value": 3209636,
+            "range": "± 28463",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/512B",
+            "value": 1665979,
+            "range": "± 28107",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/4KB",
+            "value": 3934303,
+            "range": "± 38330",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/4KB",
+            "value": 1982208,
+            "range": "± 10639",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64KB",
+            "value": 7807529,
+            "range": "± 71814",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64KB",
+            "value": 4948451,
+            "range": "± 69783",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/256KB",
+            "value": 38022292,
+            "range": "± 318290",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/256KB",
+            "value": 33574871,
+            "range": "± 413663",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/2MB",
+            "value": 302243207,
+            "range": "± 2845283",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/2MB",
+            "value": 259741811,
+            "range": "± 3094187",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/16MB",
+            "value": 2341871120,
+            "range": "± 27916443",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/16MB",
+            "value": 2436266706,
+            "range": "± 48153295",
             "unit": "ns/iter"
           }
         ]

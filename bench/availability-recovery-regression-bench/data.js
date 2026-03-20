@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774016560959,
+  "lastUpdate": 1774028185079,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "363911+pepoviola@users.noreply.github.com",
-            "name": "Javier Viola",
-            "username": "pepoviola"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "8b21416986049b26bf99e61bf1c43b7347ed564f",
-          "message": "zombienet, make logs for para works (#9230)\n\nFix for correctly display the logs (urls) for paras.",
-          "timestamp": "2025-07-18T15:25:49Z",
-          "tree_id": "2bf2a30b19851859a8c1db0ac7e145031cf773ed",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/8b21416986049b26bf99e61bf1c43b7347ed564f"
-        },
-        "date": 1752856787020,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.1938618287666667,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.296843967766666,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.12083078839999999,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "OmarAbdulla7@hotmail.com",
+            "name": "Omar",
+            "username": "0xOmarA"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f4899717f48581ee5f7d88f3597597c1d728f824",
+          "message": "Implement `eth_subscribe` (#11081)\n\n# Description\n\nImplemented `eth_subscribe` in the eth-rpc. The subscription kinds\nimplemented is `newHeads` and `logs`.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-20T16:14:32Z",
+          "tree_id": "41c9026ec0399b25b5a2439f06d1b8e17978ad80",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/f4899717f48581ee5f7d88f3597597c1d728f824"
+        },
+        "date": 1774028161148,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12350129033333332,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.201113746466671,
             "unit": "seconds"
           }
         ]

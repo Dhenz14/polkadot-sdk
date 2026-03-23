@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774028185079,
+  "lastUpdate": 1774266122884,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "22591718+RomarQ@users.noreply.github.com",
-            "name": "Rodrigo Quelhas",
-            "username": "RomarQ"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "e007db09171dd5248f5d8663a56be679b92fdbe7",
-          "message": "feat(cumulus): Adds support for additional relay state keys in parachain validation data inherent (#9262)\n\nAdds the possibility for parachain clients to collect additional relay\nstate keys into the validation data inherent.\n\nWith this change, other consensus engines can collect additional relay\nkeys into the parachain inherent data:\n```rs\nlet paras_inherent_data = ParachainInherentDataProvider::create_at(\n  relay_parent,\n  relay_client,\n  validation_data,\n  para_id,\n  vec![\n     relay_well_known_keys::EPOCH_INDEX.to_vec() // <----- Example\n  ],\n)\n.await;\n```",
-          "timestamp": "2025-07-18T21:26:30Z",
-          "tree_id": "12ecd4a047e3074ed0ff7953b85e24443d9a7332",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/e007db09171dd5248f5d8663a56be679b92fdbe7"
-        },
-        "date": 1752878126963,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19714241393333334,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.3319179826,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 11.201113746466671,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "tsvetomir@parity.io",
+            "name": "Tsvetomir Dimitrov",
+            "username": "tdimitrov"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4afd7bdd4b9e066f2d1da68b971f9938de214b3c",
+          "message": "Decrease the log level for claim queue inconsistency in `ClaimQueueState` (#11417)\n\nWhile testing the collator protocol revamp on westend I noticed\n\"Inconsistency while adding a leaf to the `ClaimQueueState`. Expected on\nsession change.\" pops up a lot at regular intervals.\n\nLong story short, when writing this code I assumed that the CQ never\nchange but from a `ClaimQueueState` point of view this is not true. ~~On\nsession change the validators in the active set are reshuffled and end\nup in different backing groups.~~ ON group rotation the validators are\nassigned on a new core. In this case we start fetching the claim queue\nfor the newly assigned core and the future assignments in\n`ClaimQueueState` are no longer valid so overwriting them is the right\nthing to do.\n\nWe could also implement a logic which detects assignment change,\nnotifies the claim queue and cleans it up but it's an additional\ncomplexity which doesn't add any benefits.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-23T10:22:53Z",
+          "tree_id": "e513cbd91fd88e46fdd3586336ab3b958a1fbcca",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/4afd7bdd4b9e066f2d1da68b971f9938de214b3c"
+        },
+        "date": 1774266098735,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12544817349999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.37623937566667,
             "unit": "seconds"
           }
         ]

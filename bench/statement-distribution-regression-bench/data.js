@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774273484012,
+  "lastUpdate": 1774283444823,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "32168055+antkve@users.noreply.github.com",
-            "name": "Anthony Kveder",
-            "username": "antkve"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "0ae5c5bbd96a600aed81358339be2f16bade4a81",
-          "message": "Fixed genesis config presets for bridge tests (#9185)\n\nCloses: https://github.com/paritytech/polkadot-sdk/issues/9116\n\n---------\n\nCo-authored-by: Branislav Kontur <bkontur@gmail.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Karol Kokoszka <karol@parity.io>",
-          "timestamp": "2025-07-17T16:04:44Z",
-          "tree_id": "19d750bba6685e132f90c471118eb1342e943c9f",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/0ae5c5bbd96a600aed81358339be2f16bade4a81"
-        },
-        "date": 1752775942829,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 127.93399999999993,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.034003234258,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.044284128541999916,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.037924438232,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "jfanatiker@gmx.at",
+            "name": "eskimor",
+            "username": "eskimor"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b1a2aa66e9a72df412cabbcfdc37fea837cffdd9",
+          "message": "Report back when candidate is rejected. (#11463)\n\nWe should tell the collator protocol when we reject a candidate, so the\ncollator can be punished accordingly.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-23T15:09:49Z",
+          "tree_id": "3dda359b1c9615c8147ae3932712ce741f4f3237",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/b1a2aa66e9a72df412cabbcfdc37fea837cffdd9"
+        },
+        "date": 1774283421401,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.07000000000005,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038360024205999994,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08569182879799991,
             "unit": "seconds"
           }
         ]

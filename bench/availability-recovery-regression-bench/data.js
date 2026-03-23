@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774273356890,
+  "lastUpdate": 1774283348427,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "enntheprogrammer@gmail.com",
-            "name": "sistemd",
-            "username": "sistemd"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "b17f06bf06dbee585bbd8dc6d070c5edf56916e1",
-          "message": "babe: keep stateless verification in `Verifier`, move everything else to the import queue (#9147)\n\nWe agreed to split https://github.com/paritytech/polkadot-sdk/pull/8446\ninto two PRs: one for BABE (this one) and one for AURA. This is the\neasier one.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-20T16:43:16Z",
-          "tree_id": "c968ceb147b12e27e9ff5063f8c4303d14b3aeb9",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/b17f06bf06dbee585bbd8dc6d070c5edf56916e1"
-        },
-        "date": 1753034183314,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.306613229866668,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.1947719812,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.1257512028,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "jfanatiker@gmx.at",
+            "name": "eskimor",
+            "username": "eskimor"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b1a2aa66e9a72df412cabbcfdc37fea837cffdd9",
+          "message": "Report back when candidate is rejected. (#11463)\n\nWe should tell the collator protocol when we reject a candidate, so the\ncollator can be punished accordingly.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-23T15:09:49Z",
+          "tree_id": "3dda359b1c9615c8147ae3932712ce741f4f3237",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/b1a2aa66e9a72df412cabbcfdc37fea837cffdd9"
+        },
+        "date": 1774283324647,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12030587393333333,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.254964857099997,
             "unit": "seconds"
           }
         ]

@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774282419258,
+  "lastUpdate": 1774286266906,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -68795,6 +68795,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2564525536,
             "range": "± 30203452",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3e473207db22679d341e914fd138bf222fc9ac8e",
+          "message": "[Release|CI/CD] Add parallelisation improvements (#11444)\n\nAdd check that workspace compiles before crates publishing to use\n--no-verify flag during publishing",
+          "timestamp": "2026-03-23T16:08:29Z",
+          "tree_id": "c2daef9e067159bc9ce7307726e688848abe79ed",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/3e473207db22679d341e914fd138bf222fc9ac8e"
+        },
+        "date": 1774286242897,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 19234786,
+            "range": "± 173237",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 19842842,
+            "range": "± 150239",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 21487725,
+            "range": "± 194122",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 25593613,
+            "range": "± 351615",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 57289255,
+            "range": "± 660911",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 330452298,
+            "range": "± 4138068",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2523760157,
+            "range": "± 113669574",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 16263530,
+            "range": "± 218558",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 16400551,
+            "range": "± 153297",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16911652,
+            "range": "± 183396",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21149600,
+            "range": "± 257019",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 56881174,
+            "range": "± 594557",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 327108182,
+            "range": "± 5318640",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2718256082,
+            "range": "± 61006782",
             "unit": "ns/iter"
           }
         ]

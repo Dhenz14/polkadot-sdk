@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774266172283,
+  "lastUpdate": 1774273400827,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "22591718+RomarQ@users.noreply.github.com",
-            "name": "Rodrigo Quelhas",
-            "username": "RomarQ"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "e007db09171dd5248f5d8663a56be679b92fdbe7",
-          "message": "feat(cumulus): Adds support for additional relay state keys in parachain validation data inherent (#9262)\n\nAdds the possibility for parachain clients to collect additional relay\nstate keys into the validation data inherent.\n\nWith this change, other consensus engines can collect additional relay\nkeys into the parachain inherent data:\n```rs\nlet paras_inherent_data = ParachainInherentDataProvider::create_at(\n  relay_parent,\n  relay_client,\n  validation_data,\n  para_id,\n  vec![\n     relay_well_known_keys::EPOCH_INDEX.to_vec() // <----- Example\n  ],\n)\n.await;\n```",
-          "timestamp": "2025-07-18T21:26:30Z",
-          "tree_id": "12ecd4a047e3074ed0ff7953b85e24443d9a7332",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/e007db09171dd5248f5d8663a56be679b92fdbe7"
-        },
-        "date": 1752878151499,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15651813248666666,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022384547086666675,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012838252339999997,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.0069476665066666434,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.009913742459999987,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "robertvaneerdewijk@gmail.com",
+            "name": "0xRVE",
+            "username": "0xRVE"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "eb1506a9eda06950447ce2e6297c7c17a445183d",
+          "message": "[pallet-assets-precompiles] add foreign assets instance to kitchensink (#11460)\n\n## Summary\n\n- Set `CallbackHandle =\n(pallet_assets_precompiles::ForeignAssetId<Runtime, Instance1>,)`\n  in `pallet_assets::Config<Instance1>` for the kitchensink runtime.\n- Asset creation (`create`, `force_create`) now automatically populates\na sequential\n  foreign asset index mapping. Asset destruction cleans it up.\n\n## Test plan\n\n- [x] Run [end-to-end\ntests](https://github.com/paritytech/evm-test-suite/pull/142) (requires\nsubstrate-node, eth-rpc, node, cast)\n- [x] Revert CallbackHandle to `()` and confirm end-to-end tests fail\n\n\nAlternatively run this bashscript for testing:\nhttps://gist.github.com/0xRVE/99bbc5ec7fcabeb54e3b797bd4cc97c8\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-23T12:20:10Z",
+          "tree_id": "12ec8c7cb0eadb8036a66334890c73f24a2064cb",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/eb1506a9eda06950447ce2e6297c7c17a445183d"
+        },
+        "date": 1774273377223,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009958854899999975,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.006860237019999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.024078677953333336,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14463789705999996,
             "unit": "seconds"
           }
         ]

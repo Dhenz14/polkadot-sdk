@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774266122884,
+  "lastUpdate": 1774273356890,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "5588131+kianenigma@users.noreply.github.com",
-            "name": "Kian Paimani",
-            "username": "kianenigma"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "0d2106685025a0dad542b0980aab763ce0352755",
-          "message": "Allow locking to bump consumer without limits (#9176)\n\nLocking is a system-level operation, and can only increment the consumer\nlimit at most once. Therefore, it should use\n`inc_consumer_without_limits`. This behavior is optional, and is only\nused in the call path of `LockableCurrency`. Reserves, Holds and Freezes\n(and other operations like transfer etc.) have the ability to return\n`DispatchResult` and don't need this bypass. This is demonstrated in the\nunit tests added.\n\nBeyond this, this PR: \n\n* uses the correct way to get the account data in tests\n* adds an `Unexpected` event instead of a silent `debug_assert!`. \n* Adds `try_state` checks for correctness of `account.frozen` invariant.\n\n---------\n\nCo-authored-by: Ankan <10196091+Ank4n@users.noreply.github.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-20T08:51:04Z",
-          "tree_id": "f4835fef77bc77f12a7b25e5789a72edb66a8110",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/0d2106685025a0dad542b0980aab763ce0352755"
-        },
-        "date": 1753005585885,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.291666096366663,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.1923694762,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 11.37623937566667,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "robertvaneerdewijk@gmail.com",
+            "name": "0xRVE",
+            "username": "0xRVE"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "eb1506a9eda06950447ce2e6297c7c17a445183d",
+          "message": "[pallet-assets-precompiles] add foreign assets instance to kitchensink (#11460)\n\n## Summary\n\n- Set `CallbackHandle =\n(pallet_assets_precompiles::ForeignAssetId<Runtime, Instance1>,)`\n  in `pallet_assets::Config<Instance1>` for the kitchensink runtime.\n- Asset creation (`create`, `force_create`) now automatically populates\na sequential\n  foreign asset index mapping. Asset destruction cleans it up.\n\n## Test plan\n\n- [x] Run [end-to-end\ntests](https://github.com/paritytech/evm-test-suite/pull/142) (requires\nsubstrate-node, eth-rpc, node, cast)\n- [x] Revert CallbackHandle to `()` and confirm end-to-end tests fail\n\n\nAlternatively run this bashscript for testing:\nhttps://gist.github.com/0xRVE/99bbc5ec7fcabeb54e3b797bd4cc97c8\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-23T12:20:10Z",
+          "tree_id": "12ec8c7cb0eadb8036a66334890c73f24a2064cb",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/eb1506a9eda06950447ce2e6297c7c17a445183d"
+        },
+        "date": 1774273333052,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.222596441466665,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1257512028,
             "unit": "seconds"
           }
         ]

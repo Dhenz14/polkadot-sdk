@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774283477163,
+  "lastUpdate": 1774287200323,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "diego2737@gmail.com",
-            "name": "Diego",
-            "username": "dimartiro"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "6b17df5ae96f7970109ec3934c7d288f05baa23b",
-          "message": "Remove unused deps (#9235)\n\n# Description\n\nRemove unused deps using `cargo udeps`\n\nPart of: #6906\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Branislav Kontur <bkontur@gmail.com>",
-          "timestamp": "2025-07-17T14:18:53Z",
-          "tree_id": "20c94cc5015d6ff1c010a46fd69c90c70442033b",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/6b17df5ae96f7970109ec3934c7d288f05baa23b"
-        },
-        "date": 1752767045610,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008528037719999992,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005030579369999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.00264220842,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.01005135642999999,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3e473207db22679d341e914fd138bf222fc9ac8e",
+          "message": "[Release|CI/CD] Add parallelisation improvements (#11444)\n\nAdd check that workspace compiles before crates publishing to use\n--no-verify flag during publishing",
+          "timestamp": "2026-03-23T16:08:29Z",
+          "tree_id": "c2daef9e067159bc9ce7307726e688848abe79ed",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/3e473207db22679d341e914fd138bf222fc9ac8e"
+        },
+        "date": 1774287175825,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.0026701137599999996,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009520092759999994,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009541714209999982,
             "unit": "seconds"
           }
         ]

@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774273400827,
+  "lastUpdate": 1774283380477,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "5588131+kianenigma@users.noreply.github.com",
-            "name": "Kian Paimani",
-            "username": "kianenigma"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "0d2106685025a0dad542b0980aab763ce0352755",
-          "message": "Allow locking to bump consumer without limits (#9176)\n\nLocking is a system-level operation, and can only increment the consumer\nlimit at most once. Therefore, it should use\n`inc_consumer_without_limits`. This behavior is optional, and is only\nused in the call path of `LockableCurrency`. Reserves, Holds and Freezes\n(and other operations like transfer etc.) have the ability to return\n`DispatchResult` and don't need this bypass. This is demonstrated in the\nunit tests added.\n\nBeyond this, this PR: \n\n* uses the correct way to get the account data in tests\n* adds an `Unexpected` event instead of a silent `debug_assert!`. \n* Adds `try_state` checks for correctness of `account.frozen` invariant.\n\n---------\n\nCo-authored-by: Ankan <10196091+Ank4n@users.noreply.github.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-20T08:51:04Z",
-          "tree_id": "f4835fef77bc77f12a7b25e5789a72edb66a8110",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/0d2106685025a0dad542b0980aab763ce0352755"
-        },
-        "date": 1753005611316,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012821778426666661,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.006942005806666636,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02236581484666667,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15662957587333343,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-store",
             "value": 0.14463789705999996,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "jfanatiker@gmx.at",
+            "name": "eskimor",
+            "username": "eskimor"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b1a2aa66e9a72df412cabbcfdc37fea837cffdd9",
+          "message": "Report back when candidate is rejected. (#11463)\n\nWe should tell the collator protocol when we reject a candidate, so the\ncollator can be punished accordingly.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-23T15:09:49Z",
+          "tree_id": "3dda359b1c9615c8147ae3932712ce741f4f3237",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/b1a2aa66e9a72df412cabbcfdc37fea837cffdd9"
+        },
+        "date": 1774283356711,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14533102616000004,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009813135526666638,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.006975383119999999,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.02411306922,
             "unit": "seconds"
           }
         ]

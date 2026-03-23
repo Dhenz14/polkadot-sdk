@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774283444823,
+  "lastUpdate": 1774287166905,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "git@kchr.de",
-            "name": "Bastian Köcher",
-            "username": "bkchr"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "b9fd81b1d511c1b82d44129ae6e3592620508d85",
-          "message": "Remove `subwasmlib` (#9252)\n\nThis removes `subwasmlib` and replaces it with some custom code to fetch\nthe metadata. Main point of this change is the removal of some external\ndependency.\n\nCloses: https://github.com/paritytech/polkadot-sdk/issues/9203\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-18T11:26:43Z",
-          "tree_id": "8158e2688a0180b1512385a845c592f5319d7f2d",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/b9fd81b1d511c1b82d44129ae6e3592620508d85"
-        },
-        "date": 1752842256880,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 127.95199999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.033786877258,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.044158713533999944,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.08569182879799991,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3e473207db22679d341e914fd138bf222fc9ac8e",
+          "message": "[Release|CI/CD] Add parallelisation improvements (#11444)\n\nAdd check that workspace compiles before crates publishing to use\n--no-verify flag during publishing",
+          "timestamp": "2026-03-23T16:08:29Z",
+          "tree_id": "c2daef9e067159bc9ce7307726e688848abe79ed",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/3e473207db22679d341e914fd138bf222fc9ac8e"
+        },
+        "date": 1774287142514,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.064,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038527662696000026,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08254003126999994,
             "unit": "seconds"
           }
         ]

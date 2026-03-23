@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774266211293,
+  "lastUpdate": 1774273441869,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "git@kchr.de",
-            "name": "Bastian Köcher",
-            "username": "bkchr"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "b9fd81b1d511c1b82d44129ae6e3592620508d85",
-          "message": "Remove `subwasmlib` (#9252)\n\nThis removes `subwasmlib` and replaces it with some custom code to fetch\nthe metadata. Main point of this change is the removal of some external\ndependency.\n\nCloses: https://github.com/paritytech/polkadot-sdk/issues/9203\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-18T11:26:43Z",
-          "tree_id": "8158e2688a0180b1512385a845c592f5319d7f2d",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/b9fd81b1d511c1b82d44129ae6e3592620508d85"
-        },
-        "date": 1752842232361,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52939.3,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63637.909999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.461842202449999,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000017361859999999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.000018491470000000005,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.632018774800941,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000017361859999999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.522667564589999,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.348547704960001,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.000018491470000000005,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.4827062409500003,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.4479695479900009,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005914663050000013,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9448457314800014,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.4826017544500014,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting-parallel",
             "value": 14.380849287619956,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "robertvaneerdewijk@gmail.com",
+            "name": "0xRVE",
+            "username": "0xRVE"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "eb1506a9eda06950447ce2e6297c7c17a445183d",
+          "message": "[pallet-assets-precompiles] add foreign assets instance to kitchensink (#11460)\n\n## Summary\n\n- Set `CallbackHandle =\n(pallet_assets_precompiles::ForeignAssetId<Runtime, Instance1>,)`\n  in `pallet_assets::Config<Instance1>` for the kitchensink runtime.\n- Asset creation (`create`, `force_create`) now automatically populates\na sequential\n  foreign asset index mapping. Asset destruction cleans it up.\n\n## Test plan\n\n- [x] Run [end-to-end\ntests](https://github.com/paritytech/evm-test-suite/pull/142) (requires\nsubstrate-node, eth-rpc, node, cast)\n- [x] Revert CallbackHandle to `()` and confirm end-to-end tests fail\n\n\nAlternatively run this bashscript for testing:\nhttps://gist.github.com/0xRVE/99bbc5ec7fcabeb54e3b797bd4cc97c8\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-23T12:20:10Z",
+          "tree_id": "12ec8c7cb0eadb8036a66334890c73f24a2064cb",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/eb1506a9eda06950447ce2e6297c7c17a445183d"
+        },
+        "date": 1774273418387,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 52939.40000000001,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 63626.42,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.00002696679,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.000021528489999999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.00002696679,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.316833349209935,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.79577425376,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.7378501498599994,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.744898353989998,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.802404906589999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.8063537264199443,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.483843726012959,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.424152980859991,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005398977729999999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.000021528489999999998,
             "unit": "seconds"
           }
         ]

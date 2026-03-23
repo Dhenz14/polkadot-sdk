@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774027217687,
+  "lastUpdate": 1774265148187,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "notifications_protocol": [
@@ -122879,6 +122879,198 @@ window.BENCHMARK_DATA = {
             "name": "notifications_protocol/litep2p/with_backpressure/16MB",
             "value": 2239888319,
             "range": "± 87248726",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "tsvetomir@parity.io",
+            "name": "Tsvetomir Dimitrov",
+            "username": "tdimitrov"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4afd7bdd4b9e066f2d1da68b971f9938de214b3c",
+          "message": "Decrease the log level for claim queue inconsistency in `ClaimQueueState` (#11417)\n\nWhile testing the collator protocol revamp on westend I noticed\n\"Inconsistency while adding a leaf to the `ClaimQueueState`. Expected on\nsession change.\" pops up a lot at regular intervals.\n\nLong story short, when writing this code I assumed that the CQ never\nchange but from a `ClaimQueueState` point of view this is not true. ~~On\nsession change the validators in the active set are reshuffled and end\nup in different backing groups.~~ ON group rotation the validators are\nassigned on a new core. In this case we start fetching the claim queue\nfor the newly assigned core and the future assignments in\n`ClaimQueueState` are no longer valid so overwriting them is the right\nthing to do.\n\nWe could also implement a logic which detects assignment change,\nnotifies the claim queue and cleans it up but it's an additional\ncomplexity which doesn't add any benefits.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-23T10:22:53Z",
+          "tree_id": "e513cbd91fd88e46fdd3586336ab3b958a1fbcca",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/4afd7bdd4b9e066f2d1da68b971f9938de214b3c"
+        },
+        "date": 1774265123936,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "notifications_protocol/libp2p/serially/64B",
+            "value": 3928182,
+            "range": "± 28424",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64B",
+            "value": 299626,
+            "range": "± 4542",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/512B",
+            "value": 4067637,
+            "range": "± 15228",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/512B",
+            "value": 381170,
+            "range": "± 5454",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/4KB",
+            "value": 4819400,
+            "range": "± 64853",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/4KB",
+            "value": 882281,
+            "range": "± 10081",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/64KB",
+            "value": 10191878,
+            "range": "± 83949",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64KB",
+            "value": 4809906,
+            "range": "± 119775",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/256KB",
+            "value": 42866508,
+            "range": "± 608891",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/256KB",
+            "value": 36679894,
+            "range": "± 515770",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/2MB",
+            "value": 337961995,
+            "range": "± 2973612",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/2MB",
+            "value": 281748780,
+            "range": "± 2421404",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/16MB",
+            "value": 2448931456,
+            "range": "± 11883784",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/16MB",
+            "value": 2174038038,
+            "range": "± 35854788",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64B",
+            "value": 3067604,
+            "range": "± 25685",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64B",
+            "value": 1569289,
+            "range": "± 23413",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/512B",
+            "value": 3185898,
+            "range": "± 15365",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/512B",
+            "value": 1641456,
+            "range": "± 7572",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/4KB",
+            "value": 3843367,
+            "range": "± 21513",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/4KB",
+            "value": 1957699,
+            "range": "± 16750",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64KB",
+            "value": 7594329,
+            "range": "± 81832",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64KB",
+            "value": 4886692,
+            "range": "± 58678",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/256KB",
+            "value": 34942547,
+            "range": "± 279564",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/256KB",
+            "value": 33832934,
+            "range": "± 295108",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/2MB",
+            "value": 305021762,
+            "range": "± 2528271",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/2MB",
+            "value": 263656102,
+            "range": "± 7880169",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/16MB",
+            "value": 2430154303,
+            "range": "± 24642566",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/16MB",
+            "value": 2138886364,
+            "range": "± 51274033",
             "unit": "ns/iter"
           }
         ]

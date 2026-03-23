@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774028218400,
+  "lastUpdate": 1774266172283,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "363911+pepoviola@users.noreply.github.com",
-            "name": "Javier Viola",
-            "username": "pepoviola"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "8b21416986049b26bf99e61bf1c43b7347ed564f",
-          "message": "zombienet, make logs for para works (#9230)\n\nFix for correctly display the logs (urls) for paras.",
-          "timestamp": "2025-07-18T15:25:49Z",
-          "tree_id": "2bf2a30b19851859a8c1db0ac7e145031cf773ed",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/8b21416986049b26bf99e61bf1c43b7347ed564f"
-        },
-        "date": 1752856812656,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013092119593333333,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007131044439999971,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022407800293333335,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15718758524666668,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-store",
             "value": 0.14666207137333337,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "tsvetomir@parity.io",
+            "name": "Tsvetomir Dimitrov",
+            "username": "tdimitrov"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4afd7bdd4b9e066f2d1da68b971f9938de214b3c",
+          "message": "Decrease the log level for claim queue inconsistency in `ClaimQueueState` (#11417)\n\nWhile testing the collator protocol revamp on westend I noticed\n\"Inconsistency while adding a leaf to the `ClaimQueueState`. Expected on\nsession change.\" pops up a lot at regular intervals.\n\nLong story short, when writing this code I assumed that the CQ never\nchange but from a `ClaimQueueState` point of view this is not true. ~~On\nsession change the validators in the active set are reshuffled and end\nup in different backing groups.~~ ON group rotation the validators are\nassigned on a new core. In this case we start fetching the claim queue\nfor the newly assigned core and the future assignments in\n`ClaimQueueState` are no longer valid so overwriting them is the right\nthing to do.\n\nWe could also implement a logic which detects assignment change,\nnotifies the claim queue and cleans it up but it's an additional\ncomplexity which doesn't add any benefits.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-23T10:22:53Z",
+          "tree_id": "e513cbd91fd88e46fdd3586336ab3b958a1fbcca",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/4afd7bdd4b9e066f2d1da68b971f9938de214b3c"
+        },
+        "date": 1774266148421,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.024289163093333337,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14728385541333336,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.006927016573333329,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009913742459999987,
             "unit": "seconds"
           }
         ]

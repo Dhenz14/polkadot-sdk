@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774352803203,
+  "lastUpdate": 1774359698556,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "enntheprogrammer@gmail.com",
-            "name": "sistemd",
-            "username": "sistemd"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "b17f06bf06dbee585bbd8dc6d070c5edf56916e1",
-          "message": "babe: keep stateless verification in `Verifier`, move everything else to the import queue (#9147)\n\nWe agreed to split https://github.com/paritytech/polkadot-sdk/pull/8446\ninto two PRs: one for BABE (this one) and one for AURA. This is the\neasier one.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-20T16:43:16Z",
-          "tree_id": "c968ceb147b12e27e9ff5063f8c4303d14b3aeb9",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/b17f06bf06dbee585bbd8dc6d070c5edf56916e1"
-        },
-        "date": 1753034257727,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 127.94599999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03397585990599999,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.044236044463999924,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.08859175509399993,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@kchr.de",
+            "name": "Bastian Köcher",
+            "username": "bkchr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "39a5e3bd93e216c3e7b499dc6eb8b6c3fe6d248d",
+          "message": "rpc-server: Use own thread pool for RPC functionality (#10757)\n\nRight now the RPC is using the same thread pool as the rest of the node.\nWhen there is high usage and the node is running out of threads for\nblocking futures, RPC calls start to take very long time. This may also\nresults in problems with other node functionality that would also be\nblocked by waiting for new threads. This pull request assigns the rpc\nserver its own thread pool that gets the same number as threads as\n`max_connections`. These threads are only started on demand, but should\nallow any RPC connection to have at least one thread to run blocking\ntasks.\n\nIn a next step we should finally look into the performance metering of\nRPC calls and ensure that we have some proper rate limit in place to\ngive every connection a fair share.\n\n\nHopefully helps with:\nhttps://github.com/paritytech/polkadot-sdk/issues/10719\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-24T12:18:34Z",
+          "tree_id": "da5bce94638820fb9274b002027e778b174d8367",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/39a5e3bd93e216c3e7b499dc6eb8b6c3fe6d248d"
+        },
+        "date": 1774359671994,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.04999999999998,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08539451575599996,
+            "unit": "seconds"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.03830545630799998,
             "unit": "seconds"
           }
         ]

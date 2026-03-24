@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774359698556,
+  "lastUpdate": 1774381526737,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "40807189+AlexandruCihodaru@users.noreply.github.com",
-            "name": "Alexandru Cihodaru",
-            "username": "AlexandruCihodaru"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "443c2ffa03ee20e8244fa4b52ec3c62750d55ca6",
-          "message": "Rewrite validator disabling test with zombienet-sdk (#9128)\n\nFixes #9085\n\n---------\n\nSigned-off-by: Alexandru Cihodaru <alexandru.cihodaru@parity.io>",
-          "timestamp": "2025-07-21T09:08:32Z",
-          "tree_id": "60764da01881d68bd585187a0cf3d60596bfbc12",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/443c2ffa03ee20e8244fa4b52ec3c62750d55ca6"
-        },
-        "date": 1753093254897,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.95399999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.033981648,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04433097629599992,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.03830545630799998,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "363911+pepoviola@users.noreply.github.com",
+            "name": "Javier Viola",
+            "username": "pepoviola"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "06bded7ab7ac6a50e0aeba48c0f7f5ca548c3573",
+          "message": "zombienet migrate misc tests (#11394)\n\nMigrate _misc_ test:\n\n- parityDb\n- malus",
+          "timestamp": "2026-03-24T18:20:38Z",
+          "tree_id": "7fdf50b186578735211c7346f83a1ac7ae1eeed3",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/06bded7ab7ac6a50e0aeba48c0f7f5ca548c3573"
+        },
+        "date": 1774381502753,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.076,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.07962108399799994,
+            "unit": "seconds"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.03807180392200001,
             "unit": "seconds"
           }
         ]

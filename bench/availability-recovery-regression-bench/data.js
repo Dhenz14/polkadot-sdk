@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774352699335,
+  "lastUpdate": 1774359590270,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "60601340+lexnv@users.noreply.github.com",
-            "name": "Alexandru Vasile",
-            "username": "lexnv"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "2f8d2a2b875a3f08aae5dd82c09ffe65932d2e62",
-          "message": "consensus/grandpa: Fix high number of peer disconnects with invalid justification (#9015)\n\nA grandpa race-casse has been identified in the versi-net stack around\nauthority set changes, which leads to the following:\n\n- T0 / Node A: Completes round (15)\n- T1 / Node A: Applies new authority set change and increments the SetID\n(from 0 to 1)\n- T2 / Node B: Sends Precommit for round (15) with SetID (0) -- previous\nset ID\n- T3 / Node B: Applies new authority set change and increments the SetID\n(1)\n\nIn this scenario, Node B is not aware at the moment of sending\njustifications that the Set ID has changed.\nThe downstream effect is that Node A will not be able to verify the\nsignature of justifications, since a different SetID is taken into\naccount. This will cascade through the sync engine, where the Node B is\nwrongfully banned and disconnected.\n\nThis PR aims to fix the edge-case by making the grandpa resilient to\nverifying prior setIDs for signatures.\nWhen the signature of the grandpa justification fails to decode, the\nprior SetID is also verified. If the prior SetID produces a valid\nsignature, then the outdated justification error is propagated through\nthe code (ie `SignatureResult::OutdatedSet`).\n\nThe sync engine will handle the outdated justifications as invalid, but\nwithout banning the peer. This leads to increased stability of the\nnetwork during authority changes, which caused frequent disconnects to\nversi-net in the past.\n\n### Review Notes\n- Main changes that verify prior SetId on failures are placed in\n[check_message_signature_with_buffer](https://github.com/paritytech/polkadot-sdk/pull/9015/files#diff-359d7a46ea285177e5d86979f62f0f04baabf65d595c61bfe44b6fc01af70d89R458-R501)\n- Sync engine no longer disconnects outdated justifications in\n[process_service_command](https://github.com/paritytech/polkadot-sdk/pull/9015/files#diff-9ab3391aa82ee2b2868ece610100f84502edcf40638dba9ed6953b6e572dfba5R678-R703)\n\n### Testing Done\n- Deployed the PR to versi-net with 40 validators\n- Prior we have noticed 10/40 validators disconnecting every 15-20\nminutes, leading to instability\n- Over past 24h the issue has been mitigated:\nhttps://grafana.teleport.parity.io/goto/FPNWlmsHR?orgId=1\n- Note: bootnodes 0 and 1 are currently running outdated versions that\ndo not incorporate this SetID verification improvement\n\nCloses: https://github.com/paritytech/polkadot-sdk/issues/8872\nCloses: https://github.com/paritytech/polkadot-sdk/issues/1147\n\n---------\n\nSigned-off-by: Alexandru Vasile <alexandru.vasile@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Dmitry Markin <dmitry@markin.tech>",
-          "timestamp": "2025-07-22T12:08:36Z",
-          "tree_id": "e83cda247a4ac590cf45c24390e0736eea169d4c",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/2f8d2a2b875a3f08aae5dd82c09ffe65932d2e62"
-        },
-        "date": 1753190781357,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19570273123333332,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.405742761133336,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.12369298156666668,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@kchr.de",
+            "name": "Bastian Köcher",
+            "username": "bkchr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "39a5e3bd93e216c3e7b499dc6eb8b6c3fe6d248d",
+          "message": "rpc-server: Use own thread pool for RPC functionality (#10757)\n\nRight now the RPC is using the same thread pool as the rest of the node.\nWhen there is high usage and the node is running out of threads for\nblocking futures, RPC calls start to take very long time. This may also\nresults in problems with other node functionality that would also be\nblocked by waiting for new threads. This pull request assigns the rpc\nserver its own thread pool that gets the same number as threads as\n`max_connections`. These threads are only started on demand, but should\nallow any RPC connection to have at least one thread to run blocking\ntasks.\n\nIn a next step we should finally look into the performance metering of\nRPC calls and ensure that we have some proper rate limit in place to\ngive every connection a fair share.\n\n\nHopefully helps with:\nhttps://github.com/paritytech/polkadot-sdk/issues/10719\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-24T12:18:34Z",
+          "tree_id": "da5bce94638820fb9274b002027e778b174d8367",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/39a5e3bd93e216c3e7b499dc6eb8b6c3fe6d248d"
+        },
+        "date": 1774359564689,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12216865133333336,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 10.935554523166667,
             "unit": "seconds"
           }
         ]

@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774310643809,
+  "lastUpdate": 1774342451172,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "49718502+alexggh@users.noreply.github.com",
-            "name": "Alexandru Gheorghe",
-            "username": "alexggh"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "c7f9908c2eeb1be70e57819537058beb53664446",
-          "message": "gossip-support: make low connectivity message an error (#9264)\n\nAll is not well when a validator is not properly connected, e.g: of\nthings that might happen:\n- Finality might be slightly delay because validator will be no-show\nbecause they can't retrieve PoVs to validate approval work:\nhttps://github.com/paritytech/polkadot-sdk/issues/8915.\n- When they author blocks they won't back things because gossiping of\nbacking statements happen using the grid topology:, e.g blocks authored\nby validators with a low number of peers:\n\nhttps://polkadot.js.org/apps/?rpc=wss%3A%2F%2Frpc-polkadot.helixstreet.io#/explorer/query/26931262\n\nhttps://polkadot.js.org/apps/?rpc=wss%3A%2F%2Frpc-polkadot.helixstreet.io#/explorer/query/26931260\n\nhttps://polkadot.js.org/apps/?rpc=wss%3A%2F%2Fpolkadot.api.onfinality.io%2Fpublic-ws#/explorer/query/26931334\n\nhttps://polkadot.js.org/apps/?rpc=wss%3A%2F%2Fpolkadot-public-rpc.blockops.network%2Fws#/explorer/query/26931314\n\nhttps://polkadot.js.org/apps/?rpc=wss%3A%2F%2Fpolkadot-public-rpc.blockops.network%2Fws#/explorer/query/26931292\n\nhttps://polkadot.js.org/apps/?rpc=wss%3A%2F%2Fpolkadot-public-rpc.blockops.network%2Fws#/explorer/query/26931447\n\n\nThe problem is seen in `polkadot_parachain_peer_count` metrics, but it\nseems people are not monitoring that well enough, so let's make it more\nvisible nodes with low connectivity are not working in good conditions.\n\nI also reduced the threshold to 85%, so that we don't trigger this error\nto eagerly.\n\n---------\n\nSigned-off-by: Alexandru Gheorghe <alexandru.gheorghe@parity.io>\nCo-authored-by: Bastian Köcher <git@kchr.de>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-21T09:57:39Z",
-          "tree_id": "472c2b031140ce823b7947201ff39347eaf6dbee",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/c7f9908c2eeb1be70e57819537058beb53664446"
-        },
-        "date": 1753096088613,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15689138130666672,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012961870213333332,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022321355099999995,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007300989919999997,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "bitfield-distribution",
             "value": 0.023975639033333333,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "marian@parity.io",
+            "name": "Marian Radu",
+            "username": "marian-radu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a754446d5f37e02ccfec44431a0f25732072e15e",
+          "message": "eth-rpc: add support for the earliest block tag (#11457)\n\n### Summary\n1. Resolve the earliest block tag to the first known EVM block across\nRPC methods (eth_getBlockByNumber, eth_call, eth_getLogs, etc.)\n2. Add a known_first_evm_block_for_chain() lookup for Polkadot, Kusama,\nPaseo, and Westend Asset Hubs so earliest works without historical sync\n3. Fix tracing_block to propagate errors and handle genesis (no parent)\n\nFixes https://github.com/paritytech/polkadot-sdk/issues/11383\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-24T07:31:49Z",
+          "tree_id": "1d2b8439d38d9f6a2c24d5de07bbb5bc8083e019",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/a754446d5f37e02ccfec44431a0f25732072e15e"
+        },
+        "date": 1774342427660,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14482926844666666,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.010080647666666635,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.024114443866666665,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007106458706666664,
             "unit": "seconds"
           }
         ]

@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774309698382,
+  "lastUpdate": 1774341454560,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -69011,6 +69011,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2552200259,
             "range": "± 32027960",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "marian@parity.io",
+            "name": "Marian Radu",
+            "username": "marian-radu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a754446d5f37e02ccfec44431a0f25732072e15e",
+          "message": "eth-rpc: add support for the earliest block tag (#11457)\n\n### Summary\n1. Resolve the earliest block tag to the first known EVM block across\nRPC methods (eth_getBlockByNumber, eth_call, eth_getLogs, etc.)\n2. Add a known_first_evm_block_for_chain() lookup for Polkadot, Kusama,\nPaseo, and Westend Asset Hubs so earliest works without historical sync\n3. Fix tracing_block to propagate errors and handle genesis (no parent)\n\nFixes https://github.com/paritytech/polkadot-sdk/issues/11383\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-24T07:31:49Z",
+          "tree_id": "1d2b8439d38d9f6a2c24d5de07bbb5bc8083e019",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/a754446d5f37e02ccfec44431a0f25732072e15e"
+        },
+        "date": 1774341430620,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18871402,
+            "range": "± 215219",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 19215585,
+            "range": "± 255870",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 21510300,
+            "range": "± 299572",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 25807940,
+            "range": "± 389754",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 60718758,
+            "range": "± 1635214",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 342093064,
+            "range": "± 7600115",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2479671240,
+            "range": "± 83773858",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 16207947,
+            "range": "± 218648",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 16176052,
+            "range": "± 220075",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16935781,
+            "range": "± 187514",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21471058,
+            "range": "± 214803",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 59058171,
+            "range": "± 1629565",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 338994671,
+            "range": "± 5375958",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2633187326,
+            "range": "± 19067513",
             "unit": "ns/iter"
           }
         ]

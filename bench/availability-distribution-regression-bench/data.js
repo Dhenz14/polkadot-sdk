@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774342451172,
+  "lastUpdate": 1774352736128,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "40807189+AlexandruCihodaru@users.noreply.github.com",
-            "name": "Alexandru Cihodaru",
-            "username": "AlexandruCihodaru"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "161e7f4d8b9b6908694d0ccc9bd0ef4a1674e860",
-          "message": "Rewrite old disputes test with zombienet-sdk (#9257)\n\nFixes: #9256\n\n---------\n\nSigned-off-by: Alexandru Cihodaru <alexandru.cihodaru@parity.io>",
-          "timestamp": "2025-07-21T13:46:01Z",
-          "tree_id": "24c826bb9c1c557cd72bf46b1b000eea42cc3c0f",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/161e7f4d8b9b6908694d0ccc9bd0ef4a1674e860"
-        },
-        "date": 1753109632067,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012959029880000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022338434700000007,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.1566965630866667,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.0070836059199999735,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-distribution",
             "value": 0.007106458706666664,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "40807189+AlexandruCihodaru@users.noreply.github.com",
+            "name": "Alexandru Cihodaru",
+            "username": "AlexandruCihodaru"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a1eb95e6ee1b2568ea49902a66ce648dbc3807c5",
+          "message": "Add CandidateDescriptorV3 support to experimental validator (#11306)\n\nAdds CandidateDescriptorV3 support to the experimental validator-side\ncollator protocol.\n\nFixes: #11084\n\n---------\n\nSigned-off-by: Alexandru Cihodaru <alexandru.cihodaru@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-24T10:25:14Z",
+          "tree_id": "3c94cdb2153b3f99069e4517571cafe050b74f0b",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/a1eb95e6ee1b2568ea49902a66ce648dbc3807c5"
+        },
+        "date": 1774352711871,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.006851524806666668,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.024277425806666662,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14721904100666677,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.010022613686666643,
             "unit": "seconds"
           }
         ]

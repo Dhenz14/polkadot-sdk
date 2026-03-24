@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774287100564,
+  "lastUpdate": 1774310643809,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "40807189+AlexandruCihodaru@users.noreply.github.com",
-            "name": "Alexandru Cihodaru",
-            "username": "AlexandruCihodaru"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "443c2ffa03ee20e8244fa4b52ec3c62750d55ca6",
-          "message": "Rewrite validator disabling test with zombienet-sdk (#9128)\n\nFixes #9085\n\n---------\n\nSigned-off-by: Alexandru Cihodaru <alexandru.cihodaru@parity.io>",
-          "timestamp": "2025-07-21T09:08:32Z",
-          "tree_id": "60764da01881d68bd585187a0cf3d60596bfbc12",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/443c2ffa03ee20e8244fa4b52ec3c62750d55ca6"
-        },
-        "date": 1753093204679,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013269202026666663,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02270209992666667,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007082158500000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15885153844666666,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-distribution",
             "value": 0.007160112720000001,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "dharjeezy@gmail.com",
+            "name": "dharjeezy",
+            "username": "dharjeezy"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "61556930595657ee7aa3585f8e42fe319e7046f5",
+          "message": "try state hook for pallet authorship (#11215)\n\nThis PR introduces the try_state hook to pallet-authorship to verify a\nkey storage invariant.\n\ncloses part of https://github.com/paritytech/polkadot-sdk/issues/239\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-23T22:43:02Z",
+          "tree_id": "cc2d9d396fc3f73fc52770a281bae6c983ad8f21",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/61556930595657ee7aa3585f8e42fe319e7046f5"
+        },
+        "date": 1774310620295,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.006859996493333331,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009875613359999981,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14650976095333335,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.023975639033333333,
             "unit": "seconds"
           }
         ]

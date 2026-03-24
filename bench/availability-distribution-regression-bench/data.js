@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774352736128,
+  "lastUpdate": 1774359626152,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "117115317+lrubasze@users.noreply.github.com",
-            "name": "Lukasz Rubaszewski",
-            "username": "lrubasze"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "b4b019e4db0ef47b0952638388eba4958e1c4004",
-          "message": "Zombienet CI improvements (#9172)\n\n## 🔄 Zombienet CI Refactor: Matrix-Based Workflows\n\nThis PR refactors the Zombienet CI workflows to use a **matrix-based\napproach**, resulting in:\n\n- ✅ **Easier test maintenance** – easily add or remove tests without\nduplicating workflow logic.\n- 🩹 **Improved flaky test handling** – flaky tests are excluded by\ndefault but can be explicitly included by pattern.\n- 🔍 **Pattern-based test selection** – run only tests matching a name\npattern, ideal for debugging.\n\n---\n\n## 🗂️ Structure Changes\n\n- **Test definitions** are now stored in `.github/zombienet-tests/`.\n- Each workflow (`Cumulus`, `Substrate`, `Polkadot`, `Parachain\nTemplate`) has its own YAML file with test configurations.\n\n---\n\n## 🧰 Added Scripts\n\n### `.github/scripts/parse-zombienet-tests.py`\n- Parses test definitions and generates a GitHub Actions matrix.\n- Filters out flaky tests by default.\n- If a `test_pattern` is provided, matching tests are **included even if\nflaky**.\n\n### `.github/scripts/dispatch-zombienet-workflow.sh`\n- Triggers a Zombienet workflow multiple times, optionally filtered by\ntest name pattern.\n- Stores results in a **CSV file** for analysis.\n- Useful for debugging flaky tests or stress-testing specific workflows.\n- Intended to be run from the local machine.\n\n---------\n\nCo-authored-by: Javier Viola <363911+pepoviola@users.noreply.github.com>\nCo-authored-by: Alexander Samusev <41779041+alvicsam@users.noreply.github.com>\nCo-authored-by: Javier Viola <javier@parity.io>",
-          "timestamp": "2025-07-21T16:28:18Z",
-          "tree_id": "b6ee4c0f3e3cb8b9bd8a8cadc045014f1ac0fd77",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/b4b019e4db0ef47b0952638388eba4958e1c4004"
-        },
-        "date": 1753119560159,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013039044593333333,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.0070197204200000375,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15695965793333333,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02217715588,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.010022613686666643,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@kchr.de",
+            "name": "Bastian Köcher",
+            "username": "bkchr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "39a5e3bd93e216c3e7b499dc6eb8b6c3fe6d248d",
+          "message": "rpc-server: Use own thread pool for RPC functionality (#10757)\n\nRight now the RPC is using the same thread pool as the rest of the node.\nWhen there is high usage and the node is running out of threads for\nblocking futures, RPC calls start to take very long time. This may also\nresults in problems with other node functionality that would also be\nblocked by waiting for new threads. This pull request assigns the rpc\nserver its own thread pool that gets the same number as threads as\n`max_connections`. These threads are only started on demand, but should\nallow any RPC connection to have at least one thread to run blocking\ntasks.\n\nIn a next step we should finally look into the performance metering of\nRPC calls and ensure that we have some proper rate limit in place to\ngive every connection a fair share.\n\n\nHopefully helps with:\nhttps://github.com/paritytech/polkadot-sdk/issues/10719\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-24T12:18:34Z",
+          "tree_id": "da5bce94638820fb9274b002027e778b174d8367",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/39a5e3bd93e216c3e7b499dc6eb8b6c3fe6d248d"
+        },
+        "date": 1774359600015,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009745191033333309,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.023515672920000008,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007106769439999999,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14458099639333338,
             "unit": "seconds"
           }
         ]

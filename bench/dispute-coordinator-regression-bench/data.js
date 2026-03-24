@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774310739319,
+  "lastUpdate": 1774342548809,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "git@kchr.de",
-            "name": "Bastian Köcher",
-            "username": "bkchr"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "b9fd81b1d511c1b82d44129ae6e3592620508d85",
-          "message": "Remove `subwasmlib` (#9252)\n\nThis removes `subwasmlib` and replaces it with some custom code to fetch\nthe metadata. Main point of this change is the removal of some external\ndependency.\n\nCloses: https://github.com/paritytech/polkadot-sdk/issues/9203\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-18T11:26:43Z",
-          "tree_id": "8158e2688a0180b1512385a845c592f5319d7f2d",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/b9fd81b1d511c1b82d44129ae6e3592620508d85"
-        },
-        "date": 1752842282023,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008526041989999988,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005162670399999988,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.00263012882,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-coordinator",
             "value": 0.0026293072999999997,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "marian@parity.io",
+            "name": "Marian Radu",
+            "username": "marian-radu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a754446d5f37e02ccfec44431a0f25732072e15e",
+          "message": "eth-rpc: add support for the earliest block tag (#11457)\n\n### Summary\n1. Resolve the earliest block tag to the first known EVM block across\nRPC methods (eth_getBlockByNumber, eth_call, eth_getLogs, etc.)\n2. Add a known_first_evm_block_for_chain() lookup for Polkadot, Kusama,\nPaseo, and Westend Asset Hubs so earliest works without historical sync\n3. Fix tracing_block to propagate errors and handle genesis (no parent)\n\nFixes https://github.com/paritytech/polkadot-sdk/issues/11383\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-24T07:31:49Z",
+          "tree_id": "1d2b8439d38d9f6a2c24d5de07bbb5bc8083e019",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/a754446d5f37e02ccfec44431a0f25732072e15e"
+        },
+        "date": 1774342524909,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009444632309999972,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009664474269999994,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.0026514285400000004,
             "unit": "seconds"
           }
         ]

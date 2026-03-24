@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774359733996,
+  "lastUpdate": 1774381558992,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "5588131+kianenigma@users.noreply.github.com",
-            "name": "Kian Paimani",
-            "username": "kianenigma"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "0d2106685025a0dad542b0980aab763ce0352755",
-          "message": "Allow locking to bump consumer without limits (#9176)\n\nLocking is a system-level operation, and can only increment the consumer\nlimit at most once. Therefore, it should use\n`inc_consumer_without_limits`. This behavior is optional, and is only\nused in the call path of `LockableCurrency`. Reserves, Holds and Freezes\n(and other operations like transfer etc.) have the ability to return\n`DispatchResult` and don't need this bypass. This is demonstrated in the\nunit tests added.\n\nBeyond this, this PR: \n\n* uses the correct way to get the account data in tests\n* adds an `Unexpected` event instead of a silent `debug_assert!`. \n* Adds `try_state` checks for correctness of `account.frozen` invariant.\n\n---------\n\nCo-authored-by: Ankan <10196091+Ank4n@users.noreply.github.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-20T08:51:04Z",
-          "tree_id": "f4835fef77bc77f12a7b25e5789a72edb66a8110",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/0d2106685025a0dad542b0980aab763ce0352755"
-        },
-        "date": 1753005685826,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005183158079999993,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.00856138804999999,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0026465043899999994,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.010453855100000006,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "363911+pepoviola@users.noreply.github.com",
+            "name": "Javier Viola",
+            "username": "pepoviola"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "06bded7ab7ac6a50e0aeba48c0f7f5ca548c3573",
+          "message": "zombienet migrate misc tests (#11394)\n\nMigrate _misc_ test:\n\n- parityDb\n- malus",
+          "timestamp": "2026-03-24T18:20:38Z",
+          "tree_id": "7fdf50b186578735211c7346f83a1ac7ae1eeed3",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/06bded7ab7ac6a50e0aeba48c0f7f5ca548c3573"
+        },
+        "date": 1774381535214,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009318824860000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.00271985267,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009441729209999989,
             "unit": "seconds"
           }
         ]

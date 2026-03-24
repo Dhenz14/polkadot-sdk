@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774352769558,
+  "lastUpdate": 1774359662402,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "49718502+alexggh@users.noreply.github.com",
-            "name": "Alexandru Gheorghe",
-            "username": "alexggh"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "c7f9908c2eeb1be70e57819537058beb53664446",
-          "message": "gossip-support: make low connectivity message an error (#9264)\n\nAll is not well when a validator is not properly connected, e.g: of\nthings that might happen:\n- Finality might be slightly delay because validator will be no-show\nbecause they can't retrieve PoVs to validate approval work:\nhttps://github.com/paritytech/polkadot-sdk/issues/8915.\n- When they author blocks they won't back things because gossiping of\nbacking statements happen using the grid topology:, e.g blocks authored\nby validators with a low number of peers:\n\nhttps://polkadot.js.org/apps/?rpc=wss%3A%2F%2Frpc-polkadot.helixstreet.io#/explorer/query/26931262\n\nhttps://polkadot.js.org/apps/?rpc=wss%3A%2F%2Frpc-polkadot.helixstreet.io#/explorer/query/26931260\n\nhttps://polkadot.js.org/apps/?rpc=wss%3A%2F%2Fpolkadot.api.onfinality.io%2Fpublic-ws#/explorer/query/26931334\n\nhttps://polkadot.js.org/apps/?rpc=wss%3A%2F%2Fpolkadot-public-rpc.blockops.network%2Fws#/explorer/query/26931314\n\nhttps://polkadot.js.org/apps/?rpc=wss%3A%2F%2Fpolkadot-public-rpc.blockops.network%2Fws#/explorer/query/26931292\n\nhttps://polkadot.js.org/apps/?rpc=wss%3A%2F%2Fpolkadot-public-rpc.blockops.network%2Fws#/explorer/query/26931447\n\n\nThe problem is seen in `polkadot_parachain_peer_count` metrics, but it\nseems people are not monitoring that well enough, so let's make it more\nvisible nodes with low connectivity are not working in good conditions.\n\nI also reduced the threshold to 85%, so that we don't trigger this error\nto eagerly.\n\n---------\n\nSigned-off-by: Alexandru Gheorghe <alexandru.gheorghe@parity.io>\nCo-authored-by: Bastian Köcher <git@kchr.de>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-21T09:57:39Z",
-          "tree_id": "472c2b031140ce823b7947201ff39347eaf6dbee",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/c7f9908c2eeb1be70e57819537058beb53664446"
-        },
-        "date": 1753096114353,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52940.09999999999,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63633.96,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.00001675959,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4721769810500005,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.5004954588500015,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.476622449499999,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9313119012599962,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.6409391269710207,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.318300331169997,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.44198638150999725,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.489933895680001,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.00001738881,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.00001738881,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005773263319999995,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.00001675959,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-distribution/test-environment",
             "value": 0.00002448279,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@kchr.de",
+            "name": "Bastian Köcher",
+            "username": "bkchr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "39a5e3bd93e216c3e7b499dc6eb8b6c3fe6d248d",
+          "message": "rpc-server: Use own thread pool for RPC functionality (#10757)\n\nRight now the RPC is using the same thread pool as the rest of the node.\nWhen there is high usage and the node is running out of threads for\nblocking futures, RPC calls start to take very long time. This may also\nresults in problems with other node functionality that would also be\nblocked by waiting for new threads. This pull request assigns the rpc\nserver its own thread pool that gets the same number as threads as\n`max_connections`. These threads are only started on demand, but should\nallow any RPC connection to have at least one thread to run blocking\ntasks.\n\nIn a next step we should finally look into the performance metering of\nRPC calls and ensure that we have some proper rate limit in place to\ngive every connection a fair share.\n\n\nHopefully helps with:\nhttps://github.com/paritytech/polkadot-sdk/issues/10719\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-24T12:18:34Z",
+          "tree_id": "da5bce94638820fb9274b002027e778b174d8367",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/39a5e3bd93e216c3e7b499dc6eb8b6c3fe6d248d"
+        },
+        "date": 1774359635968,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 63612.55,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 52937.90000000001,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.7211842940700004,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.770089889709999,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.3106620016528385,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.00002171672,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.000021815780000000004,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7832404638899516,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.7811446756599976,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.244420396759955,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.000021815780000000004,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.00525282133,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.74633458565,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.4371736664500085,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.00002171672,
             "unit": "seconds"
           }
         ]

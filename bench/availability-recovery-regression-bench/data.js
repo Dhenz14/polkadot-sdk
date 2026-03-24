@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774359590270,
+  "lastUpdate": 1774381427106,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "dmitry@markin.tech",
-            "name": "Dmitry Markin",
-            "username": "dmitry-markin"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "db5e645422ccf952018a3c466a33fef477858602",
-          "message": "network: Upgrade litep2p to v0.10.0 (#9287)\n\n## litep2p v0.10.0\n\nThis release adds the ability to use system DNS resolver and change\nKademlia DNS memory store capacity. It also fixes the Bitswap protocol\nimplementation and correctly handles the dropped notification substreams\nby unregistering them from the protocol list.\n\n### Added\n\n- kad: Expose memory store configuration\n([#407](https://github.com/paritytech/litep2p/pull/407))\n- transport: Allow changing DNS resolver config\n([#384](https://github.com/paritytech/litep2p/pull/384))\n\n### Fixed\n\n- notification: Unregister dropped protocols\n([#391](https://github.com/paritytech/litep2p/pull/391))\n- bitswap: Fix protocol implementation\n([#402](https://github.com/paritytech/litep2p/pull/402))\n- transport-manager: stricter supported multiaddress check\n([#403](https://github.com/paritytech/litep2p/pull/403))\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-22T14:24:10Z",
-          "tree_id": "a01eacbdd376755eea81cbd3e34a8279b13055c8",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/db5e645422ccf952018a3c466a33fef477858602"
-        },
-        "date": 1753198789871,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19615812963333332,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.325385695000001,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 10.935554523166667,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "363911+pepoviola@users.noreply.github.com",
+            "name": "Javier Viola",
+            "username": "pepoviola"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "06bded7ab7ac6a50e0aeba48c0f7f5ca548c3573",
+          "message": "zombienet migrate misc tests (#11394)\n\nMigrate _misc_ test:\n\n- parityDb\n- malus",
+          "timestamp": "2026-03-24T18:20:38Z",
+          "tree_id": "7fdf50b186578735211c7346f83a1ac7ae1eeed3",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/06bded7ab7ac6a50e0aeba48c0f7f5ca548c3573"
+        },
+        "date": 1774381402922,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 10.898806780533333,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12908132393333333,
             "unit": "seconds"
           }
         ]

@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774359626152,
+  "lastUpdate": 1774381459876,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "60601340+lexnv@users.noreply.github.com",
-            "name": "Alexandru Vasile",
-            "username": "lexnv"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "2f8d2a2b875a3f08aae5dd82c09ffe65932d2e62",
-          "message": "consensus/grandpa: Fix high number of peer disconnects with invalid justification (#9015)\n\nA grandpa race-casse has been identified in the versi-net stack around\nauthority set changes, which leads to the following:\n\n- T0 / Node A: Completes round (15)\n- T1 / Node A: Applies new authority set change and increments the SetID\n(from 0 to 1)\n- T2 / Node B: Sends Precommit for round (15) with SetID (0) -- previous\nset ID\n- T3 / Node B: Applies new authority set change and increments the SetID\n(1)\n\nIn this scenario, Node B is not aware at the moment of sending\njustifications that the Set ID has changed.\nThe downstream effect is that Node A will not be able to verify the\nsignature of justifications, since a different SetID is taken into\naccount. This will cascade through the sync engine, where the Node B is\nwrongfully banned and disconnected.\n\nThis PR aims to fix the edge-case by making the grandpa resilient to\nverifying prior setIDs for signatures.\nWhen the signature of the grandpa justification fails to decode, the\nprior SetID is also verified. If the prior SetID produces a valid\nsignature, then the outdated justification error is propagated through\nthe code (ie `SignatureResult::OutdatedSet`).\n\nThe sync engine will handle the outdated justifications as invalid, but\nwithout banning the peer. This leads to increased stability of the\nnetwork during authority changes, which caused frequent disconnects to\nversi-net in the past.\n\n### Review Notes\n- Main changes that verify prior SetId on failures are placed in\n[check_message_signature_with_buffer](https://github.com/paritytech/polkadot-sdk/pull/9015/files#diff-359d7a46ea285177e5d86979f62f0f04baabf65d595c61bfe44b6fc01af70d89R458-R501)\n- Sync engine no longer disconnects outdated justifications in\n[process_service_command](https://github.com/paritytech/polkadot-sdk/pull/9015/files#diff-9ab3391aa82ee2b2868ece610100f84502edcf40638dba9ed6953b6e572dfba5R678-R703)\n\n### Testing Done\n- Deployed the PR to versi-net with 40 validators\n- Prior we have noticed 10/40 validators disconnecting every 15-20\nminutes, leading to instability\n- Over past 24h the issue has been mitigated:\nhttps://grafana.teleport.parity.io/goto/FPNWlmsHR?orgId=1\n- Note: bootnodes 0 and 1 are currently running outdated versions that\ndo not incorporate this SetID verification improvement\n\nCloses: https://github.com/paritytech/polkadot-sdk/issues/8872\nCloses: https://github.com/paritytech/polkadot-sdk/issues/1147\n\n---------\n\nSigned-off-by: Alexandru Vasile <alexandru.vasile@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Dmitry Markin <dmitry@markin.tech>",
-          "timestamp": "2025-07-22T12:08:36Z",
-          "tree_id": "e83cda247a4ac590cf45c24390e0736eea169d4c",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/2f8d2a2b875a3f08aae5dd82c09ffe65932d2e62"
-        },
-        "date": 1753190805553,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007030141393333313,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02248606172666667,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012915019499999996,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.16056689800666668,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-store",
             "value": 0.14458099639333338,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "363911+pepoviola@users.noreply.github.com",
+            "name": "Javier Viola",
+            "username": "pepoviola"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "06bded7ab7ac6a50e0aeba48c0f7f5ca548c3573",
+          "message": "zombienet migrate misc tests (#11394)\n\nMigrate _misc_ test:\n\n- parityDb\n- malus",
+          "timestamp": "2026-03-24T18:20:38Z",
+          "tree_id": "7fdf50b186578735211c7346f83a1ac7ae1eeed3",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/06bded7ab7ac6a50e0aeba48c0f7f5ca548c3573"
+        },
+        "date": 1774381436025,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.024034275639999995,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007104375366666669,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009980321873333323,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14881208392666673,
             "unit": "seconds"
           }
         ]

@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774398680070,
+  "lastUpdate": 1774436326024,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "enntheprogrammer@gmail.com",
-            "name": "sistemd",
-            "username": "sistemd"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "e2802be4f32f55006abd3a40fc1808d997eaa4e1",
-          "message": "fix: skip verifying imported blocks (#9280)\n\nCloses https://github.com/paritytech/polkadot-sdk/issues/9277. Still WIP\ntesting\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-22T21:08:01Z",
-          "tree_id": "81087a8a688af80d3a3c027177554189be9e4050",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/e2802be4f32f55006abd3a40fc1808d997eaa4e1"
-        },
-        "date": 1753222703231,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.352789058133334,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.1967154948,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.12131117223333332,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "dmitry@markin.tech",
+            "name": "Dmitry Markin",
+            "username": "dmitry-markin"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1866a5de1d89429ff43f114606f2aa69ffa9a0ae",
+          "message": "Publish indexed transactions with BLAKE2b hashes to IPFS DHT (#10468)\n\nAdd `--ipfs-bootnodes` flag for specifying IPFS bootnodes. If passed\nalong with `--ipfs-server`, the node will register as a content provider\nin IPFS DHT of indexed transactions with BLAKE2b hashes of the last two\nweeks (or pruning depth if smaller).\n\n## Follow-ups\n- Support other hashes (sha2-256 specifically) and CID codecs\n- Adjust `IPFS_MAX_BLOCKS` for chains with elastic scaling\n- Speedup DHT publishing in litep2p (should aim at 10s single provider\npublish time)\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-25T09:36:33Z",
+          "tree_id": "40c3531a33f769a8ab358681c7f0f821ac1c0c1f",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/1866a5de1d89429ff43f114606f2aa69ffa9a0ae"
+        },
+        "date": 1774436301845,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12079297733333332,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.645869036166667,
             "unit": "seconds"
           }
         ]

@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774449007417,
+  "lastUpdate": 1774456854566,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "117115317+lrubasze@users.noreply.github.com",
-            "name": "Lukasz Rubaszewski",
-            "username": "lrubasze"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "b4b019e4db0ef47b0952638388eba4958e1c4004",
-          "message": "Zombienet CI improvements (#9172)\n\n## 🔄 Zombienet CI Refactor: Matrix-Based Workflows\n\nThis PR refactors the Zombienet CI workflows to use a **matrix-based\napproach**, resulting in:\n\n- ✅ **Easier test maintenance** – easily add or remove tests without\nduplicating workflow logic.\n- 🩹 **Improved flaky test handling** – flaky tests are excluded by\ndefault but can be explicitly included by pattern.\n- 🔍 **Pattern-based test selection** – run only tests matching a name\npattern, ideal for debugging.\n\n---\n\n## 🗂️ Structure Changes\n\n- **Test definitions** are now stored in `.github/zombienet-tests/`.\n- Each workflow (`Cumulus`, `Substrate`, `Polkadot`, `Parachain\nTemplate`) has its own YAML file with test configurations.\n\n---\n\n## 🧰 Added Scripts\n\n### `.github/scripts/parse-zombienet-tests.py`\n- Parses test definitions and generates a GitHub Actions matrix.\n- Filters out flaky tests by default.\n- If a `test_pattern` is provided, matching tests are **included even if\nflaky**.\n\n### `.github/scripts/dispatch-zombienet-workflow.sh`\n- Triggers a Zombienet workflow multiple times, optionally filtered by\ntest name pattern.\n- Stores results in a **CSV file** for analysis.\n- Useful for debugging flaky tests or stress-testing specific workflows.\n- Intended to be run from the local machine.\n\n---------\n\nCo-authored-by: Javier Viola <363911+pepoviola@users.noreply.github.com>\nCo-authored-by: Alexander Samusev <41779041+alvicsam@users.noreply.github.com>\nCo-authored-by: Javier Viola <javier@parity.io>",
-          "timestamp": "2025-07-21T16:28:18Z",
-          "tree_id": "b6ee4c0f3e3cb8b9bd8a8cadc045014f1ac0fd77",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/b4b019e4db0ef47b0952638388eba4958e1c4004"
-        },
-        "date": 1753119635777,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005184043969999991,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0026784164,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008702161579999989,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-coordinator",
             "value": 0.00269052889,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "monica@parity.io",
+            "name": "Monica Jin",
+            "username": "mokita-j"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d36f3b04b0cd268adb905e54382e2f63c3022499",
+          "message": "[pallet-revive] Add PVM fuel tracing (#11481)\n\nAdd **`pvm_fuel`** trace steps to PVM execution traces, recording pvm\nfuel consumption between syscalls and after the execution loop exits.\n\nSeparate synthetic trace steps from the real syscall list:\n`list_syscalls()` contains syscalls contracts can actually import, while\nnew `list_trace_ops()` / `lookup_trace_op_index()` include both real\nsyscalls and synthetic steps like `pvm_fuel`.\n\n## Integration\n\nCode using `list_syscalls()` for **trace** serialization should switch\nto `list_trace_ops()` / `lookup_trace_op_index()`. `list_syscalls()` and\n`lookup_syscall_index()` are unchanged for **real syscalls**.\n\n## Review Notes\n- Proc-macro wraps `sync_from_executor` with `enter_ecall` / `exit_step`\ntracing hooks for `pvm_fuel`\n- PreparedCall::call adds a final `pvm_fuel` trace after the execution\nloop exits\n  - PVM JSON trace fixtures updated to include `pvm_fuel` steps\n \n**Note**: evm-test-suite pvm snapshot needs to be updated with the\n`pvm_fuel` entries.\n[#143](https://github.com/paritytech/evm-test-suite/pull/143)\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-25T15:19:45Z",
+          "tree_id": "c39794365e0ef220a2a73af008f1feee9dc7d43f",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/d36f3b04b0cd268adb905e54382e2f63c3022499"
+        },
+        "date": 1774456834246,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009538698599999982,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.00980382248,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.00266260887,
             "unit": "seconds"
           }
         ]

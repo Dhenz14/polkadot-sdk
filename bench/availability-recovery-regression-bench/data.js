@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774456747866,
+  "lastUpdate": 1774474760620,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "4211399+ordian@users.noreply.github.com",
-            "name": "ordian",
-            "username": "ordian"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "e5e3941b5fb480a27e37f28fd437962dd029ec96",
-          "message": "yap-runtime: fixes for `GetParachainInfo` (#9312)\n\nThis fixes the YAP parachain runtimes in case you encounter a panic in\nthe collator similar to\nhttps://github.com/paritytech/zombienet/issues/2050:\n```\nFailed to retrieve the parachain id\n```\n(which we do have zombienet-sdk tests for\n[here](https://github.com/paritytech/polkadot-sdk/blob/master/substrate/client/transaction-pool/tests/zombienet/yap_test.rs))\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-24T13:03:01Z",
-          "tree_id": "d908f5b48bf7d1a16c929565a909eeb7371482b8",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/e5e3941b5fb480a27e37f28fd437962dd029ec96"
-        },
-        "date": 1753366251096,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19633605053333333,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.259815975033334,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.12551845816666668,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "oliver.tale-yazdi@parity.io",
+            "name": "Oliver Tale-Yazdi",
+            "username": "ggwpez"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a60abddb213ad35d7648ab9ca158c1de8cb75c98",
+          "message": "Expose ECC host functions (#11334)\n\nChanges:\n- Expose host functions for `BLS12-381`, `Ed-on-BLS12-381-Bandersnatch`,\n`Pallas`, `Vesta` for parachains\n- Add new executor param `EnabledHostFunction` that can be used to\nenable host function usage.\n\nThese were ratified in [RFC\n163](https://github.com/polkadot-fellows/RFCs/pull/163). The missing\nPasta curves will be added later\nhttps://github.com/paritytech/polkadot-sdk/pull/11035. We will use these\non the people chain only.\n\n---------\n\nSigned-off-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>\nCo-authored-by: Sebastian Kunert <skunert49@gmail.com>\nCo-authored-by: Davide Galassi <davxy@datawok.net>",
+          "timestamp": "2026-03-25T20:19:07Z",
+          "tree_id": "9cc973886416a77569a2f7e5bc7a71d084a2221f",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/a60abddb213ad35d7648ab9ca158c1de8cb75c98"
+        },
+        "date": 1774474739116,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1272244226,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.2214864506,
             "unit": "seconds"
           }
         ]

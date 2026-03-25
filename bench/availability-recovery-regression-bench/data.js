@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774448876049,
+  "lastUpdate": 1774456747866,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "karol@parity.io",
-            "name": "Karol Kokoszka",
-            "username": "karolk91"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "069b7b56118fd65ecdbc6fea6c4dd1ffbf586d67",
-          "message": "Fix subsume_assets incorrectly merging two AssetsInHolding (#9179)\n\n`subsume_assets` fails to correctly subsume two instances of\n`AssetsInHolding` under certain conditions which can result in loss of\nfunds (as assets are overriden rather than summed together)\n\nEg. consider following test:\n```\n\t#[test]\n\tfn subsume_assets_different_length_holdings() {\n\t\tlet mut t1 = AssetsInHolding::new();\n\t\tt1.subsume(CFP(400));\n\n\t\tlet mut t2 = AssetsInHolding::new();\n\t\tt2.subsume(CF(100));\n\t\tt2.subsume(CFP(100));\n\n\t\tt1.subsume_assets(t2);\n```\n\ncurrent result (without this PR change):\n```\n\t\tlet mut iter = t1.into_assets_iter();\n\t\tassert_eq!(Some(CF(100)), iter.next());\n\t\tassert_eq!(Some(CFP(100)), iter.next());\n```\n\nexpected result:\n```\n\t\tlet mut iter = t1.into_assets_iter();\n\t\tassert_eq!(Some(CF(100)), iter.next());\n\t\tassert_eq!(Some(CFP(500)), iter.next());\n```\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Branislav Kontur <bkontur@gmail.com>",
-          "timestamp": "2025-07-24T05:51:09Z",
-          "tree_id": "a2e8b99e5afdb2a058e9db3d8566040f491d5955",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/069b7b56118fd65ecdbc6fea6c4dd1ffbf586d67"
-        },
-        "date": 1753340546443,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.276461725533334,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19609813056666664,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.12638992226666668,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "monica@parity.io",
+            "name": "Monica Jin",
+            "username": "mokita-j"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d36f3b04b0cd268adb905e54382e2f63c3022499",
+          "message": "[pallet-revive] Add PVM fuel tracing (#11481)\n\nAdd **`pvm_fuel`** trace steps to PVM execution traces, recording pvm\nfuel consumption between syscalls and after the execution loop exits.\n\nSeparate synthetic trace steps from the real syscall list:\n`list_syscalls()` contains syscalls contracts can actually import, while\nnew `list_trace_ops()` / `lookup_trace_op_index()` include both real\nsyscalls and synthetic steps like `pvm_fuel`.\n\n## Integration\n\nCode using `list_syscalls()` for **trace** serialization should switch\nto `list_trace_ops()` / `lookup_trace_op_index()`. `list_syscalls()` and\n`lookup_syscall_index()` are unchanged for **real syscalls**.\n\n## Review Notes\n- Proc-macro wraps `sync_from_executor` with `enter_ecall` / `exit_step`\ntracing hooks for `pvm_fuel`\n- PreparedCall::call adds a final `pvm_fuel` trace after the execution\nloop exits\n  - PVM JSON trace fixtures updated to include `pvm_fuel` steps\n \n**Note**: evm-test-suite pvm snapshot needs to be updated with the\n`pvm_fuel` entries.\n[#143](https://github.com/paritytech/evm-test-suite/pull/143)\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-25T15:19:45Z",
+          "tree_id": "c39794365e0ef220a2a73af008f1feee9dc7d43f",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/d36f3b04b0cd268adb905e54382e2f63c3022499"
+        },
+        "date": 1774456727462,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.133135745600004,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12551845816666668,
             "unit": "seconds"
           }
         ]

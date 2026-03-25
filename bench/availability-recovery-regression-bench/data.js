@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774436326024,
+  "lastUpdate": 1774441806452,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "10196091+Ank4n@users.noreply.github.com",
-            "name": "Ankan",
-            "username": "Ank4n"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "a34de56236e741a081aeb9f7af5094d781e0ac9d",
-          "message": "[Staking Async] Saturating accrue era reward points (#9186)\n\nReplaces regular addition with saturating addition when accumulating era\nreward points in `pallet-staking-async` to prevent potential overflow.\n\n---------\n\nCo-authored-by: Bastian Köcher <git@kchr.de>",
-          "timestamp": "2025-07-23T07:59:42Z",
-          "tree_id": "17724309115bdf377ef4cbb9701eb49cfe7146f6",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/a34de56236e741a081aeb9f7af5094d781e0ac9d"
-        },
-        "date": 1753261760079,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.1965688126,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.244148989333333,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 11.645869036166667,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "48632512+s0me0ne-unkn0wn@users.noreply.github.com",
+            "name": "s0me0ne-unkn0wn",
+            "username": "s0me0ne-unkn0wn"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "9f59e2c307ec5be7d336701b0a83cc8f7c17f760",
+          "message": "Statement Store: Introduce new CLI args (#11407)\n\nCloses #11265 \n\nIn addition to introducing new CLI args, this PR reworks the statement\nstore configuration, consolidating all parameters into a single\nstructure.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-25T11:11:06Z",
+          "tree_id": "261af08efea24c9269c49cf12be52708b213c79b",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/9f59e2c307ec5be7d336701b0a83cc8f7c17f760"
+        },
+        "date": 1774441782439,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.11979752093333336,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.194146828900003,
             "unit": "seconds"
           }
         ]

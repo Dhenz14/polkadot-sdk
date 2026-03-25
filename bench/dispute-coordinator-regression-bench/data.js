@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774398809893,
+  "lastUpdate": 1774436458609,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "40807189+AlexandruCihodaru@users.noreply.github.com",
-            "name": "Alexandru Cihodaru",
-            "username": "AlexandruCihodaru"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "443c2ffa03ee20e8244fa4b52ec3c62750d55ca6",
-          "message": "Rewrite validator disabling test with zombienet-sdk (#9128)\n\nFixes #9085\n\n---------\n\nSigned-off-by: Alexandru Cihodaru <alexandru.cihodaru@parity.io>",
-          "timestamp": "2025-07-21T09:08:32Z",
-          "tree_id": "60764da01881d68bd585187a0cf3d60596bfbc12",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/443c2ffa03ee20e8244fa4b52ec3c62750d55ca6"
-        },
-        "date": 1753093279804,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0026315498100000006,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.0051757640699999965,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008546156399999985,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.009657092630000006,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "dmitry@markin.tech",
+            "name": "Dmitry Markin",
+            "username": "dmitry-markin"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1866a5de1d89429ff43f114606f2aa69ffa9a0ae",
+          "message": "Publish indexed transactions with BLAKE2b hashes to IPFS DHT (#10468)\n\nAdd `--ipfs-bootnodes` flag for specifying IPFS bootnodes. If passed\nalong with `--ipfs-server`, the node will register as a content provider\nin IPFS DHT of indexed transactions with BLAKE2b hashes of the last two\nweeks (or pruning depth if smaller).\n\n## Follow-ups\n- Support other hashes (sha2-256 specifically) and CID codecs\n- Adjust `IPFS_MAX_BLOCKS` for chains with elastic scaling\n- Speedup DHT publishing in litep2p (should aim at 10s single provider\npublish time)\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-25T09:36:33Z",
+          "tree_id": "40c3531a33f769a8ab358681c7f0f821ac1c0c1f",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/1866a5de1d89429ff43f114606f2aa69ffa9a0ae"
+        },
+        "date": 1774436434153,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.00976930733999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.00267538273,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.010917725190000007,
             "unit": "seconds"
           }
         ]

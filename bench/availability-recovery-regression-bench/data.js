@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774441806452,
+  "lastUpdate": 1774448876049,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "178801527+raymondkfcheung@users.noreply.github.com",
-            "name": "Raymond Cheung",
-            "username": "raymondkfcheung"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "9428742a2994c4fb2b2de8d4bfc36deeca01e19d",
-          "message": "Replace `log` with `tracing` on `pallet-bridge-grandpa` (#9294)\n\nThis PR replaces `log` with `tracing` instrumentation on\n`pallet-bridge-grandpa` by providing structured logging.\n\nPartially addresses #9211",
-          "timestamp": "2025-07-23T16:44:52Z",
-          "tree_id": "531de75c002557fd8ed854570af158ed405f2c2f",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/9428742a2994c4fb2b2de8d4bfc36deeca01e19d"
-        },
-        "date": 1753293339384,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19639189666666668,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.247704956700002,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 11.194146828900003,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "tsvetomir@parity.io",
+            "name": "Tsvetomir Dimitrov",
+            "username": "tdimitrov"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "9d8a2fefd2414591c4a243460f3ffc5195a71deb",
+          "message": "Don't bubble up errors during collator score parsing in collator protocol (#11496)\n\nWhen starting the node with a warp sync and we hit a period near the\n`WARP_SYNC_TARGET_BLOCK` (each 512 blocks) we might not be able to call\na runtime apis for some blocks, which will yield an error in the\ncollator protocol revamp.\n\nDon't bubble up such errors to prevent the subsystem from exiting.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-25T13:06:10Z",
+          "tree_id": "015160e05b32d1df2777d0bc46dea09374e6ed2d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/9d8a2fefd2414591c4a243460f3ffc5195a71deb"
+        },
+        "date": 1774448852358,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.088331321633337,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12638992226666668,
             "unit": "seconds"
           }
         ]

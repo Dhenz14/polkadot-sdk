@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774381558992,
+  "lastUpdate": 1774398809893,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "enntheprogrammer@gmail.com",
-            "name": "sistemd",
-            "username": "sistemd"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "b17f06bf06dbee585bbd8dc6d070c5edf56916e1",
-          "message": "babe: keep stateless verification in `Verifier`, move everything else to the import queue (#9147)\n\nWe agreed to split https://github.com/paritytech/polkadot-sdk/pull/8446\ninto two PRs: one for BABE (this one) and one for AURA. This is the\neasier one.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-20T16:43:16Z",
-          "tree_id": "c968ceb147b12e27e9ff5063f8c4303d14b3aeb9",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/b17f06bf06dbee585bbd8dc6d070c5edf56916e1"
-        },
-        "date": 1753034282957,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008536643269999988,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0026549024399999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.0051494235899999935,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-distribution",
             "value": 0.009441729209999989,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "37865735+clangenb@users.noreply.github.com",
+            "name": "clangenb",
+            "username": "clangenb"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "44f97882cb5c890a6d228df63499953f317348d0",
+          "message": "[pallet-assets] fix: decrement supply when refund burns balance (#11441)\n\nWhen a user calls `refund` with `allow_burn = true`, their token balance\nis destroyed, but the asset's total supply was never updated. This\ncaused `total_issuance()` to overcount. The fix decrements supply and\nemits a `Burned` event, consistent with how every other burn path works.\n\nIn production, burning path is rarely triggered. The fungibles trait\ninterface always passes `allow_burn = false`, so only users manually\nsubmitting the refund extrinsic with the burn flag would hit it.\n\nFollow-up issue for migrating the discrepancy (observed on Westend):\nhttps://github.com/paritytech/polkadot-sdk/issues/11443.\n\nFixes #10412\n\n---------\n\nCo-authored-by: clangenb <clangenb@users.noreply.github.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-24T23:11:04Z",
+          "tree_id": "8913f0797ad96e0c40b4c5cf461ae950eca3eda4",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/44f97882cb5c890a6d228df63499953f317348d0"
+        },
+        "date": 1774398786345,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009481366029999978,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.0026381702699999994,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009657092630000006,
             "unit": "seconds"
           }
         ]

@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774395868030,
+  "lastUpdate": 1774397715941,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -69551,6 +69551,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2738337693,
             "range": "± 25537238",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "37865735+clangenb@users.noreply.github.com",
+            "name": "clangenb",
+            "username": "clangenb"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "44f97882cb5c890a6d228df63499953f317348d0",
+          "message": "[pallet-assets] fix: decrement supply when refund burns balance (#11441)\n\nWhen a user calls `refund` with `allow_burn = true`, their token balance\nis destroyed, but the asset's total supply was never updated. This\ncaused `total_issuance()` to overcount. The fix decrements supply and\nemits a `Burned` event, consistent with how every other burn path works.\n\nIn production, burning path is rarely triggered. The fungibles trait\ninterface always passes `allow_burn = false`, so only users manually\nsubmitting the refund extrinsic with the burn flag would hit it.\n\nFollow-up issue for migrating the discrepancy (observed on Westend):\nhttps://github.com/paritytech/polkadot-sdk/issues/11443.\n\nFixes #10412\n\n---------\n\nCo-authored-by: clangenb <clangenb@users.noreply.github.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-24T23:11:04Z",
+          "tree_id": "8913f0797ad96e0c40b4c5cf461ae950eca3eda4",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/44f97882cb5c890a6d228df63499953f317348d0"
+        },
+        "date": 1774397692114,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18545737,
+            "range": "± 153366",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18734668,
+            "range": "± 136801",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20371115,
+            "range": "± 140294",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24436465,
+            "range": "± 244846",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 54516498,
+            "range": "± 623524",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 320616644,
+            "range": "± 6694421",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2307963675,
+            "range": "± 79021379",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15439588,
+            "range": "± 182394",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15477028,
+            "range": "± 347143",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16085279,
+            "range": "± 152108",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20274772,
+            "range": "± 183793",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 54883446,
+            "range": "± 757263",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 313880684,
+            "range": "± 5159421",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2512597126,
+            "range": "± 22326424",
             "unit": "ns/iter"
           }
         ]

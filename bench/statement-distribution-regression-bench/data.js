@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774474848558,
+  "lastUpdate": 1774515622260,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "enntheprogrammer@gmail.com",
-            "name": "sistemd",
-            "username": "sistemd"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "e2802be4f32f55006abd3a40fc1808d997eaa4e1",
-          "message": "fix: skip verifying imported blocks (#9280)\n\nCloses https://github.com/paritytech/polkadot-sdk/issues/9277. Still WIP\ntesting\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-22T21:08:01Z",
-          "tree_id": "81087a8a688af80d3a3c027177554189be9e4050",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/e2802be4f32f55006abd3a40fc1808d997eaa4e1"
-        },
-        "date": 1753222777055,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 127.95799999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03390379300999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.044341570663999935,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.03841598142000001,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "OmarAbdulla7@hotmail.com",
+            "name": "Omar",
+            "username": "0xOmarA"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "af5c0145f3c9c5b925c1a2013ad8f0d02a30b649",
+          "message": "Add a call to `.unvalidated()` for all eth-rpc interactions (#11468)\n\n# Description\n\nThis PR updates the `eth-rpc` so that all interactions with subxt are\nunvalidated. This change was made to allow us to use any `eth-rpc`\nversion with any version of pallet revive given that there's no actual\ninterface differences in the runtime functions that we called. Before\nthis change, we would get a lot of metadata mismatch errors for slightly\nolder versions of revive. Our assumption is that this happened due to us\nadding more runtime functions into pallet-revive's runtime API which\nlead to the hash of the metadata being different, thus to the metadata\nmismatch.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-26T07:39:10Z",
+          "tree_id": "5d64f75170fc2f7dc7da51c1587d965d19720aab",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/af5c0145f3c9c5b925c1a2013ad8f0d02a30b649"
+        },
+        "date": 1774515600548,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.08800000000002,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.03824936026599998,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.0851529592679999,
             "unit": "seconds"
           }
         ]

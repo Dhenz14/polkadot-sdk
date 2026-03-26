@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774521690040,
+  "lastUpdate": 1774525654780,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "60601340+lexnv@users.noreply.github.com",
-            "name": "Alexandru Vasile",
-            "username": "lexnv"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "7a608034433319b217a18c72d8e21c7024e9849e",
-          "message": "litep2p/discovery: Ensure non-global addresses are not reported as external (#9281)\n\nThis PR ensures that external addresses discovered by the identify\nprotocol are not propagated to the litep2p backend if they are not\nglobal. This leads to a healthier DHT over time, since nodes will not\nadvertise loopback / non-global addresses.\n\nWe have seen various cases were loopback addresses were reported as\nexternal:\n\n```\n2025-07-16 16:18:39.765 TRACE tokio-runtime-worker sub-libp2p::discovery: verify new external address: /ip4/127.0.0.1/tcp/30310/p2p/12D3KooWNw19ScMjzNGLnYYLQxWcM9EK9VYPbCq241araUGgbdLM    \n\n2025-07-16 16:18:39.765  INFO tokio-runtime-worker sub-libp2p: 🔍 Discovered new external address for our node: /ip4/127.0.0.1/tcp/30310/p2p/12D3KooWNw19ScMjzNGLnYYLQxWcM9EK9VYPbCq241araUGgbdLM\n```\n\nThis PR takes into account the network config for\n`allow_non_global_addresses`.\n\nCloses: https://github.com/paritytech/polkadot-sdk/issues/9261\n\ncc @paritytech/networking\n\n---------\n\nSigned-off-by: Alexandru Vasile <alexandru.vasile@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-25T09:44:03Z",
-          "tree_id": "b7dadd74f3fb7f1d31ff3b60936282599d8455e1",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/7a608034433319b217a18c72d8e21c7024e9849e"
-        },
-        "date": 1753442465052,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.274366191733332,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19788497789999995,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.13434253686666664,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "marios@parity.io",
+            "name": "Marios",
+            "username": "mchristou"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f4a82c9be7127ea4a92802c3033e252f8db287bd",
+          "message": "add scheduling tests for v3 descriptor with v2 collators (#11333)\n\n## Description:\n\n  Zombienet SDK tests (polkadot/zombienet-sdk-tests/tests/scheduling/):\n- v3_dynamic_enablement: relay chain starts with V2, enables V3 on the\nfly mid-session via governance.\nVerifies block production continues and descriptors are correctly\ndetected after the feature flip\n- v3_rolling_upgrade: mixed V2/V3 validator fleet using async backing.\nVerifies the network keeps producing blocks during a rolling upgrade\nwhere only some validators support V3\n\n  Unit tests:\n- paras_inherent/tests.rs: V1 descriptor accepted by V3-capable runtime,\nverifies candidates reach PendingAvailability\n- collator-protocol/validator_side/tests/prospective_parachains.rs: V3\ncapable validator correctly detects and handles a V1 descriptor received\nover the wire\n- configuration/tests.rs: max_relay_parent_session_age returns 0 after\nv13 migration\n- backing/src/tests/mod.rs: V3 capable validator fully backs a V1\ncandidate\n- statement-distribution/src/v2/tests/cluster.rs: V1 backed statement is\ndistributed to a V3-capable cluster peer and accepted via the V3 wire\nprotocol\n\n---------\n\nSigned-off-by: Iulian Barbu <iulian.barbu@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Iulian Barbu <14218860+iulianbarbu@users.noreply.github.com>\nCo-authored-by: eskimor <robert@gonimo.com>\nCo-authored-by: Iulian Barbu <iulian.barbu@parity.io>",
+          "timestamp": "2026-03-26T10:25:53Z",
+          "tree_id": "c07180f8fe20dd7fff0cebed220f8b4a3fee4b7c",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/f4a82c9be7127ea4a92802c3033e252f8db287bd"
+        },
+        "date": 1774525632728,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12757834296666667,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.24407666566667,
             "unit": "seconds"
           }
         ]

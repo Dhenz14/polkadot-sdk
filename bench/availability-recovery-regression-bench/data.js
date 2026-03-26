@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774474760620,
+  "lastUpdate": 1774515533076,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "40807189+AlexandruCihodaru@users.noreply.github.com",
-            "name": "Alexandru Cihodaru",
-            "username": "AlexandruCihodaru"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "bb39b4ecea005157687ed61c6ca4775f2264494f",
-          "message": "RecentDisputes/ActiveDisputes use BTreeMap instead of Vec (#9309)\n\nFixes #782\n\n---------\n\nSigned-off-by: Alexandru Cihodaru <alexandru.cihodaru@parity.io>",
-          "timestamp": "2025-07-24T15:30:53Z",
-          "tree_id": "f92f583f62b60e6c2c65e160ad06d8fce52e9c06",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/bb39b4ecea005157687ed61c6ca4775f2264494f"
-        },
-        "date": 1753375159865,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.300562239533331,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.20295579059999996,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 11.2214864506,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "OmarAbdulla7@hotmail.com",
+            "name": "Omar",
+            "username": "0xOmarA"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "af5c0145f3c9c5b925c1a2013ad8f0d02a30b649",
+          "message": "Add a call to `.unvalidated()` for all eth-rpc interactions (#11468)\n\n# Description\n\nThis PR updates the `eth-rpc` so that all interactions with subxt are\nunvalidated. This change was made to allow us to use any `eth-rpc`\nversion with any version of pallet revive given that there's no actual\ninterface differences in the runtime functions that we called. Before\nthis change, we would get a lot of metadata mismatch errors for slightly\nolder versions of revive. Our assumption is that this happened due to us\nadding more runtime functions into pallet-revive's runtime API which\nlead to the hash of the metadata being different, thus to the metadata\nmismatch.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-26T07:39:10Z",
+          "tree_id": "5d64f75170fc2f7dc7da51c1587d965d19720aab",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/af5c0145f3c9c5b925c1a2013ad8f0d02a30b649"
+        },
+        "date": 1774515510965,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.229800231833329,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.11642077209999999,
             "unit": "seconds"
           }
         ]

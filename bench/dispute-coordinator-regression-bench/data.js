@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774474878315,
+  "lastUpdate": 1774515657041,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "dmitry@markin.tech",
-            "name": "Dmitry Markin",
-            "username": "dmitry-markin"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "db5e645422ccf952018a3c466a33fef477858602",
-          "message": "network: Upgrade litep2p to v0.10.0 (#9287)\n\n## litep2p v0.10.0\n\nThis release adds the ability to use system DNS resolver and change\nKademlia DNS memory store capacity. It also fixes the Bitswap protocol\nimplementation and correctly handles the dropped notification substreams\nby unregistering them from the protocol list.\n\n### Added\n\n- kad: Expose memory store configuration\n([#407](https://github.com/paritytech/litep2p/pull/407))\n- transport: Allow changing DNS resolver config\n([#384](https://github.com/paritytech/litep2p/pull/384))\n\n### Fixed\n\n- notification: Unregister dropped protocols\n([#391](https://github.com/paritytech/litep2p/pull/391))\n- bitswap: Fix protocol implementation\n([#402](https://github.com/paritytech/litep2p/pull/402))\n- transport-manager: stricter supported multiaddress check\n([#403](https://github.com/paritytech/litep2p/pull/403))\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-22T14:24:10Z",
-          "tree_id": "a01eacbdd376755eea81cbd3e34a8279b13055c8",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/db5e645422ccf952018a3c466a33fef477858602"
-        },
-        "date": 1753198888028,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008526110029999985,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005134003279999993,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.002580963229999999,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-distribution",
             "value": 0.009709344419999983,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "OmarAbdulla7@hotmail.com",
+            "name": "Omar",
+            "username": "0xOmarA"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "af5c0145f3c9c5b925c1a2013ad8f0d02a30b649",
+          "message": "Add a call to `.unvalidated()` for all eth-rpc interactions (#11468)\n\n# Description\n\nThis PR updates the `eth-rpc` so that all interactions with subxt are\nunvalidated. This change was made to allow us to use any `eth-rpc`\nversion with any version of pallet revive given that there's no actual\ninterface differences in the runtime functions that we called. Before\nthis change, we would get a lot of metadata mismatch errors for slightly\nolder versions of revive. Our assumption is that this happened due to us\nadding more runtime functions into pallet-revive's runtime API which\nlead to the hash of the metadata being different, thus to the metadata\nmismatch.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-26T07:39:10Z",
+          "tree_id": "5d64f75170fc2f7dc7da51c1587d965d19720aab",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/af5c0145f3c9c5b925c1a2013ad8f0d02a30b649"
+        },
+        "date": 1774515632443,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009896587809999993,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009619102809999983,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.00262362532,
             "unit": "seconds"
           }
         ]

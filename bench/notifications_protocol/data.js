@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774514573694,
+  "lastUpdate": 1774520689919,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "notifications_protocol": [
@@ -126335,6 +126335,198 @@ window.BENCHMARK_DATA = {
             "name": "notifications_protocol/litep2p/with_backpressure/16MB",
             "value": 2162706068,
             "range": "± 65528205",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "37865735+clangenb@users.noreply.github.com",
+            "name": "clangenb",
+            "username": "clangenb"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e8ad708d0c69e053458f3b89b20f3f1833e0e203",
+          "message": "[Penpal] cleanup XCM config setup regarding assets (#10726)\n\nCloses #7314 by implementing all the subtasks mentioned in\nhttps://github.com/paritytech/polkadot-sdk/issues/7314#issuecomment-2792437373.\n\n## Changes\nEssentially, the main driver of all changes is that we adjust the Penpal\nruntime as follows:\n* Make the native token the base token for buying weight (before it was\na hybrid set up, probably not 100% intentional).\n* Merge the `Assets` and the `ForeignAssets` pallet into one pallet\ncalled `Assets`, as the local assets can also be identified with a\nlocation starting with `parents: 0`.\n* Give the pallet-asset-conversion a genesis config so that we can\neasily set up pools at genesis instead of redundantly calling the setup\nmacro with the same args.\n\n\n### Test Changes\nI tried to keep the changes minimal in the tests in order to not harm\nany previously established invariants. Hence, in most cases I just did:\n\n* Add a PEN<>WND pool in order to be able to pay xcm execution fees in\nWND\n* Replaced the Penpal's teleportable asset with it's new location based\nversion.\n* In very few cases, I switched from WND to PEN to make the tests\neasier, when I was sure that no invariants would be harmed.\n* The rest should only be renamings.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: clangenb <clangenb@users.noreply.github.com>\nCo-authored-by: Adrian Catangiu <adrian@parity.io>\nCo-authored-by: Francisco Aguirre <franciscoaguirreperez@gmail.com>",
+          "timestamp": "2026-03-26T09:15:46Z",
+          "tree_id": "0bf1df960c712ba73727cb542412ff9a662ac660",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/e8ad708d0c69e053458f3b89b20f3f1833e0e203"
+        },
+        "date": 1774520665326,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "notifications_protocol/libp2p/serially/64B",
+            "value": 4250773,
+            "range": "± 24737",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64B",
+            "value": 322088,
+            "range": "± 6075",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/512B",
+            "value": 4236091,
+            "range": "± 46568",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/512B",
+            "value": 408362,
+            "range": "± 7440",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/4KB",
+            "value": 5086914,
+            "range": "± 133721",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/4KB",
+            "value": 926511,
+            "range": "± 30271",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/64KB",
+            "value": 10932604,
+            "range": "± 95962",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64KB",
+            "value": 4956121,
+            "range": "± 113398",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/256KB",
+            "value": 46597744,
+            "range": "± 761379",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/256KB",
+            "value": 38656699,
+            "range": "± 877325",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/2MB",
+            "value": 366389954,
+            "range": "± 2882416",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/2MB",
+            "value": 298550393,
+            "range": "± 1974549",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/16MB",
+            "value": 2660272294,
+            "range": "± 18423853",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/16MB",
+            "value": 2692608783,
+            "range": "± 93297562",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64B",
+            "value": 3435300,
+            "range": "± 147824",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64B",
+            "value": 1672927,
+            "range": "± 40998",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/512B",
+            "value": 3611153,
+            "range": "± 36613",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/512B",
+            "value": 1741518,
+            "range": "± 10481",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/4KB",
+            "value": 4230898,
+            "range": "± 44013",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/4KB",
+            "value": 2092041,
+            "range": "± 22631",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64KB",
+            "value": 8471680,
+            "range": "± 81554",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64KB",
+            "value": 5190732,
+            "range": "± 93329",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/256KB",
+            "value": 36459412,
+            "range": "± 317700",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/256KB",
+            "value": 36496075,
+            "range": "± 407041",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/2MB",
+            "value": 329937809,
+            "range": "± 11826400",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/2MB",
+            "value": 277738939,
+            "range": "± 5954556",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/16MB",
+            "value": 2618596592,
+            "range": "± 37496424",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/16MB",
+            "value": 2367254326,
+            "range": "± 93013049",
             "unit": "ns/iter"
           }
         ]

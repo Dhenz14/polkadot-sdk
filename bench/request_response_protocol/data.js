@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774524632522,
+  "lastUpdate": 1774612430168,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -70631,6 +70631,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2958869643,
             "range": "± 39319033",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "40807189+AlexandruCihodaru@users.noreply.github.com",
+            "name": "Alexandru Cihodaru",
+            "username": "AlexandruCihodaru"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d58115bfbe914deea13b9aa69465be545a3a64eb",
+          "message": "Fix per-ancestor core assignment and add regression test (#11485)\n\n`get_our_core` was called with the leaf hash instead of the ancestor\nhash when computing core assignments in update_view. This caused all\nscheduling parent to get leaf's core.\n\n---------\n\nSigned-off-by: Alexandru Cihodaru <alexandru.cihodaru@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-27T10:39:51Z",
+          "tree_id": "6554b7f36ee46a258e8dc544e1775673b61c998f",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/d58115bfbe914deea13b9aa69465be545a3a64eb"
+        },
+        "date": 1774612408434,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 17927590,
+            "range": "± 189710",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18289664,
+            "range": "± 79767",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 19879660,
+            "range": "± 94375",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 23820748,
+            "range": "± 301249",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 53723862,
+            "range": "± 743825",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 302436038,
+            "range": "± 1929081",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2155291483,
+            "range": "± 122258147",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15263984,
+            "range": "± 104328",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15505291,
+            "range": "± 86365",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16038468,
+            "range": "± 159990",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20287029,
+            "range": "± 128599",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 54323295,
+            "range": "± 688132",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 316651986,
+            "range": "± 2844480",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2456986977,
+            "range": "± 15728775",
             "unit": "ns/iter"
           }
         ]

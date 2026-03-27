@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774612753362,
+  "lastUpdate": 1774621250715,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "50408393+TDemeco@users.noreply.github.com",
-            "name": "Tobi Demeco",
-            "username": "TDemeco"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "33a43cf48b0dc78fad1212ceb15b64b81fb8e761",
-          "message": "fix: :bug: use `MaxKeys` from `pallet-im-online`'s Config trait instead of hardcoded one in benchmarks (#9325)\n\nThis PR is a simple fix for issue #9324, by making the benchmarks of\n`pallet-im-online` linear up to `pallet_im_online::Config::MaxKeys`\ninstead of the hardcoded constant `MAX_KEYS = 1000`.\n\nThis should allow any runtime that uses `pallet-im-online` with less\nthan 1000 max keys to be able to benchmark the pallet correctly.",
-          "timestamp": "2025-07-25T11:25:12Z",
-          "tree_id": "162909f5bbb972eef3d874f961d45df3fd0315c3",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/33a43cf48b0dc78fad1212ceb15b64b81fb8e761"
-        },
-        "date": 1753446850476,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19531769876666671,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.296364532466665,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.12254473913333334,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "jfanatiker@gmx.at",
+            "name": "eskimor",
+            "username": "eskimor"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ff555bbd5b397e9984a42c34a799de8e5449f19f",
+          "message": "Collation Generation - ready for old relay parents (#11456)\n\n@iulianbarbu Haven't checked. Let me know if this is conflicting with\nany changes already done.\n\nFixes: https://github.com/paritytech/polkadot-sdk/issues/11423\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-27T12:58:37Z",
+          "tree_id": "1674e3c57f535775e8e3ec35a19c024d1264fb7d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/ff555bbd5b397e9984a42c34a799de8e5449f19f"
+        },
+        "date": 1774621228334,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.28539080666667,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12366932686666668,
             "unit": "seconds"
           }
         ]

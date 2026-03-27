@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774525743803,
+  "lastUpdate": 1774612842603,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "karol@parity.io",
-            "name": "Karol Kokoszka",
-            "username": "karolk91"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "069b7b56118fd65ecdbc6fea6c4dd1ffbf586d67",
-          "message": "Fix subsume_assets incorrectly merging two AssetsInHolding (#9179)\n\n`subsume_assets` fails to correctly subsume two instances of\n`AssetsInHolding` under certain conditions which can result in loss of\nfunds (as assets are overriden rather than summed together)\n\nEg. consider following test:\n```\n\t#[test]\n\tfn subsume_assets_different_length_holdings() {\n\t\tlet mut t1 = AssetsInHolding::new();\n\t\tt1.subsume(CFP(400));\n\n\t\tlet mut t2 = AssetsInHolding::new();\n\t\tt2.subsume(CF(100));\n\t\tt2.subsume(CFP(100));\n\n\t\tt1.subsume_assets(t2);\n```\n\ncurrent result (without this PR change):\n```\n\t\tlet mut iter = t1.into_assets_iter();\n\t\tassert_eq!(Some(CF(100)), iter.next());\n\t\tassert_eq!(Some(CFP(100)), iter.next());\n```\n\nexpected result:\n```\n\t\tlet mut iter = t1.into_assets_iter();\n\t\tassert_eq!(Some(CF(100)), iter.next());\n\t\tassert_eq!(Some(CFP(500)), iter.next());\n```\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Branislav Kontur <bkontur@gmail.com>",
-          "timestamp": "2025-07-24T05:51:09Z",
-          "tree_id": "a2e8b99e5afdb2a058e9db3d8566040f491d5955",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/069b7b56118fd65ecdbc6fea6c4dd1ffbf586d67"
-        },
-        "date": 1753340621371,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 127.95199999999994,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.033954510936,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04443934122399994,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.038374546008,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "40807189+AlexandruCihodaru@users.noreply.github.com",
+            "name": "Alexandru Cihodaru",
+            "username": "AlexandruCihodaru"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d58115bfbe914deea13b9aa69465be545a3a64eb",
+          "message": "Fix per-ancestor core assignment and add regression test (#11485)\n\n`get_our_core` was called with the leaf hash instead of the ancestor\nhash when computing core assignments in update_view. This caused all\nscheduling parent to get leaf's core.\n\n---------\n\nSigned-off-by: Alexandru Cihodaru <alexandru.cihodaru@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-27T10:39:51Z",
+          "tree_id": "6554b7f36ee46a258e8dc544e1775673b61c998f",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/d58115bfbe914deea13b9aa69465be545a3a64eb"
+        },
+        "date": 1774612820683,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.05999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038418291130000004,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08552899293799991,
             "unit": "seconds"
           }
         ]

@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774612842603,
+  "lastUpdate": 1774621343899,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "4211399+ordian@users.noreply.github.com",
-            "name": "ordian",
-            "username": "ordian"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "e5e3941b5fb480a27e37f28fd437962dd029ec96",
-          "message": "yap-runtime: fixes for `GetParachainInfo` (#9312)\n\nThis fixes the YAP parachain runtimes in case you encounter a panic in\nthe collator similar to\nhttps://github.com/paritytech/zombienet/issues/2050:\n```\nFailed to retrieve the parachain id\n```\n(which we do have zombienet-sdk tests for\n[here](https://github.com/paritytech/polkadot-sdk/blob/master/substrate/client/transaction-pool/tests/zombienet/yap_test.rs))\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-24T13:03:01Z",
-          "tree_id": "d908f5b48bf7d1a16c929565a909eeb7371482b8",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/e5e3941b5fb480a27e37f28fd437962dd029ec96"
-        },
-        "date": 1753366326617,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.95199999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.033948445036,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.044438987179999924,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.08552899293799991,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "jfanatiker@gmx.at",
+            "name": "eskimor",
+            "username": "eskimor"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ff555bbd5b397e9984a42c34a799de8e5449f19f",
+          "message": "Collation Generation - ready for old relay parents (#11456)\n\n@iulianbarbu Haven't checked. Let me know if this is conflicting with\nany changes already done.\n\nFixes: https://github.com/paritytech/polkadot-sdk/issues/11423\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-27T12:58:37Z",
+          "tree_id": "1674e3c57f535775e8e3ec35a19c024d1264fb7d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/ff555bbd5b397e9984a42c34a799de8e5449f19f"
+        },
+        "date": 1774621321384,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.066,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038180441619999984,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.07939881244599997,
             "unit": "seconds"
           }
         ]

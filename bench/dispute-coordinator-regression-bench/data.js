@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774525773359,
+  "lastUpdate": 1774612871800,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "10196091+Ank4n@users.noreply.github.com",
-            "name": "Ankan",
-            "username": "Ank4n"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "a34de56236e741a081aeb9f7af5094d781e0ac9d",
-          "message": "[Staking Async] Saturating accrue era reward points (#9186)\n\nReplaces regular addition with saturating addition when accumulating era\nreward points in `pallet-staking-async` to prevent potential overflow.\n\n---------\n\nCo-authored-by: Bastian Köcher <git@kchr.de>",
-          "timestamp": "2025-07-23T07:59:42Z",
-          "tree_id": "17724309115bdf377ef4cbb9701eb49cfe7146f6",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/a34de56236e741a081aeb9f7af5094d781e0ac9d"
-        },
-        "date": 1753261860342,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008485585319999989,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.00262507239,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005108467979999992,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.010033075269999997,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "40807189+AlexandruCihodaru@users.noreply.github.com",
+            "name": "Alexandru Cihodaru",
+            "username": "AlexandruCihodaru"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d58115bfbe914deea13b9aa69465be545a3a64eb",
+          "message": "Fix per-ancestor core assignment and add regression test (#11485)\n\n`get_our_core` was called with the leaf hash instead of the ancestor\nhash when computing core assignments in update_view. This caused all\nscheduling parent to get leaf's core.\n\n---------\n\nSigned-off-by: Alexandru Cihodaru <alexandru.cihodaru@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-27T10:39:51Z",
+          "tree_id": "6554b7f36ee46a258e8dc544e1775673b61c998f",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/d58115bfbe914deea13b9aa69465be545a3a64eb"
+        },
+        "date": 1774612850197,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009593423840000014,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.0026022188800000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009357503089999967,
             "unit": "seconds"
           }
         ]

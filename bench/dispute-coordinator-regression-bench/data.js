@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774612871800,
+  "lastUpdate": 1774621374459,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "178801527+raymondkfcheung@users.noreply.github.com",
-            "name": "Raymond Cheung",
-            "username": "raymondkfcheung"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "9428742a2994c4fb2b2de8d4bfc36deeca01e19d",
-          "message": "Replace `log` with `tracing` on `pallet-bridge-grandpa` (#9294)\n\nThis PR replaces `log` with `tracing` instrumentation on\n`pallet-bridge-grandpa` by providing structured logging.\n\nPartially addresses #9211",
-          "timestamp": "2025-07-23T16:44:52Z",
-          "tree_id": "531de75c002557fd8ed854570af158ed405f2c2f",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/9428742a2994c4fb2b2de8d4bfc36deeca01e19d"
-        },
-        "date": 1753293439922,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.00871029359999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005195045979999995,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.00263738035,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-distribution",
             "value": 0.009357503089999967,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "jfanatiker@gmx.at",
+            "name": "eskimor",
+            "username": "eskimor"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ff555bbd5b397e9984a42c34a799de8e5449f19f",
+          "message": "Collation Generation - ready for old relay parents (#11456)\n\n@iulianbarbu Haven't checked. Let me know if this is conflicting with\nany changes already done.\n\nFixes: https://github.com/paritytech/polkadot-sdk/issues/11423\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-27T12:58:37Z",
+          "tree_id": "1674e3c57f535775e8e3ec35a19c024d1264fb7d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/ff555bbd5b397e9984a42c34a799de8e5449f19f"
+        },
+        "date": 1774621351826,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009793647669999992,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.010745027150000013,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.0027375407700000005,
             "unit": "seconds"
           }
         ]

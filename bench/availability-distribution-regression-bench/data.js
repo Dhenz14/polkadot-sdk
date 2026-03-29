@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774621281408,
+  "lastUpdate": 1774786952752,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "50408393+TDemeco@users.noreply.github.com",
-            "name": "Tobi Demeco",
-            "username": "TDemeco"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "33a43cf48b0dc78fad1212ceb15b64b81fb8e761",
-          "message": "fix: :bug: use `MaxKeys` from `pallet-im-online`'s Config trait instead of hardcoded one in benchmarks (#9325)\n\nThis PR is a simple fix for issue #9324, by making the benchmarks of\n`pallet-im-online` linear up to `pallet_im_online::Config::MaxKeys`\ninstead of the hardcoded constant `MAX_KEYS = 1000`.\n\nThis should allow any runtime that uses `pallet-im-online` with less\nthan 1000 max keys to be able to benchmark the pallet correctly.",
-          "timestamp": "2025-07-25T11:25:12Z",
-          "tree_id": "162909f5bbb972eef3d874f961d45df3fd0315c3",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/33a43cf48b0dc78fad1212ceb15b64b81fb8e761"
-        },
-        "date": 1753446875089,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007392612639999986,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022382510106666666,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013219281606666666,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15826485486000005,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "bitfield-distribution",
             "value": 0.023842218673333332,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "bruno.devic@parity.io",
+            "name": "BDevParity",
+            "username": "BDevParity"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3e8d20ea96360fe1edde4229719b41925101a4f9",
+          "message": "[Release|CI] - Support releasing crates to staging.crates.io (#11461)\n\nhttps://github.com/paritytech/release-engineering/issues/290",
+          "timestamp": "2026-03-29T10:59:36Z",
+          "tree_id": "0aff0cf08b785bdfe0f0c01e2b8ec53dca89a0ef",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/3e8d20ea96360fe1edde4229719b41925101a4f9"
+        },
+        "date": 1774786931166,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009782886973333316,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.006713103573333335,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.023591314140000007,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14145313868666665,
             "unit": "seconds"
           }
         ]

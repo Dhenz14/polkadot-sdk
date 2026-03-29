@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774621312817,
+  "lastUpdate": 1774786982266,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "60601340+lexnv@users.noreply.github.com",
-            "name": "Alexandru Vasile",
-            "username": "lexnv"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "7a608034433319b217a18c72d8e21c7024e9849e",
-          "message": "litep2p/discovery: Ensure non-global addresses are not reported as external (#9281)\n\nThis PR ensures that external addresses discovered by the identify\nprotocol are not propagated to the litep2p backend if they are not\nglobal. This leads to a healthier DHT over time, since nodes will not\nadvertise loopback / non-global addresses.\n\nWe have seen various cases were loopback addresses were reported as\nexternal:\n\n```\n2025-07-16 16:18:39.765 TRACE tokio-runtime-worker sub-libp2p::discovery: verify new external address: /ip4/127.0.0.1/tcp/30310/p2p/12D3KooWNw19ScMjzNGLnYYLQxWcM9EK9VYPbCq241araUGgbdLM    \n\n2025-07-16 16:18:39.765  INFO tokio-runtime-worker sub-libp2p: 🔍 Discovered new external address for our node: /ip4/127.0.0.1/tcp/30310/p2p/12D3KooWNw19ScMjzNGLnYYLQxWcM9EK9VYPbCq241araUGgbdLM\n```\n\nThis PR takes into account the network config for\n`allow_non_global_addresses`.\n\nCloses: https://github.com/paritytech/polkadot-sdk/issues/9261\n\ncc @paritytech/networking\n\n---------\n\nSigned-off-by: Alexandru Vasile <alexandru.vasile@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-25T09:44:03Z",
-          "tree_id": "b7dadd74f3fb7f1d31ff3b60936282599d8455e1",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/7a608034433319b217a18c72d8e21c7024e9849e"
-        },
-        "date": 1753442513660,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52940.5,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63639.18000000001,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.661971304270952,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.52038145494,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005483639100000001,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.4533447341399991,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.00001980443,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.522021499649997,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4864721787299997,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.53919963835,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.00001805201,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.00001980443,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.00001805201,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.512639332420001,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 2.0045005219699985,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting/test-environment",
             "value": 0.000029846280000000005,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "bruno.devic@parity.io",
+            "name": "BDevParity",
+            "username": "BDevParity"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3e8d20ea96360fe1edde4229719b41925101a4f9",
+          "message": "[Release|CI] - Support releasing crates to staging.crates.io (#11461)\n\nhttps://github.com/paritytech/release-engineering/issues/290",
+          "timestamp": "2026-03-29T10:59:36Z",
+          "tree_id": "0aff0cf08b785bdfe0f0c01e2b8ec53dca89a0ef",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/3e8d20ea96360fe1edde4229719b41925101a4f9"
+        },
+        "date": 1774786960427,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 52942.2,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 63625,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.8251954256899983,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.000028819250000000007,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.440145437490003,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.7242447361499997,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.006057111510000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.000024131569999999996,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.263415509959946,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.783509499929999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7661596328299479,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.000028819250000000007,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.7181036663600007,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.000024131569999999996,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.296560459872917,
             "unit": "seconds"
           }
         ]

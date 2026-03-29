@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774785894986,
+  "lastUpdate": 1774800191128,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -70955,6 +70955,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2745573925,
             "range": "± 38128636",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "109702797+DTSmth@users.noreply.github.com",
+            "name": "David Smith",
+            "username": "DTSmth"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b34296a7f1d66e036157228929cf6f3040c0bb20",
+          "message": "doc: add link to multi-block migration example. Resolves a TODO by ad… (#11542)\n\n…ding a documentation link from the single-block migrations pallet to\nthe multi-block migrations example pallet.\n\n\n\n✄\n-----------------------------------------------------------------------------\n\n# Description\n\n﻿Resolves a documentation TODO in\n`pallet-example-single-block-migrations` by adding\n a link to the `pallet-example-mbm` documentation.\n\nThe TODO requested linking to the multi-block migration example from the\nwarning\n about single-block migrations potentially exceeding block weight limits\n\n## Integration\n\n﻿N/A - documentation only change, no crate API changes\n\n## Review Notes\n\n﻿ Uses external URL (matching repo convention) since pallet-example-mbm\nis not a dependency of this crate.\n\n\n✄\n-----------------------------------------------------------------------------",
+          "timestamp": "2026-03-29T14:57:09Z",
+          "tree_id": "9e13a0bb2528c8d47d9eedd94f90e54e2ed3c1c2",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/b34296a7f1d66e036157228929cf6f3040c0bb20"
+        },
+        "date": 1774800169139,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18638843,
+            "range": "± 544488",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18918023,
+            "range": "± 157553",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20661971,
+            "range": "± 169390",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24522428,
+            "range": "± 277375",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 54552139,
+            "range": "± 797355",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 332799706,
+            "range": "± 6395496",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2221737051,
+            "range": "± 160299506",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15575943,
+            "range": "± 111748",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15630761,
+            "range": "± 360415",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16320652,
+            "range": "± 225870",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20483598,
+            "range": "± 386177",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 55254769,
+            "range": "± 624271",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 318486318,
+            "range": "± 4721802",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2512746813,
+            "range": "± 17290632",
             "unit": "ns/iter"
           }
         ]

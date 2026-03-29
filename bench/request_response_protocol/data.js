@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774620314919,
+  "lastUpdate": 1774785894986,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -70847,6 +70847,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2737891044,
             "range": "± 24648587",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "bruno.devic@parity.io",
+            "name": "BDevParity",
+            "username": "BDevParity"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3e8d20ea96360fe1edde4229719b41925101a4f9",
+          "message": "[Release|CI] - Support releasing crates to staging.crates.io (#11461)\n\nhttps://github.com/paritytech/release-engineering/issues/290",
+          "timestamp": "2026-03-29T10:59:36Z",
+          "tree_id": "0aff0cf08b785bdfe0f0c01e2b8ec53dca89a0ef",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/3e8d20ea96360fe1edde4229719b41925101a4f9"
+        },
+        "date": 1774785874329,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 20156490,
+            "range": "± 245705",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 19911919,
+            "range": "± 218037",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 21678912,
+            "range": "± 276532",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 26269155,
+            "range": "± 333676",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 61935556,
+            "range": "± 1650371",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 380181728,
+            "range": "± 8062962",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2719583612,
+            "range": "± 144212800",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 16640048,
+            "range": "± 236115",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 16913576,
+            "range": "± 338606",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 17404145,
+            "range": "± 138183",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 22104898,
+            "range": "± 180465",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 63331967,
+            "range": "± 1510657",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 373256697,
+            "range": "± 6155329",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2745573925,
+            "range": "± 38128636",
             "unit": "ns/iter"
           }
         ]

@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774801055023,
+  "lastUpdate": 1774855901975,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "60601340+lexnv@users.noreply.github.com",
-            "name": "Alexandru Vasile",
-            "username": "lexnv"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "7a608034433319b217a18c72d8e21c7024e9849e",
-          "message": "litep2p/discovery: Ensure non-global addresses are not reported as external (#9281)\n\nThis PR ensures that external addresses discovered by the identify\nprotocol are not propagated to the litep2p backend if they are not\nglobal. This leads to a healthier DHT over time, since nodes will not\nadvertise loopback / non-global addresses.\n\nWe have seen various cases were loopback addresses were reported as\nexternal:\n\n```\n2025-07-16 16:18:39.765 TRACE tokio-runtime-worker sub-libp2p::discovery: verify new external address: /ip4/127.0.0.1/tcp/30310/p2p/12D3KooWNw19ScMjzNGLnYYLQxWcM9EK9VYPbCq241araUGgbdLM    \n\n2025-07-16 16:18:39.765  INFO tokio-runtime-worker sub-libp2p: 🔍 Discovered new external address for our node: /ip4/127.0.0.1/tcp/30310/p2p/12D3KooWNw19ScMjzNGLnYYLQxWcM9EK9VYPbCq241araUGgbdLM\n```\n\nThis PR takes into account the network config for\n`allow_non_global_addresses`.\n\nCloses: https://github.com/paritytech/polkadot-sdk/issues/9261\n\ncc @paritytech/networking\n\n---------\n\nSigned-off-by: Alexandru Vasile <alexandru.vasile@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-25T09:44:03Z",
-          "tree_id": "b7dadd74f3fb7f1d31ff3b60936282599d8455e1",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/7a608034433319b217a18c72d8e21c7024e9849e"
-        },
-        "date": 1753442538207,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.96399999999994,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.033941725730000004,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.044696657519999954,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.08627711045799996,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "gui.thiolliere@gmail.com",
+            "name": "Guillaume Thiolliere",
+            "username": "gui1117"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "89aa25d825603d0f34764ff02ae3ab6b8d8826c9",
+          "message": "Allow multiple transaction extension version in `UncheckedExtrinsic` type. (#7035)\n\nThis PR enhance `UncheckedExtrinsic` type with a new optional generic:\n`ExtensionOtherVersion`.\nThis generic defaults to `InvalidVersion` meaning there is not other\nversion than the regular version 0. This is the same behavior as before\nthis PR.\n\n# New feature\n\nTo use this new feature, you can use the new types `TxExtLineAtVers` and\n`MultiVersion` to define a transaction extension with multiple version:\n\n```rust\npub type TransactionExtensionV0 = ();\npub type TransactionExtensionV4 = ();\npub type TransactionExtensionV7 = ();\n\npub type OtherVersions = MultiVersion<\n\tTxExtLineAtVers<4, TransactionExtensionV4>;\n\tTxExtLineAtVers<7, TransactionExtensionV7>;\n>;\n\npub type UncheckedExtrinsic = generic::UncheckedExtrinsic<\n\tAccountId,\n\tRuntimeCall,\n\tUintAuthorityId,\n\tTransactionExtensionV0, // The version 0, same as before\n\tOtherVersions, // The other versions.\n>;\n```\n\n# Breaking change\n\nThe types `Preamble`, `CheckedExtrinsic` and `ExtrinsicFormat` also have\nthis new optional generic. Their type definition also have changed a\nbit, the `General` variant was 2 fields, the version and the extension,\nit is now only one field, the extension, and the version can be retrieve\nby calling `extension.version()`\n\nThe type inference for those types may fail because of this PR, to\nupdate the code, write some partial type: `UncheckedExtrinsic<_, _, _,\n_>`, `Preamble<_, _, _>`, `ExtrinsicFormat<_, _> and\n`CheckedExtrinsic<_, _, _>`.\n\n# Alternative implementation\n\nThis PR breaks the types a bit, I think it is very minimal and fine, but\nif this is annoying we can still keep the old types and write new types\nsuch as `UncheckedExtrinsicV2`, `CheckedExtrinsicV2` etc..\n\n---------\n\nCo-authored-by: Francisco Aguirre <franciscoaguirreperez@gmail.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
+          "timestamp": "2026-03-30T06:10:24Z",
+          "tree_id": "0006b7d8f2df75079f6592705f27ef0dfff3d9d1",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/89aa25d825603d0f34764ff02ae3ab6b8d8826c9"
+        },
+        "date": 1774855879861,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.03799999999993,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08873860515199991,
+            "unit": "seconds"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038591904310000015,
             "unit": "seconds"
           }
         ]

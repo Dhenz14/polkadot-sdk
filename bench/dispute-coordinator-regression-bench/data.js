@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774801085980,
+  "lastUpdate": 1774855940579,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "40807189+AlexandruCihodaru@users.noreply.github.com",
-            "name": "Alexandru Cihodaru",
-            "username": "AlexandruCihodaru"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "bb39b4ecea005157687ed61c6ca4775f2264494f",
-          "message": "RecentDisputes/ActiveDisputes use BTreeMap instead of Vec (#9309)\n\nFixes #782\n\n---------\n\nSigned-off-by: Alexandru Cihodaru <alexandru.cihodaru@parity.io>",
-          "timestamp": "2025-07-24T15:30:53Z",
-          "tree_id": "f92f583f62b60e6c2c65e160ad06d8fce52e9c06",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/bb39b4ecea005157687ed61c6ca4775f2264494f"
-        },
-        "date": 1753375260085,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008601914719999985,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005142760259999994,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0026224171099999997,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.00953063769999999,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "gui.thiolliere@gmail.com",
+            "name": "Guillaume Thiolliere",
+            "username": "gui1117"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "89aa25d825603d0f34764ff02ae3ab6b8d8826c9",
+          "message": "Allow multiple transaction extension version in `UncheckedExtrinsic` type. (#7035)\n\nThis PR enhance `UncheckedExtrinsic` type with a new optional generic:\n`ExtensionOtherVersion`.\nThis generic defaults to `InvalidVersion` meaning there is not other\nversion than the regular version 0. This is the same behavior as before\nthis PR.\n\n# New feature\n\nTo use this new feature, you can use the new types `TxExtLineAtVers` and\n`MultiVersion` to define a transaction extension with multiple version:\n\n```rust\npub type TransactionExtensionV0 = ();\npub type TransactionExtensionV4 = ();\npub type TransactionExtensionV7 = ();\n\npub type OtherVersions = MultiVersion<\n\tTxExtLineAtVers<4, TransactionExtensionV4>;\n\tTxExtLineAtVers<7, TransactionExtensionV7>;\n>;\n\npub type UncheckedExtrinsic = generic::UncheckedExtrinsic<\n\tAccountId,\n\tRuntimeCall,\n\tUintAuthorityId,\n\tTransactionExtensionV0, // The version 0, same as before\n\tOtherVersions, // The other versions.\n>;\n```\n\n# Breaking change\n\nThe types `Preamble`, `CheckedExtrinsic` and `ExtrinsicFormat` also have\nthis new optional generic. Their type definition also have changed a\nbit, the `General` variant was 2 fields, the version and the extension,\nit is now only one field, the extension, and the version can be retrieve\nby calling `extension.version()`\n\nThe type inference for those types may fail because of this PR, to\nupdate the code, write some partial type: `UncheckedExtrinsic<_, _, _,\n_>`, `Preamble<_, _, _>`, `ExtrinsicFormat<_, _> and\n`CheckedExtrinsic<_, _, _>`.\n\n# Alternative implementation\n\nThis PR breaks the types a bit, I think it is very minimal and fine, but\nif this is annoying we can still keep the old types and write new types\nsuch as `UncheckedExtrinsicV2`, `CheckedExtrinsicV2` etc..\n\n---------\n\nCo-authored-by: Francisco Aguirre <franciscoaguirreperez@gmail.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
+          "timestamp": "2026-03-30T06:10:24Z",
+          "tree_id": "0006b7d8f2df75079f6592705f27ef0dfff3d9d1",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/89aa25d825603d0f34764ff02ae3ab6b8d8826c9"
+        },
+        "date": 1774855918402,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009644361999999983,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.0026813220000000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.010223156709999995,
             "unit": "seconds"
           }
         ]

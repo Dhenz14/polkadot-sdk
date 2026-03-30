@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774801023391,
+  "lastUpdate": 1774855826446,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "50408393+TDemeco@users.noreply.github.com",
-            "name": "Tobi Demeco",
-            "username": "TDemeco"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "33a43cf48b0dc78fad1212ceb15b64b81fb8e761",
-          "message": "fix: :bug: use `MaxKeys` from `pallet-im-online`'s Config trait instead of hardcoded one in benchmarks (#9325)\n\nThis PR is a simple fix for issue #9324, by making the benchmarks of\n`pallet-im-online` linear up to `pallet_im_online::Config::MaxKeys`\ninstead of the hardcoded constant `MAX_KEYS = 1000`.\n\nThis should allow any runtime that uses `pallet-im-online` with less\nthan 1000 max keys to be able to benchmark the pallet correctly.",
-          "timestamp": "2025-07-25T11:25:12Z",
-          "tree_id": "162909f5bbb972eef3d874f961d45df3fd0315c3",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/33a43cf48b0dc78fad1212ceb15b64b81fb8e761"
-        },
-        "date": 1753446900456,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52936,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63628.4,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000017658319999999995,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005530686640000005,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.49100144409,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.5298391469700006,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.970131474129984,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000017658319999999995,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.480592421880001,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.00002001325,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.44548897451000435,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.392138366199992,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4695542179800016,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.6546390532709134,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.00002001325,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting-parallel/approval-voting-gather-signatures",
             "value": 0.00578024586,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "gui.thiolliere@gmail.com",
+            "name": "Guillaume Thiolliere",
+            "username": "gui1117"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "89aa25d825603d0f34764ff02ae3ab6b8d8826c9",
+          "message": "Allow multiple transaction extension version in `UncheckedExtrinsic` type. (#7035)\n\nThis PR enhance `UncheckedExtrinsic` type with a new optional generic:\n`ExtensionOtherVersion`.\nThis generic defaults to `InvalidVersion` meaning there is not other\nversion than the regular version 0. This is the same behavior as before\nthis PR.\n\n# New feature\n\nTo use this new feature, you can use the new types `TxExtLineAtVers` and\n`MultiVersion` to define a transaction extension with multiple version:\n\n```rust\npub type TransactionExtensionV0 = ();\npub type TransactionExtensionV4 = ();\npub type TransactionExtensionV7 = ();\n\npub type OtherVersions = MultiVersion<\n\tTxExtLineAtVers<4, TransactionExtensionV4>;\n\tTxExtLineAtVers<7, TransactionExtensionV7>;\n>;\n\npub type UncheckedExtrinsic = generic::UncheckedExtrinsic<\n\tAccountId,\n\tRuntimeCall,\n\tUintAuthorityId,\n\tTransactionExtensionV0, // The version 0, same as before\n\tOtherVersions, // The other versions.\n>;\n```\n\n# Breaking change\n\nThe types `Preamble`, `CheckedExtrinsic` and `ExtrinsicFormat` also have\nthis new optional generic. Their type definition also have changed a\nbit, the `General` variant was 2 fields, the version and the extension,\nit is now only one field, the extension, and the version can be retrieve\nby calling `extension.version()`\n\nThe type inference for those types may fail because of this PR, to\nupdate the code, write some partial type: `UncheckedExtrinsic<_, _, _,\n_>`, `Preamble<_, _, _>`, `ExtrinsicFormat<_, _> and\n`CheckedExtrinsic<_, _, _>`.\n\n# Alternative implementation\n\nThis PR breaks the types a bit, I think it is very minimal and fine, but\nif this is annoying we can still keep the old types and write new types\nsuch as `UncheckedExtrinsicV2`, `CheckedExtrinsicV2` etc..\n\n---------\n\nCo-authored-by: Francisco Aguirre <franciscoaguirreperez@gmail.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
+          "timestamp": "2026-03-30T06:10:24Z",
+          "tree_id": "0006b7d8f2df75079f6592705f27ef0dfff3d9d1",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/89aa25d825603d0f34764ff02ae3ab6b8d8826c9"
+        },
+        "date": 1774855804004,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 63622.490000000005,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 52937,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.4060348179700037,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.21206051645998,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.00595556027,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.000020554079999999995,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.7757908073200004,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.000020554079999999995,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.0000193306,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.7024639671699995,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.768452058669998,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.0000193306,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.79219506681,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7611682382499783,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.620186531463078,
             "unit": "seconds"
           }
         ]

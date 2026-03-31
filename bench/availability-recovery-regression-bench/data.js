@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774982454902,
+  "lastUpdate": 1774984883628,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "178801527+raymondkfcheung@users.noreply.github.com",
-            "name": "Raymond Cheung",
-            "username": "raymondkfcheung"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "ff6a5f7ec52525bfada191fd04cf6e8c34d2b78e",
-          "message": "Replace `log` with `tracing` on `pallet-bridge-parachains` (#9318)\n\nThis PR replaces `log` with `tracing` instrumentation on\n`pallet-bridge-parachains` by providing structured logging.\n\nPartially addresses #9211",
-          "timestamp": "2025-07-28T16:12:47Z",
-          "tree_id": "bf341a229cf46b75766555d16d51600cbf931095",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/ff6a5f7ec52525bfada191fd04cf6e8c34d2b78e"
-        },
-        "date": 1753723274998,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.1956700543,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.4636893494,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 11.372548953866666,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "10196091+Ank4n@users.noreply.github.com",
+            "name": "Ankan",
+            "username": "Ank4n"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "129a48aa9f17a3d5ccbcb8cb4167dd505165d35f",
+          "message": "[Staking] Add issuance and budget traits in prep for Budget Split (#11513)\n\n# Overview\n\nMoves `EraPayout` trait to `sp-staking` and adds new traits for\nissuance, budget distribution, and reward calculation.\n\nExtracted changes from the main PR: #10844 \nAlso see: https://github.com/paritytech/polkadot-sdk/pull/11512\n\n## Changes\n\n### sp-staking\n- `EraPayout`: moved from `pallet-staking` and `pallet-staking-async` to\n`sp-staking`, eliminating the duplicate definitions.\n- `budget` module: stake independent traits:\n- `IssuanceCurve`: successor to `EraPayout`, computes issuance from\ntotal supply + elapsed time (no staking state dependency).\n- `BudgetRecipient` / `BudgetRecipientList`: register pot accounts for\ninflation distribution. Runtime wires as a tuple.\n  - `BudgetKey`: bounded identifier for budget categories.\n- `StakerRewardCalculator`: trait for calculating validator incentive\nweights and staker reward splits.\n\n### pallet-staking / pallet-staking-async\n- Removed local `EraPayout` definitions, re-exported from `sp-staking`.\n\n---------\n\nCo-authored-by: Paolo La Camera <paolo@parity.io>",
+          "timestamp": "2026-03-31T17:06:21Z",
+          "tree_id": "77fcec156172d697a4fc3bc828044f351b8d78fa",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/129a48aa9f17a3d5ccbcb8cb4167dd505165d35f"
+        },
+        "date": 1774984861863,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12293932716666671,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.1619062827,
             "unit": "seconds"
           }
         ]

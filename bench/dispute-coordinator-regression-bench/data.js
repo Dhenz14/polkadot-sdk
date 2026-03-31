@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774982577755,
+  "lastUpdate": 1774985002562,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "git@kchr.de",
-            "name": "Bastian Köcher",
-            "username": "bkchr"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "73b44193c8e66acd699f04265027289d030f6c66",
-          "message": "frame_system: Whitelist storage items and do not double kill! (#9335)\n\nThis pull requests adds some storage values to the whitelisted storage\nitem list, because they are written in every block. Also it stops double\nkilling `InherentsApplied`. It is killed in `on_finalize`, so there is\nno need to do it again in `on_initialize`.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-25T14:45:45Z",
-          "tree_id": "250c3b45b5be25c30e0286f5dab152b98fee7eef",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/73b44193c8e66acd699f04265027289d030f6c66"
-        },
-        "date": 1753459074924,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0026509467199999997,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005055511939999996,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008539114469999989,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-distribution",
             "value": 0.009538161149999985,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "10196091+Ank4n@users.noreply.github.com",
+            "name": "Ankan",
+            "username": "Ank4n"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "129a48aa9f17a3d5ccbcb8cb4167dd505165d35f",
+          "message": "[Staking] Add issuance and budget traits in prep for Budget Split (#11513)\n\n# Overview\n\nMoves `EraPayout` trait to `sp-staking` and adds new traits for\nissuance, budget distribution, and reward calculation.\n\nExtracted changes from the main PR: #10844 \nAlso see: https://github.com/paritytech/polkadot-sdk/pull/11512\n\n## Changes\n\n### sp-staking\n- `EraPayout`: moved from `pallet-staking` and `pallet-staking-async` to\n`sp-staking`, eliminating the duplicate definitions.\n- `budget` module: stake independent traits:\n- `IssuanceCurve`: successor to `EraPayout`, computes issuance from\ntotal supply + elapsed time (no staking state dependency).\n- `BudgetRecipient` / `BudgetRecipientList`: register pot accounts for\ninflation distribution. Runtime wires as a tuple.\n  - `BudgetKey`: bounded identifier for budget categories.\n- `StakerRewardCalculator`: trait for calculating validator incentive\nweights and staker reward splits.\n\n### pallet-staking / pallet-staking-async\n- Removed local `EraPayout` definitions, re-exported from `sp-staking`.\n\n---------\n\nCo-authored-by: Paolo La Camera <paolo@parity.io>",
+          "timestamp": "2026-03-31T17:06:21Z",
+          "tree_id": "77fcec156172d697a4fc3bc828044f351b8d78fa",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/129a48aa9f17a3d5ccbcb8cb4167dd505165d35f"
+        },
+        "date": 1774984980894,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009645942979999994,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.00264111537,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009546209309999982,
             "unit": "seconds"
           }
         ]

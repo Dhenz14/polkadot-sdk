@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774955786870,
+  "lastUpdate": 1774965346171,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "1728078+michalkucharczyk@users.noreply.github.com",
-            "name": "Michal Kucharczyk",
-            "username": "michalkucharczyk"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "7ef027551fd1290c42581a85052b643bffc9cbe4",
-          "message": "`fatxpool`: avoid premature revalidation of transactions (#9189)\n\nThis PR improves handling of the following scenario:\n```\nsend tx1: transfer to fund new  X account \n# wait for tx1 in block event (let's assume it happens at block N) \nsend tx2: spend from X account\n```\n\nBefore this PR `tx2` could be invalidated (and most likely was) when\n`block N-k` was finalized, because transactions are checked for being\ninvalid on finalized block. (The `X account` does not yet exists for any\nblock before `block N`).\n\nAfter this commit transactions will be revalidated on finalized blocks\nonly if their height is greater then height of the block at which\ntransactions was originally submitted.\n\nNote: There are no guarantees that `tx2` will be actually included, it\nstill may happen that it will be dropped under some circumstances. This\nonly reduces likelihood of dropping transaction.\n\n\nNote for reviewers:\nThe fix is to simply initialize\n[`validated_at`](https://github.com/paritytech/polkadot-sdk/blob/f8a1fe64c29b1ddcb5824bbb3bf327f528f18d40/substrate/client/transaction-pool/src/fork_aware_txpool/tx_mem_pool.rs#L98-L99)\nfield of `TxInMemPool` which is used to\n[select](https://github.com/paritytech/polkadot-sdk/blob/f8a1fe64c29b1ddcb5824bbb3bf327f528f18d40/substrate/client/transaction-pool/src/fork_aware_txpool/tx_mem_pool.rs#L583-L586)\ntransactions for mempool revalidation on finalized block.\n\nFixes: #9150\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Iulian Barbu <14218860+iulianbarbu@users.noreply.github.com>",
-          "timestamp": "2025-07-26T09:38:10Z",
-          "tree_id": "9290436971f50c36e2f18f32158c7ff376adf03a",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/7ef027551fd1290c42581a85052b643bffc9cbe4"
-        },
-        "date": 1753526878789,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 63629.96000000001,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 52941,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.47288101025,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.696665805760998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.00001998967,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.5230630727200016,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.00001975542,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.4428710548699952,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.00001975542,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.46370946358,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9549851343999947,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.4908626574399975,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.00001998967,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.354016516239987,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005644122980000001,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting-parallel/approval-voting-gather-signatures",
             "value": 0.00548939309,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "d43b8f9b464c90bb7d8cb7d8abf393fdd3a1b1ae",
+          "message": "Version bumps and prdocs reoirdering from stable2603 (#11572)\n\nThis PR merges regular version bumps and prdocs reordering from release\nbranch stable2603 back to master plus a fix for umbrella crate version\nin crates publishing pipeline to aligne it with the stable version\n\n---------\n\nCo-authored-by: ParityReleases <release-team@parity.io>",
+          "timestamp": "2026-03-31T12:24:15Z",
+          "tree_id": "64f11ea397a87df819a7750257757b65184fd40f",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/d43b8f9b464c90bb7d8cb7d8abf393fdd3a1b1ae"
+        },
+        "date": 1774965323731,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 63626.57000000001,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 52945.8,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.000027017700000000004,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.00002197819,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.304096003879952,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.836702581929999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.7132394319099995,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.4507558984299953,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7889132219299527,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005516110770000001,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.000027017700000000004,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.7332812134000037,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.7756875455100003,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.63322204470322,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.00002197819,
             "unit": "seconds"
           }
         ]

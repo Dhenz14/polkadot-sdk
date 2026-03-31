@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774955876266,
+  "lastUpdate": 1774965424607,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "egor@parity.io",
-            "name": "Egor_P",
-            "username": "EgorPopelyaev"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "e11b1dcecc10f0fe3dab8785e6c52f243f82030b",
-          "message": "[Backport] Regular version bumps and prdoc reordering from the stable2506 release branch back to master (#9320)\n\nThis PR backports:\n- NODE_VERSION bumps\n- spec_version bumps\n- prdoc reordering\nfrom the release branch back to master\n\n---------\n\nCo-authored-by: ParityReleases <release-team@parity.io>",
-          "timestamp": "2025-07-25T10:39:37Z",
-          "tree_id": "754e61e7d28611ce0028d2067705a17bf7d8e6ae",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/e11b1dcecc10f0fe3dab8785e6c52f243f82030b"
-        },
-        "date": 1753444634118,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008571068779999995,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.004993273269999994,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.002675667429999999,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-distribution",
             "value": 0.009290486109999985,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "d43b8f9b464c90bb7d8cb7d8abf393fdd3a1b1ae",
+          "message": "Version bumps and prdocs reoirdering from stable2603 (#11572)\n\nThis PR merges regular version bumps and prdocs reordering from release\nbranch stable2603 back to master plus a fix for umbrella crate version\nin crates publishing pipeline to aligne it with the stable version\n\n---------\n\nCo-authored-by: ParityReleases <release-team@parity.io>",
+          "timestamp": "2026-03-31T12:24:15Z",
+          "tree_id": "64f11ea397a87df819a7750257757b65184fd40f",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/d43b8f9b464c90bb7d8cb7d8abf393fdd3a1b1ae"
+        },
+        "date": 1774965402443,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009413211669999968,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.00899857062,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.00269604206,
             "unit": "seconds"
           }
         ]

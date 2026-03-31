@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774989018192,
+  "lastUpdate": 1774999389971,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "notifications_protocol": [
@@ -128639,6 +128639,198 @@ window.BENCHMARK_DATA = {
             "name": "notifications_protocol/litep2p/with_backpressure/16MB",
             "value": 2248321474,
             "range": "± 63900115",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "10196091+Ank4n@users.noreply.github.com",
+            "name": "Ankan",
+            "username": "Ank4n"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0d6888a1cd4c7c864d05d843a72fccbb5f7a3fea",
+          "message": "Implement Budget Distribution logic in pallet-dap (#11527)\n\nStacked on #11513. \nExtracted from #10844.\n\n## Overview\n\nAdds issuance drip and budget distribution to `pallet-dap`. DAP becomes\na generic inflation engine: it mints new tokens on a configurable\ncadence and distributes them to registered budget recipients.\n\nNo runtime behavior change: the existing chain configuration continues\nto mint via `EraPayout` trait in staking. DAP can be configured as a\nnoop (cadence = 0 or empty budget).\n\n## Changes\n\n### pallet-dap\n- **Issuance drip**: `drip_issuance()` runs in `on_initialize`. Computes\nmint amount via `IssuanceCurve` (total issuance + elapsed time) and\ndistributes to `BudgetRecipient`s per a governance-updatable\n`BudgetAllocation` map that must sum to 100%.\n- **Safety guards**: `MaxElapsedPerDrip` ceiling prevents over-minting\nif the chain stalls. First-block initialization skips drip to avoid\nminting for an unknown period.\n- **Buffer accounting**: buffer's share is deactivated on inflow (mint +\n`OnUnbalanced` slashes).\n- **`set_budget_allocation`** extrinsic (root-only): validates keys\nmatch registered recipients and percentages sum to exactly 100%.\n- **`BudgetRecipient` impl**: DAP exposes its buffer as a recipient\n(key: `\"buffer\"`).\n- **Migration**: `MigrateV1ToV2` seeds `LastIssuanceTimestamp` and\n`BudgetAllocation` for existing chains. Not wired up in WAH or other\nruntimes yet.\n\n## TODOs\n- [x] Wire benchmark weights.\n\n## In Later PR\n- Revert [these\nchanges](https://github.com/paritytech/polkadot-sdk/pull/11527/changes/9b388b2da70c3a0dead7eb2cf2f29a3c9e89e714)\n\n---------\n\nCo-authored-by: Paolo La Camera <paolo@parity.io>",
+          "timestamp": "2026-03-31T22:18:21Z",
+          "tree_id": "aa3ab20259e0f73f39d5dc8171a4210390383f6b",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/0d6888a1cd4c7c864d05d843a72fccbb5f7a3fea"
+        },
+        "date": 1774999367981,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "notifications_protocol/libp2p/serially/64B",
+            "value": 3869583,
+            "range": "± 44120",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64B",
+            "value": 301767,
+            "range": "± 4645",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/512B",
+            "value": 4041314,
+            "range": "± 29398",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/512B",
+            "value": 377684,
+            "range": "± 4677",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/4KB",
+            "value": 4731170,
+            "range": "± 25277",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/4KB",
+            "value": 870433,
+            "range": "± 22394",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/64KB",
+            "value": 10150060,
+            "range": "± 44010",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64KB",
+            "value": 4770307,
+            "range": "± 64430",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/256KB",
+            "value": 42215487,
+            "range": "± 645214",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/256KB",
+            "value": 36522287,
+            "range": "± 634982",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/2MB",
+            "value": 331375205,
+            "range": "± 4973578",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/2MB",
+            "value": 279413902,
+            "range": "± 3798193",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/16MB",
+            "value": 2465254088,
+            "range": "± 14141266",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/16MB",
+            "value": 2633676205,
+            "range": "± 221340506",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64B",
+            "value": 3097629,
+            "range": "± 28923",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64B",
+            "value": 1549938,
+            "range": "± 11416",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/512B",
+            "value": 3222351,
+            "range": "± 34143",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/512B",
+            "value": 1620583,
+            "range": "± 12494",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/4KB",
+            "value": 3810629,
+            "range": "± 22281",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/4KB",
+            "value": 1933653,
+            "range": "± 14127",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64KB",
+            "value": 7695000,
+            "range": "± 51639",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64KB",
+            "value": 4839352,
+            "range": "± 51516",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/256KB",
+            "value": 33827420,
+            "range": "± 542256",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/256KB",
+            "value": 32817218,
+            "range": "± 502343",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/2MB",
+            "value": 295292912,
+            "range": "± 3850819",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/2MB",
+            "value": 255379544,
+            "range": "± 2112080",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/16MB",
+            "value": 2357859891,
+            "range": "± 24743490",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/16MB",
+            "value": 2126986501,
+            "range": "± 65054751",
             "unit": "ns/iter"
           }
         ]

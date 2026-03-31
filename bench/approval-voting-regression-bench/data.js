@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774990088451,
+  "lastUpdate": 1775000424963,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "dmitry@markin.tech",
-            "name": "Dmitry Markin",
-            "username": "dmitry-markin"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "a15d066faac70676101854cfa9b55f00f61e865a",
-          "message": "network/kad: Increase memory store capacity for providers (#9315)\n\nIncrease Kademlia memory store capacity for DHT content providers (used\nby parachain DHT-based bootnodes) and reduce provider republish interval\n& TTL. This is needed to support testnets with 1-minute fast runtime and\nup to 13 parachains.\n\nParameters set:\n- 10000 provider keys per node\n- 10h provider record TTL\n- 3.5h provider republish interval\n\nCloses https://github.com/paritytech/litep2p/issues/405.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-28T15:24:53Z",
-          "tree_id": "51754d7b2f1622572ee764f0d16ad5ca318154ee",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/a15d066faac70676101854cfa9b55f00f61e865a"
-        },
-        "date": 1753721011783,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52941,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63636.55,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.00001838787,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.4255438105800013,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.00001838787,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.5266764765199996,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.6553914542108563,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.00001836688,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.4686843456099994,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.48435583766,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.00001836688,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.331105234480008,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.00593898568,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4833287912,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9365769872300054,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting-parallel/approval-voting-parallel-1",
             "value": 2.7631286303999993,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "10196091+Ank4n@users.noreply.github.com",
+            "name": "Ankan",
+            "username": "Ank4n"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0d6888a1cd4c7c864d05d843a72fccbb5f7a3fea",
+          "message": "Implement Budget Distribution logic in pallet-dap (#11527)\n\nStacked on #11513. \nExtracted from #10844.\n\n## Overview\n\nAdds issuance drip and budget distribution to `pallet-dap`. DAP becomes\na generic inflation engine: it mints new tokens on a configurable\ncadence and distributes them to registered budget recipients.\n\nNo runtime behavior change: the existing chain configuration continues\nto mint via `EraPayout` trait in staking. DAP can be configured as a\nnoop (cadence = 0 or empty budget).\n\n## Changes\n\n### pallet-dap\n- **Issuance drip**: `drip_issuance()` runs in `on_initialize`. Computes\nmint amount via `IssuanceCurve` (total issuance + elapsed time) and\ndistributes to `BudgetRecipient`s per a governance-updatable\n`BudgetAllocation` map that must sum to 100%.\n- **Safety guards**: `MaxElapsedPerDrip` ceiling prevents over-minting\nif the chain stalls. First-block initialization skips drip to avoid\nminting for an unknown period.\n- **Buffer accounting**: buffer's share is deactivated on inflow (mint +\n`OnUnbalanced` slashes).\n- **`set_budget_allocation`** extrinsic (root-only): validates keys\nmatch registered recipients and percentages sum to exactly 100%.\n- **`BudgetRecipient` impl**: DAP exposes its buffer as a recipient\n(key: `\"buffer\"`).\n- **Migration**: `MigrateV1ToV2` seeds `LastIssuanceTimestamp` and\n`BudgetAllocation` for existing chains. Not wired up in WAH or other\nruntimes yet.\n\n## TODOs\n- [x] Wire benchmark weights.\n\n## In Later PR\n- Revert [these\nchanges](https://github.com/paritytech/polkadot-sdk/pull/11527/changes/9b388b2da70c3a0dead7eb2cf2f29a3c9e89e714)\n\n---------\n\nCo-authored-by: Paolo La Camera <paolo@parity.io>",
+          "timestamp": "2026-03-31T22:18:21Z",
+          "tree_id": "aa3ab20259e0f73f39d5dc8171a4210390383f6b",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/0d6888a1cd4c7c864d05d843a72fccbb5f7a3fea"
+        },
+        "date": 1775000403407,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 63628.420000000006,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 52943.09999999999,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.456619478659956,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.8114363237299993,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.4398227178999994,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.000020592550000000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.8278075047299562,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.000020592550000000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.590392531733161,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.00002246922,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.00002246922,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.852272440810002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.789945545300001,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.7293348984299994,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.006000047759999998,
             "unit": "seconds"
           }
         ]

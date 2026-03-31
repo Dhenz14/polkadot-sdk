@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774855940579,
+  "lastUpdate": 1774955876266,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "dmitry@markin.tech",
-            "name": "Dmitry Markin",
-            "username": "dmitry-markin"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "5b4ce9cbf1a46c843e391768ae179ac377aab951",
-          "message": "network/litep2p: Switch to system DNS resolver (#9321)\n\nSwitch to system DNS resolver instead of 8.8.8.8 that litep2p uses by\ndefault. This enables full administrator control of what upstream DNS\nservers to use, including resolution of local names using custom DNS\nservers.\n\nFixes https://github.com/paritytech/polkadot-sdk/issues/9298.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-25T09:05:15Z",
-          "tree_id": "0487343c65a8af24281068c6c4aa4dcbfe0dab75",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/5b4ce9cbf1a46c843e391768ae179ac377aab951"
-        },
-        "date": 1753438570743,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008515756469999984,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.00510302597999999,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.00261330908,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.010223156709999995,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "paolo@parity.io",
+            "name": "Paolo La Camera",
+            "username": "sigurpol"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "553958721eb67709a3aabaff9319ed8c7c9b9142",
+          "message": "Fix test-frame-ui: update .stderr snapshots after #7035 (#11570)\n\nPR #7035 added new TypeInfo implementors, pushing rustc past its\ndiagnostic threshold for emitting `consider using --verbose` on the\nTypeInfo/StorageEntryMetadataBuilder error.",
+          "timestamp": "2026-03-31T09:55:47Z",
+          "tree_id": "1c65564b56cc30e43afa385f110a1ad063fedab7",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/553958721eb67709a3aabaff9319ed8c7c9b9142"
+        },
+        "date": 1774955854236,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.0026107093500000013,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009536278939999997,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009290486109999985,
             "unit": "seconds"
           }
         ]

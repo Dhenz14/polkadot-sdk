@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774855826446,
+  "lastUpdate": 1774955786870,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "git@kchr.de",
-            "name": "Bastian Köcher",
-            "username": "bkchr"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "73b44193c8e66acd699f04265027289d030f6c66",
-          "message": "frame_system: Whitelist storage items and do not double kill! (#9335)\n\nThis pull requests adds some storage values to the whitelisted storage\nitem list, because they are written in every block. Also it stops double\nkilling `InherentsApplied`. It is killed in `on_finalize`, so there is\nno need to do it again in `on_initialize`.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-25T14:45:45Z",
-          "tree_id": "250c3b45b5be25c30e0286f5dab152b98fee7eef",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/73b44193c8e66acd699f04265027289d030f6c66"
-        },
-        "date": 1753459024870,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52941.5,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63626.78999999999,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.6942244287208723,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.327285224339999,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.0053025735500000035,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.00001996328,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.00002138642,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.00002138642,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.5123119617400005,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.4835244894799997,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.478582154979999,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.923128415940004,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.42939005603999936,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.4950455726099987,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.00001996328,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 4.620186531463078,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "paolo@parity.io",
+            "name": "Paolo La Camera",
+            "username": "sigurpol"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "553958721eb67709a3aabaff9319ed8c7c9b9142",
+          "message": "Fix test-frame-ui: update .stderr snapshots after #7035 (#11570)\n\nPR #7035 added new TypeInfo implementors, pushing rustc past its\ndiagnostic threshold for emitting `consider using --verbose` on the\nTypeInfo/StorageEntryMetadataBuilder error.",
+          "timestamp": "2026-03-31T09:55:47Z",
+          "tree_id": "1c65564b56cc30e43afa385f110a1ad063fedab7",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/553958721eb67709a3aabaff9319ed8c7c9b9142"
+        },
+        "date": 1774955764537,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 63621.77999999999,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 52941.59999999999,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.7515539653399967,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.0000254516,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.00003867749,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.344637725049921,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.460374891620003,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7773891768499219,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.731717422989999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.00003867749,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.4887548411328835,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.0000254516,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.8178395732800006,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.8002733018800003,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.00548939309,
             "unit": "seconds"
           }
         ]

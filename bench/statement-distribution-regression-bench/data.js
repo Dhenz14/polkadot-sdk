@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774984972719,
+  "lastUpdate": 1774990119790,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "178801527+raymondkfcheung@users.noreply.github.com",
-            "name": "Raymond Cheung",
-            "username": "raymondkfcheung"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "edc8a7f95405b929318bb40867a3caca1bca9565",
-          "message": "Replace `log` with `tracing` on `pallet-bridge-messages` (#9308)\n\nThis PR replaces `log` with `tracing` instrumentation on\n`pallet-bridge-messages` by providing structured logging.\n\nPartially addresses #9211",
-          "timestamp": "2025-07-28T08:02:29Z",
-          "tree_id": "7bd256fb1ed72a826f529fda260828a26b18a940",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/edc8a7f95405b929318bb40867a3caca1bca9565"
-        },
-        "date": 1753694103877,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.958,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03370834939200001,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.044341235991999926,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.08252595218199989,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "363911+pepoviola@users.noreply.github.com",
+            "name": "Javier Viola",
+            "username": "pepoviola"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "8b53323246a87eb2249742b90ba0963057051eac",
+          "message": "bump zombienet version to v0.4.9 (#11569)\n\nThis version move the internal monitor to a diff log target, eliminating\nthe current spam of tracing logs.\n\nThx!\n\n---------\n\nCo-authored-by: Bastian Köcher <git@kchr.de>",
+          "timestamp": "2026-03-31T19:26:58Z",
+          "tree_id": "b2f4156f1fee8976b2c4b5530015871afd44e644",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/8b53323246a87eb2249742b90ba0963057051eac"
+        },
+        "date": 1774990096520,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.072,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.03883897484799999,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08637460754799994,
             "unit": "seconds"
           }
         ]

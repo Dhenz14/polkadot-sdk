@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774855694566,
+  "lastUpdate": 1774955714182,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "178801527+raymondkfcheung@users.noreply.github.com",
-            "name": "Raymond Cheung",
-            "username": "raymondkfcheung"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "bb4130369ed03ec130ba41ea4cf33cbc97a98c2f",
-          "message": "Replace `log` with `tracing` on `bridge-runtime-common` (#9288)\n\nThis PR replaces `log` with `tracing` instrumentation on\n`bridge-runtime-common` by providing structured logging.\n\nPartially addresses #9211\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Andrii <ndk@parity.io>",
-          "timestamp": "2025-07-28T11:54:43Z",
-          "tree_id": "646c8459d9769ef4cfaf313adf64bccd2294d254",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/bb4130369ed03ec130ba41ea4cf33cbc97a98c2f"
-        },
-        "date": 1753707812994,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.20226138733333335,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.254523208200002,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.13053976183333332,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "paolo@parity.io",
+            "name": "Paolo La Camera",
+            "username": "sigurpol"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "553958721eb67709a3aabaff9319ed8c7c9b9142",
+          "message": "Fix test-frame-ui: update .stderr snapshots after #7035 (#11570)\n\nPR #7035 added new TypeInfo implementors, pushing rustc past its\ndiagnostic threshold for emitting `consider using --verbose` on the\nTypeInfo/StorageEntryMetadataBuilder error.",
+          "timestamp": "2026-03-31T09:55:47Z",
+          "tree_id": "1c65564b56cc30e43afa385f110a1ad063fedab7",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/553958721eb67709a3aabaff9319ed8c7c9b9142"
+        },
+        "date": 1774955692174,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12535888843333337,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.312741607866672,
             "unit": "seconds"
           }
         ]

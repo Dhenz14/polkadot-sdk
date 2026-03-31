@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774965346171,
+  "lastUpdate": 1774982516218,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "178801527+raymondkfcheung@users.noreply.github.com",
-            "name": "Raymond Cheung",
-            "username": "raymondkfcheung"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "edc8a7f95405b929318bb40867a3caca1bca9565",
-          "message": "Replace `log` with `tracing` on `pallet-bridge-messages` (#9308)\n\nThis PR replaces `log` with `tracing` instrumentation on\n`pallet-bridge-messages` by providing structured logging.\n\nPartially addresses #9211",
-          "timestamp": "2025-07-28T08:02:29Z",
-          "tree_id": "7bd256fb1ed72a826f529fda260828a26b18a940",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/edc8a7f95405b929318bb40867a3caca1bca9565"
-        },
-        "date": 1753694079605,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52935.59999999999,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63609.740000000005,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9480234830500032,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000018448819999999997,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.526244902029999,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.4366101517900014,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.7039377731209115,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.391659318370005,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000018448819999999997,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.482915996120001,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.00001705821,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.4913781658699987,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.00001705821,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.5008242001799985,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.00566241933,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting/test-environment",
             "value": 0.00002197819,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "luka.ciric2106@gmail.com",
+            "name": "Luka Ciric",
+            "username": "cirko33"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "de0a245168da894e24d974fadf6bdf803e3ac219",
+          "message": "Raise offence queue eras bound limit (#11435)\n\nFixes a bug where **OffenceQueueEras** bound (BondingDuration) was\nincorrect when `SlashDeferDuration=0`. The oldest reportable offence era\nformula allowed more eras than the bound could hold.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Ankan <10196091+Ank4n@users.noreply.github.com>",
+          "timestamp": "2026-03-31T14:39:48Z",
+          "tree_id": "8813c2e41507f49572675266dad5b29263109969",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/de0a245168da894e24d974fadf6bdf803e3ac219"
+        },
+        "date": 1774982493919,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 52939,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 63619.780000000006,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.000022845160000000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.129411102239931,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.745469763949999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.79626028572,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.00002509533,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.00002509533,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005240424279999995,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.705063914200003,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7434879175699375,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.000022845160000000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.439235997699991,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.407144457833228,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.6946527988200004,
             "unit": "seconds"
           }
         ]

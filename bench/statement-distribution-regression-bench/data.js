@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774982547158,
+  "lastUpdate": 1774984972719,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "1728078+michalkucharczyk@users.noreply.github.com",
-            "name": "Michal Kucharczyk",
-            "username": "michalkucharczyk"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "7ef027551fd1290c42581a85052b643bffc9cbe4",
-          "message": "`fatxpool`: avoid premature revalidation of transactions (#9189)\n\nThis PR improves handling of the following scenario:\n```\nsend tx1: transfer to fund new  X account \n# wait for tx1 in block event (let's assume it happens at block N) \nsend tx2: spend from X account\n```\n\nBefore this PR `tx2` could be invalidated (and most likely was) when\n`block N-k` was finalized, because transactions are checked for being\ninvalid on finalized block. (The `X account` does not yet exists for any\nblock before `block N`).\n\nAfter this commit transactions will be revalidated on finalized blocks\nonly if their height is greater then height of the block at which\ntransactions was originally submitted.\n\nNote: There are no guarantees that `tx2` will be actually included, it\nstill may happen that it will be dropped under some circumstances. This\nonly reduces likelihood of dropping transaction.\n\n\nNote for reviewers:\nThe fix is to simply initialize\n[`validated_at`](https://github.com/paritytech/polkadot-sdk/blob/f8a1fe64c29b1ddcb5824bbb3bf327f528f18d40/substrate/client/transaction-pool/src/fork_aware_txpool/tx_mem_pool.rs#L98-L99)\nfield of `TxInMemPool` which is used to\n[select](https://github.com/paritytech/polkadot-sdk/blob/f8a1fe64c29b1ddcb5824bbb3bf327f528f18d40/substrate/client/transaction-pool/src/fork_aware_txpool/tx_mem_pool.rs#L583-L586)\ntransactions for mempool revalidation on finalized block.\n\nFixes: #9150\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Iulian Barbu <14218860+iulianbarbu@users.noreply.github.com>",
-          "timestamp": "2025-07-26T09:38:10Z",
-          "tree_id": "9290436971f50c36e2f18f32158c7ff376adf03a",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/7ef027551fd1290c42581a85052b643bffc9cbe4"
-        },
-        "date": 1753526904237,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.95199999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.044546563345999914,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03389707651200001,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.07720653910799989,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "10196091+Ank4n@users.noreply.github.com",
+            "name": "Ankan",
+            "username": "Ank4n"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "129a48aa9f17a3d5ccbcb8cb4167dd505165d35f",
+          "message": "[Staking] Add issuance and budget traits in prep for Budget Split (#11513)\n\n# Overview\n\nMoves `EraPayout` trait to `sp-staking` and adds new traits for\nissuance, budget distribution, and reward calculation.\n\nExtracted changes from the main PR: #10844 \nAlso see: https://github.com/paritytech/polkadot-sdk/pull/11512\n\n## Changes\n\n### sp-staking\n- `EraPayout`: moved from `pallet-staking` and `pallet-staking-async` to\n`sp-staking`, eliminating the duplicate definitions.\n- `budget` module: stake independent traits:\n- `IssuanceCurve`: successor to `EraPayout`, computes issuance from\ntotal supply + elapsed time (no staking state dependency).\n- `BudgetRecipient` / `BudgetRecipientList`: register pot accounts for\ninflation distribution. Runtime wires as a tuple.\n  - `BudgetKey`: bounded identifier for budget categories.\n- `StakerRewardCalculator`: trait for calculating validator incentive\nweights and staker reward splits.\n\n### pallet-staking / pallet-staking-async\n- Removed local `EraPayout` definitions, re-exported from `sp-staking`.\n\n---------\n\nCo-authored-by: Paolo La Camera <paolo@parity.io>",
+          "timestamp": "2026-03-31T17:06:21Z",
+          "tree_id": "77fcec156172d697a4fc3bc828044f351b8d78fa",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/129a48aa9f17a3d5ccbcb8cb4167dd505165d35f"
+        },
+        "date": 1774984950642,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.06,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038861566525999994,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08252595218199989,
             "unit": "seconds"
           }
         ]

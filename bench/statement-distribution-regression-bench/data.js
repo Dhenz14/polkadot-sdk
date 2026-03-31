@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774855901975,
+  "lastUpdate": 1774955830214,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "egor@parity.io",
-            "name": "Egor_P",
-            "username": "EgorPopelyaev"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "e11b1dcecc10f0fe3dab8785e6c52f243f82030b",
-          "message": "[Backport] Regular version bumps and prdoc reordering from the stable2506 release branch back to master (#9320)\n\nThis PR backports:\n- NODE_VERSION bumps\n- spec_version bumps\n- prdoc reordering\nfrom the release branch back to master\n\n---------\n\nCo-authored-by: ParityReleases <release-team@parity.io>",
-          "timestamp": "2025-07-25T10:39:37Z",
-          "tree_id": "754e61e7d28611ce0028d2067705a17bf7d8e6ae",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/e11b1dcecc10f0fe3dab8785e6c52f243f82030b"
-        },
-        "date": 1753444609514,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.976,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.044609047883999935,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03387037782,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.038591904310000015,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "paolo@parity.io",
+            "name": "Paolo La Camera",
+            "username": "sigurpol"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "553958721eb67709a3aabaff9319ed8c7c9b9142",
+          "message": "Fix test-frame-ui: update .stderr snapshots after #7035 (#11570)\n\nPR #7035 added new TypeInfo implementors, pushing rustc past its\ndiagnostic threshold for emitting `consider using --verbose` on the\nTypeInfo/StorageEntryMetadataBuilder error.",
+          "timestamp": "2026-03-31T09:55:47Z",
+          "tree_id": "1c65564b56cc30e43afa385f110a1ad063fedab7",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/553958721eb67709a3aabaff9319ed8c7c9b9142"
+        },
+        "date": 1774955807905,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.07599999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08644687547599993,
+            "unit": "seconds"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.03879415939399999,
             "unit": "seconds"
           }
         ]

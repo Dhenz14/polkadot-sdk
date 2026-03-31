@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774990056887,
+  "lastUpdate": 1775000395765,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "140437456+hamidmuslih@users.noreply.github.com",
-            "name": "Hamid Muslih",
-            "username": "hamidmuslih"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "ba5ed25153d37d273040925d1336620a34044fbd",
-          "message": "update the builder dockerfile (#9310)\n\n# Description\n\nUpdates the base image in the Polkadot builder Dockerfile\n\nCloses #9306\n## Integration\n\nNot applicable - this PR has no downstream integration impacts as it\nonly affects the local build environment\n\n## Review Notes\n\nThis PR updates the builder base image version in\n`polkadot_builder.Dockerfile`.\n\nCo-authored-by: Alexander Samusev <41779041+alvicsam@users.noreply.github.com>",
-          "timestamp": "2025-07-28T23:31:56+02:00",
-          "tree_id": "b96e77db1d8bcdf9b9df5163aa72d74c87993ed2",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/ba5ed25153d37d273040925d1336620a34044fbd"
-        },
-        "date": 1753740336467,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15721912378,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013071345366666674,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.0071565755666666885,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02223492379333333,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-store",
             "value": 0.14400624911333335,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "10196091+Ank4n@users.noreply.github.com",
+            "name": "Ankan",
+            "username": "Ank4n"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0d6888a1cd4c7c864d05d843a72fccbb5f7a3fea",
+          "message": "Implement Budget Distribution logic in pallet-dap (#11527)\n\nStacked on #11513. \nExtracted from #10844.\n\n## Overview\n\nAdds issuance drip and budget distribution to `pallet-dap`. DAP becomes\na generic inflation engine: it mints new tokens on a configurable\ncadence and distributes them to registered budget recipients.\n\nNo runtime behavior change: the existing chain configuration continues\nto mint via `EraPayout` trait in staking. DAP can be configured as a\nnoop (cadence = 0 or empty budget).\n\n## Changes\n\n### pallet-dap\n- **Issuance drip**: `drip_issuance()` runs in `on_initialize`. Computes\nmint amount via `IssuanceCurve` (total issuance + elapsed time) and\ndistributes to `BudgetRecipient`s per a governance-updatable\n`BudgetAllocation` map that must sum to 100%.\n- **Safety guards**: `MaxElapsedPerDrip` ceiling prevents over-minting\nif the chain stalls. First-block initialization skips drip to avoid\nminting for an unknown period.\n- **Buffer accounting**: buffer's share is deactivated on inflow (mint +\n`OnUnbalanced` slashes).\n- **`set_budget_allocation`** extrinsic (root-only): validates keys\nmatch registered recipients and percentages sum to exactly 100%.\n- **`BudgetRecipient` impl**: DAP exposes its buffer as a recipient\n(key: `\"buffer\"`).\n- **Migration**: `MigrateV1ToV2` seeds `LastIssuanceTimestamp` and\n`BudgetAllocation` for existing chains. Not wired up in WAH or other\nruntimes yet.\n\n## TODOs\n- [x] Wire benchmark weights.\n\n## In Later PR\n- Revert [these\nchanges](https://github.com/paritytech/polkadot-sdk/pull/11527/changes/9b388b2da70c3a0dead7eb2cf2f29a3c9e89e714)\n\n---------\n\nCo-authored-by: Paolo La Camera <paolo@parity.io>",
+          "timestamp": "2026-03-31T22:18:21Z",
+          "tree_id": "aa3ab20259e0f73f39d5dc8171a4210390383f6b",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/0d6888a1cd4c7c864d05d843a72fccbb5f7a3fea"
+        },
+        "date": 1775000374345,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.006881011720000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009709672773333318,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.02376644046,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14131317862666665,
             "unit": "seconds"
           }
         ]

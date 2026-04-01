@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775046735061,
+  "lastUpdate": 1775053976688,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "178801527+raymondkfcheung@users.noreply.github.com",
-            "name": "Raymond Cheung",
-            "username": "raymondkfcheung"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "ff6a5f7ec52525bfada191fd04cf6e8c34d2b78e",
-          "message": "Replace `log` with `tracing` on `pallet-bridge-parachains` (#9318)\n\nThis PR replaces `log` with `tracing` instrumentation on\n`pallet-bridge-parachains` by providing structured logging.\n\nPartially addresses #9211",
-          "timestamp": "2025-07-28T16:12:47Z",
-          "tree_id": "bf341a229cf46b75766555d16d51600cbf931095",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/ff6a5f7ec52525bfada191fd04cf6e8c34d2b78e"
-        },
-        "date": 1753723351966,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.95399999999994,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04444098666399991,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.033857381738000014,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.037939704242,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e9e4769a189d7b7a830d31803385550701db8660",
+          "message": "Add statement store e2e integration tests (#11237)\n\n# Description\n\n#10783 \n\nE2E Integration Tests (zombienet-sdk)\n\nFunctional tests (statement_store)\n- statement_store_genesis_inject — submit + subscribe round-trip with\ngenesis-injected allowances, 2-node propagation with data\nintegrity verification\n- statement_store_sudo_allowance — sudo-based runtime allowance setting,\n8 concurrent multi-account submissions, 4-node fan-out propagation\n\n### Test Infrastructure\n- common.rs — shared helpers: create_test_statement, submit_statement,\nexpect_one_statement, expect_statements_unordered,\nsubscribe_topic, spawn_network, spawn_network_sudo\n- sc_statement_store::subxt_client — custom subxt config (CustomConfig)\nfor non-standard transaction extensions\n(VerifyMultiSignature, RestrictOrigins), set_allowances_via_sudo for\nruntime-configured networks\n- sc_statement_store::test_utils — shared keypair generation and\nallowance storage item builders (get_keypair,\ncreate_allowance_items, create_uniform_allowance_items)\n- CI matrix registration for all statement store test groups\n\n### What we cover in this PR\n\nTest(statement_store_sudo_allowance) cover the next options for #11534 :\n- Propagation under normal load: Zombienet tests to cover concurrent\nmulti-client corner cases and verify statements reach all real nodes,\nNOT including during major sync\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-01T13:11:28Z",
+          "tree_id": "f2122311adfab60536feedd50a4acfef7bd7226a",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/e9e4769a189d7b7a830d31803385550701db8660"
+        },
+        "date": 1775053954145,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.102,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038517777761999994,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08413750882799995,
             "unit": "seconds"
           }
         ]

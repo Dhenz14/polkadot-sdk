@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775053976688,
+  "lastUpdate": 1775073082734,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "140437456+hamidmuslih@users.noreply.github.com",
-            "name": "Hamid Muslih",
-            "username": "hamidmuslih"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "ba5ed25153d37d273040925d1336620a34044fbd",
-          "message": "update the builder dockerfile (#9310)\n\n# Description\n\nUpdates the base image in the Polkadot builder Dockerfile\n\nCloses #9306\n## Integration\n\nNot applicable - this PR has no downstream integration impacts as it\nonly affects the local build environment\n\n## Review Notes\n\nThis PR updates the builder base image version in\n`polkadot_builder.Dockerfile`.\n\nCo-authored-by: Alexander Samusev <41779041+alvicsam@users.noreply.github.com>",
-          "timestamp": "2025-07-28T23:31:56+02:00",
-          "tree_id": "b96e77db1d8bcdf9b9df5163aa72d74c87993ed2",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/ba5ed25153d37d273040925d1336620a34044fbd"
-        },
-        "date": 1753740387136,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.95199999999994,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03380455144000001,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.044452493311999956,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.08413750882799995,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "59c40532e76f62b7d77cbb71d6309714e1aab744",
+          "message": "[Release|CI/CD] Fixes for release flows (#11578)\n\nThis PR backports few fixes for soem release flows, that were made in\nstable2603 branch. In particular:\n- Fixed resume check in Crates Publish flow\n- Fixed missing llvm path on macos builds\n- Fixed scrtipt that reverts path deps in Cargo.toml files\n- Bumped parity-publish version\n- Fixed check if the post-crates-release branch exists in Crateds\nPublish flow\n\n---------\n\nCo-authored-by: BDevParity <bruno.devic@parity.io>",
+          "timestamp": "2026-04-01T18:29:31Z",
+          "tree_id": "efd0685650449864c3503bc9cf26911d9bf846d0",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/59c40532e76f62b7d77cbb71d6309714e1aab744"
+        },
+        "date": 1775073060598,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.06199999999995,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038537824370000015,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.07974141940999994,
             "unit": "seconds"
           }
         ]

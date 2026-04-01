@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775039454632,
+  "lastUpdate": 1775046644261,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "karol@parity.io",
-            "name": "Karol Kokoszka",
-            "username": "karolk91"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "a64eb1fb02d4012948cba024fca2f27d94732e52",
-          "message": "Remove whitespaces added by macros due to token re-parsing (#9354)\n\nRelates to: https://github.com/paritytech/polkadot-sdk/issues/9336,\nhttps://github.com/paritytech/polkadot-sdk/pull/7321\n\nThis PR aims to normalize result of `stringify` in scenarios when used\ninside nested macros to stringify token streams for benchmarking\nframework. Different versions of rust can include, or not, \"space\"\ncharacters around tokens like `<`,`>`,`::` so we are just removing\nadditional spaces.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-30T05:46:16Z",
-          "tree_id": "b85a3b83c7dfcdd03e82495f9156048789f905e2",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/a64eb1fb02d4012948cba024fca2f27d94732e52"
-        },
-        "date": 1753859034721,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.269408692466667,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.2023021098333333,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 11.304799352366667,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "dhiraj@parity.io",
+            "name": "Dhiraj Sah",
+            "username": "dhirajs0"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "2a4ca43f680cecf3a26666c02bd1c7c0199b6d09",
+          "message": "Align Tally::approval() with VoteTally trait semantics (#11567)\n\n# Description\n\nAligns `Tally::approval()` in `pallet-conviction-voting` with the\n`VoteTally` trait semantics by\nreturning `Perbill::zero()` when no aye or nay votes have been cast.\nThis makes the production\nimplementation consistent with the existing behavior in the\n`pallet-referenda` test mock\n(`substrate/frame/referenda/src/mock.rs:263-269`).\n\nAdditionally, the `VoteTally::approval()` trait doc in `frame-support`\nis updated to explicitly\ndocument the expected return value when no votes have been cast,\npreventing future implementors\nfrom diverging on this behavior.\n\n## Integration\n\nDownstream projects that implement `VoteTally::approval()` should ensure\nthey handle the case where\nno votes have been cast (i.e. `ayes + nays == 0`) by returning\n`Perbill::zero()`, as now documented\nin the trait definition.\n\nNo breaking changes to the public API. The `Tally` struct and its fields\nremain unchanged.\n\n## Review Notes\n\nTwo changes:\n\n**1. Trait documentation**\n(`substrate/frame/support/src/traits/voting.rs`):\n\n```diff\n-    /// Returns the approval ratio (positive to total votes) for the tally.\n+    /// Returns the approval ratio (positive to total votes) for the tally and returns 0% (`Perbill::zero()`)\n+    /// if no votes have been cast (i.e. `ayes + nays == 0`).\n     fn approval(&self, class: Class) -> Perbill;\n```\n\n**2. Implementation fix**\n(`substrate/frame/conviction-voting/src/types.rs`):\n\n```diff\n fn approval(&self, _: Class) -> Perbill {\n-    Perbill::from_rational(self.ayes, self.ayes.saturating_add(self.nays))\n+    let total = self.ayes.saturating_add(self.nays);\n+    if total.is_zero() {\n+        Perbill::zero()\n+    } else {\n+        Perbill::from_rational(self.ayes, total)\n+    }\n }\n```\n\nA new test `empty_tally_approval_is_zero` is added covering four\nscenarios:\n\n| Scenario    | ayes | nays | Expected approval |\n|-------------|------|------|-------------------|\n| No votes    | 0    | 0    | 0%                |\n| Only ayes   | 10   | 0    | 100%              |\n| Only nays   | 0    | 10   | 0%                |\n| Mixed votes | 3    | 7    | 30%               |\n\nAll 25 existing `pallet-conviction-voting` tests continue to pass with\nno regressions.\n\n# Checklist\n\n* [x] My PR includes a detailed description as outlined in the\n\"Description\" and its two subsections above.\n* [x] My PR follows the [labeling requirements](\n\nhttps://github.com/paritytech/polkadot-sdk/blob/master/docs/contributor/CONTRIBUTING.md#Process\n) of this project (at minimum one label for `T` required)\n* [x] I have made corresponding changes to the documentation (if\napplicable)\n* [x] I have added tests that prove my fix is effective or that my\nfeature works (if applicable)\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
+          "timestamp": "2026-04-01T10:57:22Z",
+          "tree_id": "34567f947af7cc6c402f49df0a0ee60c9a921fb2",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/2a4ca43f680cecf3a26666c02bd1c7c0199b6d09"
+        },
+        "date": 1775046622690,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.029221102700003,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1388373626,
             "unit": "seconds"
           }
         ]

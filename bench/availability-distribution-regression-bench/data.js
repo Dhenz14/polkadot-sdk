@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775053914932,
+  "lastUpdate": 1775073022742,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "10196091+Ank4n@users.noreply.github.com",
-            "name": "Ankan",
-            "username": "Ank4n"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "d753869cbb5a6db66ac0dc88c2acb407301eaa01",
-          "message": "Fix definition of held balance (#9347)\n\n## Changes\n- Updated the `Held Balance` definition to reflect the current behavior.\nThe previous explanation was accurate when staking used locks (which\nwere part of the free balance), but since [staking now uses\nholds](https://github.com/paritytech/polkadot-sdk/pull/5501), the old\ndefinition is misleading.\nThis issue was originally pointed out by @michalisFr\n[here](https://github.com/w3f/polkadot-wiki/pull/6793#discussion_r2231472702).\n- Fixed a broken reference in the deprecated doc for `ExposureOf`, which\nwas (ironically) pointing to a non-existent type named `ExistenceOf`.\nThis slipped in during our [mega async staking\nPR](https://github.com/paritytech/polkadot-sdk/pull/8127).",
-          "timestamp": "2025-07-30T12:06:36Z",
-          "tree_id": "233781385e6bdbed9c58e4af8c5b98876f525d62",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/d753869cbb5a6db66ac0dc88c2acb407301eaa01"
-        },
-        "date": 1753882177676,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012943104733333329,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022255930300000008,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007114286560000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15736506727333335,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-distribution",
             "value": 0.007277858713333335,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "59c40532e76f62b7d77cbb71d6309714e1aab744",
+          "message": "[Release|CI/CD] Fixes for release flows (#11578)\n\nThis PR backports few fixes for soem release flows, that were made in\nstable2603 branch. In particular:\n- Fixed resume check in Crates Publish flow\n- Fixed missing llvm path on macos builds\n- Fixed scrtipt that reverts path deps in Cargo.toml files\n- Bumped parity-publish version\n- Fixed check if the post-crates-release branch exists in Crateds\nPublish flow\n\n---------\n\nCo-authored-by: BDevParity <bruno.devic@parity.io>",
+          "timestamp": "2026-04-01T18:29:31Z",
+          "tree_id": "efd0685650449864c3503bc9cf26911d9bf846d0",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/59c40532e76f62b7d77cbb71d6309714e1aab744"
+        },
+        "date": 1775073000114,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.023889999913333345,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.006965979346666667,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009484011979999984,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14630297929333339,
             "unit": "seconds"
           }
         ]

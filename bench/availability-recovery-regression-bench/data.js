@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775053884413,
+  "lastUpdate": 1775072991421,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "10196091+Ank4n@users.noreply.github.com",
-            "name": "Ankan",
-            "username": "Ank4n"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "8c8b53babdfa73ad6752e516d62d7af655472e1f",
-          "message": "[Staking Async] Cancel slashes by validator and max slash fraction (#9187)\n\n## Problem\n\nPreviously, the `cancel_deferred_slash` function required exact slash\nkeys (validator, slash fraction, page index) to cancel slashes. However,\nwhen additional offence reports arrived after a cancellation referendum\nwas initiated, they could create new entries with higher slash\nfractions, making the original cancellation ineffective.\n\n### Changes\n\nWe introduce a new approach that tracks cancelled slashes by era and\nvalidator with their maximum slash fractions:\n\n1. **New Storage**: Added `CancelledSlashes` storage map that stores\ncancellation decisions by era.\n2. **Updated API**: Changed call signature `cancel_deferred_slash` to\naccept `Vec<(AccountId, Perbill)>` instead of complex slash keys. Admin\norigin can now specify which validators to cancel and up to what slash\nfraction.\n3. **Cleanup**: `CancelledSlashes` are cleared after all slashes for an\nera are processed.\n4. **Updated SlashCancelled Event**: Event contains only slash_era and\nvalidator instead of slash key tuple and payout.\n\n---------\n\nCo-authored-by: Paolo La Camera <paolo@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-30T14:12:32Z",
-          "tree_id": "42b978bf4a2c26c7d60c04626d6cbba98fbdab93",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/8c8b53babdfa73ad6752e516d62d7af655472e1f"
-        },
-        "date": 1753889701358,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.27257728593333,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19640246943333328,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 11.132401734966665,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "59c40532e76f62b7d77cbb71d6309714e1aab744",
+          "message": "[Release|CI/CD] Fixes for release flows (#11578)\n\nThis PR backports few fixes for soem release flows, that were made in\nstable2603 branch. In particular:\n- Fixed resume check in Crates Publish flow\n- Fixed missing llvm path on macos builds\n- Fixed scrtipt that reverts path deps in Cargo.toml files\n- Bumped parity-publish version\n- Fixed check if the post-crates-release branch exists in Crateds\nPublish flow\n\n---------\n\nCo-authored-by: BDevParity <bruno.devic@parity.io>",
+          "timestamp": "2026-04-01T18:29:31Z",
+          "tree_id": "efd0685650449864c3503bc9cf26911d9bf846d0",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/59c40532e76f62b7d77cbb71d6309714e1aab744"
+        },
+        "date": 1775072968835,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.1648533993,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.131130754,
             "unit": "seconds"
           }
         ]

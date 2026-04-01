@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775039543782,
+  "lastUpdate": 1775046735061,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "dmitry@markin.tech",
-            "name": "Dmitry Markin",
-            "username": "dmitry-markin"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "a15d066faac70676101854cfa9b55f00f61e865a",
-          "message": "network/kad: Increase memory store capacity for providers (#9315)\n\nIncrease Kademlia memory store capacity for DHT content providers (used\nby parachain DHT-based bootnodes) and reduce provider republish interval\n& TTL. This is needed to support testnets with 1-minute fast runtime and\nup to 13 parachains.\n\nParameters set:\n- 10000 provider keys per node\n- 10h provider record TTL\n- 3.5h provider republish interval\n\nCloses https://github.com/paritytech/litep2p/issues/405.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-28T15:24:53Z",
-          "tree_id": "51754d7b2f1622572ee764f0d16ad5ca318154ee",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/a15d066faac70676101854cfa9b55f00f61e865a"
-        },
-        "date": 1753721036713,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 127.95399999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04461360541199997,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03381324078200001,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.038706204265999994,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "dhiraj@parity.io",
+            "name": "Dhiraj Sah",
+            "username": "dhirajs0"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "2a4ca43f680cecf3a26666c02bd1c7c0199b6d09",
+          "message": "Align Tally::approval() with VoteTally trait semantics (#11567)\n\n# Description\n\nAligns `Tally::approval()` in `pallet-conviction-voting` with the\n`VoteTally` trait semantics by\nreturning `Perbill::zero()` when no aye or nay votes have been cast.\nThis makes the production\nimplementation consistent with the existing behavior in the\n`pallet-referenda` test mock\n(`substrate/frame/referenda/src/mock.rs:263-269`).\n\nAdditionally, the `VoteTally::approval()` trait doc in `frame-support`\nis updated to explicitly\ndocument the expected return value when no votes have been cast,\npreventing future implementors\nfrom diverging on this behavior.\n\n## Integration\n\nDownstream projects that implement `VoteTally::approval()` should ensure\nthey handle the case where\nno votes have been cast (i.e. `ayes + nays == 0`) by returning\n`Perbill::zero()`, as now documented\nin the trait definition.\n\nNo breaking changes to the public API. The `Tally` struct and its fields\nremain unchanged.\n\n## Review Notes\n\nTwo changes:\n\n**1. Trait documentation**\n(`substrate/frame/support/src/traits/voting.rs`):\n\n```diff\n-    /// Returns the approval ratio (positive to total votes) for the tally.\n+    /// Returns the approval ratio (positive to total votes) for the tally and returns 0% (`Perbill::zero()`)\n+    /// if no votes have been cast (i.e. `ayes + nays == 0`).\n     fn approval(&self, class: Class) -> Perbill;\n```\n\n**2. Implementation fix**\n(`substrate/frame/conviction-voting/src/types.rs`):\n\n```diff\n fn approval(&self, _: Class) -> Perbill {\n-    Perbill::from_rational(self.ayes, self.ayes.saturating_add(self.nays))\n+    let total = self.ayes.saturating_add(self.nays);\n+    if total.is_zero() {\n+        Perbill::zero()\n+    } else {\n+        Perbill::from_rational(self.ayes, total)\n+    }\n }\n```\n\nA new test `empty_tally_approval_is_zero` is added covering four\nscenarios:\n\n| Scenario    | ayes | nays | Expected approval |\n|-------------|------|------|-------------------|\n| No votes    | 0    | 0    | 0%                |\n| Only ayes   | 10   | 0    | 100%              |\n| Only nays   | 0    | 10   | 0%                |\n| Mixed votes | 3    | 7    | 30%               |\n\nAll 25 existing `pallet-conviction-voting` tests continue to pass with\nno regressions.\n\n# Checklist\n\n* [x] My PR includes a detailed description as outlined in the\n\"Description\" and its two subsections above.\n* [x] My PR follows the [labeling requirements](\n\nhttps://github.com/paritytech/polkadot-sdk/blob/master/docs/contributor/CONTRIBUTING.md#Process\n) of this project (at minimum one label for `T` required)\n* [x] I have made corresponding changes to the documentation (if\napplicable)\n* [x] I have added tests that prove my fix is effective or that my\nfeature works (if applicable)\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
+          "timestamp": "2026-04-01T10:57:22Z",
+          "tree_id": "34567f947af7cc6c402f49df0a0ee60c9a921fb2",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/2a4ca43f680cecf3a26666c02bd1c7c0199b6d09"
+        },
+        "date": 1775046713078,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.06600000000003,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.07610300766799993,
+            "unit": "seconds"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.037939704242,
             "unit": "seconds"
           }
         ]

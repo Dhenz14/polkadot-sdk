@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775038212005,
+  "lastUpdate": 1775044841772,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "notifications_protocol": [
@@ -129023,6 +129023,198 @@ window.BENCHMARK_DATA = {
             "name": "notifications_protocol/litep2p/with_backpressure/16MB",
             "value": 2238681800,
             "range": "± 57445690",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "dhiraj@parity.io",
+            "name": "Dhiraj Sah",
+            "username": "dhirajs0"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "2a4ca43f680cecf3a26666c02bd1c7c0199b6d09",
+          "message": "Align Tally::approval() with VoteTally trait semantics (#11567)\n\n# Description\n\nAligns `Tally::approval()` in `pallet-conviction-voting` with the\n`VoteTally` trait semantics by\nreturning `Perbill::zero()` when no aye or nay votes have been cast.\nThis makes the production\nimplementation consistent with the existing behavior in the\n`pallet-referenda` test mock\n(`substrate/frame/referenda/src/mock.rs:263-269`).\n\nAdditionally, the `VoteTally::approval()` trait doc in `frame-support`\nis updated to explicitly\ndocument the expected return value when no votes have been cast,\npreventing future implementors\nfrom diverging on this behavior.\n\n## Integration\n\nDownstream projects that implement `VoteTally::approval()` should ensure\nthey handle the case where\nno votes have been cast (i.e. `ayes + nays == 0`) by returning\n`Perbill::zero()`, as now documented\nin the trait definition.\n\nNo breaking changes to the public API. The `Tally` struct and its fields\nremain unchanged.\n\n## Review Notes\n\nTwo changes:\n\n**1. Trait documentation**\n(`substrate/frame/support/src/traits/voting.rs`):\n\n```diff\n-    /// Returns the approval ratio (positive to total votes) for the tally.\n+    /// Returns the approval ratio (positive to total votes) for the tally and returns 0% (`Perbill::zero()`)\n+    /// if no votes have been cast (i.e. `ayes + nays == 0`).\n     fn approval(&self, class: Class) -> Perbill;\n```\n\n**2. Implementation fix**\n(`substrate/frame/conviction-voting/src/types.rs`):\n\n```diff\n fn approval(&self, _: Class) -> Perbill {\n-    Perbill::from_rational(self.ayes, self.ayes.saturating_add(self.nays))\n+    let total = self.ayes.saturating_add(self.nays);\n+    if total.is_zero() {\n+        Perbill::zero()\n+    } else {\n+        Perbill::from_rational(self.ayes, total)\n+    }\n }\n```\n\nA new test `empty_tally_approval_is_zero` is added covering four\nscenarios:\n\n| Scenario    | ayes | nays | Expected approval |\n|-------------|------|------|-------------------|\n| No votes    | 0    | 0    | 0%                |\n| Only ayes   | 10   | 0    | 100%              |\n| Only nays   | 0    | 10   | 0%                |\n| Mixed votes | 3    | 7    | 30%               |\n\nAll 25 existing `pallet-conviction-voting` tests continue to pass with\nno regressions.\n\n# Checklist\n\n* [x] My PR includes a detailed description as outlined in the\n\"Description\" and its two subsections above.\n* [x] My PR follows the [labeling requirements](\n\nhttps://github.com/paritytech/polkadot-sdk/blob/master/docs/contributor/CONTRIBUTING.md#Process\n) of this project (at minimum one label for `T` required)\n* [x] I have made corresponding changes to the documentation (if\napplicable)\n* [x] I have added tests that prove my fix is effective or that my\nfeature works (if applicable)\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
+          "timestamp": "2026-04-01T10:57:22Z",
+          "tree_id": "34567f947af7cc6c402f49df0a0ee60c9a921fb2",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/2a4ca43f680cecf3a26666c02bd1c7c0199b6d09"
+        },
+        "date": 1775044819508,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "notifications_protocol/libp2p/serially/64B",
+            "value": 3897564,
+            "range": "± 62964",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64B",
+            "value": 302465,
+            "range": "± 5797",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/512B",
+            "value": 4021931,
+            "range": "± 26390",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/512B",
+            "value": 381277,
+            "range": "± 6195",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/4KB",
+            "value": 4756148,
+            "range": "± 32729",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/4KB",
+            "value": 883884,
+            "range": "± 9325",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/64KB",
+            "value": 10229794,
+            "range": "± 99015",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64KB",
+            "value": 4929251,
+            "range": "± 160258",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/256KB",
+            "value": 43661731,
+            "range": "± 768089",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/256KB",
+            "value": 36832053,
+            "range": "± 572659",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/2MB",
+            "value": 335611857,
+            "range": "± 4582773",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/2MB",
+            "value": 284778772,
+            "range": "± 4544609",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/16MB",
+            "value": 2477490376,
+            "range": "± 12991941",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/16MB",
+            "value": 2643175636,
+            "range": "± 66870097",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64B",
+            "value": 3067509,
+            "range": "± 11621",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64B",
+            "value": 1601583,
+            "range": "± 11422",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/512B",
+            "value": 3229977,
+            "range": "± 18478",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/512B",
+            "value": 1682417,
+            "range": "± 9563",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/4KB",
+            "value": 3804435,
+            "range": "± 34273",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/4KB",
+            "value": 1996011,
+            "range": "± 28268",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64KB",
+            "value": 7657903,
+            "range": "± 78446",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64KB",
+            "value": 4901825,
+            "range": "± 84615",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/256KB",
+            "value": 33664724,
+            "range": "± 185338",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/256KB",
+            "value": 33423967,
+            "range": "± 531753",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/2MB",
+            "value": 298995685,
+            "range": "± 3134633",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/2MB",
+            "value": 264222714,
+            "range": "± 6345990",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/16MB",
+            "value": 2475305811,
+            "range": "± 21754696",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/16MB",
+            "value": 2287975819,
+            "range": "± 46585944",
             "unit": "ns/iter"
           }
         ]

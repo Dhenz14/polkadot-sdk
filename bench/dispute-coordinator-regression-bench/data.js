@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775000483815,
+  "lastUpdate": 1775039573323,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "178801527+raymondkfcheung@users.noreply.github.com",
-            "name": "Raymond Cheung",
-            "username": "raymondkfcheung"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "bb4130369ed03ec130ba41ea4cf33cbc97a98c2f",
-          "message": "Replace `log` with `tracing` on `bridge-runtime-common` (#9288)\n\nThis PR replaces `log` with `tracing` instrumentation on\n`bridge-runtime-common` by providing structured logging.\n\nPartially addresses #9211\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Andrii <ndk@parity.io>",
-          "timestamp": "2025-07-28T11:54:43Z",
-          "tree_id": "646c8459d9769ef4cfaf313adf64bccd2294d254",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/bb4130369ed03ec130ba41ea4cf33cbc97a98c2f"
-        },
-        "date": 1753707913127,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008538299879999992,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.002612974020000001,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.00505242120999999,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.009854219490000007,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "luka.ciric2106@gmail.com",
+            "name": "Luka Ciric",
+            "username": "cirko33"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c69795dad68821aaa780e160f6defcf0683e0aa4",
+          "message": "Westend: Support Meta Transactions (#11469)\n\nSupport **Meta Transactions** via `meta-tx` pallet for next **Westend**\nruntimes:\n- Asset Hub\n- Coretime\n- People\n- Collectives\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-01T09:06:17Z",
+          "tree_id": "34eb3e0461c66f9c28f7142bb3d9b3d388d8b620",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/c69795dad68821aaa780e160f6defcf0683e0aa4"
+        },
+        "date": 1775039551527,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009043609779999994,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.002658183679999999,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009157045959999985,
             "unit": "seconds"
           }
         ]

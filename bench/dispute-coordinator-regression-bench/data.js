@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775046765009,
+  "lastUpdate": 1775054007242,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "dmitry@markin.tech",
-            "name": "Dmitry Markin",
-            "username": "dmitry-markin"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "a15d066faac70676101854cfa9b55f00f61e865a",
-          "message": "network/kad: Increase memory store capacity for providers (#9315)\n\nIncrease Kademlia memory store capacity for DHT content providers (used\nby parachain DHT-based bootnodes) and reduce provider republish interval\n& TTL. This is needed to support testnets with 1-minute fast runtime and\nup to 13 parachains.\n\nParameters set:\n- 10000 provider keys per node\n- 10h provider record TTL\n- 3.5h provider republish interval\n\nCloses https://github.com/paritytech/litep2p/issues/405.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-28T15:24:53Z",
-          "tree_id": "51754d7b2f1622572ee764f0d16ad5ca318154ee",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/a15d066faac70676101854cfa9b55f00f61e865a"
-        },
-        "date": 1753721061459,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005135600069999993,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0025990491500000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008712407089999985,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.010344311139999998,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e9e4769a189d7b7a830d31803385550701db8660",
+          "message": "Add statement store e2e integration tests (#11237)\n\n# Description\n\n#10783 \n\nE2E Integration Tests (zombienet-sdk)\n\nFunctional tests (statement_store)\n- statement_store_genesis_inject — submit + subscribe round-trip with\ngenesis-injected allowances, 2-node propagation with data\nintegrity verification\n- statement_store_sudo_allowance — sudo-based runtime allowance setting,\n8 concurrent multi-account submissions, 4-node fan-out propagation\n\n### Test Infrastructure\n- common.rs — shared helpers: create_test_statement, submit_statement,\nexpect_one_statement, expect_statements_unordered,\nsubscribe_topic, spawn_network, spawn_network_sudo\n- sc_statement_store::subxt_client — custom subxt config (CustomConfig)\nfor non-standard transaction extensions\n(VerifyMultiSignature, RestrictOrigins), set_allowances_via_sudo for\nruntime-configured networks\n- sc_statement_store::test_utils — shared keypair generation and\nallowance storage item builders (get_keypair,\ncreate_allowance_items, create_uniform_allowance_items)\n- CI matrix registration for all statement store test groups\n\n### What we cover in this PR\n\nTest(statement_store_sudo_allowance) cover the next options for #11534 :\n- Propagation under normal load: Zombienet tests to cover concurrent\nmulti-client corner cases and verify statements reach all real nodes,\nNOT including during major sync\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-01T13:11:28Z",
+          "tree_id": "f2122311adfab60536feedd50a4acfef7bd7226a",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/e9e4769a189d7b7a830d31803385550701db8660"
+        },
+        "date": 1775053984653,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.0026470339400000006,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009481706999999989,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.0100606147,
             "unit": "seconds"
           }
         ]

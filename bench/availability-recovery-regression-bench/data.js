@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775000366707,
+  "lastUpdate": 1775039454632,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "git@kchr.de",
-            "name": "Bastian Köcher",
-            "username": "bkchr"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "835ee4782522319cf5d8de9e35a20e56ead143b7",
-          "message": "cumulus zombienet: Send transactions as immortal (#9362)\n\nDeep inside subxt the default period for a transaction is set to 32\nblocks. When you have some chain that is building blocks every 500ms,\nthis may leads to issues that manifest as invalid transaction\nsignatures. To protect the poor developers of endless debugging sessions\nwe now send transactions as immortal.",
-          "timestamp": "2025-07-29T19:28:17Z",
-          "tree_id": "7bf288f567d290b92248d562ce63c1d26211e02b",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/835ee4782522319cf5d8de9e35a20e56ead143b7"
-        },
-        "date": 1753822916651,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.286630176900001,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.1978154131333334,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.12576082873333336,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "luka.ciric2106@gmail.com",
+            "name": "Luka Ciric",
+            "username": "cirko33"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c69795dad68821aaa780e160f6defcf0683e0aa4",
+          "message": "Westend: Support Meta Transactions (#11469)\n\nSupport **Meta Transactions** via `meta-tx` pallet for next **Westend**\nruntimes:\n- Asset Hub\n- Coretime\n- People\n- Collectives\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-01T09:06:17Z",
+          "tree_id": "34eb3e0461c66f9c28f7142bb3d9b3d388d8b620",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/c69795dad68821aaa780e160f6defcf0683e0aa4"
+        },
+        "date": 1775039432772,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12657735539999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.304799352366667,
             "unit": "seconds"
           }
         ]

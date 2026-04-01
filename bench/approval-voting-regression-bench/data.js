@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775053945384,
+  "lastUpdate": 1775073052794,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "git@kchr.de",
-            "name": "Bastian Köcher",
-            "username": "bkchr"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "835ee4782522319cf5d8de9e35a20e56ead143b7",
-          "message": "cumulus zombienet: Send transactions as immortal (#9362)\n\nDeep inside subxt the default period for a transaction is set to 32\nblocks. When you have some chain that is building blocks every 500ms,\nthis may leads to issues that manifest as invalid transaction\nsignatures. To protect the poor developers of endless debugging sessions\nwe now send transactions as immortal.",
-          "timestamp": "2025-07-29T19:28:17Z",
-          "tree_id": "7bf288f567d290b92248d562ce63c1d26211e02b",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/835ee4782522319cf5d8de9e35a20e56ead143b7"
-        },
-        "date": 1753822965992,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52941.5,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63634.18000000001,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4602040913699996,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005812203829999997,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.940446592950011,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.5165024616799996,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.43755085153999695,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000021981920000000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000021981920000000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.317407459070008,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.00002045817,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.4759408463499986,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.00002045817,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.480950411350003,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.6031821152408474,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting",
             "value": 0.000025016940000000004,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "59c40532e76f62b7d77cbb71d6309714e1aab744",
+          "message": "[Release|CI/CD] Fixes for release flows (#11578)\n\nThis PR backports few fixes for soem release flows, that were made in\nstable2603 branch. In particular:\n- Fixed resume check in Crates Publish flow\n- Fixed missing llvm path on macos builds\n- Fixed scrtipt that reverts path deps in Cargo.toml files\n- Bumped parity-publish version\n- Fixed check if the post-crates-release branch exists in Crateds\nPublish flow\n\n---------\n\nCo-authored-by: BDevParity <bruno.devic@parity.io>",
+          "timestamp": "2026-04-01T18:29:31Z",
+          "tree_id": "efd0685650449864c3503bc9cf26911d9bf846d0",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/59c40532e76f62b7d77cbb71d6309714e1aab744"
+        },
+        "date": 1775073030686,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 63627.369999999995,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 52938.2,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.4512572711699927,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.00002242866,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.8362152563299987,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.7618684316200017,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7353709615299678,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.214745818192687,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.00002242866,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005328028619999997,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.9023162500899975,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.00002396617,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.80567798417,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.498034183529958,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.00002396617,
             "unit": "seconds"
           }
         ]

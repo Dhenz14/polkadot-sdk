@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775039513586,
+  "lastUpdate": 1775046704969,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "140437456+hamidmuslih@users.noreply.github.com",
-            "name": "Hamid Muslih",
-            "username": "hamidmuslih"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "ba5ed25153d37d273040925d1336620a34044fbd",
-          "message": "update the builder dockerfile (#9310)\n\n# Description\n\nUpdates the base image in the Polkadot builder Dockerfile\n\nCloses #9306\n## Integration\n\nNot applicable - this PR has no downstream integration impacts as it\nonly affects the local build environment\n\n## Review Notes\n\nThis PR updates the builder base image version in\n`polkadot_builder.Dockerfile`.\n\nCo-authored-by: Alexander Samusev <41779041+alvicsam@users.noreply.github.com>",
-          "timestamp": "2025-07-28T23:31:56+02:00",
-          "tree_id": "b96e77db1d8bcdf9b9df5163aa72d74c87993ed2",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/ba5ed25153d37d273040925d1336620a34044fbd"
-        },
-        "date": 1753740362178,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52938.90000000001,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63628.590000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005544456639999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.4298604767800006,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000018681640000000004,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9517035570699939,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.5296797245400002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.000020417049999999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.38063041325,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000018681640000000004,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.000020417049999999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4840178859300015,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.488461384760002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.491362927530001,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.654545969561049,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-distribution",
             "value": 0.00003529897,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "dhiraj@parity.io",
+            "name": "Dhiraj Sah",
+            "username": "dhirajs0"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "2a4ca43f680cecf3a26666c02bd1c7c0199b6d09",
+          "message": "Align Tally::approval() with VoteTally trait semantics (#11567)\n\n# Description\n\nAligns `Tally::approval()` in `pallet-conviction-voting` with the\n`VoteTally` trait semantics by\nreturning `Perbill::zero()` when no aye or nay votes have been cast.\nThis makes the production\nimplementation consistent with the existing behavior in the\n`pallet-referenda` test mock\n(`substrate/frame/referenda/src/mock.rs:263-269`).\n\nAdditionally, the `VoteTally::approval()` trait doc in `frame-support`\nis updated to explicitly\ndocument the expected return value when no votes have been cast,\npreventing future implementors\nfrom diverging on this behavior.\n\n## Integration\n\nDownstream projects that implement `VoteTally::approval()` should ensure\nthey handle the case where\nno votes have been cast (i.e. `ayes + nays == 0`) by returning\n`Perbill::zero()`, as now documented\nin the trait definition.\n\nNo breaking changes to the public API. The `Tally` struct and its fields\nremain unchanged.\n\n## Review Notes\n\nTwo changes:\n\n**1. Trait documentation**\n(`substrate/frame/support/src/traits/voting.rs`):\n\n```diff\n-    /// Returns the approval ratio (positive to total votes) for the tally.\n+    /// Returns the approval ratio (positive to total votes) for the tally and returns 0% (`Perbill::zero()`)\n+    /// if no votes have been cast (i.e. `ayes + nays == 0`).\n     fn approval(&self, class: Class) -> Perbill;\n```\n\n**2. Implementation fix**\n(`substrate/frame/conviction-voting/src/types.rs`):\n\n```diff\n fn approval(&self, _: Class) -> Perbill {\n-    Perbill::from_rational(self.ayes, self.ayes.saturating_add(self.nays))\n+    let total = self.ayes.saturating_add(self.nays);\n+    if total.is_zero() {\n+        Perbill::zero()\n+    } else {\n+        Perbill::from_rational(self.ayes, total)\n+    }\n }\n```\n\nA new test `empty_tally_approval_is_zero` is added covering four\nscenarios:\n\n| Scenario    | ayes | nays | Expected approval |\n|-------------|------|------|-------------------|\n| No votes    | 0    | 0    | 0%                |\n| Only ayes   | 10   | 0    | 100%              |\n| Only nays   | 0    | 10   | 0%                |\n| Mixed votes | 3    | 7    | 30%               |\n\nAll 25 existing `pallet-conviction-voting` tests continue to pass with\nno regressions.\n\n# Checklist\n\n* [x] My PR includes a detailed description as outlined in the\n\"Description\" and its two subsections above.\n* [x] My PR follows the [labeling requirements](\n\nhttps://github.com/paritytech/polkadot-sdk/blob/master/docs/contributor/CONTRIBUTING.md#Process\n) of this project (at minimum one label for `T` required)\n* [x] I have made corresponding changes to the documentation (if\napplicable)\n* [x] I have added tests that prove my fix is effective or that my\nfeature works (if applicable)\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
+          "timestamp": "2026-04-01T10:57:22Z",
+          "tree_id": "34567f947af7cc6c402f49df0a0ee60c9a921fb2",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/2a4ca43f680cecf3a26666c02bd1c7c0199b6d09"
+        },
+        "date": 1775046683052,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 52945.3,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 63624.979999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.642987608909952,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.000027481670000000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.8845836666099993,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.000027481670000000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.8760345708199986,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.845140364559998,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.000024075440000000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005336662040000005,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.4557733127599857,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7606254782099705,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.000024075440000000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.29755020971293,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.81549355391,
             "unit": "seconds"
           }
         ]

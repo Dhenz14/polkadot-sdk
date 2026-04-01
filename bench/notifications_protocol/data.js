@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775044841772,
+  "lastUpdate": 1775052944719,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "notifications_protocol": [
@@ -129215,6 +129215,198 @@ window.BENCHMARK_DATA = {
             "name": "notifications_protocol/litep2p/with_backpressure/16MB",
             "value": 2287975819,
             "range": "± 46585944",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e9e4769a189d7b7a830d31803385550701db8660",
+          "message": "Add statement store e2e integration tests (#11237)\n\n# Description\n\n#10783 \n\nE2E Integration Tests (zombienet-sdk)\n\nFunctional tests (statement_store)\n- statement_store_genesis_inject — submit + subscribe round-trip with\ngenesis-injected allowances, 2-node propagation with data\nintegrity verification\n- statement_store_sudo_allowance — sudo-based runtime allowance setting,\n8 concurrent multi-account submissions, 4-node fan-out propagation\n\n### Test Infrastructure\n- common.rs — shared helpers: create_test_statement, submit_statement,\nexpect_one_statement, expect_statements_unordered,\nsubscribe_topic, spawn_network, spawn_network_sudo\n- sc_statement_store::subxt_client — custom subxt config (CustomConfig)\nfor non-standard transaction extensions\n(VerifyMultiSignature, RestrictOrigins), set_allowances_via_sudo for\nruntime-configured networks\n- sc_statement_store::test_utils — shared keypair generation and\nallowance storage item builders (get_keypair,\ncreate_allowance_items, create_uniform_allowance_items)\n- CI matrix registration for all statement store test groups\n\n### What we cover in this PR\n\nTest(statement_store_sudo_allowance) cover the next options for #11534 :\n- Propagation under normal load: Zombienet tests to cover concurrent\nmulti-client corner cases and verify statements reach all real nodes,\nNOT including during major sync\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-01T13:11:28Z",
+          "tree_id": "f2122311adfab60536feedd50a4acfef7bd7226a",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/e9e4769a189d7b7a830d31803385550701db8660"
+        },
+        "date": 1775052924029,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "notifications_protocol/libp2p/serially/64B",
+            "value": 3806087,
+            "range": "± 12725",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64B",
+            "value": 295056,
+            "range": "± 6150",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/512B",
+            "value": 3921630,
+            "range": "± 25802",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/512B",
+            "value": 372116,
+            "range": "± 3518",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/4KB",
+            "value": 4584858,
+            "range": "± 30605",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/4KB",
+            "value": 862303,
+            "range": "± 10525",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/64KB",
+            "value": 9962770,
+            "range": "± 64465",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64KB",
+            "value": 4607164,
+            "range": "± 71281",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/256KB",
+            "value": 40358789,
+            "range": "± 829623",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/256KB",
+            "value": 35126029,
+            "range": "± 399965",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/2MB",
+            "value": 309448571,
+            "range": "± 2174323",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/2MB",
+            "value": 271965631,
+            "range": "± 2301625",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/16MB",
+            "value": 2406444224,
+            "range": "± 12626612",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/16MB",
+            "value": 2503309938,
+            "range": "± 90987632",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64B",
+            "value": 3059066,
+            "range": "± 13901",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64B",
+            "value": 1561946,
+            "range": "± 6326",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/512B",
+            "value": 3163753,
+            "range": "± 15408",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/512B",
+            "value": 1625705,
+            "range": "± 5256",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/4KB",
+            "value": 3728394,
+            "range": "± 19129",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/4KB",
+            "value": 1936306,
+            "range": "± 22515",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64KB",
+            "value": 7536930,
+            "range": "± 21706",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64KB",
+            "value": 4809123,
+            "range": "± 42657",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/256KB",
+            "value": 34450405,
+            "range": "± 173263",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/256KB",
+            "value": 32460953,
+            "range": "± 241994",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/2MB",
+            "value": 292686436,
+            "range": "± 3726672",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/2MB",
+            "value": 252041002,
+            "range": "± 1940669",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/16MB",
+            "value": 2242409041,
+            "range": "± 8386567",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/16MB",
+            "value": 2137810965,
+            "range": "± 37993161",
             "unit": "ns/iter"
           }
         ]

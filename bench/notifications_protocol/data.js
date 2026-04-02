@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775088736060,
+  "lastUpdate": 1775130988218,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "notifications_protocol": [
@@ -129791,6 +129791,198 @@ window.BENCHMARK_DATA = {
             "name": "notifications_protocol/litep2p/with_backpressure/16MB",
             "value": 2640534106,
             "range": "± 70911357",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "22591718+RomarQ@users.noreply.github.com",
+            "name": "Rodrigo Quelhas",
+            "username": "RomarQ"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e3865cf729c8193ec2f2de2df682a66583891d7b",
+          "message": "Deprecate `ValidateUnsigned` trait and `#[pallet::validate_unsigned]` attribute (#10150)\n\nPart of #2415\nCloses #2436\n\nRelated: #6325 #6326\n\n## Summary\n\nDeprecates the `ValidateUnsigned` trait and\n`#[pallet::validate_unsigned]` attribute in favor of the new\n`TransactionExtension` API. This is a non-breaking change that adds\ndeprecation warnings to guide users toward the modern transaction\nvalidation approach.\n\n## Motivation\n\nThe `ValidateUnsigned` trait was the legacy approach for validating\nunsigned transactions in FRAME pallets. The newer `TransactionExtension`\ntrait provides a more flexible and composable way to handle transaction\nvalidation, including both signed and unsigned transactions.\n\n## Changes\n\n### Deprecated APIs\n- ✅ Added `#[deprecated]` attribute to `ValidateUnsigned` trait\n- ✅ Added deprecation warning to `#[pallet::validate_unsigned]` macro\nattribute\n\n### Migration (Using `TransactionExtensions`)\n\n\nhttps://paritytech.github.io/polkadot-sdk/master/polkadot_sdk_docs/reference_docs/transaction_extensions\n\n## Impact\n\n- **Non-breaking:** Existing code continues to work with deprecation\nwarnings\n- **Compiler warnings:** Users will see deprecation notices guiding them\nto migrate\n- **Timeline:** Full removal planned for a future major release (TBD)\n\n## Review Notes\n\n- The `#[pallet::validate_unsigned]` deprecation warning might be\nredundant since it's always used together with `ValidateUnsigned`, but\nboth are included for completeness and clarity.\n\n## Follow-up Tasks\n\nThe following pallets and crates need to be migrated to\n`TransactionExtension` in subsequent PRs:\n\n**Runtime crates:**\n- [ ] `polkadot-runtime-common`\n- [ ] `polkadot-runtime-parachains`\n\n**FRAME pallets:**\n- [ ] `pallet-babe`\n- [ ] `pallet-beefy`\n- [ ] `pallet-election-provider-multi-block`\n- [ ] `pallet-grandpa`\n- [x] `pallet-im-online`\nhttps://github.com/paritytech/polkadot-sdk/pull/11235\n- [x] `pallet-mixnet`\nhttps://github.com/paritytech/polkadot-sdk/pull/11010\n\n**Core:**\n- [ ] `frame-executive`\n- [ ] `frame-system`\n\n**Examples:**\n- [x] `pallet-example-offchain-worker`\nhttps://github.com/paritytech/polkadot-sdk/pull/10716\n\n**Testing:**\n- [ ] `substrate-test-runtime`\n\n## Open Question\n\nShould we remove the `ValidateUnsigned` bound from the type parameter\n`V` in the `Applyable` trait?\n\n---------\n\nCo-authored-by: Guillaume Thiolliere <guillaume.thiolliere@parity.io>\nCo-authored-by: Shawn Tabrizi <shawntabrizi@gmail.com>\nCo-authored-by: Branislav Kontur <bkontur@gmail.com>",
+          "timestamp": "2026-04-02T09:41:38Z",
+          "tree_id": "46a79bcb9f9f0bb652ba4f031e1aefea5c994454",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/e3865cf729c8193ec2f2de2df682a66583891d7b"
+        },
+        "date": 1775130966250,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "notifications_protocol/libp2p/serially/64B",
+            "value": 3798032,
+            "range": "± 19652",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64B",
+            "value": 290498,
+            "range": "± 3034",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/512B",
+            "value": 3896714,
+            "range": "± 30761",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/512B",
+            "value": 367979,
+            "range": "± 6387",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/4KB",
+            "value": 4543102,
+            "range": "± 15614",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/4KB",
+            "value": 854114,
+            "range": "± 12991",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/64KB",
+            "value": 9888358,
+            "range": "± 81091",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64KB",
+            "value": 4585895,
+            "range": "± 52247",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/256KB",
+            "value": 40386610,
+            "range": "± 340723",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/256KB",
+            "value": 35114932,
+            "range": "± 662263",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/2MB",
+            "value": 309730377,
+            "range": "± 2647451",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/2MB",
+            "value": 273349121,
+            "range": "± 2943784",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/16MB",
+            "value": 2390859373,
+            "range": "± 7870624",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/16MB",
+            "value": 2456384236,
+            "range": "± 52564125",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64B",
+            "value": 3018502,
+            "range": "± 9185",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64B",
+            "value": 1536106,
+            "range": "± 8852",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/512B",
+            "value": 3128185,
+            "range": "± 6385",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/512B",
+            "value": 1592974,
+            "range": "± 6503",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/4KB",
+            "value": 3693995,
+            "range": "± 20558",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/4KB",
+            "value": 1915575,
+            "range": "± 35298",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64KB",
+            "value": 7534038,
+            "range": "± 87037",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64KB",
+            "value": 4802423,
+            "range": "± 63703",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/256KB",
+            "value": 33656265,
+            "range": "± 185535",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/256KB",
+            "value": 32607639,
+            "range": "± 239518",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/2MB",
+            "value": 290794106,
+            "range": "± 3225403",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/2MB",
+            "value": 256189039,
+            "range": "± 5829256",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/16MB",
+            "value": 2243832798,
+            "range": "± 13068069",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/16MB",
+            "value": 2263338081,
+            "range": "± 69360600",
             "unit": "ns/iter"
           }
         ]

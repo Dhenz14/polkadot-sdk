@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775136530792,
+  "lastUpdate": 1775142737184,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "karol@parity.io",
-            "name": "Karol Kokoszka",
-            "username": "karolk91"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "a64eb1fb02d4012948cba024fca2f27d94732e52",
-          "message": "Remove whitespaces added by macros due to token re-parsing (#9354)\n\nRelates to: https://github.com/paritytech/polkadot-sdk/issues/9336,\nhttps://github.com/paritytech/polkadot-sdk/pull/7321\n\nThis PR aims to normalize result of `stringify` in scenarios when used\ninside nested macros to stringify token streams for benchmarking\nframework. Different versions of rust can include, or not, \"space\"\ncharacters around tokens like `<`,`>`,`::` so we are just removing\nadditional spaces.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-30T05:46:16Z",
-          "tree_id": "b85a3b83c7dfcdd03e82495f9156048789f905e2",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/a64eb1fb02d4012948cba024fca2f27d94732e52"
-        },
-        "date": 1753859133113,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0028171183100000005,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008914146899999984,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005404896939999998,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.009969524809999996,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "robertvaneerdewijk@gmail.com",
+            "name": "0xRVE",
+            "username": "0xRVE"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "802db0b998e522feab8eb3ff4505954bf9b6ac24",
+          "message": "[pallet-revive] Add vesting precompile (#11398)\n\n## Summary\n\nAdds a new built-in precompile (`pallet-revive-precompile-vesting`) that\nexposes Substrate's `pallet-vesting` to EVM contracts via pallet-revive.\nEVM contracts can call `vest()`, `vestOther(address)`,\n`vestingBalance()`, and `vestingBalanceOf(address)` at the precompile\naddress `0x0902`.\n\n## Changes\n\n- **`substrate/frame/revive/uapi/sol/IVesting.sol`**: New Solidity\ninterface defining the vesting precompile ABI\n- **`substrate/frame/revive/uapi/src/precompiles/vesting.rs`**: Binds\nthe Solidity interface via `alloy_core::sol!`\n- **`substrate/frame/revive/precompiles/`**: New crate implementing the\n`Precompile` trait — dispatches `vest`/`vestOther` through\n`pallet_vesting` and queries locked balances via `VestingSchedule`\n- **`substrate/frame/revive/src/tests.rs`**: Trailing comma fix in\n`construct_runtime!`\n\n## Test plan\n- [x] New vesting precompile tests pass (`vest`, `vestOther`,\n`vestingBalance`, `vestingBalanceOf`)\n- [x] Existing pallet-revive tests unaffected\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: PG Herveou <pgherveou@gmail.com>",
+          "timestamp": "2026-04-02T13:39:00Z",
+          "tree_id": "181e94abc2aba15b35da9e0b87f7b7d5fc89002e",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/802db0b998e522feab8eb3ff4505954bf9b6ac24"
+        },
+        "date": 1775142716433,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009231610419999984,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009392617010000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.0026190883799999997,
             "unit": "seconds"
           }
         ]

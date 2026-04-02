@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775136470537,
+  "lastUpdate": 1775142684049,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "5588131+kianenigma@users.noreply.github.com",
-            "name": "Kian Paimani",
-            "username": "kianenigma"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "e08d8f0173db4394e0f99fff91a42d86e8d6062b",
-          "message": "[Staking/AHM] Properly report weight of rc -> ah xcm back to the calls (#9380)\n\nWhich will consequently make the XCM/MQ code path aware of the weights,\nwhich was previously not the case.\n\nAdditionally, adds an event for when an era is pruned.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Paolo La Camera <paolo@parity.io>",
-          "timestamp": "2025-07-30T14:51:41Z",
-          "tree_id": "37ee2ae118ac7b9b9196dd78e4445a0f9a15c469",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/e08d8f0173db4394e0f99fff91a42d86e8d6062b"
-        },
-        "date": 1753891755109,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52939.59999999999,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63636.35,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.4458868162500032,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.6245851558907214,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005621624370000004,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.5284201020599992,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.00002116168,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.52752749594,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.5118905423000006,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.5502988865199994,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000019758309999999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000019758309999999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.00002116168,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.514452967619997,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9709565568199985,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-distribution",
             "value": 0.000021633720000000004,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "robertvaneerdewijk@gmail.com",
+            "name": "0xRVE",
+            "username": "0xRVE"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "802db0b998e522feab8eb3ff4505954bf9b6ac24",
+          "message": "[pallet-revive] Add vesting precompile (#11398)\n\n## Summary\n\nAdds a new built-in precompile (`pallet-revive-precompile-vesting`) that\nexposes Substrate's `pallet-vesting` to EVM contracts via pallet-revive.\nEVM contracts can call `vest()`, `vestOther(address)`,\n`vestingBalance()`, and `vestingBalanceOf(address)` at the precompile\naddress `0x0902`.\n\n## Changes\n\n- **`substrate/frame/revive/uapi/sol/IVesting.sol`**: New Solidity\ninterface defining the vesting precompile ABI\n- **`substrate/frame/revive/uapi/src/precompiles/vesting.rs`**: Binds\nthe Solidity interface via `alloy_core::sol!`\n- **`substrate/frame/revive/precompiles/`**: New crate implementing the\n`Precompile` trait — dispatches `vest`/`vestOther` through\n`pallet_vesting` and queries locked balances via `VestingSchedule`\n- **`substrate/frame/revive/src/tests.rs`**: Trailing comma fix in\n`construct_runtime!`\n\n## Test plan\n- [x] New vesting precompile tests pass (`vest`, `vestOther`,\n`vestingBalance`, `vestingBalanceOf`)\n- [x] Existing pallet-revive tests unaffected\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: PG Herveou <pgherveou@gmail.com>",
+          "timestamp": "2026-04-02T13:39:00Z",
+          "tree_id": "181e94abc2aba15b35da9e0b87f7b7d5fc89002e",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/802db0b998e522feab8eb3ff4505954bf9b6ac24"
+        },
+        "date": 1775142662863,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 52938.3,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 63620.06,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005094618339999993,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.000019711119999999996,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.000019711119999999996,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.8797293247999987,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.8901883348499986,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.837141151769999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.463318628729992,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7642670841499672,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.000023395089999999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.000023395089999999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.8148638734500016,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.379942593512769,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.65460301608996,
             "unit": "seconds"
           }
         ]

@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775073082734,
+  "lastUpdate": 1775089693610,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "82968568+miloskriz@users.noreply.github.com",
-            "name": "Milos Kriz",
-            "username": "miloskriz"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "d55dc56df31a9f4fdd59ca7ca06f2a8b00ad808b",
-          "message": "Maintenance of bootnodes for `westend` and related chains (#9353)\n\n# Description\n\nPlease consider this Pull Request to remove the bootnodes provided by\nGatotech to the following relaychain and systemchains:\n\n- `westend`\n  - `asset-hub-westend`\n  - `bridge-hub-westend`\n  - `collectives-westend`\n  - `coretime-westend`\n  - `people-westend`\n\nThis removal responds to the discontinuation of support by the\nInfrastructure Builders' Programme of Westend in favour of enhanced\nsupport to the Paseo testnet.\n\nAfter this PR is merged, we will proceed to decommission the relevant\nnodes..\n\nMany thanks!!\n\nBest regards\n\n**_Milos_**\n\nCo-authored-by: Bastian Köcher <git@kchr.de>",
-          "timestamp": "2025-07-29T12:39:54Z",
-          "tree_id": "5e96d7613fc4bd03f97b864271e24e4e0bc984db",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/d55dc56df31a9f4fdd59ca7ca06f2a8b00ad808b"
-        },
-        "date": 1753797214293,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 127.95199999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04445858226999994,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.034063000926,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.07974141940999994,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "37865735+clangenb@users.noreply.github.com",
+            "name": "clangenb",
+            "username": "clangenb"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5c97c0f72ec9ac3a9d807bc03b6f8e0ecde3a3c9",
+          "message": "[Penpal] fix genesis presets - assign proper ED to accounts (#11575)\n\nPenpal had values below the ED for initializing asset balances for some\naccounts. This has not been detected as no unit tests actually use the\npresets. This PR fixes the invalid values, and it also adds some unit\ntests for validating that the presets build at least.\n\nCloses #11558.\n\n---------\n\nCo-authored-by: clangenb <clangenb@users.noreply.github.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-01T23:06:59Z",
+          "tree_id": "565b491296861ae00fc1f0485cf9dfeef10c6e24",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/5c97c0f72ec9ac3a9d807bc03b6f8e0ecde3a3c9"
+        },
+        "date": 1775089671465,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.06999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08080397228999994,
+            "unit": "seconds"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.03841178178399999,
             "unit": "seconds"
           }
         ]

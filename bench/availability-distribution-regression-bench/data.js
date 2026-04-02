@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775073022742,
+  "lastUpdate": 1775089633411,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "10196091+Ank4n@users.noreply.github.com",
-            "name": "Ankan",
-            "username": "Ank4n"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "8c8b53babdfa73ad6752e516d62d7af655472e1f",
-          "message": "[Staking Async] Cancel slashes by validator and max slash fraction (#9187)\n\n## Problem\n\nPreviously, the `cancel_deferred_slash` function required exact slash\nkeys (validator, slash fraction, page index) to cancel slashes. However,\nwhen additional offence reports arrived after a cancellation referendum\nwas initiated, they could create new entries with higher slash\nfractions, making the original cancellation ineffective.\n\n### Changes\n\nWe introduce a new approach that tracks cancelled slashes by era and\nvalidator with their maximum slash fractions:\n\n1. **New Storage**: Added `CancelledSlashes` storage map that stores\ncancellation decisions by era.\n2. **Updated API**: Changed call signature `cancel_deferred_slash` to\naccept `Vec<(AccountId, Perbill)>` instead of complex slash keys. Admin\norigin can now specify which validators to cancel and up to what slash\nfraction.\n3. **Cleanup**: `CancelledSlashes` are cleared after all slashes for an\nera are processed.\n4. **Updated SlashCancelled Event**: Event contains only slash_era and\nvalidator instead of slash key tuple and payout.\n\n---------\n\nCo-authored-by: Paolo La Camera <paolo@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-30T14:12:32Z",
-          "tree_id": "42b978bf4a2c26c7d60c04626d6cbba98fbdab93",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/8c8b53babdfa73ad6752e516d62d7af655472e1f"
-        },
-        "date": 1753889725735,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007337791606666646,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02245484386666667,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.1582625065,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013024059473333332,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-store",
             "value": 0.14630297929333339,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "37865735+clangenb@users.noreply.github.com",
+            "name": "clangenb",
+            "username": "clangenb"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5c97c0f72ec9ac3a9d807bc03b6f8e0ecde3a3c9",
+          "message": "[Penpal] fix genesis presets - assign proper ED to accounts (#11575)\n\nPenpal had values below the ED for initializing asset balances for some\naccounts. This has not been detected as no unit tests actually use the\npresets. This PR fixes the invalid values, and it also adds some unit\ntests for validating that the presets build at least.\n\nCloses #11558.\n\n---------\n\nCo-authored-by: clangenb <clangenb@users.noreply.github.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-01T23:06:59Z",
+          "tree_id": "565b491296861ae00fc1f0485cf9dfeef10c6e24",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/5c97c0f72ec9ac3a9d807bc03b6f8e0ecde3a3c9"
+        },
+        "date": 1775089610943,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.1482199402266667,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.024014141046666677,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.00977550855333332,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.00719304316,
             "unit": "seconds"
           }
         ]

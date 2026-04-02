@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775141624651,
+  "lastUpdate": 1775167334084,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -72683,6 +72683,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 3214794182,
             "range": "± 178809474",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "37865735+clangenb@users.noreply.github.com",
+            "name": "clangenb",
+            "username": "clangenb"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a1a2bbfdb435f381ba633e62c022090f1efa4fca",
+          "message": "Fix slot-based collator panic during warp sync (#11072) (#11381)\n\nWhen a parachain collator starts with `--authoring=slot-based` and\nperforms warp sync, the `slot-based-block-builder` essential task\nimmediately calls `slot_duration()` which requires\n`AuraApi_slot_duration`. During warp sync the runtime isn't ready, so\nthis fails and the task returns, shutting down the node.\n\nThe lookahead collator avoids this by calling `wait_for_aura()` before\nstarting. This PR adds an equivalent guard to the slot-based collator.\n\n### Manual test\nBefore the fix the collator panicked after the relay chain warp sync\nwith AuraApi_slot_duration not available, which does not occur anymore\nnow.\n```\n ./target/release/polkadot-parachain \\                                                                                                                                                                                                                                                                          \n    --chain asset-hub-polkadot \\\n    --sync warp \\\n    --authoring=slot-based \\\n    --tmp -- --sync warp\n```\nCloses #11072.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: clangenb <clangenb@users.noreply.github.com>",
+          "timestamp": "2026-04-02T20:55:34Z",
+          "tree_id": "91d815959b0ac9a381da89ca91e02813e5ffc1c6",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/a1a2bbfdb435f381ba633e62c022090f1efa4fca"
+        },
+        "date": 1775167311678,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18746737,
+            "range": "± 105605",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 19181596,
+            "range": "± 230509",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20742649,
+            "range": "± 215333",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 25215519,
+            "range": "± 139393",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 58849448,
+            "range": "± 811935",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 353172097,
+            "range": "± 7664576",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2485853015,
+            "range": "± 106066005",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 16125751,
+            "range": "± 188710",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 16128889,
+            "range": "± 72949",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16899497,
+            "range": "± 176507",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21459805,
+            "range": "± 331253",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 58740064,
+            "range": "± 1439151",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 335185388,
+            "range": "± 4472791",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2645467763,
+            "range": "± 25464579",
             "unit": "ns/iter"
           }
         ]

@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775136440792,
+  "lastUpdate": 1775142657077,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "karol@parity.io",
-            "name": "Karol Kokoszka",
-            "username": "karolk91"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "d9f451a6b94ab2cf39371ee5192130379eb6e199",
-          "message": "XCMv5 asset exchange test scenarios (#9195)\n\nRelates to: #9093\nRequires: #9179\n\nThis PR introduces emulated test scenarios:\n\n#### [Scenario 1]\n(Penpal -> AH -> Penpal) to showcase usage of remote `Transact` to swap\nassets remotely on AssetHub while also making use of\n`add_authorized_alias`, to transact as Sender on remote side (instead of\nSenders sovereign account).\n\n1. Prepare sovereign accounts funds, create pools, prepare aliasing\nrules\n2. Send WND from Penpal to AssetHub (AH being remote reserve for WND)\n3. Alias into sender account and exchange WNDs for USDT using `Transact`\nwith `swap_tokens_for_exact_tokens` call inside\n4. Send USDT and leftover WND back to Penpal\n\n#### [Scenario 2]\n(Penpal -> AH -> Penpal) to showcase usage of remote `Transact` to swap\nassets remotely on AssetHub.\n\n1. Prepare sovereign accounts funds, create pools, prepare aliasing\nrules\n2. Send WND from Penpal to AssetHub (AH being remote reserve for WND)\n3. Exchange WNDs for USDT using `Transact` with\n`swap_tokens_for_exact_tokens` call inside\n4. Send USDT and leftover WND back to Penpal\n\n#### [Scenario 3]\n(Penpal -> AH -> Penpal) to showcase same as above but this time using\n`ExchangeAsset` XCM instruction instead of `Transact`:\n\n1. Prepare sovereign accounts funds, create pools\n2. Send WND from Penpal to AssetHub (AH being remote reserve for WND)\n3. Exchange WNDs for USDT using `ExchangeAsset`\n4. Send USDT and leftover WND back to Penpal\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Adrian Catangiu <adrian@parity.io>",
-          "timestamp": "2025-07-31T10:42:16Z",
-          "tree_id": "c39005e9c21f11c1f9743d3a32b8454e91d41b37",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/d9f451a6b94ab2cf39371ee5192130379eb6e199"
-        },
-        "date": 1753963427351,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012896364719999992,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15763690237333342,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022394391153333332,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007302770273333301,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.009663502219999988,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "robertvaneerdewijk@gmail.com",
+            "name": "0xRVE",
+            "username": "0xRVE"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "802db0b998e522feab8eb3ff4505954bf9b6ac24",
+          "message": "[pallet-revive] Add vesting precompile (#11398)\n\n## Summary\n\nAdds a new built-in precompile (`pallet-revive-precompile-vesting`) that\nexposes Substrate's `pallet-vesting` to EVM contracts via pallet-revive.\nEVM contracts can call `vest()`, `vestOther(address)`,\n`vestingBalance()`, and `vestingBalanceOf(address)` at the precompile\naddress `0x0902`.\n\n## Changes\n\n- **`substrate/frame/revive/uapi/sol/IVesting.sol`**: New Solidity\ninterface defining the vesting precompile ABI\n- **`substrate/frame/revive/uapi/src/precompiles/vesting.rs`**: Binds\nthe Solidity interface via `alloy_core::sol!`\n- **`substrate/frame/revive/precompiles/`**: New crate implementing the\n`Precompile` trait — dispatches `vest`/`vestOther` through\n`pallet_vesting` and queries locked balances via `VestingSchedule`\n- **`substrate/frame/revive/src/tests.rs`**: Trailing comma fix in\n`construct_runtime!`\n\n## Test plan\n- [x] New vesting precompile tests pass (`vest`, `vestOther`,\n`vestingBalance`, `vestingBalanceOf`)\n- [x] Existing pallet-revive tests unaffected\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: PG Herveou <pgherveou@gmail.com>",
+          "timestamp": "2026-04-02T13:39:00Z",
+          "tree_id": "181e94abc2aba15b35da9e0b87f7b7d5fc89002e",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/802db0b998e522feab8eb3ff4505954bf9b6ac24"
+        },
+        "date": 1775142635993,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14588394212666672,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009407515973333322,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.006911695806666668,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.02375289482666667,
             "unit": "seconds"
           }
         ]

@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775071951869,
+  "lastUpdate": 1775088766680,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -72251,6 +72251,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2606860008,
             "range": "± 35608735",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "37865735+clangenb@users.noreply.github.com",
+            "name": "clangenb",
+            "username": "clangenb"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5c97c0f72ec9ac3a9d807bc03b6f8e0ecde3a3c9",
+          "message": "[Penpal] fix genesis presets - assign proper ED to accounts (#11575)\n\nPenpal had values below the ED for initializing asset balances for some\naccounts. This has not been detected as no unit tests actually use the\npresets. This PR fixes the invalid values, and it also adds some unit\ntests for validating that the presets build at least.\n\nCloses #11558.\n\n---------\n\nCo-authored-by: clangenb <clangenb@users.noreply.github.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-01T23:06:59Z",
+          "tree_id": "565b491296861ae00fc1f0485cf9dfeef10c6e24",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/5c97c0f72ec9ac3a9d807bc03b6f8e0ecde3a3c9"
+        },
+        "date": 1775088744823,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 19287137,
+            "range": "± 140516",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 19782038,
+            "range": "± 123432",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 21148226,
+            "range": "± 247211",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 25219329,
+            "range": "± 224351",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 56540127,
+            "range": "± 934161",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 349026558,
+            "range": "± 4619148",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2512986267,
+            "range": "± 68546951",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15976604,
+            "range": "± 477645",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15867861,
+            "range": "± 227656",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16838447,
+            "range": "± 147921",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21177165,
+            "range": "± 347570",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 57864472,
+            "range": "± 726430",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 341176285,
+            "range": "± 4985446",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2660040437,
+            "range": "± 23681631",
             "unit": "ns/iter"
           }
         ]

@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775132169078,
+  "lastUpdate": 1775136530792,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "git@kchr.de",
-            "name": "Bastian Köcher",
-            "username": "bkchr"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "835ee4782522319cf5d8de9e35a20e56ead143b7",
-          "message": "cumulus zombienet: Send transactions as immortal (#9362)\n\nDeep inside subxt the default period for a transaction is set to 32\nblocks. When you have some chain that is building blocks every 500ms,\nthis may leads to issues that manifest as invalid transaction\nsignatures. To protect the poor developers of endless debugging sessions\nwe now send transactions as immortal.",
-          "timestamp": "2025-07-29T19:28:17Z",
-          "tree_id": "7bf288f567d290b92248d562ce63c1d26211e02b",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/835ee4782522319cf5d8de9e35a20e56ead143b7"
-        },
-        "date": 1753823016079,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.0051729114400000005,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.00863501575999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0025792348500000006,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-distribution",
             "value": 0.009459883019999971,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "dhiraj@parity.io",
+            "name": "Dhiraj Sah",
+            "username": "dhirajs0"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5fbeadde2a12aa6c3bd97b64a82748e715ae7813",
+          "message": "fix(pallet-multi-asset-bounties): use non-destructive read in calculate_payout() (#11425)\n\n## Description\n\n`calculate_payout()` in `pallet-multi-asset-bounties` uses\n`ChildBountiesValuePerParent::take()` — a destructive read that deletes\nthe storage entry — instead of `get()`. Since `calculate_payout()` is\ncalled from multiple code paths, the `take()` causes incorrect behavior\non subsequent calls.\n\n`calculate_payout()` is called from two places:\n\n1. `do_process_payout_payment()` (lib.rs:1736) — invoked by\n`award_bounty()` and `retry_payment()`\n2. `do_check_payout_payment_status()` (lib.rs:1771) — invoked by\n`check_status()` on payment success\n\nWhen a parent bounty with child bounties is awarded:\n\n- The **first call** (from `award_bounty()`) reads\n`ChildBountiesValuePerParent` via `take()`, correctly computing\n`parent_value - children_value`, but **deletes the storage entry** as a\nside effect.\n- The **second call** (from `check_status()` on success) reads the\nnow-deleted storage, gets `0`, and emits `BountyPayoutProcessed` with\n`value: parent_value` instead of the correct `value: parent_value -\nchildren_value`.\n\nAdditionally, if a non-synchronous `Paymaster` implementation is used\nwhere `check_payment()` can return `Failure`, the `retry_payment()` path\nwould call `calculate_payout()` again on the deleted storage, attempting\nto pay the full parent value instead of the reduced amount.\n\n## Integration\n\nNo integration changes required for downstream projects. This is a\nbugfix internal to `pallet-multi-asset-bounties` with no changes to\npublic APIs, storage layout, or trait definitions.\n\n## Review Notes\n\nThree changes were made:\n\n### 1. `calculate_payout()` — `take()` replaced with `get()`\n\n```diff\n- let children_value = ChildBountiesValuePerParent::<T, I>::take(parent_bounty_id);\n+ let children_value = ChildBountiesValuePerParent::<T, I>::get(parent_bounty_id);\n```\n\nThis makes `calculate_payout()` idempotent — safe to call multiple times\nfor the same bounty.\n\n### 2. `remove_bounty()` — explicit storage cleanup added\n\n```diff\n  None => {\n      Bounties::<T, I>::remove(parent_bounty_id);\n      ChildBountiesPerParent::<T, I>::remove(parent_bounty_id);\n      TotalChildBountiesPerParent::<T, I>::remove(parent_bounty_id);\n-     debug_assert!(ChildBountiesValuePerParent::<T, I>::get(parent_bounty_id).is_zero());\n+     ChildBountiesValuePerParent::<T, I>::remove(parent_bounty_id);\n  },\n```\n\nThe `debug_assert!` was removed because it was not a true invariant — it\nonly passed because `take()` had already deleted the value. When child\nbounties are paid out, `ChildBountiesValuePerParent` remains non-zero\nuntil parent bounty cleanup.\n\n### 3. Test updated\n\nAdded an event assertion to the existing `check_status_works` test to\nverify `BountyPayoutProcessed` emits the correct net payout value\n(`parent_value - child_value`) instead of the full parent value. This\nassertion fails with `take()` and passes with `get()`.\n\n### Impact\n\n- **Current deployments (KAH, PAH)**: Both use `LocalPay` where\n`check_payment()` always returns `Success`. The retry/lock path is\nunreachable, but the `BountyPayoutProcessed` event emits an incorrect\npayout value for parent bounties with child bounties.\n- **Future deployments**: If the pallet is configured with an async\n`Paymaster` (e.g., XCM-based) where `check_payment()` can return\n`Failure`, the `retry_payment()` path would compute a wrong payout\namount, potentially leading to permanent fund lock with no recovery path\n(since `close_bounty()` rejects `PayoutAttempted` status).\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-02T12:05:52Z",
+          "tree_id": "ebe38e3aeb199e27802d596aaad9f33dcfa43197",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/5fbeadde2a12aa6c3bd97b64a82748e715ae7813"
+        },
+        "date": 1775136508871,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.00263127365,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.00919576767999997,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009969524809999996,
             "unit": "seconds"
           }
         ]

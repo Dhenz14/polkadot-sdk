@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775142629463,
+  "lastUpdate": 1775168260966,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "oliver.tale-yazdi@parity.io",
-            "name": "Oliver Tale-Yazdi",
-            "username": "ggwpez"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "177b03958c766fe053f28424ee6f6748644bb794",
-          "message": "[AHM] Make stuff public and derive (#9384)\n\nMake some stuff public and derive traits. Also removes one silently\ntruncating constructor from ParaId.\n\n---------\n\nSigned-off-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>",
-          "timestamp": "2025-07-31T13:29:50Z",
-          "tree_id": "f7914d1e9b38929282d65a0b7e256c4cea538a61",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/177b03958c766fe053f28424ee6f6748644bb794"
-        },
-        "date": 1753973258339,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.2051735813666667,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.288235082566665,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.1297111537333333,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "37865735+clangenb@users.noreply.github.com",
+            "name": "clangenb",
+            "username": "clangenb"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a1a2bbfdb435f381ba633e62c022090f1efa4fca",
+          "message": "Fix slot-based collator panic during warp sync (#11072) (#11381)\n\nWhen a parachain collator starts with `--authoring=slot-based` and\nperforms warp sync, the `slot-based-block-builder` essential task\nimmediately calls `slot_duration()` which requires\n`AuraApi_slot_duration`. During warp sync the runtime isn't ready, so\nthis fails and the task returns, shutting down the node.\n\nThe lookahead collator avoids this by calling `wait_for_aura()` before\nstarting. This PR adds an equivalent guard to the slot-based collator.\n\n### Manual test\nBefore the fix the collator panicked after the relay chain warp sync\nwith AuraApi_slot_duration not available, which does not occur anymore\nnow.\n```\n ./target/release/polkadot-parachain \\                                                                                                                                                                                                                                                                          \n    --chain asset-hub-polkadot \\\n    --sync warp \\\n    --authoring=slot-based \\\n    --tmp -- --sync warp\n```\nCloses #11072.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: clangenb <clangenb@users.noreply.github.com>",
+          "timestamp": "2026-04-02T20:55:34Z",
+          "tree_id": "91d815959b0ac9a381da89ca91e02813e5ffc1c6",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/a1a2bbfdb435f381ba633e62c022090f1efa4fca"
+        },
+        "date": 1775168239262,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12630459106666664,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.069002640000003,
             "unit": "seconds"
           }
         ]

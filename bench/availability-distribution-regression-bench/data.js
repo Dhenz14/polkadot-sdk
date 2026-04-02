@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775132076628,
+  "lastUpdate": 1775136440792,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "git@kchr.de",
-            "name": "Bastian Köcher",
-            "username": "bkchr"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "5633cf5f16d226428a5e87a9a17b7415bcaaec6d",
-          "message": "Ignore trie nodes while recording a proof (#8172)\n\nThis pull requests implements support for ignoring trie nodes while\nrecording a proof. It directly includes the feature into\n`basic-authorship` to later make use of it in Cumulus for multi-block\nPoVs.\n\nThe idea behind this is when you have multiple blocks per PoV that trie\nnodes accessed or produced by a block before (in the same `PoV`), are\nnot required to be added to the storage proof again. So, all the blocks\nin one `PoV` basically share the same storage proof. This also impacts\nthings like storage weight reclaim, because ignored trie node do not\ncontribute a to the storage proof size (similar to when this would\nhappen in the same block).\n\n# Example \n\nLet's say block `A` access key `X` and block `B` accesses key `X` again.\nAs `A` already has read it, we know that it is part of the storage proof\nand thus, don't need to add it again to the storage proof when building\n`B`. The same applies for storage values produced by an earlier block\n(in the same PoV). These storage values are an output of the execution\nand thus, don't need to be added to the storage proof :)\n\n\nDepends on https://github.com/paritytech/polkadot-sdk/pull/6137. Base\nbranch will be changed when this got merged.\n\nPart of: https://github.com/paritytech/polkadot-sdk/issues/6495\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Michal Kucharczyk <1728078+michalkucharczyk@users.noreply.github.com>",
-          "timestamp": "2025-07-31T09:59:56Z",
-          "tree_id": "431ac4005d7655af6fd7d76f89ff6162d34b87b1",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/5633cf5f16d226428a5e87a9a17b7415bcaaec6d"
-        },
-        "date": 1753960514905,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022331424039999995,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007062937320000017,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15746427334666674,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013097591226666665,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-distribution",
             "value": 0.007007285486666665,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "dhiraj@parity.io",
+            "name": "Dhiraj Sah",
+            "username": "dhirajs0"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5fbeadde2a12aa6c3bd97b64a82748e715ae7813",
+          "message": "fix(pallet-multi-asset-bounties): use non-destructive read in calculate_payout() (#11425)\n\n## Description\n\n`calculate_payout()` in `pallet-multi-asset-bounties` uses\n`ChildBountiesValuePerParent::take()` — a destructive read that deletes\nthe storage entry — instead of `get()`. Since `calculate_payout()` is\ncalled from multiple code paths, the `take()` causes incorrect behavior\non subsequent calls.\n\n`calculate_payout()` is called from two places:\n\n1. `do_process_payout_payment()` (lib.rs:1736) — invoked by\n`award_bounty()` and `retry_payment()`\n2. `do_check_payout_payment_status()` (lib.rs:1771) — invoked by\n`check_status()` on payment success\n\nWhen a parent bounty with child bounties is awarded:\n\n- The **first call** (from `award_bounty()`) reads\n`ChildBountiesValuePerParent` via `take()`, correctly computing\n`parent_value - children_value`, but **deletes the storage entry** as a\nside effect.\n- The **second call** (from `check_status()` on success) reads the\nnow-deleted storage, gets `0`, and emits `BountyPayoutProcessed` with\n`value: parent_value` instead of the correct `value: parent_value -\nchildren_value`.\n\nAdditionally, if a non-synchronous `Paymaster` implementation is used\nwhere `check_payment()` can return `Failure`, the `retry_payment()` path\nwould call `calculate_payout()` again on the deleted storage, attempting\nto pay the full parent value instead of the reduced amount.\n\n## Integration\n\nNo integration changes required for downstream projects. This is a\nbugfix internal to `pallet-multi-asset-bounties` with no changes to\npublic APIs, storage layout, or trait definitions.\n\n## Review Notes\n\nThree changes were made:\n\n### 1. `calculate_payout()` — `take()` replaced with `get()`\n\n```diff\n- let children_value = ChildBountiesValuePerParent::<T, I>::take(parent_bounty_id);\n+ let children_value = ChildBountiesValuePerParent::<T, I>::get(parent_bounty_id);\n```\n\nThis makes `calculate_payout()` idempotent — safe to call multiple times\nfor the same bounty.\n\n### 2. `remove_bounty()` — explicit storage cleanup added\n\n```diff\n  None => {\n      Bounties::<T, I>::remove(parent_bounty_id);\n      ChildBountiesPerParent::<T, I>::remove(parent_bounty_id);\n      TotalChildBountiesPerParent::<T, I>::remove(parent_bounty_id);\n-     debug_assert!(ChildBountiesValuePerParent::<T, I>::get(parent_bounty_id).is_zero());\n+     ChildBountiesValuePerParent::<T, I>::remove(parent_bounty_id);\n  },\n```\n\nThe `debug_assert!` was removed because it was not a true invariant — it\nonly passed because `take()` had already deleted the value. When child\nbounties are paid out, `ChildBountiesValuePerParent` remains non-zero\nuntil parent bounty cleanup.\n\n### 3. Test updated\n\nAdded an event assertion to the existing `check_status_works` test to\nverify `BountyPayoutProcessed` emits the correct net payout value\n(`parent_value - child_value`) instead of the full parent value. This\nassertion fails with `take()` and passes with `get()`.\n\n### Impact\n\n- **Current deployments (KAH, PAH)**: Both use `LocalPay` where\n`check_payment()` always returns `Success`. The retry/lock path is\nunreachable, but the `BountyPayoutProcessed` event emits an incorrect\npayout value for parent bounties with child bounties.\n- **Future deployments**: If the pallet is configured with an async\n`Paymaster` (e.g., XCM-based) where `check_payment()` can return\n`Failure`, the `retry_payment()` path would compute a wrong payout\namount, potentially leading to permanent fund lock with no recovery path\n(since `close_bounty()` rejects `PayoutAttempted` status).\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-02T12:05:52Z",
+          "tree_id": "ebe38e3aeb199e27802d596aaad9f33dcfa43197",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/5fbeadde2a12aa6c3bd97b64a82748e715ae7813"
+        },
+        "date": 1775136418835,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.0072526113000000005,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14851850851333337,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.02404440206666667,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009663502219999988,
             "unit": "seconds"
           }
         ]

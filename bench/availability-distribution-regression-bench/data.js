@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775089633411,
+  "lastUpdate": 1775132076628,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "5588131+kianenigma@users.noreply.github.com",
-            "name": "Kian Paimani",
-            "username": "kianenigma"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "e08d8f0173db4394e0f99fff91a42d86e8d6062b",
-          "message": "[Staking/AHM] Properly report weight of rc -> ah xcm back to the calls (#9380)\n\nWhich will consequently make the XCM/MQ code path aware of the weights,\nwhich was previously not the case.\n\nAdditionally, adds an event for when an era is pruned.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Paolo La Camera <paolo@parity.io>",
-          "timestamp": "2025-07-30T14:51:41Z",
-          "tree_id": "37ee2ae118ac7b9b9196dd78e4445a0f9a15c469",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/e08d8f0173db4394e0f99fff91a42d86e8d6062b"
-        },
-        "date": 1753891730746,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013287851393333336,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007342229286666635,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15784981396,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02245696393333334,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-distribution",
             "value": 0.00719304316,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "22591718+RomarQ@users.noreply.github.com",
+            "name": "Rodrigo Quelhas",
+            "username": "RomarQ"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e3865cf729c8193ec2f2de2df682a66583891d7b",
+          "message": "Deprecate `ValidateUnsigned` trait and `#[pallet::validate_unsigned]` attribute (#10150)\n\nPart of #2415\nCloses #2436\n\nRelated: #6325 #6326\n\n## Summary\n\nDeprecates the `ValidateUnsigned` trait and\n`#[pallet::validate_unsigned]` attribute in favor of the new\n`TransactionExtension` API. This is a non-breaking change that adds\ndeprecation warnings to guide users toward the modern transaction\nvalidation approach.\n\n## Motivation\n\nThe `ValidateUnsigned` trait was the legacy approach for validating\nunsigned transactions in FRAME pallets. The newer `TransactionExtension`\ntrait provides a more flexible and composable way to handle transaction\nvalidation, including both signed and unsigned transactions.\n\n## Changes\n\n### Deprecated APIs\n- ✅ Added `#[deprecated]` attribute to `ValidateUnsigned` trait\n- ✅ Added deprecation warning to `#[pallet::validate_unsigned]` macro\nattribute\n\n### Migration (Using `TransactionExtensions`)\n\n\nhttps://paritytech.github.io/polkadot-sdk/master/polkadot_sdk_docs/reference_docs/transaction_extensions\n\n## Impact\n\n- **Non-breaking:** Existing code continues to work with deprecation\nwarnings\n- **Compiler warnings:** Users will see deprecation notices guiding them\nto migrate\n- **Timeline:** Full removal planned for a future major release (TBD)\n\n## Review Notes\n\n- The `#[pallet::validate_unsigned]` deprecation warning might be\nredundant since it's always used together with `ValidateUnsigned`, but\nboth are included for completeness and clarity.\n\n## Follow-up Tasks\n\nThe following pallets and crates need to be migrated to\n`TransactionExtension` in subsequent PRs:\n\n**Runtime crates:**\n- [ ] `polkadot-runtime-common`\n- [ ] `polkadot-runtime-parachains`\n\n**FRAME pallets:**\n- [ ] `pallet-babe`\n- [ ] `pallet-beefy`\n- [ ] `pallet-election-provider-multi-block`\n- [ ] `pallet-grandpa`\n- [x] `pallet-im-online`\nhttps://github.com/paritytech/polkadot-sdk/pull/11235\n- [x] `pallet-mixnet`\nhttps://github.com/paritytech/polkadot-sdk/pull/11010\n\n**Core:**\n- [ ] `frame-executive`\n- [ ] `frame-system`\n\n**Examples:**\n- [x] `pallet-example-offchain-worker`\nhttps://github.com/paritytech/polkadot-sdk/pull/10716\n\n**Testing:**\n- [ ] `substrate-test-runtime`\n\n## Open Question\n\nShould we remove the `ValidateUnsigned` bound from the type parameter\n`V` in the `Applyable` trait?\n\n---------\n\nCo-authored-by: Guillaume Thiolliere <guillaume.thiolliere@parity.io>\nCo-authored-by: Shawn Tabrizi <shawntabrizi@gmail.com>\nCo-authored-by: Branislav Kontur <bkontur@gmail.com>",
+          "timestamp": "2026-04-02T09:41:38Z",
+          "tree_id": "46a79bcb9f9f0bb652ba4f031e1aefea5c994454",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/e3865cf729c8193ec2f2de2df682a66583891d7b"
+        },
+        "date": 1775132054077,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.023993959433333337,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14889417581333328,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009743304179999985,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007007285486666665,
             "unit": "seconds"
           }
         ]

@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775132106125,
+  "lastUpdate": 1775136470537,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "10196091+Ank4n@users.noreply.github.com",
-            "name": "Ankan",
-            "username": "Ank4n"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "8c8b53babdfa73ad6752e516d62d7af655472e1f",
-          "message": "[Staking Async] Cancel slashes by validator and max slash fraction (#9187)\n\n## Problem\n\nPreviously, the `cancel_deferred_slash` function required exact slash\nkeys (validator, slash fraction, page index) to cancel slashes. However,\nwhen additional offence reports arrived after a cancellation referendum\nwas initiated, they could create new entries with higher slash\nfractions, making the original cancellation ineffective.\n\n### Changes\n\nWe introduce a new approach that tracks cancelled slashes by era and\nvalidator with their maximum slash fractions:\n\n1. **New Storage**: Added `CancelledSlashes` storage map that stores\ncancellation decisions by era.\n2. **Updated API**: Changed call signature `cancel_deferred_slash` to\naccept `Vec<(AccountId, Perbill)>` instead of complex slash keys. Admin\norigin can now specify which validators to cancel and up to what slash\nfraction.\n3. **Cleanup**: `CancelledSlashes` are cleared after all slashes for an\nera are processed.\n4. **Updated SlashCancelled Event**: Event contains only slash_era and\nvalidator instead of slash key tuple and payout.\n\n---------\n\nCo-authored-by: Paolo La Camera <paolo@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-30T14:12:32Z",
-          "tree_id": "42b978bf4a2c26c7d60c04626d6cbba98fbdab93",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/8c8b53babdfa73ad6752e516d62d7af655472e1f"
-        },
-        "date": 1753889750942,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52936.59999999999,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63632.749999999985,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.5211457200800007,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.000020746729999999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.00002010118,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.542543770029996,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.0056354384200000005,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.50819193305,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.00002010118,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.5448682147600032,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.000020746729999999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.993748453959999,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.44787853710999437,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.7554231319509475,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.5210754726499993,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting-parallel/approval-voting-parallel-2",
             "value": 2.9258990382600003,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "dhiraj@parity.io",
+            "name": "Dhiraj Sah",
+            "username": "dhirajs0"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5fbeadde2a12aa6c3bd97b64a82748e715ae7813",
+          "message": "fix(pallet-multi-asset-bounties): use non-destructive read in calculate_payout() (#11425)\n\n## Description\n\n`calculate_payout()` in `pallet-multi-asset-bounties` uses\n`ChildBountiesValuePerParent::take()` — a destructive read that deletes\nthe storage entry — instead of `get()`. Since `calculate_payout()` is\ncalled from multiple code paths, the `take()` causes incorrect behavior\non subsequent calls.\n\n`calculate_payout()` is called from two places:\n\n1. `do_process_payout_payment()` (lib.rs:1736) — invoked by\n`award_bounty()` and `retry_payment()`\n2. `do_check_payout_payment_status()` (lib.rs:1771) — invoked by\n`check_status()` on payment success\n\nWhen a parent bounty with child bounties is awarded:\n\n- The **first call** (from `award_bounty()`) reads\n`ChildBountiesValuePerParent` via `take()`, correctly computing\n`parent_value - children_value`, but **deletes the storage entry** as a\nside effect.\n- The **second call** (from `check_status()` on success) reads the\nnow-deleted storage, gets `0`, and emits `BountyPayoutProcessed` with\n`value: parent_value` instead of the correct `value: parent_value -\nchildren_value`.\n\nAdditionally, if a non-synchronous `Paymaster` implementation is used\nwhere `check_payment()` can return `Failure`, the `retry_payment()` path\nwould call `calculate_payout()` again on the deleted storage, attempting\nto pay the full parent value instead of the reduced amount.\n\n## Integration\n\nNo integration changes required for downstream projects. This is a\nbugfix internal to `pallet-multi-asset-bounties` with no changes to\npublic APIs, storage layout, or trait definitions.\n\n## Review Notes\n\nThree changes were made:\n\n### 1. `calculate_payout()` — `take()` replaced with `get()`\n\n```diff\n- let children_value = ChildBountiesValuePerParent::<T, I>::take(parent_bounty_id);\n+ let children_value = ChildBountiesValuePerParent::<T, I>::get(parent_bounty_id);\n```\n\nThis makes `calculate_payout()` idempotent — safe to call multiple times\nfor the same bounty.\n\n### 2. `remove_bounty()` — explicit storage cleanup added\n\n```diff\n  None => {\n      Bounties::<T, I>::remove(parent_bounty_id);\n      ChildBountiesPerParent::<T, I>::remove(parent_bounty_id);\n      TotalChildBountiesPerParent::<T, I>::remove(parent_bounty_id);\n-     debug_assert!(ChildBountiesValuePerParent::<T, I>::get(parent_bounty_id).is_zero());\n+     ChildBountiesValuePerParent::<T, I>::remove(parent_bounty_id);\n  },\n```\n\nThe `debug_assert!` was removed because it was not a true invariant — it\nonly passed because `take()` had already deleted the value. When child\nbounties are paid out, `ChildBountiesValuePerParent` remains non-zero\nuntil parent bounty cleanup.\n\n### 3. Test updated\n\nAdded an event assertion to the existing `check_status_works` test to\nverify `BountyPayoutProcessed` emits the correct net payout value\n(`parent_value - child_value`) instead of the full parent value. This\nassertion fails with `take()` and passes with `get()`.\n\n### Impact\n\n- **Current deployments (KAH, PAH)**: Both use `LocalPay` where\n`check_payment()` always returns `Success`. The retry/lock path is\nunreachable, but the `BountyPayoutProcessed` event emits an incorrect\npayout value for parent bounties with child bounties.\n- **Future deployments**: If the pallet is configured with an async\n`Paymaster` (e.g., XCM-based) where `check_payment()` can return\n`Failure`, the `retry_payment()` path would compute a wrong payout\namount, potentially leading to permanent fund lock with no recovery path\n(since `close_bounty()` rejects `PayoutAttempted` status).\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-02T12:05:52Z",
+          "tree_id": "ebe38e3aeb199e27802d596aaad9f33dcfa43197",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/5fbeadde2a12aa6c3bd97b64a82748e715ae7813"
+        },
+        "date": 1775136448621,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 63623.75,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 52935.90000000001,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.713038795289958,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005397753499999996,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.873884179250001,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.000021633720000000004,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.8753863140100004,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.8845396156200023,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.292011635972978,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.00002184594,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.8443696247899983,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7467652750099578,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.4826960331099994,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.00002184594,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.000021633720000000004,
             "unit": "seconds"
           }
         ]

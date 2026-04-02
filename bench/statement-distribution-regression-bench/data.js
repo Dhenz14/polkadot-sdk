@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775089693610,
+  "lastUpdate": 1775132138579,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "git@kchr.de",
-            "name": "Bastian Köcher",
-            "username": "bkchr"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "835ee4782522319cf5d8de9e35a20e56ead143b7",
-          "message": "cumulus zombienet: Send transactions as immortal (#9362)\n\nDeep inside subxt the default period for a transaction is set to 32\nblocks. When you have some chain that is building blocks every 500ms,\nthis may leads to issues that manifest as invalid transaction\nsignatures. To protect the poor developers of endless debugging sessions\nwe now send transactions as immortal.",
-          "timestamp": "2025-07-29T19:28:17Z",
-          "tree_id": "7bf288f567d290b92248d562ce63c1d26211e02b",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/835ee4782522319cf5d8de9e35a20e56ead143b7"
-        },
-        "date": 1753822991371,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 127.94799999999994,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.044080261255999904,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03372179963600001,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.03841178178399999,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "22591718+RomarQ@users.noreply.github.com",
+            "name": "Rodrigo Quelhas",
+            "username": "RomarQ"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e3865cf729c8193ec2f2de2df682a66583891d7b",
+          "message": "Deprecate `ValidateUnsigned` trait and `#[pallet::validate_unsigned]` attribute (#10150)\n\nPart of #2415\nCloses #2436\n\nRelated: #6325 #6326\n\n## Summary\n\nDeprecates the `ValidateUnsigned` trait and\n`#[pallet::validate_unsigned]` attribute in favor of the new\n`TransactionExtension` API. This is a non-breaking change that adds\ndeprecation warnings to guide users toward the modern transaction\nvalidation approach.\n\n## Motivation\n\nThe `ValidateUnsigned` trait was the legacy approach for validating\nunsigned transactions in FRAME pallets. The newer `TransactionExtension`\ntrait provides a more flexible and composable way to handle transaction\nvalidation, including both signed and unsigned transactions.\n\n## Changes\n\n### Deprecated APIs\n- ✅ Added `#[deprecated]` attribute to `ValidateUnsigned` trait\n- ✅ Added deprecation warning to `#[pallet::validate_unsigned]` macro\nattribute\n\n### Migration (Using `TransactionExtensions`)\n\n\nhttps://paritytech.github.io/polkadot-sdk/master/polkadot_sdk_docs/reference_docs/transaction_extensions\n\n## Impact\n\n- **Non-breaking:** Existing code continues to work with deprecation\nwarnings\n- **Compiler warnings:** Users will see deprecation notices guiding them\nto migrate\n- **Timeline:** Full removal planned for a future major release (TBD)\n\n## Review Notes\n\n- The `#[pallet::validate_unsigned]` deprecation warning might be\nredundant since it's always used together with `ValidateUnsigned`, but\nboth are included for completeness and clarity.\n\n## Follow-up Tasks\n\nThe following pallets and crates need to be migrated to\n`TransactionExtension` in subsequent PRs:\n\n**Runtime crates:**\n- [ ] `polkadot-runtime-common`\n- [ ] `polkadot-runtime-parachains`\n\n**FRAME pallets:**\n- [ ] `pallet-babe`\n- [ ] `pallet-beefy`\n- [ ] `pallet-election-provider-multi-block`\n- [ ] `pallet-grandpa`\n- [x] `pallet-im-online`\nhttps://github.com/paritytech/polkadot-sdk/pull/11235\n- [x] `pallet-mixnet`\nhttps://github.com/paritytech/polkadot-sdk/pull/11010\n\n**Core:**\n- [ ] `frame-executive`\n- [ ] `frame-system`\n\n**Examples:**\n- [x] `pallet-example-offchain-worker`\nhttps://github.com/paritytech/polkadot-sdk/pull/10716\n\n**Testing:**\n- [ ] `substrate-test-runtime`\n\n## Open Question\n\nShould we remove the `ValidateUnsigned` bound from the type parameter\n`V` in the `Applyable` trait?\n\n---------\n\nCo-authored-by: Guillaume Thiolliere <guillaume.thiolliere@parity.io>\nCo-authored-by: Shawn Tabrizi <shawntabrizi@gmail.com>\nCo-authored-by: Branislav Kontur <bkontur@gmail.com>",
+          "timestamp": "2026-04-02T09:41:38Z",
+          "tree_id": "46a79bcb9f9f0bb652ba4f031e1aefea5c994454",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/e3865cf729c8193ec2f2de2df682a66583891d7b"
+        },
+        "date": 1775132116483,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.004,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08434163692599995,
+            "unit": "seconds"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.03893025483599998,
             "unit": "seconds"
           }
         ]

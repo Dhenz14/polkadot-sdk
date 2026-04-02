@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775142710935,
+  "lastUpdate": 1775168351257,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "10196091+Ank4n@users.noreply.github.com",
-            "name": "Ankan",
-            "username": "Ank4n"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "8c8b53babdfa73ad6752e516d62d7af655472e1f",
-          "message": "[Staking Async] Cancel slashes by validator and max slash fraction (#9187)\n\n## Problem\n\nPreviously, the `cancel_deferred_slash` function required exact slash\nkeys (validator, slash fraction, page index) to cancel slashes. However,\nwhen additional offence reports arrived after a cancellation referendum\nwas initiated, they could create new entries with higher slash\nfractions, making the original cancellation ineffective.\n\n### Changes\n\nWe introduce a new approach that tracks cancelled slashes by era and\nvalidator with their maximum slash fractions:\n\n1. **New Storage**: Added `CancelledSlashes` storage map that stores\ncancellation decisions by era.\n2. **Updated API**: Changed call signature `cancel_deferred_slash` to\naccept `Vec<(AccountId, Perbill)>` instead of complex slash keys. Admin\norigin can now specify which validators to cancel and up to what slash\nfraction.\n3. **Cleanup**: `CancelledSlashes` are cleared after all slashes for an\nera are processed.\n4. **Updated SlashCancelled Event**: Event contains only slash_era and\nvalidator instead of slash key tuple and payout.\n\n---------\n\nCo-authored-by: Paolo La Camera <paolo@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-07-30T14:12:32Z",
-          "tree_id": "42b978bf4a2c26c7d60c04626d6cbba98fbdab93",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/8c8b53babdfa73ad6752e516d62d7af655472e1f"
-        },
-        "date": 1753889776210,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.95999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04478932786799992,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03428513156400001,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.08301442390399989,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "37865735+clangenb@users.noreply.github.com",
+            "name": "clangenb",
+            "username": "clangenb"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a1a2bbfdb435f381ba633e62c022090f1efa4fca",
+          "message": "Fix slot-based collator panic during warp sync (#11072) (#11381)\n\nWhen a parachain collator starts with `--authoring=slot-based` and\nperforms warp sync, the `slot-based-block-builder` essential task\nimmediately calls `slot_duration()` which requires\n`AuraApi_slot_duration`. During warp sync the runtime isn't ready, so\nthis fails and the task returns, shutting down the node.\n\nThe lookahead collator avoids this by calling `wait_for_aura()` before\nstarting. This PR adds an equivalent guard to the slot-based collator.\n\n### Manual test\nBefore the fix the collator panicked after the relay chain warp sync\nwith AuraApi_slot_duration not available, which does not occur anymore\nnow.\n```\n ./target/release/polkadot-parachain \\                                                                                                                                                                                                                                                                          \n    --chain asset-hub-polkadot \\\n    --sync warp \\\n    --authoring=slot-based \\\n    --tmp -- --sync warp\n```\nCloses #11072.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: clangenb <clangenb@users.noreply.github.com>",
+          "timestamp": "2026-04-02T20:55:34Z",
+          "tree_id": "91d815959b0ac9a381da89ca91e02813e5ffc1c6",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/a1a2bbfdb435f381ba633e62c022090f1efa4fca"
+        },
+        "date": 1775168329070,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.096,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.03843802649,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.0869272565719999,
             "unit": "seconds"
           }
         ]

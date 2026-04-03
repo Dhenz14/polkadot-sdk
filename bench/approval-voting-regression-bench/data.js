@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775168321517,
+  "lastUpdate": 1775210257087,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "karol@parity.io",
-            "name": "Karol Kokoszka",
-            "username": "karolk91"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "d9f451a6b94ab2cf39371ee5192130379eb6e199",
-          "message": "XCMv5 asset exchange test scenarios (#9195)\n\nRelates to: #9093\nRequires: #9179\n\nThis PR introduces emulated test scenarios:\n\n#### [Scenario 1]\n(Penpal -> AH -> Penpal) to showcase usage of remote `Transact` to swap\nassets remotely on AssetHub while also making use of\n`add_authorized_alias`, to transact as Sender on remote side (instead of\nSenders sovereign account).\n\n1. Prepare sovereign accounts funds, create pools, prepare aliasing\nrules\n2. Send WND from Penpal to AssetHub (AH being remote reserve for WND)\n3. Alias into sender account and exchange WNDs for USDT using `Transact`\nwith `swap_tokens_for_exact_tokens` call inside\n4. Send USDT and leftover WND back to Penpal\n\n#### [Scenario 2]\n(Penpal -> AH -> Penpal) to showcase usage of remote `Transact` to swap\nassets remotely on AssetHub.\n\n1. Prepare sovereign accounts funds, create pools, prepare aliasing\nrules\n2. Send WND from Penpal to AssetHub (AH being remote reserve for WND)\n3. Exchange WNDs for USDT using `Transact` with\n`swap_tokens_for_exact_tokens` call inside\n4. Send USDT and leftover WND back to Penpal\n\n#### [Scenario 3]\n(Penpal -> AH -> Penpal) to showcase same as above but this time using\n`ExchangeAsset` XCM instruction instead of `Transact`:\n\n1. Prepare sovereign accounts funds, create pools\n2. Send WND from Penpal to AssetHub (AH being remote reserve for WND)\n3. Exchange WNDs for USDT using `ExchangeAsset`\n4. Send USDT and leftover WND back to Penpal\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Adrian Catangiu <adrian@parity.io>",
-          "timestamp": "2025-07-31T10:42:16Z",
-          "tree_id": "c39005e9c21f11c1f9743d3a32b8454e91d41b37",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/d9f451a6b94ab2cf39371ee5192130379eb6e199"
-        },
-        "date": 1753963451539,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 63622.72000000001,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 52940.8,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.6937636445707867,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000018254559999999997,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.006086491490000009,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.4997966227799995,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.521072492240001,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000018254559999999997,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4806957067299984,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.4649818349,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.00002137157,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9520038074599892,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.00002137157,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.36572992358999,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.441092967990001,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting-parallel/approval-voting-parallel-2",
             "value": 2.881743593129998,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "paolo@parity.io",
+            "name": "Paolo La Camera",
+            "username": "sigurpol"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ba06ae6f41de22a7f376b2ed9453d49434bc0bcf",
+          "message": "Bags-list on_idle: per-item weight consumption via WeightMeter (#11594)\n\nThe benchmark failed depending on `MaxAutoRebagPerBlock` (e.g. it passes\nwith 10 as configured in Westend, Polkadot and Kusama AH runtime but it\nfailed with 5, as it was configured before, see [runtime\nPR](https://github.com/polkadot-fellows/runtimes/pull/1065)).\n\nReplace the bulk `on_idle` benchmark with a per-item `on_idle_rebag`\nbenchmark that measures the worst-case cost of a single rebag. `on_idle`\nnow consumes weight per iteration via `WeightMeter` instead of reserving\na single bulk weight upfront.\nThis decouples the benchmark from `MaxAutoRebagPerBlock`. Changing the\nconfig no longer requires re-running benchmarks.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-03T08:37:03Z",
+          "tree_id": "08c626183a09b2edaed88afb1f851ab87e88b838",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/ba06ae6f41de22a7f376b2ed9453d49434bc0bcf"
+        },
+        "date": 1775210234639,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 63628.05000000001,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 52944.5,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.000023293210000000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.574064439359926,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.252657467242663,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.00002311441,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.000023293210000000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005375674749999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.8197450725800013,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.00002311441,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.8746988019399993,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.8370473260399995,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.820953318989998,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.442806033999993,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7734382110599382,
             "unit": "seconds"
           }
         ]

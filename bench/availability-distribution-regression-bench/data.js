@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775243304551,
+  "lastUpdate": 1775252116677,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "git@kchr.de",
-            "name": "Bastian Köcher",
-            "username": "bkchr"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "53e30e5c60bdef92ae46f2f9b6d29a4d113e7419",
-          "message": "Collator Protocol: Be more informative why a collation wasn't advertised (#9419)\n\nThis prints more information on why a collation wasn't advertised. In\nthis exact case it checks if the collation wasn't advertised because of\na session change. This is mainly some debugging help.",
-          "timestamp": "2025-08-04T10:26:18Z",
-          "tree_id": "9d7c051e4ae3a47c43b46c29c568fdd9227cd1c4",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/53e30e5c60bdef92ae46f2f9b6d29a4d113e7419"
-        },
-        "date": 1754307506590,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022517177786666665,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.0074053191999999745,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15739532262000006,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013050353206666667,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.009950672293333315,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "jfanatiker@gmx.at",
+            "name": "eskimor",
+            "username": "eskimor"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ce07e65a6ad40a7bccf8dbda655dff6c47671bdb",
+          "message": "Fix paths length (#11626)\n\nimplicit views can return paths longer than lookahead, which leads to\nis_slot_available skipping the loop\n[here](https://github.com/paritytech/polkadot-sdk/blob/a103769c2e2cb739f721d0446acabe97a2c0df08/polkadot/node/network/collator-protocol/src/validator_side/mod.rs#L1598),\nbecause of `ancestor_valid_len` being 0, leading to rejections of\ncandidates.\n\nI also noticed that `paths_via_relay_parents` can be massively\nsimplified, which also removes above bug. ImplicitView can likely be\nsimplified further as I no longer see any need to keep\n`block_info_storage` at all anymore.\n\nFixes: https://github.com/paritytech/polkadot-sdk/issues/11625",
+          "timestamp": "2026-04-03T20:03:44Z",
+          "tree_id": "b387b61c1c28646918618e00175bbac78358b407",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/ce07e65a6ad40a7bccf8dbda655dff6c47671bdb"
+        },
+        "date": 1775252095714,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007151406353333335,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.024227972193333332,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009844330559999982,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14442200951333334,
             "unit": "seconds"
           }
         ]

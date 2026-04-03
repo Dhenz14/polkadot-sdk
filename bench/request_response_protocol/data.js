@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775230059161,
+  "lastUpdate": 1775242383755,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -73331,6 +73331,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2529364230,
             "range": "± 22080321",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "dhiraj@parity.io",
+            "name": "Dhiraj Sah",
+            "username": "dhirajs0"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ecada3402a70d906e10c6d33b0f42b6174fea119",
+          "message": "fix(multi-asset-bounties): enforce authorization in unassign_curator when parent bounty is not Active (#11612)\n\n# Description\n\nFix an authorization bypass in `pallet-multi-asset-bounties` where any\nsigned account could\nforcibly unassign an active child bounty's curator when the parent\nbounty was not in `Active` state\n(e.g., `CuratorUnassigned`). This also caused the child curator's native\nbalance hold (deposit) to\nbe permanently leaked — removed from pallet storage but never released\nor burned on-chain.\n\n**Root cause:** In `unassign_curator`, the `BountyStatus::Active`\nbranch's catch-all `Some(sender)`\narm used `if let Some(parent_curator) = parent_curator { ... }` with no\n`else` clause. When\n`parent_curator` was `None` (parent bounty not Active), the block was\nsilently skipped and execution\nfell through to the state transition — no `BadOrigin` error was\nreturned.\n\n## Integration\n\nNo integration changes required for downstream projects. This is a fix\ninternal to\n`pallet-multi-asset-bounties` with no public API changes. The extrinsic\nsignature and behavior for\nauthorized callers remain identical.\n\n## Review Notes\n\nThe fix restructures the `BountyStatus::Active` arm in\n`unassign_curator` with two changes:\n\n### 1. Authorization before storage mutation\n\nPreviously, `CuratorDeposit::take()` was called unconditionally at the\ntop of the `Active` arm\n(before verifying the caller). Now it is called inside each `match\nmaybe_sender` arm, only after the\ncaller is confirmed to be authorized. This prevents the deposit from\nbeing removed from storage on\nan unauthorized (and reverted) call path.\n\n```diff\n BountyStatus::Active { ref curator, .. } => {\n-    let maybe_curator_deposit =\n-        CuratorDeposit::<T, I>::take(parent_bounty_id, child_bounty_id);\n     match maybe_sender {\n         None => {\n-            if let Some(curator_deposit) = maybe_curator_deposit {\n+            if let Some(curator_deposit) =\n+                CuratorDeposit::<T, I>::take(parent_bounty_id, child_bounty_id)\n+            {\n                 T::Consideration::burn(curator_deposit, curator);\n             }\n         },\n```\n\n### 2. Explicit rejection when `parent_curator` is `None`\n\nThe catch-all `Some(sender)` arm now uses\n`parent_curator.ok_or(BadOrigin)?` followed by an\n`ensure!`. When `parent_curator` is `None`, the call is immediately\nrejected with `BadOrigin`.\n\n```diff\n         Some(sender) => {\n-            if let Some(parent_curator) = parent_curator {\n-                if sender == parent_curator && *curator != parent_curator {\n-                    if let Some(curator_deposit) = maybe_curator_deposit {\n-                        T::Consideration::burn(curator_deposit, curator);\n-                    }\n-                } else {\n-                    return Err(BadOrigin.into());\n-                }\n+            let parent_curator = parent_curator.ok_or(BadOrigin)?;\n+            ensure!(\n+                sender == parent_curator && *curator != parent_curator,\n+                BadOrigin\n+            );\n+            if let Some(curator_deposit) =\n+                CuratorDeposit::<T, I>::take(parent_bounty_id, child_bounty_id)\n+            {\n+                T::Consideration::burn(curator_deposit, curator);\n             }\n         },\n```\n\n### Regression test\n\nA comprehensive test\n(`unprivileged_caller_cannot_unassign_active_child_curator_when_parent_not_active`)\nis added that:\n\n1. Creates an active child bounty with a separate child curator.\n2. Has the parent curator voluntarily unassign (putting parent into\n`CuratorUnassigned`).\n3. Asserts that an unprivileged attacker is rejected with `BadOrigin`.\n4. Verifies the child bounty remains `Active`, the curator deposit stays\nin storage, and the\n   balance hold is intact.\n5. Confirms the child curator can still voluntarily unassign themselves\nand that the deposit is\n   properly released.\n\n# Checklist\n\n* [x] My PR includes a detailed description as outlined in the\n\"Description\" and its two subsections above.\n* [x] My PR follows the [labeling requirements]\n* [x] I have made corresponding changes to the documentation (if\napplicable)\n* [x] I have added tests that prove my fix is effective or that my\nfeature works (if applicable)\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-03T17:48:31Z",
+          "tree_id": "5da14c2f730c63446e39e27c8ef634b6bad9a81c",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/ecada3402a70d906e10c6d33b0f42b6174fea119"
+        },
+        "date": 1775242361257,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18382263,
+            "range": "± 168016",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18823151,
+            "range": "± 207158",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20248988,
+            "range": "± 75187",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24479514,
+            "range": "± 256066",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 57165365,
+            "range": "± 594709",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 338417907,
+            "range": "± 6510048",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2687055438,
+            "range": "± 193362302",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15463570,
+            "range": "± 314195",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15667860,
+            "range": "± 170429",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16302718,
+            "range": "± 163009",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20590567,
+            "range": "± 747932",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 57032120,
+            "range": "± 1186226",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 333476221,
+            "range": "± 7559967",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2569041416,
+            "range": "± 30585750",
             "unit": "ns/iter"
           }
         ]

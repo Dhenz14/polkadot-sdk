@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775243273906,
+  "lastUpdate": 1775252089450,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "178801527+raymondkfcheung@users.noreply.github.com",
-            "name": "Raymond Cheung",
-            "username": "raymondkfcheung"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "224eab75d3a05e7c7a85baa5e044858d0f104d4a",
-          "message": "Replace `log` with `tracing` on `bp-runtime` (#9401)\n\nThis PR replaces `log` with `tracing` instrumentation on `bp-runtime` by\nproviding structured logging.\n\nPartially addresses #9211",
-          "timestamp": "2025-08-04T13:10:17Z",
-          "tree_id": "0adad46d8710fc31ea650371fbfe51296ca7184f",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/224eab75d3a05e7c7a85baa5e044858d0f104d4a"
-        },
-        "date": 1754317788466,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.293041908933334,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.20054965109999995,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.1271857608,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "jfanatiker@gmx.at",
+            "name": "eskimor",
+            "username": "eskimor"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ce07e65a6ad40a7bccf8dbda655dff6c47671bdb",
+          "message": "Fix paths length (#11626)\n\nimplicit views can return paths longer than lookahead, which leads to\nis_slot_available skipping the loop\n[here](https://github.com/paritytech/polkadot-sdk/blob/a103769c2e2cb739f721d0446acabe97a2c0df08/polkadot/node/network/collator-protocol/src/validator_side/mod.rs#L1598),\nbecause of `ancestor_valid_len` being 0, leading to rejections of\ncandidates.\n\nI also noticed that `paths_via_relay_parents` can be massively\nsimplified, which also removes above bug. ImplicitView can likely be\nsimplified further as I no longer see any need to keep\n`block_info_storage` at all anymore.\n\nFixes: https://github.com/paritytech/polkadot-sdk/issues/11625",
+          "timestamp": "2026-04-03T20:03:44Z",
+          "tree_id": "b387b61c1c28646918618e00175bbac78358b407",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/ce07e65a6ad40a7bccf8dbda655dff6c47671bdb"
+        },
+        "date": 1775252068881,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13296580056666668,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.151880404366668,
             "unit": "seconds"
           }
         ]

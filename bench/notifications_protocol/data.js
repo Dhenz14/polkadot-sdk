@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775217718364,
+  "lastUpdate": 1775230027960,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "notifications_protocol": [
@@ -131327,6 +131327,198 @@ window.BENCHMARK_DATA = {
             "name": "notifications_protocol/litep2p/with_backpressure/16MB",
             "value": 2379288547,
             "range": "± 65828300",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "paolo@parity.io",
+            "name": "Paolo La Camera",
+            "username": "sigurpol"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6324a6619b6b05945d96389b6f66eba913c4d64f",
+          "message": "fix: slot-based collator shuts down immediately after init (#11628)\n\nFix a regression introduced by #11381, where we wrapped the slot-based\ncollator launch in an async task that first calls `wait_for_aura`, then\nspawns the actual long-running collator tasks via `slot_based::run()`.\nThe wrapper was spawned with `spawn_essential_handle()`.\n\nEssential tasks shut down the node when they complete. The init wrapper\ncompletes immediately after spawning, the TaskManager sees an essential\ntask exit, and the node shuts down.\n\nThis only affects parachain collators started with\n`--authoring=slot-based`.\n\nFix: use `spawn_handle()` for the short-lived init wrapper. The child\ntasks inside `slot_based::run()` remain correctly marked as essential.\n\nAn easy way to reproduce (same setup used by staking-miner nightly test\n- which in fact started to fail after #11381 got merged e.g.\n[here](https://github.com/paritytech/polkadot-staking-miner/actions/runs/23928039324/job/69807526676)\n): spawn a Zombienet network with a 2-validator relay chain and a single\nslot-based parachain collator. The collator process starts but shuts\ndown immediately.\nFor example in your SDK repo:\n```\ncd substrate/frame/staking-async/runtimes/papi-tests\njust setup\njust run fake-dev \n```\nwhich launches zombienet spawning\n  - alice (relay validator, port 9944) — polkadot\n  - bob (relay validator, port 9945) — polkadot\n- charlie (parachain collator, port 9946) — polkadot-parachain\n--collator --authoring=slot-based\n\nPort 9946 never comes up.\n\nI have also verified that the fix coming from #11381 still works,\nrunning manually `./target/release/polkadot-parachain --chain\nasset-hub-polkadot --sync warp --authoring=slot-based --tmp -- --sync\nwarp`.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-03T14:05:54Z",
+          "tree_id": "e34c6316fd57f85b7abcb7988131402e11478f35",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/6324a6619b6b05945d96389b6f66eba913c4d64f"
+        },
+        "date": 1775230006010,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "notifications_protocol/libp2p/serially/64B",
+            "value": 4364580,
+            "range": "± 84918",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64B",
+            "value": 299699,
+            "range": "± 5684",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/512B",
+            "value": 4133833,
+            "range": "± 87921",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/512B",
+            "value": 386317,
+            "range": "± 7746",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/4KB",
+            "value": 4870206,
+            "range": "± 56568",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/4KB",
+            "value": 920088,
+            "range": "± 20019",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/64KB",
+            "value": 10290048,
+            "range": "± 94504",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64KB",
+            "value": 4891154,
+            "range": "± 100216",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/256KB",
+            "value": 44442595,
+            "range": "± 1134207",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/256KB",
+            "value": 38110316,
+            "range": "± 871608",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/2MB",
+            "value": 330060639,
+            "range": "± 3493856",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/2MB",
+            "value": 283798515,
+            "range": "± 2464198",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/16MB",
+            "value": 2457372399,
+            "range": "± 11096426",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/16MB",
+            "value": 2178521735,
+            "range": "± 23227943",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64B",
+            "value": 3082127,
+            "range": "± 12613",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64B",
+            "value": 1561100,
+            "range": "± 5549",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/512B",
+            "value": 3208934,
+            "range": "± 18294",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/512B",
+            "value": 1629790,
+            "range": "± 12506",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/4KB",
+            "value": 3849175,
+            "range": "± 19111",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/4KB",
+            "value": 1993579,
+            "range": "± 18542",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64KB",
+            "value": 7864595,
+            "range": "± 77207",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64KB",
+            "value": 4905206,
+            "range": "± 53776",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/256KB",
+            "value": 35083425,
+            "range": "± 636893",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/256KB",
+            "value": 34840247,
+            "range": "± 1337069",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/2MB",
+            "value": 311708859,
+            "range": "± 5237003",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/2MB",
+            "value": 319475430,
+            "range": "± 5631041",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/16MB",
+            "value": 2620569857,
+            "range": "± 106916715",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/16MB",
+            "value": 2471749033,
+            "range": "± 69261559",
             "unit": "ns/iter"
           }
         ]

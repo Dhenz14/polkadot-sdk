@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775212989547,
+  "lastUpdate": 1775215446703,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -73007,6 +73007,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2753763144,
             "range": "± 37416835",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "dhiraj@parity.io",
+            "name": "Dhiraj Sah",
+            "username": "dhirajs0"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "97ebda9a6dab457e53a94e7108a6b2f9c374a5c1",
+          "message": "update multi asset bounties pallet account derivation logic  (#11052)\n\n# Description\n\nUpdates bounty and child-bounty account derivation in\n`pallet-multi-asset-bounties` to use the sub-account prefixes `\"mbt\"`\n(multi-asset bounty) and `\"mcb\"` (multi-asset child bounty) instead of\n`\"bt\"` and `\"cb\"`. To avoid having the same bounty account by both the\nnew multi asset bounties pallet and the old bounties pallet.\n\n## Integration\n\nThe pallet is only deployed on Westend (not Kusama or Polkadot), so no\nproduction downstream depends on the old derivation; the change is\nlimited to testnet as the KAH and PAH runtime are configured with the\nnew prefix already.\n\n## Review Notes\n- Doc comments were added at module level (account derivation\nsubsection) and on both structs to document the prefixes.\n- **Version bump:** Major\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-03T10:16:47Z",
+          "tree_id": "e0cb1bad7b77f16191cd4548b8959e888a414ad6",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/97ebda9a6dab457e53a94e7108a6b2f9c374a5c1"
+        },
+        "date": 1775215425316,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 21457047,
+            "range": "± 713381",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 21799470,
+            "range": "± 440136",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 22929918,
+            "range": "± 299041",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 27945323,
+            "range": "± 611389",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 65447470,
+            "range": "± 1853279",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 430074249,
+            "range": "± 12314327",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 3228307470,
+            "range": "± 49272033",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 17605521,
+            "range": "± 267871",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 17833501,
+            "range": "± 706319",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 18394867,
+            "range": "± 277582",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 23737180,
+            "range": "± 244744",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 68375973,
+            "range": "± 889052",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 391307747,
+            "range": "± 7309793",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2996659930,
+            "range": "± 97256320",
             "unit": "ns/iter"
           }
         ]

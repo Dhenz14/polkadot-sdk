@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775168260966,
+  "lastUpdate": 1775210196732,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "5588131+kianenigma@users.noreply.github.com",
-            "name": "Kian Paimani",
-            "username": "kianenigma"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "7304295748b1d85eb9fc2b598eba43d9f7971f22",
-          "message": "[AHM] Staking async e2e zn and papi tests (#8802)\n\ncloses https://github.com/paritytech/polkadot-sdk/issues/8766\n\nThis PR mainly adds a setup based on PAPI to automate our e2e tests for\nstaking async. Most of the new code is in\n`frame/staking-async/runtimes/papi-tests`. There is `README`, and a\n`Justfile` there that should contain all the info you would need.\n\nBest way to get started is:\n\n```\njust setup\nbun test tests/unsigned-dev.test.ts\n```\n\nTests are written in Typescript, and monitro the underlying ZN process\nfor a specific sequence of events. An example of how to write tests is\n[here](https://github.com/paritytech/polkadot-sdk/pull/8802/files#diff-4b44e03288aeaf5ec576ae0094c7a7ae28689dfcc5b317a28478767b345991db).\n\nAll other changes are very insubstantial. \n\n### Why this setup? \n\n* Staking async e2e tests are long running, and doing multiple scenarios\nmanually is hard. Expressing them as a sequence of events is much\neasier.\n* For all scenarios, we need to monitor both the onchain weight, and the\noffchain weight/PoV recorded by the collator (therefore our only option\nis ZN). The setup reports both. For example, the logs look like this:\n\n```\nverbose: Next expected event: Observe(Para, MultiBlockElectionVerifier, Verified, no dataCheck, no byBlock), remaining events: 14\nverbose: [Para#56][⛓ 52ms / 2,119 kb][✍️ hd=0.22, xt=3.94, st=6.54, sum=10.70, cmp=9.61, time=1ms] Processing event: MultiBlockElectionVerifier Verified [1,10]\ninfo:    Primary event passed\nverbose: Next expected event: Observe(Para, MultiBlockElectionVerifier, Verified, no dataCheck, no byBlock), remaining events: 13\nverbose: [Para#56][⛓ 52ms / 2,119 kb][✍️ hd=0.22, xt=3.94, st=6.54, sum=10.70, cmp=9.61, time=1ms] Processing event: MultiBlockElectionVerifier Verified [2,10]\ninfo:    Primary event passed\nverbose: Next expected event: Observe(Para, MultiBlockElectionVerifier, Verified, no dataCheck, no byBlock), remaining events: 12\nverbose: [Para#56][⛓ 52ms / 2,119 kb][✍️ hd=0.22, xt=3.94, st=6.54, sum=10.70, cmp=9.61, time=1ms] Processing event: MultiBlockElectionVerifier Verified [3,10]\n```\n\n`⛓` indicates the onchain weights and `✍️` the collator PoV date\n(header, extrinsic, storage, sum of all, and all compressed,\nrespectively). The above lines are an example of code paths where the\nonchain weight happens to over-estimate by a lot. This setup helps us\neasily find and optimize all.\n\n---------\n\nCo-authored-by: Tsvetomir Dimitrov <tsvetomir@parity.io>\nCo-authored-by: Paolo La Camera <paolo@parity.io>\nCo-authored-by: Dónal Murray <donal.murray@parity.io>\nCo-authored-by: Ankan <10196091+Ank4n@users.noreply.github.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Alexandre R. Baldé <alexandre.balde@parity.io>",
-          "timestamp": "2025-07-31T17:51:37Z",
-          "tree_id": "49a98e39596f07d10155e85247e4ef3dd13af3be",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/7304295748b1d85eb9fc2b598eba43d9f7971f22"
-        },
-        "date": 1753988492943,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19609391323333333,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.272015236566665,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 11.069002640000003,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "paolo@parity.io",
+            "name": "Paolo La Camera",
+            "username": "sigurpol"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ba06ae6f41de22a7f376b2ed9453d49434bc0bcf",
+          "message": "Bags-list on_idle: per-item weight consumption via WeightMeter (#11594)\n\nThe benchmark failed depending on `MaxAutoRebagPerBlock` (e.g. it passes\nwith 10 as configured in Westend, Polkadot and Kusama AH runtime but it\nfailed with 5, as it was configured before, see [runtime\nPR](https://github.com/polkadot-fellows/runtimes/pull/1065)).\n\nReplace the bulk `on_idle` benchmark with a per-item `on_idle_rebag`\nbenchmark that measures the worst-case cost of a single rebag. `on_idle`\nnow consumes weight per iteration via `WeightMeter` instead of reserving\na single bulk weight upfront.\nThis decouples the benchmark from `MaxAutoRebagPerBlock`. Changing the\nconfig no longer requires re-running benchmarks.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-03T08:37:03Z",
+          "tree_id": "08c626183a09b2edaed88afb1f851ab87e88b838",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/ba06ae6f41de22a7f376b2ed9453d49434bc0bcf"
+        },
+        "date": 1775210174507,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12866954090000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 10.937609184299998,
             "unit": "seconds"
           }
         ]

@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775216274151,
+  "lastUpdate": 1775218759081,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "5588131+kianenigma@users.noreply.github.com",
-            "name": "Kian Paimani",
-            "username": "kianenigma"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "7304295748b1d85eb9fc2b598eba43d9f7971f22",
-          "message": "[AHM] Staking async e2e zn and papi tests (#8802)\n\ncloses https://github.com/paritytech/polkadot-sdk/issues/8766\n\nThis PR mainly adds a setup based on PAPI to automate our e2e tests for\nstaking async. Most of the new code is in\n`frame/staking-async/runtimes/papi-tests`. There is `README`, and a\n`Justfile` there that should contain all the info you would need.\n\nBest way to get started is:\n\n```\njust setup\nbun test tests/unsigned-dev.test.ts\n```\n\nTests are written in Typescript, and monitro the underlying ZN process\nfor a specific sequence of events. An example of how to write tests is\n[here](https://github.com/paritytech/polkadot-sdk/pull/8802/files#diff-4b44e03288aeaf5ec576ae0094c7a7ae28689dfcc5b317a28478767b345991db).\n\nAll other changes are very insubstantial. \n\n### Why this setup? \n\n* Staking async e2e tests are long running, and doing multiple scenarios\nmanually is hard. Expressing them as a sequence of events is much\neasier.\n* For all scenarios, we need to monitor both the onchain weight, and the\noffchain weight/PoV recorded by the collator (therefore our only option\nis ZN). The setup reports both. For example, the logs look like this:\n\n```\nverbose: Next expected event: Observe(Para, MultiBlockElectionVerifier, Verified, no dataCheck, no byBlock), remaining events: 14\nverbose: [Para#56][⛓ 52ms / 2,119 kb][✍️ hd=0.22, xt=3.94, st=6.54, sum=10.70, cmp=9.61, time=1ms] Processing event: MultiBlockElectionVerifier Verified [1,10]\ninfo:    Primary event passed\nverbose: Next expected event: Observe(Para, MultiBlockElectionVerifier, Verified, no dataCheck, no byBlock), remaining events: 13\nverbose: [Para#56][⛓ 52ms / 2,119 kb][✍️ hd=0.22, xt=3.94, st=6.54, sum=10.70, cmp=9.61, time=1ms] Processing event: MultiBlockElectionVerifier Verified [2,10]\ninfo:    Primary event passed\nverbose: Next expected event: Observe(Para, MultiBlockElectionVerifier, Verified, no dataCheck, no byBlock), remaining events: 12\nverbose: [Para#56][⛓ 52ms / 2,119 kb][✍️ hd=0.22, xt=3.94, st=6.54, sum=10.70, cmp=9.61, time=1ms] Processing event: MultiBlockElectionVerifier Verified [3,10]\n```\n\n`⛓` indicates the onchain weights and `✍️` the collator PoV date\n(header, extrinsic, storage, sum of all, and all compressed,\nrespectively). The above lines are an example of code paths where the\nonchain weight happens to over-estimate by a lot. This setup helps us\neasily find and optimize all.\n\n---------\n\nCo-authored-by: Tsvetomir Dimitrov <tsvetomir@parity.io>\nCo-authored-by: Paolo La Camera <paolo@parity.io>\nCo-authored-by: Dónal Murray <donal.murray@parity.io>\nCo-authored-by: Ankan <10196091+Ank4n@users.noreply.github.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Alexandre R. Baldé <alexandre.balde@parity.io>",
-          "timestamp": "2025-07-31T17:51:37Z",
-          "tree_id": "49a98e39596f07d10155e85247e4ef3dd13af3be",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/7304295748b1d85eb9fc2b598eba43d9f7971f22"
-        },
-        "date": 1753988542878,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52943.8,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63629.75,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.462214565349999,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.650576873020925,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.000022905920000000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005506904840000004,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.000022905920000000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.456546100840001,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000026517870000000004,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.4534464627100006,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.490787427130001,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9305509180400062,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.4374127519300014,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.23646513084001,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000026517870000000004,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting-parallel/approval-voting-parallel-1",
             "value": 2.796854170489998,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "tsvetomir@parity.io",
+            "name": "Tsvetomir Dimitrov",
+            "username": "tdimitrov"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "fea7d4dfaf87849580209d86fffc22cb5042eab1",
+          "message": "collator-protocol revamp: use ratio for peer eviction from DB  (#11576)\n\nThe current implementation of `prune_for_para` gives edge to new peers\nbecause it uses only the timestamp of the last bump when evicting peers\nto the DB. As a result, a high score collator which is inactive for a\nwhile can easily be evicted by new peers with minimal score.\n\nTo fix this we now calculate `score / time_since_last_bump` ratio for\neach peer and evict the one with the min value.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-03T10:58:20Z",
+          "tree_id": "53c0a624fcad442766bed34e7ffa6c03aaf822c4",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/fea7d4dfaf87849580209d86fffc22cb5042eab1"
+        },
+        "date": 1775218737456,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 52942.2,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 63627.619999999995,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.82759728808,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.598478363649978,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.00002885559,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.00002885559,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.865601689980001,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.000022631519999999996,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.8259662143899993,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.4511130577100113,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7502438672499643,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.0056571295400000025,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.000022631519999999996,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.8722991167000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.35027026110293,
             "unit": "seconds"
           }
         ]

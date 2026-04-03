@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775216243036,
+  "lastUpdate": 1775218729728,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "14218860+iulianbarbu@users.noreply.github.com",
-            "name": "Iulian Barbu",
-            "username": "iulianbarbu"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "aa010dc3286063cd1f3522fc988ba472dede345b",
-          "message": "Revert \"fix(minimal): pre-seal a first block to trigger maintain (#92… (#9423)\n\n# Description\n\nThis PR reverts #9207 after @michalkucharczyk's proper fix in #9338.\n\n## Integration\n\nN/A\n\n## Review Notes\n\nN/A",
-          "timestamp": "2025-08-03T21:07:52Z",
-          "tree_id": "757aca1f0e6e6b970edfe82ae3a36dc65718d58e",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/aa010dc3286063cd1f3522fc988ba472dede345b"
-        },
-        "date": 1754259509252,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013162114166666662,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02232812734,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15780371087999995,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007094222326666644,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.009784786193333317,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "tsvetomir@parity.io",
+            "name": "Tsvetomir Dimitrov",
+            "username": "tdimitrov"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "fea7d4dfaf87849580209d86fffc22cb5042eab1",
+          "message": "collator-protocol revamp: use ratio for peer eviction from DB  (#11576)\n\nThe current implementation of `prune_for_para` gives edge to new peers\nbecause it uses only the timestamp of the last bump when evicting peers\nto the DB. As a result, a high score collator which is inactive for a\nwhile can easily be evicted by new peers with minimal score.\n\nTo fix this we now calculate `score / time_since_last_bump` ratio for\neach peer and evict the one with the min value.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-03T10:58:20Z",
+          "tree_id": "53c0a624fcad442766bed34e7ffa6c03aaf822c4",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/fea7d4dfaf87849580209d86fffc22cb5042eab1"
+        },
+        "date": 1775218708265,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14736698393333336,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.02369242711333333,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009514959466666638,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007053467346666665,
             "unit": "seconds"
           }
         ]

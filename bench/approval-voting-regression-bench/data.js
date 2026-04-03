@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775210257087,
+  "lastUpdate": 1775214102685,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "178801527+raymondkfcheung@users.noreply.github.com",
-            "name": "Raymond Cheung",
-            "username": "raymondkfcheung"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "fec2a9129a9e0238891c4102bb78b06e450e8e14",
-          "message": "Replace `log` with `tracing` on `pallet-bridge-beefy` (#9378)\n\nThis PR replaces `log` with `tracing` instrumentation on\n`pallet-bridge-beefy` by providing structured logging.\n\nPartially addresses #9211",
-          "timestamp": "2025-07-31T12:36:33Z",
-          "tree_id": "2acc237d85439092d66685c471f132ee381fad74",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/fec2a9129a9e0238891c4102bb78b06e450e8e14"
-        },
-        "date": 1753969591738,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 63627.590000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 52940.3,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9348591460499964,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.442497004389999,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.00002006692,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.652085110170921,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.4386255719400027,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.4751540294500005,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4509853925200007,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000017820569999999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005737638270000001,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000017820569999999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.4476788115800017,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.00002006692,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.195537594200001,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
             "value": 0.7734382110599382,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "60601340+lexnv@users.noreply.github.com",
+            "name": "Alexandru Vasile",
+            "username": "lexnv"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "b77d5ecf3b6e2fe7106b7561ca70c11d3494307a",
+          "message": "collator-proto/metrics: Fix blindspot in collation fetch latency metrics (#11600)\n\nThe current implementation of the `collation_fetch_latency` metric\ncontains a critical observability blindspot due to insufficient\nhistogram bucket resolution.\n\n\nCurrently, the the collation fetching is capped at an upper bound of 5\nseconds. This effectively creates a black box for investigating latency\nevents. Any fetch operation exceeding the 5s threshold is aggregated\ninto the final bucket, regardless if the fetching took 30s or 1h. This\nobscures the true distribution of network delays and prevents accurate\nperformance profiling for high-latency scenarios.\n\nThe discrepancy was identified with\nhttps://github.com/lexnv/block-confidence-monitor and confirmed via\nmanual analysis of the logs. Without granular visibility into these\noutliers, we cannot effectively measure the success of our block\nconfidence / debug bottlenecks in validator-side protocols.\n\nWhile at it, have increased the granularity of other buckets which might\nbe relevant.\n\nPart of the block confidence work:\n- https://github.com/paritytech/polkadot-sdk/issues/11377\n\n\ncc @sandreim @skunert\n\n---------\n\nSigned-off-by: Alexandru Vasile <alexandru.vasile@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-03T09:32:32Z",
+          "tree_id": "f0ce1970ea9844bb168a17fa08a7dc0be79691b3",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/b77d5ecf3b6e2fe7106b7561ca70c11d3494307a"
+        },
+        "date": 1775214080490,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 63639.340000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 52941,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.000020741410000000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.8485988589299986,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.000021977599999999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.81501423372,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7488774556899745,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.23150049523281,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.464756416990004,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.000020741410000000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.612349987759979,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.8601496363000014,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.004837084339999997,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.8701163017900004,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.000021977599999999998,
             "unit": "seconds"
           }
         ]

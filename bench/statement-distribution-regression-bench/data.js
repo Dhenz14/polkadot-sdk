@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775214132281,
+  "lastUpdate": 1775216305488,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "karol@parity.io",
-            "name": "Karol Kokoszka",
-            "username": "karolk91"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "d9f451a6b94ab2cf39371ee5192130379eb6e199",
-          "message": "XCMv5 asset exchange test scenarios (#9195)\n\nRelates to: #9093\nRequires: #9179\n\nThis PR introduces emulated test scenarios:\n\n#### [Scenario 1]\n(Penpal -> AH -> Penpal) to showcase usage of remote `Transact` to swap\nassets remotely on AssetHub while also making use of\n`add_authorized_alias`, to transact as Sender on remote side (instead of\nSenders sovereign account).\n\n1. Prepare sovereign accounts funds, create pools, prepare aliasing\nrules\n2. Send WND from Penpal to AssetHub (AH being remote reserve for WND)\n3. Alias into sender account and exchange WNDs for USDT using `Transact`\nwith `swap_tokens_for_exact_tokens` call inside\n4. Send USDT and leftover WND back to Penpal\n\n#### [Scenario 2]\n(Penpal -> AH -> Penpal) to showcase usage of remote `Transact` to swap\nassets remotely on AssetHub.\n\n1. Prepare sovereign accounts funds, create pools, prepare aliasing\nrules\n2. Send WND from Penpal to AssetHub (AH being remote reserve for WND)\n3. Exchange WNDs for USDT using `Transact` with\n`swap_tokens_for_exact_tokens` call inside\n4. Send USDT and leftover WND back to Penpal\n\n#### [Scenario 3]\n(Penpal -> AH -> Penpal) to showcase same as above but this time using\n`ExchangeAsset` XCM instruction instead of `Transact`:\n\n1. Prepare sovereign accounts funds, create pools\n2. Send WND from Penpal to AssetHub (AH being remote reserve for WND)\n3. Exchange WNDs for USDT using `ExchangeAsset`\n4. Send USDT and leftover WND back to Penpal\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Adrian Catangiu <adrian@parity.io>",
-          "timestamp": "2025-07-31T10:42:16Z",
-          "tree_id": "c39005e9c21f11c1f9743d3a32b8454e91d41b37",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/d9f451a6b94ab2cf39371ee5192130379eb6e199"
-        },
-        "date": 1753963476209,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 127.96199999999993,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.044666680901999906,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03394205886200001,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.038277754023999994,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "dhiraj@parity.io",
+            "name": "Dhiraj Sah",
+            "username": "dhirajs0"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "97ebda9a6dab457e53a94e7108a6b2f9c374a5c1",
+          "message": "update multi asset bounties pallet account derivation logic  (#11052)\n\n# Description\n\nUpdates bounty and child-bounty account derivation in\n`pallet-multi-asset-bounties` to use the sub-account prefixes `\"mbt\"`\n(multi-asset bounty) and `\"mcb\"` (multi-asset child bounty) instead of\n`\"bt\"` and `\"cb\"`. To avoid having the same bounty account by both the\nnew multi asset bounties pallet and the old bounties pallet.\n\n## Integration\n\nThe pallet is only deployed on Westend (not Kusama or Polkadot), so no\nproduction downstream depends on the old derivation; the change is\nlimited to testnet as the KAH and PAH runtime are configured with the\nnew prefix already.\n\n## Review Notes\n- Doc comments were added at module level (account derivation\nsubsection) and on both structs to document the prefixes.\n- **Version bump:** Major\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-03T10:16:47Z",
+          "tree_id": "e0cb1bad7b77f16191cd4548b8959e888a414ad6",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/97ebda9a6dab457e53a94e7108a6b2f9c374a5c1"
+        },
+        "date": 1775216282825,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.062,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.03815741094,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.07841305880399989,
             "unit": "seconds"
           }
         ]

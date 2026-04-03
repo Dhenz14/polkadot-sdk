@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775209163707,
+  "lastUpdate": 1775212963277,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "notifications_protocol": [
@@ -130751,6 +130751,198 @@ window.BENCHMARK_DATA = {
             "name": "notifications_protocol/litep2p/with_backpressure/16MB",
             "value": 2400262810,
             "range": "± 56808002",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "60601340+lexnv@users.noreply.github.com",
+            "name": "Alexandru Vasile",
+            "username": "lexnv"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "b77d5ecf3b6e2fe7106b7561ca70c11d3494307a",
+          "message": "collator-proto/metrics: Fix blindspot in collation fetch latency metrics (#11600)\n\nThe current implementation of the `collation_fetch_latency` metric\ncontains a critical observability blindspot due to insufficient\nhistogram bucket resolution.\n\n\nCurrently, the the collation fetching is capped at an upper bound of 5\nseconds. This effectively creates a black box for investigating latency\nevents. Any fetch operation exceeding the 5s threshold is aggregated\ninto the final bucket, regardless if the fetching took 30s or 1h. This\nobscures the true distribution of network delays and prevents accurate\nperformance profiling for high-latency scenarios.\n\nThe discrepancy was identified with\nhttps://github.com/lexnv/block-confidence-monitor and confirmed via\nmanual analysis of the logs. Without granular visibility into these\noutliers, we cannot effectively measure the success of our block\nconfidence / debug bottlenecks in validator-side protocols.\n\nWhile at it, have increased the granularity of other buckets which might\nbe relevant.\n\nPart of the block confidence work:\n- https://github.com/paritytech/polkadot-sdk/issues/11377\n\n\ncc @sandreim @skunert\n\n---------\n\nSigned-off-by: Alexandru Vasile <alexandru.vasile@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-03T09:32:32Z",
+          "tree_id": "f0ce1970ea9844bb168a17fa08a7dc0be79691b3",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/b77d5ecf3b6e2fe7106b7561ca70c11d3494307a"
+        },
+        "date": 1775212942745,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "notifications_protocol/libp2p/serially/64B",
+            "value": 3826790,
+            "range": "± 27298",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64B",
+            "value": 293406,
+            "range": "± 5933",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/512B",
+            "value": 3888431,
+            "range": "± 19006",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/512B",
+            "value": 369731,
+            "range": "± 3528",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/4KB",
+            "value": 4542533,
+            "range": "± 28118",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/4KB",
+            "value": 854650,
+            "range": "± 6610",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/64KB",
+            "value": 9899997,
+            "range": "± 147428",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64KB",
+            "value": 4653407,
+            "range": "± 166933",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/256KB",
+            "value": 40647130,
+            "range": "± 1286506",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/256KB",
+            "value": 35558849,
+            "range": "± 299769",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/2MB",
+            "value": 310471469,
+            "range": "± 2483413",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/2MB",
+            "value": 273448745,
+            "range": "± 3442202",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/16MB",
+            "value": 2410986191,
+            "range": "± 11717886",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/16MB",
+            "value": 2150994886,
+            "range": "± 32585374",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64B",
+            "value": 2994288,
+            "range": "± 8405",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64B",
+            "value": 1539011,
+            "range": "± 5094",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/512B",
+            "value": 3108380,
+            "range": "± 14238",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/512B",
+            "value": 1587996,
+            "range": "± 8635",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/4KB",
+            "value": 3670330,
+            "range": "± 13284",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/4KB",
+            "value": 1916586,
+            "range": "± 19740",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64KB",
+            "value": 7486929,
+            "range": "± 32466",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64KB",
+            "value": 4807498,
+            "range": "± 82936",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/256KB",
+            "value": 35603100,
+            "range": "± 375424",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/256KB",
+            "value": 32316422,
+            "range": "± 339996",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/2MB",
+            "value": 288025230,
+            "range": "± 1821955",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/2MB",
+            "value": 251064300,
+            "range": "± 4387777",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/16MB",
+            "value": 2295506296,
+            "range": "± 26280857",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/16MB",
+            "value": 2109043344,
+            "range": "± 34382602",
             "unit": "ns/iter"
           }
         ]

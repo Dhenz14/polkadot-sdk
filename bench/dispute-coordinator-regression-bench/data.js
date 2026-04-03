@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775230367250,
+  "lastUpdate": 1775243397654,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "5588131+kianenigma@users.noreply.github.com",
-            "name": "Kian Paimani",
-            "username": "kianenigma"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "7304295748b1d85eb9fc2b598eba43d9f7971f22",
-          "message": "[AHM] Staking async e2e zn and papi tests (#8802)\n\ncloses https://github.com/paritytech/polkadot-sdk/issues/8766\n\nThis PR mainly adds a setup based on PAPI to automate our e2e tests for\nstaking async. Most of the new code is in\n`frame/staking-async/runtimes/papi-tests`. There is `README`, and a\n`Justfile` there that should contain all the info you would need.\n\nBest way to get started is:\n\n```\njust setup\nbun test tests/unsigned-dev.test.ts\n```\n\nTests are written in Typescript, and monitro the underlying ZN process\nfor a specific sequence of events. An example of how to write tests is\n[here](https://github.com/paritytech/polkadot-sdk/pull/8802/files#diff-4b44e03288aeaf5ec576ae0094c7a7ae28689dfcc5b317a28478767b345991db).\n\nAll other changes are very insubstantial. \n\n### Why this setup? \n\n* Staking async e2e tests are long running, and doing multiple scenarios\nmanually is hard. Expressing them as a sequence of events is much\neasier.\n* For all scenarios, we need to monitor both the onchain weight, and the\noffchain weight/PoV recorded by the collator (therefore our only option\nis ZN). The setup reports both. For example, the logs look like this:\n\n```\nverbose: Next expected event: Observe(Para, MultiBlockElectionVerifier, Verified, no dataCheck, no byBlock), remaining events: 14\nverbose: [Para#56][⛓ 52ms / 2,119 kb][✍️ hd=0.22, xt=3.94, st=6.54, sum=10.70, cmp=9.61, time=1ms] Processing event: MultiBlockElectionVerifier Verified [1,10]\ninfo:    Primary event passed\nverbose: Next expected event: Observe(Para, MultiBlockElectionVerifier, Verified, no dataCheck, no byBlock), remaining events: 13\nverbose: [Para#56][⛓ 52ms / 2,119 kb][✍️ hd=0.22, xt=3.94, st=6.54, sum=10.70, cmp=9.61, time=1ms] Processing event: MultiBlockElectionVerifier Verified [2,10]\ninfo:    Primary event passed\nverbose: Next expected event: Observe(Para, MultiBlockElectionVerifier, Verified, no dataCheck, no byBlock), remaining events: 12\nverbose: [Para#56][⛓ 52ms / 2,119 kb][✍️ hd=0.22, xt=3.94, st=6.54, sum=10.70, cmp=9.61, time=1ms] Processing event: MultiBlockElectionVerifier Verified [3,10]\n```\n\n`⛓` indicates the onchain weights and `✍️` the collator PoV date\n(header, extrinsic, storage, sum of all, and all compressed,\nrespectively). The above lines are an example of code paths where the\nonchain weight happens to over-estimate by a lot. This setup helps us\neasily find and optimize all.\n\n---------\n\nCo-authored-by: Tsvetomir Dimitrov <tsvetomir@parity.io>\nCo-authored-by: Paolo La Camera <paolo@parity.io>\nCo-authored-by: Dónal Murray <donal.murray@parity.io>\nCo-authored-by: Ankan <10196091+Ank4n@users.noreply.github.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Alexandre R. Baldé <alexandre.balde@parity.io>",
-          "timestamp": "2025-07-31T17:51:37Z",
-          "tree_id": "49a98e39596f07d10155e85247e4ef3dd13af3be",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/7304295748b1d85eb9fc2b598eba43d9f7971f22"
-        },
-        "date": 1753988593316,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008612936139999985,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0026488008099999996,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005134206549999994,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-distribution",
             "value": 0.009314758189999975,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "dhiraj@parity.io",
+            "name": "Dhiraj Sah",
+            "username": "dhirajs0"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ecada3402a70d906e10c6d33b0f42b6174fea119",
+          "message": "fix(multi-asset-bounties): enforce authorization in unassign_curator when parent bounty is not Active (#11612)\n\n# Description\n\nFix an authorization bypass in `pallet-multi-asset-bounties` where any\nsigned account could\nforcibly unassign an active child bounty's curator when the parent\nbounty was not in `Active` state\n(e.g., `CuratorUnassigned`). This also caused the child curator's native\nbalance hold (deposit) to\nbe permanently leaked — removed from pallet storage but never released\nor burned on-chain.\n\n**Root cause:** In `unassign_curator`, the `BountyStatus::Active`\nbranch's catch-all `Some(sender)`\narm used `if let Some(parent_curator) = parent_curator { ... }` with no\n`else` clause. When\n`parent_curator` was `None` (parent bounty not Active), the block was\nsilently skipped and execution\nfell through to the state transition — no `BadOrigin` error was\nreturned.\n\n## Integration\n\nNo integration changes required for downstream projects. This is a fix\ninternal to\n`pallet-multi-asset-bounties` with no public API changes. The extrinsic\nsignature and behavior for\nauthorized callers remain identical.\n\n## Review Notes\n\nThe fix restructures the `BountyStatus::Active` arm in\n`unassign_curator` with two changes:\n\n### 1. Authorization before storage mutation\n\nPreviously, `CuratorDeposit::take()` was called unconditionally at the\ntop of the `Active` arm\n(before verifying the caller). Now it is called inside each `match\nmaybe_sender` arm, only after the\ncaller is confirmed to be authorized. This prevents the deposit from\nbeing removed from storage on\nan unauthorized (and reverted) call path.\n\n```diff\n BountyStatus::Active { ref curator, .. } => {\n-    let maybe_curator_deposit =\n-        CuratorDeposit::<T, I>::take(parent_bounty_id, child_bounty_id);\n     match maybe_sender {\n         None => {\n-            if let Some(curator_deposit) = maybe_curator_deposit {\n+            if let Some(curator_deposit) =\n+                CuratorDeposit::<T, I>::take(parent_bounty_id, child_bounty_id)\n+            {\n                 T::Consideration::burn(curator_deposit, curator);\n             }\n         },\n```\n\n### 2. Explicit rejection when `parent_curator` is `None`\n\nThe catch-all `Some(sender)` arm now uses\n`parent_curator.ok_or(BadOrigin)?` followed by an\n`ensure!`. When `parent_curator` is `None`, the call is immediately\nrejected with `BadOrigin`.\n\n```diff\n         Some(sender) => {\n-            if let Some(parent_curator) = parent_curator {\n-                if sender == parent_curator && *curator != parent_curator {\n-                    if let Some(curator_deposit) = maybe_curator_deposit {\n-                        T::Consideration::burn(curator_deposit, curator);\n-                    }\n-                } else {\n-                    return Err(BadOrigin.into());\n-                }\n+            let parent_curator = parent_curator.ok_or(BadOrigin)?;\n+            ensure!(\n+                sender == parent_curator && *curator != parent_curator,\n+                BadOrigin\n+            );\n+            if let Some(curator_deposit) =\n+                CuratorDeposit::<T, I>::take(parent_bounty_id, child_bounty_id)\n+            {\n+                T::Consideration::burn(curator_deposit, curator);\n             }\n         },\n```\n\n### Regression test\n\nA comprehensive test\n(`unprivileged_caller_cannot_unassign_active_child_curator_when_parent_not_active`)\nis added that:\n\n1. Creates an active child bounty with a separate child curator.\n2. Has the parent curator voluntarily unassign (putting parent into\n`CuratorUnassigned`).\n3. Asserts that an unprivileged attacker is rejected with `BadOrigin`.\n4. Verifies the child bounty remains `Active`, the curator deposit stays\nin storage, and the\n   balance hold is intact.\n5. Confirms the child curator can still voluntarily unassign themselves\nand that the deposit is\n   properly released.\n\n# Checklist\n\n* [x] My PR includes a detailed description as outlined in the\n\"Description\" and its two subsections above.\n* [x] My PR follows the [labeling requirements]\n* [x] I have made corresponding changes to the documentation (if\napplicable)\n* [x] I have added tests that prove my fix is effective or that my\nfeature works (if applicable)\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-03T17:48:31Z",
+          "tree_id": "5da14c2f730c63446e39e27c8ef634b6bad9a81c",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/ecada3402a70d906e10c6d33b0f42b6174fea119"
+        },
+        "date": 1775243375721,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009514376749999982,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.0026741584200000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.010563637749999997,
             "unit": "seconds"
           }
         ]

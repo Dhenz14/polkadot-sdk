@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775168351257,
+  "lastUpdate": 1775210289278,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "5588131+kianenigma@users.noreply.github.com",
-            "name": "Kian Paimani",
-            "username": "kianenigma"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "e08d8f0173db4394e0f99fff91a42d86e8d6062b",
-          "message": "[Staking/AHM] Properly report weight of rc -> ah xcm back to the calls (#9380)\n\nWhich will consequently make the XCM/MQ code path aware of the weights,\nwhich was previously not the case.\n\nAdditionally, adds an event for when an era is pruned.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Paolo La Camera <paolo@parity.io>",
-          "timestamp": "2025-07-30T14:51:41Z",
-          "tree_id": "37ee2ae118ac7b9b9196dd78e4445a0f9a15c469",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/e08d8f0173db4394e0f99fff91a42d86e8d6062b"
-        },
-        "date": 1753891779776,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 127.96399999999998,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.034072694792000015,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04470021957199993,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.0869272565719999,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "paolo@parity.io",
+            "name": "Paolo La Camera",
+            "username": "sigurpol"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ba06ae6f41de22a7f376b2ed9453d49434bc0bcf",
+          "message": "Bags-list on_idle: per-item weight consumption via WeightMeter (#11594)\n\nThe benchmark failed depending on `MaxAutoRebagPerBlock` (e.g. it passes\nwith 10 as configured in Westend, Polkadot and Kusama AH runtime but it\nfailed with 5, as it was configured before, see [runtime\nPR](https://github.com/polkadot-fellows/runtimes/pull/1065)).\n\nReplace the bulk `on_idle` benchmark with a per-item `on_idle_rebag`\nbenchmark that measures the worst-case cost of a single rebag. `on_idle`\nnow consumes weight per iteration via `WeightMeter` instead of reserving\na single bulk weight upfront.\nThis decouples the benchmark from `MaxAutoRebagPerBlock`. Changing the\nconfig no longer requires re-running benchmarks.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-03T08:37:03Z",
+          "tree_id": "08c626183a09b2edaed88afb1f851ab87e88b838",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/ba06ae6f41de22a7f376b2ed9453d49434bc0bcf"
+        },
+        "date": 1775210266892,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.04999999999998,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038304625546000004,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08490627076399988,
             "unit": "seconds"
           }
         ]

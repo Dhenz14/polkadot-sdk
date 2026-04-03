@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775218759081,
+  "lastUpdate": 1775230305399,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "git@kchr.de",
-            "name": "Bastian Köcher",
-            "username": "bkchr"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "13bc266c3f3cb337a36998cfdc5940ca559051c9",
-          "message": "Upgrade wasmtime (#8714)\n\nThis upgrades wasmtime to the latest version and also fixes backtraces\nfor `debug` builds.\n\n---------\n\nSigned-off-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>",
-          "timestamp": "2025-07-31T21:51:41Z",
-          "tree_id": "26b7b22e5e91ce9e7e84a9a186f5d4d94abb898c",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/13bc266c3f3cb337a36998cfdc5940ca559051c9"
-        },
-        "date": 1754004021850,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 63623.43000000001,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 52941.40000000001,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.000018295629999999997,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000017378429999999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4662483162800006,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.4689577238400013,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.44584713443000157,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.947878854289994,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.507164734410001,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000017378429999999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.000018295629999999997,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.324297825119997,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005603595820000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.6521071228809596,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.482597466049999,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 4.35027026110293,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "paolo@parity.io",
+            "name": "Paolo La Camera",
+            "username": "sigurpol"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6324a6619b6b05945d96389b6f66eba913c4d64f",
+          "message": "fix: slot-based collator shuts down immediately after init (#11628)\n\nFix a regression introduced by #11381, where we wrapped the slot-based\ncollator launch in an async task that first calls `wait_for_aura`, then\nspawns the actual long-running collator tasks via `slot_based::run()`.\nThe wrapper was spawned with `spawn_essential_handle()`.\n\nEssential tasks shut down the node when they complete. The init wrapper\ncompletes immediately after spawning, the TaskManager sees an essential\ntask exit, and the node shuts down.\n\nThis only affects parachain collators started with\n`--authoring=slot-based`.\n\nFix: use `spawn_handle()` for the short-lived init wrapper. The child\ntasks inside `slot_based::run()` remain correctly marked as essential.\n\nAn easy way to reproduce (same setup used by staking-miner nightly test\n- which in fact started to fail after #11381 got merged e.g.\n[here](https://github.com/paritytech/polkadot-staking-miner/actions/runs/23928039324/job/69807526676)\n): spawn a Zombienet network with a 2-validator relay chain and a single\nslot-based parachain collator. The collator process starts but shuts\ndown immediately.\nFor example in your SDK repo:\n```\ncd substrate/frame/staking-async/runtimes/papi-tests\njust setup\njust run fake-dev \n```\nwhich launches zombienet spawning\n  - alice (relay validator, port 9944) — polkadot\n  - bob (relay validator, port 9945) — polkadot\n- charlie (parachain collator, port 9946) — polkadot-parachain\n--collator --authoring=slot-based\n\nPort 9946 never comes up.\n\nI have also verified that the fix coming from #11381 still works,\nrunning manually `./target/release/polkadot-parachain --chain\nasset-hub-polkadot --sync warp --authoring=slot-based --tmp -- --sync\nwarp`.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-03T14:05:54Z",
+          "tree_id": "e34c6316fd57f85b7abcb7988131402e11478f35",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/6324a6619b6b05945d96389b6f66eba913c4d64f"
+        },
+        "date": 1775230282763,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 63624.4,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 52936.40000000001,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.0000225834,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.00002208844,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.559885429359955,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.00002208844,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.8519292921400012,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.9257538494100013,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.8101387081000015,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.4552343671599908,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.0000225834,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7321863131299589,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005423023790000004,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.7792198756299995,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.327554872592798,
             "unit": "seconds"
           }
         ]

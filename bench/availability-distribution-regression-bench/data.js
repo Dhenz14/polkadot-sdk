@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775218729728,
+  "lastUpdate": 1775230274289,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "git@kchr.de",
-            "name": "Bastian Köcher",
-            "username": "bkchr"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "a48307b7f0c40225aa8b6fcfecf7cedb6a41d6c2",
-          "message": "CoreIndexMismatch: Include more information in the error (#9396)",
-          "timestamp": "2025-08-04T07:10:18Z",
-          "tree_id": "f5f43827128516e54f503afddfa6f54f7c2175dd",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/a48307b7f0c40225aa8b6fcfecf7cedb6a41d6c2"
-        },
-        "date": 1754296232592,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022321530399999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.1563437649266667,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012908780386666662,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.0071389975933332985,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-distribution",
             "value": 0.007053467346666665,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "paolo@parity.io",
+            "name": "Paolo La Camera",
+            "username": "sigurpol"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6324a6619b6b05945d96389b6f66eba913c4d64f",
+          "message": "fix: slot-based collator shuts down immediately after init (#11628)\n\nFix a regression introduced by #11381, where we wrapped the slot-based\ncollator launch in an async task that first calls `wait_for_aura`, then\nspawns the actual long-running collator tasks via `slot_based::run()`.\nThe wrapper was spawned with `spawn_essential_handle()`.\n\nEssential tasks shut down the node when they complete. The init wrapper\ncompletes immediately after spawning, the TaskManager sees an essential\ntask exit, and the node shuts down.\n\nThis only affects parachain collators started with\n`--authoring=slot-based`.\n\nFix: use `spawn_handle()` for the short-lived init wrapper. The child\ntasks inside `slot_based::run()` remain correctly marked as essential.\n\nAn easy way to reproduce (same setup used by staking-miner nightly test\n- which in fact started to fail after #11381 got merged e.g.\n[here](https://github.com/paritytech/polkadot-staking-miner/actions/runs/23928039324/job/69807526676)\n): spawn a Zombienet network with a 2-validator relay chain and a single\nslot-based parachain collator. The collator process starts but shuts\ndown immediately.\nFor example in your SDK repo:\n```\ncd substrate/frame/staking-async/runtimes/papi-tests\njust setup\njust run fake-dev \n```\nwhich launches zombienet spawning\n  - alice (relay validator, port 9944) — polkadot\n  - bob (relay validator, port 9945) — polkadot\n- charlie (parachain collator, port 9946) — polkadot-parachain\n--collator --authoring=slot-based\n\nPort 9946 never comes up.\n\nI have also verified that the fix coming from #11381 still works,\nrunning manually `./target/release/polkadot-parachain --chain\nasset-hub-polkadot --sync warp --authoring=slot-based --tmp -- --sync\nwarp`.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-03T14:05:54Z",
+          "tree_id": "e34c6316fd57f85b7abcb7988131402e11478f35",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/6324a6619b6b05945d96389b6f66eba913c4d64f"
+        },
+        "date": 1775230251760,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.0071664483,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.02373475936666666,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.00961940874666664,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.1478591585133334,
             "unit": "seconds"
           }
         ]

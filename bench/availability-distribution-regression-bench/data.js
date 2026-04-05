@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775252116677,
+  "lastUpdate": 1775359255064,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "178801527+raymondkfcheung@users.noreply.github.com",
-            "name": "Raymond Cheung",
-            "username": "raymondkfcheung"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "224eab75d3a05e7c7a85baa5e044858d0f104d4a",
-          "message": "Replace `log` with `tracing` on `bp-runtime` (#9401)\n\nThis PR replaces `log` with `tracing` instrumentation on `bp-runtime` by\nproviding structured logging.\n\nPartially addresses #9211",
-          "timestamp": "2025-08-04T13:10:17Z",
-          "tree_id": "0adad46d8710fc31ea650371fbfe51296ca7184f",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/224eab75d3a05e7c7a85baa5e044858d0f104d4a"
-        },
-        "date": 1754317814133,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.01301900104666666,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022310463226666674,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007304806780000005,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15727931859999994,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-store",
             "value": 0.14442200951333334,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "gui.thiolliere@gmail.com",
+            "name": "Guillaume Thiolliere",
+            "username": "gui1117"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "996adb4757eee544ad30e919ea31bc54f442db54",
+          "message": "Fix links (#11554)",
+          "timestamp": "2026-04-05T01:52:39Z",
+          "tree_id": "ec9f1f13ffc6249c5cb7b4040164b0bd5855f17b",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/996adb4757eee544ad30e919ea31bc54f442db54"
+        },
+        "date": 1775359232914,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.023877621566666663,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007027501253333335,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14312733959333332,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009660580693333315,
             "unit": "seconds"
           }
         ]

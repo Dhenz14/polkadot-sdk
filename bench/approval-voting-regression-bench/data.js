@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775252143333,
+  "lastUpdate": 1775359284856,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "jesse.chejieh@gmail.com",
-            "name": "Doordashcon",
-            "username": "Doordashcon"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "33bdd634d6ae0eb43c6660ba3ab6be6ed3668789",
-          "message": "Westend Secretary Program (#9024)\n\n## Westend Secretary Program\n\nThis PR includes the Secretary program and end-to-end validation of\nXCM-based salary payments for the Westend runtime, ensuring consistency\nbetween implementations.\n\n### Key Changes\n1. Integrated Secretary configuration into Westend runtime\n- Added `SecretaryCollective` and `SecretarySalary` pallets to the\nruntime.\n   - Triggers salary payment through XCM\n   - Verifies successful:\n     - XCM message transmission\n     - Asset transfer execution\n     - Message queue processing\n\n### Context from Runtime PRs\n- Based on [Secretary Program\nimplementation](https://github.com/polkadot-fellows/runtimes/pull/347)\n- Follows patterns established in [Fellowship salary\ntests](https://github.com/paritytech/polkadot-sdk/blob/master/cumulus/parachains/integration-tests/emulated/tests/collectives/collectives-westend/src/tests/fellowship_salary.rs)\n- Addresses feedback from original implementation:\n  - Simplified polling mechanism using `NoOpPoll`\n  - Maintained consistent salary structure (6666 USDT for rank 1)\n  - Kept same XCM payment configuration",
-          "timestamp": "2025-08-04T09:08:22Z",
-          "tree_id": "28efe6737ecde815a68064c4a9dbf4bf6903a5ac",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/33bdd634d6ae0eb43c6660ba3ab6be6ed3668789"
-        },
-        "date": 1754303197366,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52938.5,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63624.73,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.708394518110001,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 2.0706566116500005,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.5580318968000006,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005529700049999994,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.00001963231,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000017590860000000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.52183280753,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.56663039756,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.43478339978999986,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000017590860000000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.00001963231,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.550929704730001,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.6727699966908856,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting/test-environment",
             "value": 0.00002260841,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "gui.thiolliere@gmail.com",
+            "name": "Guillaume Thiolliere",
+            "username": "gui1117"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "996adb4757eee544ad30e919ea31bc54f442db54",
+          "message": "Fix links (#11554)",
+          "timestamp": "2026-04-05T01:52:39Z",
+          "tree_id": "ec9f1f13ffc6249c5cb7b4040164b0bd5855f17b",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/996adb4757eee544ad30e919ea31bc54f442db54"
+        },
+        "date": 1775359263116,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 52940.90000000001,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 63623.409999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.00002311922,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7546799114299644,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.873537829229999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005393903930000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.8243747615200023,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.00002248768,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.5993120780200054,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.282343093512917,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.00002248768,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.790103220679999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.00002311922,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.713171427839972,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.865769723030001,
             "unit": "seconds"
           }
         ]

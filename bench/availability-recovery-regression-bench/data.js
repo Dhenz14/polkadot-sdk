@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775252089450,
+  "lastUpdate": 1775359224943,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "git@kchr.de",
-            "name": "Bastian Köcher",
-            "username": "bkchr"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "0140f9934cd553e5a36c623c75d371f6a5108774",
-          "message": "cumulus tests: Improve prefix of the relay chain node (#9420)\n\nInstead of using the name of the node, we should use `Relaychain` as\ndone by normal nodes. This makes it easier to read the logs.",
-          "timestamp": "2025-08-04T15:17:30Z",
-          "tree_id": "fec233df11d8df3202be325ba52901bf5ba98c45",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/0140f9934cd553e5a36c623c75d371f6a5108774"
-        },
-        "date": 1754324829308,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.307683470066667,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19822669446666666,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 11.151880404366668,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "gui.thiolliere@gmail.com",
+            "name": "Guillaume Thiolliere",
+            "username": "gui1117"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "996adb4757eee544ad30e919ea31bc54f442db54",
+          "message": "Fix links (#11554)",
+          "timestamp": "2026-04-05T01:52:39Z",
+          "tree_id": "ec9f1f13ffc6249c5cb7b4040164b0bd5855f17b",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/996adb4757eee544ad30e919ea31bc54f442db54"
+        },
+        "date": 1775359202924,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 10.981554085866668,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13455922296666661,
             "unit": "seconds"
           }
         ]

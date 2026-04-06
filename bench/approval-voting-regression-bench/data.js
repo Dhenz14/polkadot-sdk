@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775498441304,
+  "lastUpdate": 1775513115685,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "hetterich.charles@gmail.com",
-            "name": "Charles",
-            "username": "charlesHetterich"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "bcee8dc5ba1205628b22e1ec499988d393b7e293",
-          "message": "Added `substrate-node` and `eth-rpc` binaries into release workflow (#9393)\n\nAdds a total of 4 new jobs to `Release - Build node release candidate`\nCI workflow\n- 2 for releasing `substrate-node` binaries for linux/mac\n- 2 for releasing `eth-rpc` binaries for linux/mac\n\nCLOSES: #9386\n\n---------\n\nCo-authored-by: EgorPopelyaev <egor@parity.io>",
-          "timestamp": "2025-08-04T18:21:20Z",
-          "tree_id": "286bfd6aa3f48745d03e2fc1c6a297d361b19c80",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/bcee8dc5ba1205628b22e1ec499988d393b7e293"
-        },
-        "date": 1754336042793,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 63641.000000000015,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 52937.2,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.532059396279999,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.00001993002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.402308547599981,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.4470886336800005,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.00001993002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005523449520000001,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.488685667179999,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4863707990899977,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.482312825919999,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.6635765211508713,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9602677759299856,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.00002008289,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.00002008289,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting/test-environment",
             "value": 0.0000224237,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ae772b4edb58afa4499e46d97245e303605170bb",
+          "message": "statement-store: add channel replacement logic tests (#11617)\n\n# Description\nImplement unit tests for \"Channel replacement: verify only\nhigher-priority statements replace existing entries, corner cases of\nreplacement logic.\" #11534\n\n## Summary\n- `channel_replacement_only_higher_priority_succeeds` -> verifies\nlower/equal priority rejected with `ChannelPriorityTooLow`, higher\npriority replaces, one-per-channel invariant preserved\n \n- `channel_replacement_with_size_increase_evicts_others` -> verifies\nthat replacing a channel message with a larger one triggers additional\neviction of lowest-priority non-channel statements to satisfy size\nconstraints\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-06T20:43:48Z",
+          "tree_id": "7ac41f7f7da7e510fdc2027f4a8594e5870e6ec1",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/ae772b4edb58afa4499e46d97245e303605170bb"
+        },
+        "date": 1775513092882,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 63623.27,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 52940.59999999999,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.000020977259999999997,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.00001968872,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.8267224031700016,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.463880897470001,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.2869525743629815,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.8161249434700015,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.577287457849957,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.8705469913599995,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7474829766299524,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005218302709999997,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.00001968872,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.84731094304,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.000020977259999999997,
             "unit": "seconds"
           }
         ]

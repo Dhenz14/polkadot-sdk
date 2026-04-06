@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775495304166,
+  "lastUpdate": 1775498411001,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "22696121+sekisamu@users.noreply.github.com",
-            "name": "sekiseki",
-            "username": "sekisamu"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "59fb2e7482d471a7ec4e8d3b30499497efa7b34c",
-          "message": "Fixes dust balance handling for pallet revive (#9357)\n\nfix issue: https://github.com/paritytech/contract-issues/issues/141\n\nCorrects the condition for minting a new currency unit when transferring\ndust. The condition was incorrectly checking\n`to_info.dust.saturating_add(dust) >= plank` which could lead to\nunexpected minting behavior. It now correctly checks if `to_info.dust >=\nplank` before minting.",
-          "timestamp": "2025-08-04T19:36:58Z",
-          "tree_id": "1f82f1472637c5b251995d04a7f494c144c5daf4",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/59fb2e7482d471a7ec4e8d3b30499497efa7b34c"
-        },
-        "date": 1754340979186,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02229024198666666,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15679403788000004,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012900302459999997,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.00709765503999998,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "bitfield-distribution",
             "value": 0.023951700273333324,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "387a7e2180b05276ffea4d093a9b8ea29d02f0dc",
+          "message": "[Release|CI/CD] Add `parity-publish restore` step to simplify post crates release activity (#11652)\n\nThis PR adds an new step to the Publish Crates flow, that will restore\ncrates Cargo.toml files to intial state before release and keep only\nbumped version in there to simplify post crates activity we used to run\nbefore, to aligne with the pipeline checks.\n\npartially address:\nhttps://github.com/paritytech/release-engineering/issues/291",
+          "timestamp": "2026-04-06T16:37:38Z",
+          "tree_id": "438167f1ea87ddc1124fdb6188ca989ea5cb6dae",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/387a7e2180b05276ffea4d093a9b8ea29d02f0dc"
+        },
+        "date": 1775498388677,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.1451682433733334,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007167407993333334,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009810837799999984,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.024136821979999997,
             "unit": "seconds"
           }
         ]

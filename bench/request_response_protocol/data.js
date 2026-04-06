@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775497477375,
+  "lastUpdate": 1775512826064,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -73979,6 +73979,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2744846916,
             "range": "± 24394365",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ae772b4edb58afa4499e46d97245e303605170bb",
+          "message": "statement-store: add channel replacement logic tests (#11617)\n\n# Description\nImplement unit tests for \"Channel replacement: verify only\nhigher-priority statements replace existing entries, corner cases of\nreplacement logic.\" #11534\n\n## Summary\n- `channel_replacement_only_higher_priority_succeeds` -> verifies\nlower/equal priority rejected with `ChannelPriorityTooLow`, higher\npriority replaces, one-per-channel invariant preserved\n \n- `channel_replacement_with_size_increase_evicts_others` -> verifies\nthat replacing a channel message with a larger one triggers additional\neviction of lowest-priority non-channel statements to satisfy size\nconstraints\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-06T20:43:48Z",
+          "tree_id": "7ac41f7f7da7e510fdc2027f4a8594e5870e6ec1",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/ae772b4edb58afa4499e46d97245e303605170bb"
+        },
+        "date": 1775512804372,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 19171838,
+            "range": "± 249708",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 19443054,
+            "range": "± 165926",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 21268064,
+            "range": "± 180561",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 25553941,
+            "range": "± 246525",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 61508230,
+            "range": "± 791226",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 349242400,
+            "range": "± 6633759",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2555236425,
+            "range": "± 148628411",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 16784598,
+            "range": "± 325067",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 16495690,
+            "range": "± 572776",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 17278436,
+            "range": "± 717109",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21894826,
+            "range": "± 297999",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 61290205,
+            "range": "± 748498",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 376332698,
+            "range": "± 5041386",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2842100217,
+            "range": "± 30698892",
             "unit": "ns/iter"
           }
         ]

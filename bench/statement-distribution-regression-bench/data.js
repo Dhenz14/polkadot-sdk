@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775495364512,
+  "lastUpdate": 1775498472493,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "git@kchr.de",
-            "name": "Bastian Köcher",
-            "username": "bkchr"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "53e30e5c60bdef92ae46f2f9b6d29a4d113e7419",
-          "message": "Collator Protocol: Be more informative why a collation wasn't advertised (#9419)\n\nThis prints more information on why a collation wasn't advertised. In\nthis exact case it checks if the collation wasn't advertised because of\na session change. This is mainly some debugging help.",
-          "timestamp": "2025-08-04T10:26:18Z",
-          "tree_id": "9d7c051e4ae3a47c43b46c29c568fdd9227cd1c4",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/53e30e5c60bdef92ae46f2f9b6d29a4d113e7419"
-        },
-        "date": 1754307555602,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.94399999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04438395997399989,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03412193320200001,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.08331091706399996,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "387a7e2180b05276ffea4d093a9b8ea29d02f0dc",
+          "message": "[Release|CI/CD] Add `parity-publish restore` step to simplify post crates release activity (#11652)\n\nThis PR adds an new step to the Publish Crates flow, that will restore\ncrates Cargo.toml files to intial state before release and keep only\nbumped version in there to simplify post crates activity we used to run\nbefore, to aligne with the pipeline checks.\n\npartially address:\nhttps://github.com/paritytech/release-engineering/issues/291",
+          "timestamp": "2026-04-06T16:37:38Z",
+          "tree_id": "438167f1ea87ddc1124fdb6188ca989ea5cb6dae",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/387a7e2180b05276ffea4d093a9b8ea29d02f0dc"
+        },
+        "date": 1775498449913,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.07399999999998,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.03814581834,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.07822184399999993,
             "unit": "seconds"
           }
         ]

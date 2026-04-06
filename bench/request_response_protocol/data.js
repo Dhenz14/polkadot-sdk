@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775494215749,
+  "lastUpdate": 1775497477375,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -73871,6 +73871,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2591237610,
             "range": "± 52300699",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "387a7e2180b05276ffea4d093a9b8ea29d02f0dc",
+          "message": "[Release|CI/CD] Add `parity-publish restore` step to simplify post crates release activity (#11652)\n\nThis PR adds an new step to the Publish Crates flow, that will restore\ncrates Cargo.toml files to intial state before release and keep only\nbumped version in there to simplify post crates activity we used to run\nbefore, to aligne with the pipeline checks.\n\npartially address:\nhttps://github.com/paritytech/release-engineering/issues/291",
+          "timestamp": "2026-04-06T16:37:38Z",
+          "tree_id": "438167f1ea87ddc1124fdb6188ca989ea5cb6dae",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/387a7e2180b05276ffea4d093a9b8ea29d02f0dc"
+        },
+        "date": 1775497455057,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 19718428,
+            "range": "± 213491",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 20172128,
+            "range": "± 176732",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 21833630,
+            "range": "± 186928",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 26098515,
+            "range": "± 252466",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 61128485,
+            "range": "± 958162",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 378715110,
+            "range": "± 10643104",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2665382394,
+            "range": "± 59350855",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 16474474,
+            "range": "± 281136",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 16617976,
+            "range": "± 218659",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 17405330,
+            "range": "± 211935",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 22100279,
+            "range": "± 291481",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 60933823,
+            "range": "± 907833",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 360717691,
+            "range": "± 8077402",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2744846916,
+            "range": "± 24394365",
             "unit": "ns/iter"
           }
         ]

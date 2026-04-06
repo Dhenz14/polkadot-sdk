@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775498380132,
+  "lastUpdate": 1775513053863,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "363911+pepoviola@users.noreply.github.com",
-            "name": "Javier Viola",
-            "username": "pepoviola"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "56f683fabfc5a4554d4b9208e91103624264407c",
-          "message": "do not trigger zombienet workflows on 'labeled' (#9427)\n\nAt some point of the stabilization process we added the 'labeled' to the\nlist of events that trigger the zombienet workflows. This is not needed\nanymore and also is causing failures because the _artifacts_ could be\nexpired\n([example](https://github.com/paritytech/polkadot-sdk/actions/runs/16529272288/job/46752021278?pr=9286#step:6:127)).\n\nThx!",
-          "timestamp": "2025-08-05T15:10:46Z",
-          "tree_id": "445f4b598ca4a41c328ca69c595b652faa137169",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/56f683fabfc5a4554d4b9208e91103624264407c"
-        },
-        "date": 1754410961430,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.305275743733334,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19894636643333335,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 11.052234720399998,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ae772b4edb58afa4499e46d97245e303605170bb",
+          "message": "statement-store: add channel replacement logic tests (#11617)\n\n# Description\nImplement unit tests for \"Channel replacement: verify only\nhigher-priority statements replace existing entries, corner cases of\nreplacement logic.\" #11534\n\n## Summary\n- `channel_replacement_only_higher_priority_succeeds` -> verifies\nlower/equal priority rejected with `ChannelPriorityTooLow`, higher\npriority replaces, one-per-channel invariant preserved\n \n- `channel_replacement_with_size_increase_evicts_others` -> verifies\nthat replacing a channel message with a larger one triggers additional\neviction of lowest-priority non-channel statements to satisfy size\nconstraints\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-06T20:43:48Z",
+          "tree_id": "7ac41f7f7da7e510fdc2027f4a8594e5870e6ec1",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/ae772b4edb58afa4499e46d97245e303605170bb"
+        },
+        "date": 1775513031493,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 10.8884081979,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13240294363333333,
             "unit": "seconds"
           }
         ]

@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775498472493,
+  "lastUpdate": 1775513146390,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "178801527+raymondkfcheung@users.noreply.github.com",
-            "name": "Raymond Cheung",
-            "username": "raymondkfcheung"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "224eab75d3a05e7c7a85baa5e044858d0f104d4a",
-          "message": "Replace `log` with `tracing` on `bp-runtime` (#9401)\n\nThis PR replaces `log` with `tracing` instrumentation on `bp-runtime` by\nproviding structured logging.\n\nPartially addresses #9211",
-          "timestamp": "2025-08-04T13:10:17Z",
-          "tree_id": "0adad46d8710fc31ea650371fbfe51296ca7184f",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/224eab75d3a05e7c7a85baa5e044858d0f104d4a"
-        },
-        "date": 1754317864418,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.96600000000001,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03399977812600001,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04451160771599993,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.07822184399999993,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ae772b4edb58afa4499e46d97245e303605170bb",
+          "message": "statement-store: add channel replacement logic tests (#11617)\n\n# Description\nImplement unit tests for \"Channel replacement: verify only\nhigher-priority statements replace existing entries, corner cases of\nreplacement logic.\" #11534\n\n## Summary\n- `channel_replacement_only_higher_priority_succeeds` -> verifies\nlower/equal priority rejected with `ChannelPriorityTooLow`, higher\npriority replaces, one-per-channel invariant preserved\n \n- `channel_replacement_with_size_increase_evicts_others` -> verifies\nthat replacing a channel message with a larger one triggers additional\neviction of lowest-priority non-channel statements to satisfy size\nconstraints\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-06T20:43:48Z",
+          "tree_id": "7ac41f7f7da7e510fdc2027f4a8594e5870e6ec1",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/ae772b4edb58afa4499e46d97245e303605170bb"
+        },
+        "date": 1775513123757,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.018,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.07830858685999993,
+            "unit": "seconds"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038252871064,
             "unit": "seconds"
           }
         ]

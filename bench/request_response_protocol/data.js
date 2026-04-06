@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775358230579,
+  "lastUpdate": 1775472968502,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -73655,6 +73655,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2660937160,
             "range": "± 78313586",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "nasihudeen04@gmail.com",
+            "name": "Nasihudeen Jimoh",
+            "username": "Kanasjnr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "7da81d63069e38e11bea4cc4735bc9a45d3f0589",
+          "message": "Kanas/omni node aura authority id type based on metadata checks (#11107)\n\n# Description\nThis PR implements optional metadata-based detection to automatically\ndetermine the correct Aura authority ID type from runtime metadata.\n\nThe library currently assumes that the Aura authority ID type is\n`ed25519` for `asset-hub-polkadot`/`statemint` and `sr25519` for all\nother chains. This PR adds the ability to detect the correct type from\nruntime metadata when available.\n\nFurther implementation of #11026\n\n## Integration\n**No integration changes required.** This is a non-breaking enhancement\nthat improves detection logic. Behavior remains backward compatible with\nexisting fallback mechanisms.\n\n## Review Notes\n\n### Implementation Overview\nThis PR implements optional metadata detection for Aura authority IDs:\n- **Optional metadata detection**: Adds support to read the Aura\nauthority ID type from runtime metadata when available\n\n### Changes Made\n\n**File: `cumulus/polkadot-omni-node/lib/src/common/runtime.rs`**\n1. **Added `aura_consensus_id()` method to `MetadataInspector`**:\n- Scans runtime metadata types for\n`sp_consensus_aura::sr25519::AuthorityId` or\n`sp_consensus_aura::ed25519::AuthorityId`\n   - Returns `Some(AuraConsensusId)` if found, `None` otherwise\n   - Only checks if Aura pallet exists in metadata\n\n2. **Updated `DefaultRuntimeResolver::runtime()`**:\n- Calls `metadata_inspector.aura_consensus_id()` for metadata-based\ndetection\n   - Uses detected type immediately when available\n- Falls back to chain spec ID check when metadata detection returns\n`None`\n\n3. **Added test coverage**:\n- Test verifies `aura_consensus_id()` correctly detects `sr25519` from\ntest runtime metadata\n\n### Example Behavior\n**Metadata detection workflow:**\n- If metadata detection succeeds → uses detected type (`sr25519` or\n`ed25519`)\n- If metadata unavailable or detection fails → uses chain spec ID\nheuristics (`ed25519` for asset-hub-polkadot/statemint, `sr25519` for\nothers)\n\n### Code Example\n```diff\n+ fn aura_consensus_id(&self) -> Option<AuraConsensusId> {\n+     if !self.pallet_exists(DEFAULT_AURA_PALLET_NAME) {\n+         return None;\n+     }\n+ \n+     for portable_type in self.0.types().types() {\n+         let path = &portable_type.ty.path;\n+         let segments = path.segments();\n+ \n+         if segments.len() >= 3 {\n+             let last_three = &segments[segments.len() - 3..];\n+             match last_three {\n+                 [\"sp_consensus_aura\", \"sr25519\", \"AuthorityId\"] =>\n+                     return Some(AuraConsensusId::Sr25519),\n+                 [\"sp_consensus_aura\", \"ed25519\", \"AuthorityId\"] =>\n+                     return Some(AuraConsensusId::Ed25519),\n+                 _ => continue,\n+             }\n+         }\n+     }\n+     None\n+ }\n```\n\n### Testing\n\n- Added unit test `test_aura_consensus_id()` that verifies metadata\ndetection works correctly with the test runtime (which uses `sr25519`)\n\n### Notes\n\n- The fallback logic preserves existing behavior while making\nassumptions explicit\n- Metadata detection is optional and gracefully falls back when metadata\nis unavailable or doesn't contain the required information\n\n\n# Checklist\n\n* [x] My PR includes a detailed description as outlined in the\n\"Description\" and its two subsections above.\n* [ ] My PR follows the [labeling requirements](\n\nhttps://github.com/paritytech/polkadot-sdk/blob/master/docs/contributor/CONTRIBUTING.md#Process\n) of this project (at minimum one label for `T` required)\n    * External contributors: Use `/cmd label <label-name>` to add labels\n    * Maintainers can also add labels manually\n* [ ] I have made corresponding changes to the documentation (if\napplicable)\n* [x] I have added tests that prove my fix is effective or that my\nfeature works (if applicable)\n\n## Bot Commands\n\nYou can use the following bot commands in comments to help manage your\nPR:\n\n**Labeling (Self-service for contributors):**\n* `/cmd label T1-FRAME` - Add a single label\n* `/cmd label T1-FRAME R0-no-crate-publish-required` - Add multiple\nlabels\n* `/cmd label T6-XCM D2-substantial I5-enhancement` - Add multiple\nlabels at once\n* See [label\ndocumentation](https://paritytech.github.io/labels/doc_polkadot-sdk.html)\nfor all available labels\n\n**Other useful commands:**\n* `/cmd fmt` - Format code (cargo +nightly fmt and taplo)\n* `/cmd prdoc` - Generate PR documentation\n* `/cmd bench` - Run benchmarks\n* `/cmd update-ui` - Update UI tests\n* `/cmd --help` - Show help for all available commands\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Iulian Barbu <14218860+iulianbarbu@users.noreply.github.com>",
+          "timestamp": "2026-04-06T09:51:25Z",
+          "tree_id": "1774e93b522a09e756fb09370d030c0ad61932fa",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/7da81d63069e38e11bea4cc4735bc9a45d3f0589"
+        },
+        "date": 1775472946387,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18146205,
+            "range": "± 72581",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18570521,
+            "range": "± 99980",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20158701,
+            "range": "± 94961",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24069046,
+            "range": "± 103038",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 53955905,
+            "range": "± 668241",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 321683249,
+            "range": "± 3991012",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2520558042,
+            "range": "± 54055337",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15243430,
+            "range": "± 194527",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15635894,
+            "range": "± 182803",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16073282,
+            "range": "± 122998",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20223299,
+            "range": "± 129121",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 55820834,
+            "range": "± 1537931",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 323686452,
+            "range": "± 3942140",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2635760873,
+            "range": "± 32579534",
             "unit": "ns/iter"
           }
         ]

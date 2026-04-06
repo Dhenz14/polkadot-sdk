@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775498411001,
+  "lastUpdate": 1775513084789,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "paolo@parity.io",
-            "name": "Paolo La Camera",
-            "username": "sigurpol"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "0f59afba36c8affac3b7fd41b0518fd9b81cefef",
-          "message": "staking-async/papi-tests: fix justfile to run in CI (#9411)\n\nMake sure to run `just killall` step in a bash shell, otherwise while\ntrying to kill a non existing process e.g.\n```bash\nkillall:\n  pkill -f zombienet || true\n```\n\nwe would get the following issue while running in a container:\n\n```bash\nRun just setup\n  just setup\n  shell: sh -e {0}\n  env:\n    IMAGE: docker.io/paritytech/ci-unified:bullseye-1.85.0-2025-01-28-v202504231537\n    RUST_INFO: rustup show && cargo --version && rustup +nightly show && cargo +nightly --version\n    CACHE_ON_FAILURE: true\n    CARGO_INCREMENTAL: 0\n🧹 Killing any existing zombienet or chain processes...\npkill -f zombienet || true\nerror: Recipe `killall` was terminated on line 124 by signal 15\nerror: Recipe `setup` failed with exit code 143\nError: Process completed with exit code 143.\n```\n\nRunning the just step within a bash shell, ensure that the error is\nproperly handled and propagated without terminating the just script.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-08-05T08:24:56Z",
-          "tree_id": "d7576a5133a9265d2155b6a6babad37d766607fd",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/0f59afba36c8affac3b7fd41b0518fd9b81cefef"
-        },
-        "date": 1754386554055,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022482077346666674,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007156324913333338,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013171522120000006,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15759025122000003,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "bitfield-distribution",
             "value": 0.024136821979999997,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ae772b4edb58afa4499e46d97245e303605170bb",
+          "message": "statement-store: add channel replacement logic tests (#11617)\n\n# Description\nImplement unit tests for \"Channel replacement: verify only\nhigher-priority statements replace existing entries, corner cases of\nreplacement logic.\" #11534\n\n## Summary\n- `channel_replacement_only_higher_priority_succeeds` -> verifies\nlower/equal priority rejected with `ChannelPriorityTooLow`, higher\npriority replaces, one-per-channel invariant preserved\n \n- `channel_replacement_with_size_increase_evicts_others` -> verifies\nthat replacing a channel message with a larger one triggers additional\neviction of lowest-priority non-channel statements to satisfy size\nconstraints\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-06T20:43:48Z",
+          "tree_id": "7ac41f7f7da7e510fdc2027f4a8594e5870e6ec1",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/ae772b4edb58afa4499e46d97245e303605170bb"
+        },
+        "date": 1775513062148,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.02350492569333333,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.00951250097999997,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14299553882666666,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007308371813333336,
             "unit": "seconds"
           }
         ]

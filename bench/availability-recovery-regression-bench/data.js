@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775359224943,
+  "lastUpdate": 1775473921158,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "hetterich.charles@gmail.com",
-            "name": "Charles",
-            "username": "charlesHetterich"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "bcee8dc5ba1205628b22e1ec499988d393b7e293",
-          "message": "Added `substrate-node` and `eth-rpc` binaries into release workflow (#9393)\n\nAdds a total of 4 new jobs to `Release - Build node release candidate`\nCI workflow\n- 2 for releasing `substrate-node` binaries for linux/mac\n- 2 for releasing `eth-rpc` binaries for linux/mac\n\nCLOSES: #9386\n\n---------\n\nCo-authored-by: EgorPopelyaev <egor@parity.io>",
-          "timestamp": "2025-08-04T18:21:20Z",
-          "tree_id": "286bfd6aa3f48745d03e2fc1c6a297d361b19c80",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/bcee8dc5ba1205628b22e1ec499988d393b7e293"
-        },
-        "date": 1754335993399,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.213431381900003,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19774564083333332,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.13455922296666661,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "nasihudeen04@gmail.com",
+            "name": "Nasihudeen Jimoh",
+            "username": "Kanasjnr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "7da81d63069e38e11bea4cc4735bc9a45d3f0589",
+          "message": "Kanas/omni node aura authority id type based on metadata checks (#11107)\n\n# Description\nThis PR implements optional metadata-based detection to automatically\ndetermine the correct Aura authority ID type from runtime metadata.\n\nThe library currently assumes that the Aura authority ID type is\n`ed25519` for `asset-hub-polkadot`/`statemint` and `sr25519` for all\nother chains. This PR adds the ability to detect the correct type from\nruntime metadata when available.\n\nFurther implementation of #11026\n\n## Integration\n**No integration changes required.** This is a non-breaking enhancement\nthat improves detection logic. Behavior remains backward compatible with\nexisting fallback mechanisms.\n\n## Review Notes\n\n### Implementation Overview\nThis PR implements optional metadata detection for Aura authority IDs:\n- **Optional metadata detection**: Adds support to read the Aura\nauthority ID type from runtime metadata when available\n\n### Changes Made\n\n**File: `cumulus/polkadot-omni-node/lib/src/common/runtime.rs`**\n1. **Added `aura_consensus_id()` method to `MetadataInspector`**:\n- Scans runtime metadata types for\n`sp_consensus_aura::sr25519::AuthorityId` or\n`sp_consensus_aura::ed25519::AuthorityId`\n   - Returns `Some(AuraConsensusId)` if found, `None` otherwise\n   - Only checks if Aura pallet exists in metadata\n\n2. **Updated `DefaultRuntimeResolver::runtime()`**:\n- Calls `metadata_inspector.aura_consensus_id()` for metadata-based\ndetection\n   - Uses detected type immediately when available\n- Falls back to chain spec ID check when metadata detection returns\n`None`\n\n3. **Added test coverage**:\n- Test verifies `aura_consensus_id()` correctly detects `sr25519` from\ntest runtime metadata\n\n### Example Behavior\n**Metadata detection workflow:**\n- If metadata detection succeeds → uses detected type (`sr25519` or\n`ed25519`)\n- If metadata unavailable or detection fails → uses chain spec ID\nheuristics (`ed25519` for asset-hub-polkadot/statemint, `sr25519` for\nothers)\n\n### Code Example\n```diff\n+ fn aura_consensus_id(&self) -> Option<AuraConsensusId> {\n+     if !self.pallet_exists(DEFAULT_AURA_PALLET_NAME) {\n+         return None;\n+     }\n+ \n+     for portable_type in self.0.types().types() {\n+         let path = &portable_type.ty.path;\n+         let segments = path.segments();\n+ \n+         if segments.len() >= 3 {\n+             let last_three = &segments[segments.len() - 3..];\n+             match last_three {\n+                 [\"sp_consensus_aura\", \"sr25519\", \"AuthorityId\"] =>\n+                     return Some(AuraConsensusId::Sr25519),\n+                 [\"sp_consensus_aura\", \"ed25519\", \"AuthorityId\"] =>\n+                     return Some(AuraConsensusId::Ed25519),\n+                 _ => continue,\n+             }\n+         }\n+     }\n+     None\n+ }\n```\n\n### Testing\n\n- Added unit test `test_aura_consensus_id()` that verifies metadata\ndetection works correctly with the test runtime (which uses `sr25519`)\n\n### Notes\n\n- The fallback logic preserves existing behavior while making\nassumptions explicit\n- Metadata detection is optional and gracefully falls back when metadata\nis unavailable or doesn't contain the required information\n\n\n# Checklist\n\n* [x] My PR includes a detailed description as outlined in the\n\"Description\" and its two subsections above.\n* [ ] My PR follows the [labeling requirements](\n\nhttps://github.com/paritytech/polkadot-sdk/blob/master/docs/contributor/CONTRIBUTING.md#Process\n) of this project (at minimum one label for `T` required)\n    * External contributors: Use `/cmd label <label-name>` to add labels\n    * Maintainers can also add labels manually\n* [ ] I have made corresponding changes to the documentation (if\napplicable)\n* [x] I have added tests that prove my fix is effective or that my\nfeature works (if applicable)\n\n## Bot Commands\n\nYou can use the following bot commands in comments to help manage your\nPR:\n\n**Labeling (Self-service for contributors):**\n* `/cmd label T1-FRAME` - Add a single label\n* `/cmd label T1-FRAME R0-no-crate-publish-required` - Add multiple\nlabels\n* `/cmd label T6-XCM D2-substantial I5-enhancement` - Add multiple\nlabels at once\n* See [label\ndocumentation](https://paritytech.github.io/labels/doc_polkadot-sdk.html)\nfor all available labels\n\n**Other useful commands:**\n* `/cmd fmt` - Format code (cargo +nightly fmt and taplo)\n* `/cmd prdoc` - Generate PR documentation\n* `/cmd bench` - Run benchmarks\n* `/cmd update-ui` - Update UI tests\n* `/cmd --help` - Show help for all available commands\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Iulian Barbu <14218860+iulianbarbu@users.noreply.github.com>",
+          "timestamp": "2026-04-06T09:51:25Z",
+          "tree_id": "1774e93b522a09e756fb09370d030c0ad61932fa",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/7da81d63069e38e11bea4cc4735bc9a45d3f0589"
+        },
+        "date": 1775473900993,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.1782145131,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13071291383333333,
             "unit": "seconds"
           }
         ]

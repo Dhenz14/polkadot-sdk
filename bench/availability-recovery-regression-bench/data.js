@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775473921158,
+  "lastUpdate": 1775495273615,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "22696121+sekisamu@users.noreply.github.com",
-            "name": "sekiseki",
-            "username": "sekisamu"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "59fb2e7482d471a7ec4e8d3b30499497efa7b34c",
-          "message": "Fixes dust balance handling for pallet revive (#9357)\n\nfix issue: https://github.com/paritytech/contract-issues/issues/141\n\nCorrects the condition for minting a new currency unit when transferring\ndust. The condition was incorrectly checking\n`to_info.dust.saturating_add(dust) >= plank` which could lead to\nunexpected minting behavior. It now correctly checks if `to_info.dust >=\nplank` before minting.",
-          "timestamp": "2025-08-04T19:36:58Z",
-          "tree_id": "1f82f1472637c5b251995d04a7f494c144c5daf4",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/59fb2e7482d471a7ec4e8d3b30499497efa7b34c"
-        },
-        "date": 1754340954145,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19475883183333334,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.17734721486667,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.13071291383333333,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "rohit.sarpotdar@parity.io",
+            "name": "Rohit Sarpotdar",
+            "username": "rosarp"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "8e64bb2e4d7554a813fe5a99805c9898123c1366",
+          "message": "Fix bridges integration test failure for the Westend network (#11643)\n\n## Description\n\nFix bridges **integration test failure** for the Westend network by\nusing the slot-based collator for asset-hub-westend nodes.\n\nThe `asset-hub-westend` runtime configures `RelayParentOffset = 1` (at\n`cumulus/parachains/runtimes/assets/asset-hub-westend/src/lib.rs:138`)\nin this\n[commit](https://github.com/paritytech/polkadot-sdk/commit/8e911a6ebc6965480621db8e89b1ecb157df9eba)\n, which requires relay parent descendant headers in the parachain\ninherent data. However, the **zombienet** test was launching the\ncollators with the default look ahead authoring policy, which passes an\nempty `relay_parent_descendants` vec. This caused a runtime panic on\nevery block build attempt:\n\n```\n  Unable to verify provided relay parent descendants.\n  expected_rp_descendants_num: 1\n  error: InvalidNumberOfDescendants { expected: 2, received: 0 }\n```\n\n  The parachain remained stuck at block #0, failing the test assertion:\nasset-hub-westend-collator1: reports block height is at least 10 within\n180 seconds\n\nOnly the slot-based collator\n(`collators/slot_based/block_builder_task.rs`) calls\n`create_inherent_data_with_rp_offset()` with the required descendant\ndata. The look ahead and basic collators call `create_inherent_data()`\nwhich passes `None`.\n\n## Integration\n\nThis change only affects a zombienet test TOML configuration file. No\ncrate changes.\n\n## Review Notes\n\nThe fix adds \"--authoring\", \"slot-based\" to both\nasset-hub-westend-collator1 and asset-hub-westend-collator2 in\n\nbridges/testing/environments/rococo-westend/bridge_hub_westend_local_network.toml.\n\n  This is only needed for the Westend side because:\n- asset-hub-westend has RelayParentOffset = ConstU32<1> — requires\ndescendant headers\n- asset-hub-rococo has RelayParentOffset = ConstU32<0> — no descendant\nverification, works with any collator\n\nThe Rococo TOML (bridge_hub_rococo_local_network.toml) is unchanged\nsince its asset-hub runtime doesn't require relay parent descendants.",
+          "timestamp": "2026-04-06T15:48:46Z",
+          "tree_id": "b7667e3cec15f4d82df4349b96eb57ddb06a7a41",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/8e64bb2e4d7554a813fe5a99805c9898123c1366"
+        },
+        "date": 1775495251211,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12871409363333336,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.030822714800003,
             "unit": "seconds"
           }
         ]

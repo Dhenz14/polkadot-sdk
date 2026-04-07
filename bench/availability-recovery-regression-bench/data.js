@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775583293353,
+  "lastUpdate": 1775600243661,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "claravanstaden64@gmail.com",
-            "name": "Clara van Staden",
-            "username": "claravanstaden"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "9fe9950f2173981209dcbe1b6d640764090d9f36",
-          "message": "Minor Snowbridge test fixes (#9463)\n\nThe Polkadot runtimes repo block size is too small to test all Ethereum\nclient extrinsics in a single block. This PR runs to the next block\nbefore attempting more test extriniscs. Once this PR has been released,\nthe following code can be removed from the fellows runtime repo:\nhttps://github.com/polkadot-fellows/runtimes/blob/main/system-parachains/bridge-hubs/bridge-hub-polkadot/tests/snowbridge.rs#L234-L370\n\n---------\n\nCo-authored-by: Adrian Catangiu <adrian@parity.io>",
-          "timestamp": "2025-08-12T07:06:26Z",
-          "tree_id": "c5e7264aa47b9ad38029d67eae255579d1a026c6",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/9fe9950f2173981209dcbe1b6d640764090d9f36"
-        },
-        "date": 1754987969211,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.20085971800000008,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.235959898466671,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.12287718549999997,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "jfanatiker@gmx.at",
+            "name": "eskimor",
+            "username": "eskimor"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "89ad96ed0003ced574a6e21e55e334680fd0aeff",
+          "message": "Enforce current relay parent to be available (#11621)\n\nI would suggest to encode our intention directly instead of working\naround a symptom. This makes it much easier to reason about the code in\nmy opinion and should have less edge cases. In particular this change\nwill also wait for the current relay parent mid-parachain slot, which is\nuseful as otherwise we would build on an older than expected relay\nparent, which could then again affect block confidence as the relay\nparent might be out of scope already before the collation can land on\nchain.\n\nAlso worth mentioning: As the original PR already shows, we have the\nimplicit assumption that the current relay parent has arrived after 1s\ninto the relay chain slot. This seems to be the case most of the time,\nbut not always - triggering the issue this PR is fixing. For best\nperformance we should consider bumping the slot offset some more. If I\nunderstand correctly the error case we found was by a relay parent\ncoming late by only a couple of milliseconds - thus 1.5s might already\nbe plenty for the needed wait to almost never happen, but ideally we\nshould find a good value based on data from prod.\n\n---------\n\nSigned-off-by: Alexandru Vasile <alexandru.vasile@parity.io>\nCo-authored-by: Alexandru Vasile <alexandru.vasile@parity.io>",
+          "timestamp": "2026-04-07T20:57:51Z",
+          "tree_id": "9a9e714cec14724c257a16367dbd6e53cf6a4e25",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/89ad96ed0003ced574a6e21e55e334680fd0aeff"
+        },
+        "date": 1775600221220,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1229584426333333,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.553235568933335,
             "unit": "seconds"
           }
         ]

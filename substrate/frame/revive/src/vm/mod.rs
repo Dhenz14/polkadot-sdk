@@ -331,7 +331,7 @@ impl<T: Config> Executable<T> for ContractBlob<T> {
 	) -> ExecResult {
 		if self.code_info().is_pvm() {
 			let prepared_call =
-				PreparedCall::new_native(self, pvm::Runtime::new(ext, input_data), function, 0)?;
+				PreparedCall::new_interpreter(self, pvm::Runtime::new(ext, input_data), function, 0)?;
 			prepared_call.call()
 		} else if T::AllowEVMBytecode::get() {
 			use revm::bytecode::Bytecode;

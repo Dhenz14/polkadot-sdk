@@ -1017,7 +1017,7 @@ impl<'a, E: Ext> PreparedCall<'a, E, InterpreterInstance> {
 	/// `aux_data_size` is only used for runtime benchmarks. Real contracts
 	/// don't make use of this buffer. Hence this should not be set to anything
 	/// other than `0` when not used for benchmarking.
-	pub fn new_native(
+	pub fn new_interpreter(
 		blob: ContractBlob<E::T>,
 		mut runtime: Runtime<'a, E, InterpreterInstance>,
 		entry_point: ExportedFunction,
@@ -1112,7 +1112,7 @@ impl<'a, E: Ext> PreparedCall<'a, E, InterpreterInstance> {
 
 impl<'a, E: Ext> PreparedCall<'a, E, JitInstance> {
 	/// Compile and instantiate contract using the sp_virtualization backend.
-	pub fn new_virt(
+	pub fn new_jit(
 		blob: ContractBlob<E::T>,
 		mut runtime: Runtime<'a, E, JitInstance>,
 		entry_point: ExportedFunction,

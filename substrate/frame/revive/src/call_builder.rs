@@ -186,7 +186,7 @@ where
 		input: Vec<u8>,
 		aux_data_size: u32,
 	) -> PreparedCall<'a, StackExt<'a, T>, InterpreterInstance> {
-		PreparedCall::new_native(
+		PreparedCall::new_interpreter(
 			module,
 			Runtime::new(ext, input),
 			ExportedFunction::Call,

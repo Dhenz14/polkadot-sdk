@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775558019670,
+  "lastUpdate": 1775560526837,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "hetterich.charles@gmail.com",
-            "name": "Charles",
-            "username": "charlesHetterich"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "bcee8dc5ba1205628b22e1ec499988d393b7e293",
-          "message": "Added `substrate-node` and `eth-rpc` binaries into release workflow (#9393)\n\nAdds a total of 4 new jobs to `Release - Build node release candidate`\nCI workflow\n- 2 for releasing `substrate-node` binaries for linux/mac\n- 2 for releasing `eth-rpc` binaries for linux/mac\n\nCLOSES: #9386\n\n---------\n\nCo-authored-by: EgorPopelyaev <egor@parity.io>",
-          "timestamp": "2025-08-04T18:21:20Z",
-          "tree_id": "286bfd6aa3f48745d03e2fc1c6a297d361b19c80",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/bcee8dc5ba1205628b22e1ec499988d393b7e293"
-        },
-        "date": 1754336067701,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.93799999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04441084938199991,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.033816284494,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.08751169560399985,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c9e84992741de0136fbf7ca66727a1aa42fb8433",
+          "message": "statement-store: add concurrent and multi-peer propagation tests (#11611)\n\n# Description\n\nImplement unit tests for \"Propagation under normal load\" #11534 \n\n## Summary\n- Add 3 multi-peer propagation tests for the network handler (all-peers\ndelivery, known-statement filtering, same-statement deduplication)\n- Refactor 3 duplicate test builder functions into a single canonical\n`build_handler_multi_peers(n)` with thin wrappers\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Andrei Eres <eresav@me.com>",
+          "timestamp": "2026-04-07T09:07:33Z",
+          "tree_id": "d4e9da1978b569e219ad7f518379490cb6b2604a",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/c9e84992741de0136fbf7ca66727a1aa42fb8433"
+        },
+        "date": 1775560504743,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.03400000000002,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.03846742137200001,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08336076330599988,
             "unit": "seconds"
           }
         ]

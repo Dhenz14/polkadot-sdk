@@ -63,6 +63,7 @@ sp-core = { workspace = true }
 sp-io = { workspace = true }
 sp-runtime = { workspace = true }
 sp-version = { workspace = true }
+sp-virtualization = { workspace = true }
 subxt-signer = { workspace = true, optional = true, features = ["unstable-eth"] }
 
 [dev-dependencies]
@@ -131,6 +132,7 @@ std = [
 	"sp-runtime/std",
 	"sp-state-machine/std",
 	"sp-version/std",
+	"sp-virtualization/std",
 	"subxt-signer",
 ]
 runtime-benchmarks = [

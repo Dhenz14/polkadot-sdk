@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775513146390,
+  "lastUpdate": 1775558019670,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "git@kchr.de",
-            "name": "Bastian Köcher",
-            "username": "bkchr"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "0140f9934cd553e5a36c623c75d371f6a5108774",
-          "message": "cumulus tests: Improve prefix of the relay chain node (#9420)\n\nInstead of using the name of the node, we should use `Relaychain` as\ndone by normal nodes. This makes it easier to read the logs.",
-          "timestamp": "2025-08-04T15:17:30Z",
-          "tree_id": "fec233df11d8df3202be325ba52901bf5ba98c45",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/0140f9934cd553e5a36c623c75d371f6a5108774"
-        },
-        "date": 1754324902594,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.96399999999998,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.034066190588000006,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04428352340599992,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.038252871064,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "48632512+s0me0ne-unkn0wn@users.noreply.github.com",
+            "name": "s0me0ne-unkn0wn",
+            "username": "s0me0ne-unkn0wn"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "5e1f597fd9ff388bf3315d6d805de4fdf88ae4d4",
+          "message": "Update PolkaVM to latest version (#11650)",
+          "timestamp": "2026-04-07T08:53:13Z",
+          "tree_id": "aea557c47a059041d5337471d3f6872e4202dd4b",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/5e1f597fd9ff388bf3315d6d805de4fdf88ae4d4"
+        },
+        "date": 1775557997738,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.08799999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038717473186,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08751169560399985,
             "unit": "seconds"
           }
         ]

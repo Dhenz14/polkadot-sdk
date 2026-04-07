@@ -15,7 +15,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use crate::{DestroyError, ExecBuffer, ExecError, InstantiateError, MemoryError, EXEC_BUFFER_SIZE};
+use crate::{DestroyError, ExecBuffer, ExecError, InstantiateError, MemoryError};
+use core::mem;
 use sp_runtime_interface::{
 	pass_by::{
 		ConvertAndReturnAs, PassFatPointerAndRead, PassFatPointerAndWrite, PassPointerAndWrite,
@@ -367,7 +368,7 @@ pub trait Virtualization {
 		instance_id: u32,
 		function: PassFatPointerAndRead<&str>,
 		gas_left: i64,
-		exec_buffer: PassPointerAndWrite<&mut ExecBuffer, { EXEC_BUFFER_SIZE }>,
+		exec_buffer: PassPointerAndWrite<&mut ExecBuffer, { mem::size_of::<ExecBuffer>() }>,
 	) -> ConvertAndReturnAs<Result<u8, ExecError>, RIIntResult<u8, RIExecError>, i64> {
 		let instance_id = sp_wasm_interface::InstanceId(instance_id);
 		self.virtualization()
@@ -390,7 +391,7 @@ pub trait Virtualization {
 		instance_id: u32,
 		gas_left: i64,
 		return_value: u64,
-		exec_buffer: PassPointerAndWrite<&mut ExecBuffer, { EXEC_BUFFER_SIZE }>,
+		exec_buffer: PassPointerAndWrite<&mut ExecBuffer, { mem::size_of::<ExecBuffer>() }>,
 	) -> ConvertAndReturnAs<Result<u8, ExecError>, RIIntResult<u8, RIExecError>, i64> {
 		let instance_id = sp_wasm_interface::InstanceId(instance_id);
 		self.virtualization()

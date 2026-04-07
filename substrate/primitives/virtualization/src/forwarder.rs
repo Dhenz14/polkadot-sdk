@@ -55,7 +55,7 @@ impl VirtT for Virt {
 			},
 		};
 		let status = status_byte.try_into().expect("invalid status from host; qed");
-		Ok(buf.into_outcome(status))
+		buf.into_outcome(status)
 	}
 
 	fn memory(&self) -> Self::Memory {
@@ -70,7 +70,7 @@ impl Drop for Virt {
 }
 
 impl MemoryT for Memory {
-	fn read(&self, offset: u32, dest: &mut [u8]) -> Result<(), MemoryError> {
+	fn read(&mut self, offset: u32, dest: &mut [u8]) -> Result<(), MemoryError> {
 		host_fn::read_memory(self.instance_id.0, offset, dest)
 	}
 

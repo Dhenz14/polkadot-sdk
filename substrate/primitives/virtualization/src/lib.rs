@@ -65,7 +65,9 @@ pub const LOG_TARGET: &str = "virtualization";
 
 // Re-export from sp_wasm_interface so that both the executor and the runtime code
 // use the same type.
-pub use sp_wasm_interface::{ExecAction, ExecOutcome};
+pub use sp_wasm_interface::{
+	ExecAction, ExecOutcome, SyscallSymbol, MAX_SYSCALL_SYMBOL_LEN,
+};
 
 /// Buffer shared between runtime and executor for passing syscall data across the
 /// host function boundary.
@@ -78,10 +80,11 @@ pub use sp_wasm_interface::{ExecAction, ExecOutcome};
 pub struct ExecBuffer {
 	/// Gas remaining after the execution step.
 	pub gas_left: i64,
-	/// The syscall number (only meaningful when the status is [`ExecStatus::Syscall`]).
-	pub syscall_no: u32,
-	/// Padding to maintain alignment after syscall_no.
-	pub _pad: u32,
+	/// The syscall symbol bytes (only meaningful when the status is [`ExecStatus::Syscall`]).
+	pub syscall_symbol: [u8; MAX_SYSCALL_SYMBOL_LEN],
+	/// The length of the syscall symbol in bytes. Stored as `u64` so that all fields
+	/// are naturally aligned without implicit padding.
+	pub syscall_len: u64,
 	/// Syscall register arguments a0-a5 (only meaningful for [`ExecStatus::Syscall`]).
 	pub a0: u64,
 	pub a1: u64,
@@ -91,48 +94,73 @@ pub struct ExecBuffer {
 	pub a5: u64,
 }
 
-/// The size of [`ExecBuffer`] in bytes.
-pub const EXEC_BUFFER_SIZE: usize = mem::size_of::<ExecBuffer>();
-
 impl AsRef<[u8]> for ExecBuffer {
 	fn as_ref(&self) -> &[u8] {
-		// SAFETY: `ExecBuffer` is `#[repr(C)]` with a well-defined layout of primitive fields.
-		unsafe { core::slice::from_raw_parts(self as *const Self as *const u8, EXEC_BUFFER_SIZE) }
+		// SAFETY: `ExecBuffer` is `#[repr(C)]` with a well-defined layout of primitive fields
+		// and no implicit padding.
+		unsafe {
+			core::slice::from_raw_parts(
+				self as *const Self as *const u8,
+				mem::size_of::<Self>(),
+			)
+		}
 	}
 }
 
 impl AsMut<[u8]> for ExecBuffer {
 	fn as_mut(&mut self) -> &mut [u8] {
-		// SAFETY: `ExecBuffer` is `#[repr(C)]` with a well-defined layout of primitive fields.
-		unsafe { core::slice::from_raw_parts_mut(self as *mut Self as *mut u8, EXEC_BUFFER_SIZE) }
+		// SAFETY: `ExecBuffer` is `#[repr(C)]` with a well-defined layout of primitive fields
+		// and no implicit padding.
+		unsafe {
+			core::slice::from_raw_parts_mut(
+				self as *mut Self as *mut u8,
+				mem::size_of::<Self>(),
+			)
+		}
 	}
 }
 
 impl ExecBuffer {
 	/// Populate this buffer from an [`ExecOutcome`].
 	pub fn from_outcome(outcome: &ExecOutcome) -> Self {
-		match *outcome {
-			ExecOutcome::Finished { gas_left } => Self { gas_left, ..Default::default() },
-			ExecOutcome::Syscall { gas_left, syscall_no, a0, a1, a2, a3, a4, a5 } => {
-				Self { gas_left, syscall_no, _pad: 0, a0, a1, a2, a3, a4, a5 }
+		match outcome {
+			ExecOutcome::Finished { gas_left } => Self { gas_left: *gas_left, ..Default::default() },
+			ExecOutcome::Syscall { gas_left, ref syscall_symbol, a0, a1, a2, a3, a4, a5 } => {
+				let src = syscall_symbol.as_ref();
+				let mut syscall_symbol_buf = [0u8; MAX_SYSCALL_SYMBOL_LEN];
+				syscall_symbol_buf[..src.len()].copy_from_slice(src);
+				Self {
+					gas_left: *gas_left,
+					syscall_symbol: syscall_symbol_buf,
+					syscall_len: src.len() as u64,
+					a0: *a0,
+					a1: *a1,
+					a2: *a2,
+					a3: *a3,
+					a4: *a4,
+					a5: *a5,
+				}
 			},
 		}
 	}
 
 	/// Decode a status byte and this buffer into an [`ExecOutcome`].
-	pub fn into_outcome(self, status: ExecStatus) -> ExecOutcome {
+	pub fn into_outcome(self, status: ExecStatus) -> Result<ExecOutcome, ExecError> {
 		match status {
-			ExecStatus::Finished => ExecOutcome::Finished { gas_left: self.gas_left },
-			ExecStatus::Syscall => ExecOutcome::Syscall {
+			ExecStatus::Finished => Ok(ExecOutcome::Finished { gas_left: self.gas_left }),
+			ExecStatus::Syscall => Ok(ExecOutcome::Syscall {
 				gas_left: self.gas_left,
-				syscall_no: self.syscall_no,
+				syscall_symbol: SyscallSymbol::from_bytes(
+					&self.syscall_symbol[..self.syscall_len as usize],
+				)
+				.ok_or(ExecError::InvalidImage)?,
 				a0: self.a0,
 				a1: self.a1,
 				a2: self.a2,
 				a3: self.a3,
 				a4: self.a4,
 				a5: self.a5,
-			},
+			}),
 		}
 	}
 }

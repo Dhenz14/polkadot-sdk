@@ -60,7 +60,7 @@ fn run_loop(
 	virt: &mut Virt,
 	function: &str,
 	gas_left: &mut i64,
-	mut handler: impl FnMut(u32, u64, u64, u64, u64, u64, u64) -> Result<u64, ()>,
+	mut handler: impl FnMut(&[u8], u64, u64, u64, u64, u64, u64) -> Result<u64, ()>,
 ) -> RunResult {
 	let mut action = ExecAction::Execute(function);
 	loop {
@@ -77,9 +77,9 @@ fn run_loop(
 				*gas_left = g;
 				return RunResult::Ok;
 			},
-			ExecOutcome::Syscall { gas_left: g, syscall_no, a0, a1, a2, a3, a4, a5 } => {
+			ExecOutcome::Syscall { gas_left: g, syscall_symbol, a0, a1, a2, a3, a4, a5 } => {
 				*gas_left = g;
-				match handler(syscall_no, a0, a1, a2, a3, a4, a5) {
+				match handler(syscall_symbol.as_ref(), a0, a1, a2, a3, a4, a5) {
 					Ok(result) => action = ExecAction::Resume(result),
 					Err(()) => return RunResult::Exit,
 				}
@@ -94,24 +94,21 @@ fn run_loop(
 fn make_handler<'a>(
 	counter: &'a mut u64,
 	memory: &'a mut <Virt as VirtT>::Memory,
-) -> impl FnMut(u32, u64, u64, u64, u64, u64, u64) -> Result<u64, ()> + 'a {
-	move |syscall_no, a0, _a1, _a2, _a3, _a4, _a5| match syscall_no {
-		// read_counter
-		1 => {
+) -> impl FnMut(&[u8], u64, u64, u64, u64, u64, u64) -> Result<u64, ()> + 'a {
+	move |syscall_symbol, a0, _a1, _a2, _a3, _a4, _a5| match syscall_symbol {
+		b"read_counter" => {
 			let buf = counter.to_le_bytes();
 			memory.write(a0 as u32, buf.as_ref()).unwrap();
-			Ok(syscall_no.into())
+			Ok(1)
 		},
-		// increment counter
-		2 => {
+		b"increment_counter" => {
 			let mut buf = [0u8; 8];
 			memory.read(a0 as u32, buf.as_mut()).unwrap();
 			*counter += u64::from_le_bytes(buf);
-			Ok(u64::from(syscall_no) << 56)
+			Ok(2u64 << 56)
 		},
-		// exit
-		3 => Err(()),
-		_ => panic!("unknown syscall: {:?}", syscall_no),
+		b"exit" => Err(()),
+		_ => panic!("unknown syscall: {:?}", syscall_symbol),
 	}
 }
 
@@ -270,13 +267,15 @@ fn counter_in_subcall(program: &[u8]) {
 		&mut instance,
 		"do_subcall",
 		&mut gas_left,
-		|syscall_no, a0, a1, a2, a3, a4, a5| {
-			match syscall_no {
-				1..=3 => {
-					make_handler(&mut counter, &mut memory)(syscall_no, a0, a1, a2, a3, a4, a5)
+		|syscall_symbol, a0, a1, a2, a3, a4, a5| {
+			match syscall_symbol {
+				b"read_counter" | b"increment_counter" | b"exit" => {
+					make_handler(&mut counter, &mut memory)(
+						syscall_symbol, a0, a1, a2, a3, a4, a5,
+					)
 				},
 				// subcall: spawn a new instance and run counter in it
-				4 => {
+				b"subcall" => {
 					let mut sub_instance = Virt::instantiate(program.as_ref()).unwrap();
 					let mut sub_gas = GAS_MAX;
 					let mut sub_counter: u64 = 0;
@@ -291,7 +290,7 @@ fn counter_in_subcall(program: &[u8]) {
 					assert_eq!(sub_counter, 8);
 					Ok(0)
 				},
-				_ => panic!("unknown syscall: {:?}", syscall_no),
+				_ => panic!("unknown syscall: {:?}", syscall_symbol),
 			}
 		},
 	);

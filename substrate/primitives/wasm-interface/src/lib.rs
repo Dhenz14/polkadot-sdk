@@ -349,6 +349,36 @@ pub enum ExecAction<'a> {
 	Resume(u64),
 }
 
+/// Maximum length of a syscall symbol in bytes.
+pub const MAX_SYSCALL_SYMBOL_LEN: usize = 32;
+
+/// A syscall symbol with a maximum length of [`MAX_SYSCALL_SYMBOL_LEN`] bytes.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct SyscallSymbol {
+	len: u8,
+	bytes: [u8; MAX_SYSCALL_SYMBOL_LEN],
+}
+
+impl SyscallSymbol {
+	/// Create a new `SyscallSymbol` from a byte slice.
+	///
+	/// Returns `None` if `src` exceeds [`MAX_SYSCALL_SYMBOL_LEN`].
+	pub fn from_bytes(src: &[u8]) -> Option<Self> {
+		if src.len() > MAX_SYSCALL_SYMBOL_LEN {
+			return None;
+		}
+		let mut bytes = [0u8; MAX_SYSCALL_SYMBOL_LEN];
+		bytes[..src.len()].copy_from_slice(src);
+		Some(Self { len: src.len() as u8, bytes })
+	}
+}
+
+impl AsRef<[u8]> for SyscallSymbol {
+	fn as_ref(&self) -> &[u8] {
+		&self.bytes[..self.len as usize]
+	}
+}
+
 /// The outcome of a single virtualization execution step.
 ///
 /// Returned by [`Virtualization::run`].
@@ -364,8 +394,8 @@ pub enum ExecOutcome {
 	Syscall {
 		/// How much gas is remaining at the point of the syscall.
 		gas_left: i64,
-		/// The 4 byte identifier of the syscall.
-		syscall_no: u32,
+		/// The symbol identifying the syscall.
+		syscall_symbol: SyscallSymbol,
 		/// Register arguments a0-a5.
 		a0: u64,
 		a1: u64,

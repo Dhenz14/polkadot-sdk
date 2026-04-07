@@ -371,6 +371,13 @@ pub mod pallet {
 		#[pallet::constant]
 		#[pallet::no_default_bounds]
 		type GasScale: Get<u32>;
+
+		/// If set to `true` all contract will run under JIT by default.
+		///
+		/// Please note that this is unsafe to use as the require host functions are
+		/// not stabilized.
+		#[pallet::constant]
+		type UnsafeEnableJIT: Get<bool>;
 	}
 
 	/// Container for different types that implement [`DefaultConfig`]` of this pallet.
@@ -455,6 +462,7 @@ pub mod pallet {
 			type DebugEnabled = ConstBool<false>;
 			type GasScale = GasScale;
 			type OnBurn = ();
+			type UnsafeEnableJIT = ConstBool<false>;
 		}
 	}
 

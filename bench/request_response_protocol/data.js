@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775582403038,
+  "lastUpdate": 1775597914837,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -74951,6 +74951,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2667039621,
             "range": "± 96483402",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "10196091+Ank4n@users.noreply.github.com",
+            "name": "Ankan",
+            "username": "Ank4n"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "de426461c0d204ba0f4a290b7ff3b085f74a086f",
+          "message": "[Staking] Consolidate try state warnings (#11649)\n\nResolves https://github.com/paritytech/polkadot-sdk/issues/11646",
+          "timestamp": "2026-04-07T20:34:05Z",
+          "tree_id": "79fc10c6b8ba71cd056960448765cf4b96fcfb17",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/de426461c0d204ba0f4a290b7ff3b085f74a086f"
+        },
+        "date": 1775597892433,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 19137175,
+            "range": "± 66600",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18728261,
+            "range": "± 266546",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 19997620,
+            "range": "± 82027",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24623270,
+            "range": "± 295430",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 58704921,
+            "range": "± 1400517",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 333161924,
+            "range": "± 6651304",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2391298017,
+            "range": "± 119919811",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 14818726,
+            "range": "± 145831",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15045965,
+            "range": "± 239531",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 15537220,
+            "range": "± 197566",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 19884320,
+            "range": "± 123198",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 53779139,
+            "range": "± 479478",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 312388428,
+            "range": "± 2585987",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2473181979,
+            "range": "± 40087260",
             "unit": "ns/iter"
           }
         ]

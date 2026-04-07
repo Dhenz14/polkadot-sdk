@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775579614022,
+  "lastUpdate": 1775583293353,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "363911+pepoviola@users.noreply.github.com",
-            "name": "Javier Viola",
-            "username": "pepoviola"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "0034d178fff88a0fd87cf0ec1d8f122ae0011d78",
-          "message": "[CI] add timeout to allow alloy to process the logs (#9459)\n\nCI fix to give time to process zombienet's logs.\n\ncc https://github.com/paritytech/devops/issues/4229",
-          "timestamp": "2025-08-11T18:05:05Z",
-          "tree_id": "6cc0759361e6f4b043a6d1d53ef60866f5f68f67",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/0034d178fff88a0fd87cf0ec1d8f122ae0011d78"
-        },
-        "date": 1754939733823,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.3517436859,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.195154765,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 11.570298365400001,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "bruno.devic@parity.io",
+            "name": "BDevParity",
+            "username": "BDevParity"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b0afea2776217a1a79cca98237464186b40ef248",
+          "message": "[Release|CI/CD] Fix warnings in GH workflows or release pipeline (#11632)\n\nhttps://github.com/paritytech/release-engineering/issues/291\n\nTODO:\n- handle warnings on all workflows regarding deprecated Node version 20",
+          "timestamp": "2026-04-07T16:04:23Z",
+          "tree_id": "2fdb315f6425204ed4d76d5765c6247515d57299",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/b0afea2776217a1a79cca98237464186b40ef248"
+        },
+        "date": 1775583270904,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.782452935733332,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12287718549999997,
             "unit": "seconds"
           }
         ]

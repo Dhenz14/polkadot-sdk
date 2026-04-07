@@ -61,25 +61,17 @@ impl<T: Config> ContractBlob<T> {
 impl<'a, E: Ext, M: PolkaVmInstance<E::T>> Runtime<'a, E, M> {
 	pub fn handle_interrupt(
 		&mut self,
-		interrupt: Result<polkavm::InterruptKind, polkavm::Error>,
+		interrupt: Interrupt,
 		instance: &mut M,
 	) -> Option<ExecResult> {
-		use polkavm::InterruptKind::*;
-
 		match interrupt {
-			Err(error) => {
-				// in contrast to the other returns this "should" not happen: log level error
-				log::error!(target: LOG_TARGET, "polkavm execution error: {error}");
-				Some(Err(Error::<E::T>::ExecutionFailed.into()))
-			},
-			Ok(Finished) => {
+			Interrupt::Error(error) => Some(Err(error.into())),
+			Interrupt::Finished => {
 				Some(Ok(ExecReturnValue { flags: ReturnFlags::empty(), data: Vec::new() }))
 			},
-			Ok(Trap) => Some(Err(Error::<E::T>::ContractTrapped.into())),
-			Ok(Segfault(_)) => Some(Err(Error::<E::T>::ExecutionFailed.into())),
-			Ok(NotEnoughGas) => Some(Err(Error::<E::T>::OutOfGas.into())),
-			Ok(Step) => None,
-			Ok(Ecalli(idx)) => {
+			Interrupt::Trap => Some(Err(Error::<E::T>::ContractTrapped.into())),
+			Interrupt::OutOfGas => Some(Err(Error::<E::T>::OutOfGas.into())),
+			Interrupt::Ecalli(idx) => {
 				// This is a special hard coded syscall index which is used by benchmarks
 				// to abort contract execution. It is used to terminate the execution without
 				// breaking up a basic block. The fixed index is used so that the benchmarks

@@ -33,7 +33,7 @@ use crate::{
 	limits,
 	metering::{TransactionLimits, TransactionMeter},
 	transient_storage::MeterEntry,
-	vm::pvm::{NativeInstance, PreparedCall, Runtime},
+	vm::pvm::{InterpreterInstance, PreparedCall, Runtime},
 };
 use alloc::{vec, vec::Vec};
 use frame_support::{storage::child, traits::fungible::Mutate};
@@ -185,7 +185,7 @@ where
 		module: ContractBlob<T>,
 		input: Vec<u8>,
 		aux_data_size: u32,
-	) -> PreparedCall<'a, StackExt<'a, T>, NativeInstance> {
+	) -> PreparedCall<'a, StackExt<'a, T>, InterpreterInstance> {
 		PreparedCall::new_native(
 			module,
 			Runtime::new(ext, input),

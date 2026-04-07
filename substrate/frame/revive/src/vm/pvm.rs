@@ -39,6 +39,9 @@ use frame_support::{ensure, weights::Weight};
 use pallet_revive_uapi::{CallFlags, ReturnErrorCode, ReturnFlags, StorageFlags};
 use sp_core::{H160, H256, U256};
 use sp_runtime::DispatchError;
+use sp_virtualization::{
+	ExecAction, ExecError as VirtExecError, ExecOutcome, MemoryT, Virt, VirtT,
+};
 
 /// Extracts the code and data from a given program blob.
 pub fn extract_code_and_data(data: &[u8]) -> Option<(Vec<u8>, Vec<u8>)> {
@@ -128,6 +131,24 @@ pub trait Memory<T: Config> {
 	}
 }
 
+/// The outcome of a single execution step.
+///
+/// This is the backend-agnostic interrupt type used by both the interpreter
+/// and the JIT backend. Backend-specific details (e.g. polkavm `Segfault`,
+/// `Step`) are translated into these variants by each backend's `run()`.
+pub enum Interrupt {
+	/// Execution finished normally.
+	Finished,
+	/// Contract trapped.
+	Trap,
+	/// Ran out of gas.
+	OutOfGas,
+	/// A syscall was triggered.
+	Ecalli(u32),
+	/// An unexpected execution error.
+	Error(DispatchError),
+}
+
 /// Allows syscalls access to the PolkaVM instance they are executing in.
 ///
 /// In case a contract is executing within PolkaVM its `memory` argument will also implement
@@ -139,8 +160,8 @@ pub trait PolkaVmInstance<T: Config>: Memory<T> {
 	fn read_input_regs(&self) -> (u64, u64, u64, u64, u64, u64);
 	fn write_output(&mut self, output: u64);
 
-	/// Execute until the next interrupt and return the interrupt kind.
-	fn run(&mut self) -> Result<polkavm::InterruptKind, polkavm::Error>;
+	/// Execute until the next interrupt.
+	fn run(&mut self) -> Interrupt;
 
 	/// Resolve an import index to its symbol bytes.
 	fn resolve_import(&self, idx: u32) -> Option<Vec<u8>>;
@@ -179,18 +200,18 @@ impl<T: Config> Memory<T> for [u8] {
 
 /// Wraps a [`polkavm::RawInstance`] and its [`polkavm::Module`] into a single
 /// type that implements [`PolkaVmInstance`].
-pub struct NativeInstance {
+pub struct InterpreterInstance {
 	instance: polkavm::RawInstance,
 	module: polkavm::Module,
 }
 
-impl NativeInstance {
+impl InterpreterInstance {
 	pub fn new(instance: polkavm::RawInstance, module: polkavm::Module) -> Self {
 		Self { instance, module }
 	}
 }
 
-impl<T: Config> Memory<T> for NativeInstance {
+impl<T: Config> Memory<T> for InterpreterInstance {
 	fn read_into_buf(&mut self, ptr: u32, buf: &mut [u8]) -> Result<(), DispatchError> {
 		self.instance
 			.read_memory_into(ptr, buf)
@@ -211,7 +232,7 @@ impl<T: Config> Memory<T> for NativeInstance {
 	}
 }
 
-impl<T: Config> PolkaVmInstance<T> for NativeInstance {
+impl<T: Config> PolkaVmInstance<T> for InterpreterInstance {
 	fn gas(&self) -> polkavm::Gas {
 		self.instance.gas()
 	}
@@ -235,12 +256,123 @@ impl<T: Config> PolkaVmInstance<T> for NativeInstance {
 		self.instance.set_reg(polkavm::Reg::A0, output);
 	}
 
-	fn run(&mut self) -> Result<polkavm::InterruptKind, polkavm::Error> {
-		self.instance.run()
+	fn run(&mut self) -> Interrupt {
+		match self.instance.run() {
+			Ok(polkavm::InterruptKind::Finished) => Interrupt::Finished,
+			Ok(polkavm::InterruptKind::Trap) => Interrupt::Trap,
+			Ok(polkavm::InterruptKind::NotEnoughGas) => Interrupt::OutOfGas,
+			Ok(polkavm::InterruptKind::Ecalli(idx)) => Interrupt::Ecalli(idx),
+			Ok(polkavm::InterruptKind::Segfault(_)) => {
+				Interrupt::Error(Error::<T>::ExecutionFailed.into())
+			},
+			Ok(polkavm::InterruptKind::Step) => Interrupt::Finished,
+			Err(error) => {
+				log::error!(target: LOG_TARGET, "polkavm execution error: {error}");
+				Interrupt::Error(Error::<T>::ExecutionFailed.into())
+			},
+		}
 	}
 
 	fn resolve_import(&self, idx: u32) -> Option<Vec<u8>> {
 		self.module.imports().get(idx).map(|s| s.as_bytes().to_vec())
+	}
+}
+
+struct PendingSyscall {
+	symbol: Vec<u8>,
+	a0: u64,
+	a1: u64,
+	a2: u64,
+	a3: u64,
+	a4: u64,
+	a5: u64,
+}
+
+/// Wraps an [`sp_virtualization::Virt`] instance into a type that implements
+/// [`PolkaVmInstance`].
+pub struct JitInstance {
+	virt: Virt,
+	gas: polkavm::Gas,
+	pending_syscall: Option<PendingSyscall>,
+	pending_resume: Option<u64>,
+	entry_point: Option<ExportedFunction>,
+}
+
+impl<T: Config> Memory<T> for JitInstance {
+	fn read_into_buf(&mut self, ptr: u32, buf: &mut [u8]) -> Result<(), DispatchError> {
+		self.virt.memory().read(ptr, buf).map_err(|_| Error::<T>::OutOfBounds.into())
+	}
+
+	fn write(&mut self, ptr: u32, buf: &[u8]) -> Result<(), DispatchError> {
+		self.virt.memory().write(ptr, buf).map_err(|_| Error::<T>::OutOfBounds.into())
+	}
+
+	fn zero(&mut self, ptr: u32, len: u32) -> Result<(), DispatchError> {
+		self.virt
+			.memory()
+			.write(ptr, &vec![0u8; len as usize])
+			.map_err(|_| Error::<T>::OutOfBounds.into())
+	}
+
+	fn reset_interpreter_cache(&mut self) {}
+}
+
+impl<T: Config> PolkaVmInstance<T> for JitInstance {
+	fn gas(&self) -> polkavm::Gas {
+		self.gas
+	}
+
+	fn set_gas(&mut self, gas: polkavm::Gas) {
+		self.gas = gas;
+	}
+
+	fn read_input_regs(&self) -> (u64, u64, u64, u64, u64, u64) {
+		match &self.pending_syscall {
+			Some(s) => (s.a0, s.a1, s.a2, s.a3, s.a4, s.a5),
+			None => (0, 0, 0, 0, 0, 0),
+		}
+	}
+
+	fn write_output(&mut self, output: u64) {
+		self.pending_resume = Some(output);
+	}
+
+	fn run(&mut self) -> Interrupt {
+		let ep = self.entry_point.take();
+		let action = match &ep {
+			Some(ep) => ExecAction::Execute(ep.identifier()),
+			None => ExecAction::Resume(self.pending_resume.take().unwrap_or(0)),
+		};
+
+		match self.virt.run(self.gas, action) {
+			Ok(ExecOutcome::Finished { gas_left }) => {
+				self.gas = gas_left;
+				Interrupt::Finished
+			},
+			Ok(ExecOutcome::Syscall { gas_left, syscall_symbol, a0, a1, a2, a3, a4, a5 }) => {
+				self.gas = gas_left;
+				self.pending_syscall = Some(PendingSyscall {
+					symbol: syscall_symbol.as_ref().to_vec(),
+					a0,
+					a1,
+					a2,
+					a3,
+					a4,
+					a5,
+				});
+				Interrupt::Ecalli(0)
+			},
+			Err(VirtExecError::OutOfGas) => Interrupt::OutOfGas,
+			Err(VirtExecError::Trap) => Interrupt::Trap,
+			Err(err) => {
+				log::error!(target: LOG_TARGET, "virt execution error: {err:?}");
+				Interrupt::Error(Error::<T>::ExecutionFailed.into())
+			},
+		}
+	}
+
+	fn resolve_import(&self, _idx: u32) -> Option<Vec<u8>> {
+		self.pending_syscall.as_ref().map(|s| s.symbol.clone())
 	}
 }
 
@@ -879,7 +1011,7 @@ impl<'a, E: Ext, I: PolkaVmInstance<E::T>> PreparedCall<'a, E, I> {
 	}
 }
 
-impl<'a, E: Ext> PreparedCall<'a, E, NativeInstance> {
+impl<'a, E: Ext> PreparedCall<'a, E, InterpreterInstance> {
 	/// Compile and instantiate contract using the native PolkaVM interpreter.
 	///
 	/// `aux_data_size` is only used for runtime benchmarks. Real contracts
@@ -887,7 +1019,7 @@ impl<'a, E: Ext> PreparedCall<'a, E, NativeInstance> {
 	/// other than `0` when not used for benchmarking.
 	pub fn new_native(
 		blob: ContractBlob<E::T>,
-		mut runtime: Runtime<'a, E, NativeInstance>,
+		mut runtime: Runtime<'a, E, InterpreterInstance>,
 		entry_point: ExportedFunction,
 		aux_data_size: u32,
 	) -> Result<Self, ExecError> {
@@ -944,7 +1076,7 @@ impl<'a, E: Ext> PreparedCall<'a, E, NativeInstance> {
 			.map_err(|_| Error::<E::T>::CodeRejected)?;
 		instance.prepare_call_untyped(entry_program_counter, &[]);
 
-		let instance = NativeInstance::new(instance, module);
+		let instance = InterpreterInstance::new(instance, module);
 		Ok(PreparedCall { instance, runtime })
 	}
 
@@ -975,5 +1107,28 @@ impl<'a, E: Ext> PreparedCall<'a, E, NativeInstance> {
 		self.instance.instance.set_reg(polkavm::Reg::A0, a0.into());
 		self.instance.instance.set_reg(polkavm::Reg::A1, a1);
 		Ok(())
+	}
+}
+
+impl<'a, E: Ext> PreparedCall<'a, E, JitInstance> {
+	/// Compile and instantiate contract using the sp_virtualization backend.
+	pub fn new_virt(
+		blob: ContractBlob<E::T>,
+		mut runtime: Runtime<'a, E, JitInstance>,
+		entry_point: ExportedFunction,
+	) -> Result<Self, ExecError> {
+		let virt = Virt::instantiate(&blob.code).map_err(|err| {
+			log::debug!(target: LOG_TARGET, "failed to instantiate virt: {err:?}");
+			Error::<E::T>::CodeRejected
+		})?;
+		let gas = runtime.ext().frame_meter_mut().sync_to_executor();
+		let instance = JitInstance {
+			virt,
+			gas,
+			pending_syscall: None,
+			pending_resume: None,
+			entry_point: Some(entry_point),
+		};
+		Ok(PreparedCall { instance, runtime })
 	}
 }

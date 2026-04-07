@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775579644775,
+  "lastUpdate": 1775583324183,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "5588131+kianenigma@users.noreply.github.com",
-            "name": "Kian Paimani",
-            "username": "kianenigma"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "c40b36c3a7c208f9a6837b80812473af3d9ba7f7",
-          "message": "Cleanup staking try states + fix min bonds (#9415)\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-08-08T09:25:18Z",
-          "tree_id": "6f1e8993c14fa59502c2a975c3bbe1d6d991ad61",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/c40b36c3a7c208f9a6837b80812473af3d9ba7f7"
-        },
-        "date": 1754650238877,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15766151454000008,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022378634586666668,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013156942326666667,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007428856126666642,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.00954523320666665,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "bruno.devic@parity.io",
+            "name": "BDevParity",
+            "username": "BDevParity"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b0afea2776217a1a79cca98237464186b40ef248",
+          "message": "[Release|CI/CD] Fix warnings in GH workflows or release pipeline (#11632)\n\nhttps://github.com/paritytech/release-engineering/issues/291\n\nTODO:\n- handle warnings on all workflows regarding deprecated Node version 20",
+          "timestamp": "2026-04-07T16:04:23Z",
+          "tree_id": "2fdb315f6425204ed4d76d5765c6247515d57299",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/b0afea2776217a1a79cca98237464186b40ef248"
+        },
+        "date": 1775583301710,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14438979866666668,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.00718143378,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009545903059999986,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.025669578999999998,
             "unit": "seconds"
           }
         ]

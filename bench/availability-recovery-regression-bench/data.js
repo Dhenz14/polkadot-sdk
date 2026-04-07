@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775560433697,
+  "lastUpdate": 1775563259530,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "1728078+michalkucharczyk@users.noreply.github.com",
-            "name": "Michal Kucharczyk",
-            "username": "michalkucharczyk"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "8468c3e5944ab5efdcce886e275f4cec1cdc9057",
-          "message": "pr_8838.prdoc: oversight fix: major -> minor (#9440)\n\nThis fixes the\n[pr_8838.prdoc](https://github.com/paritytech/polkadot-sdk/blob/cf5a24ecc5802ecf78d943f9723b6f4ccdc0ddfa/prdoc/pr_8838.prdoc#L7).\nI somehow forgotten to fix this\n[here](https://github.com/paritytech/polkadot-sdk/pull/8838#discussion_r2152760564).",
-          "timestamp": "2025-08-07T08:12:57Z",
-          "tree_id": "98f2c1f36fd55a3668a7e72b4b7efc1fdd109707",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/8468c3e5944ab5efdcce886e275f4cec1cdc9057"
-        },
-        "date": 1754558690486,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.1956792305,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.214578633666665,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.13065295103333333,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "bruno.devic@parity.io",
+            "name": "BDevParity",
+            "username": "BDevParity"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "20d65ad1febe16991b847d5d57c8d2cbdbf2979c",
+          "message": "[Release|CI/CD] Trigger check-sync flow in callable flows only if they are triggered manually and not with the workflow_call trigger (#11631)\n\nhttps://github.com/paritytech/release-engineering/issues/291",
+          "timestamp": "2026-04-07T10:40:36Z",
+          "tree_id": "2ad6bae28a6e46a10cba89ebf3c59d74ce1ac35d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/20d65ad1febe16991b847d5d57c8d2cbdbf2979c"
+        },
+        "date": 1775563237678,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.733041514566667,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1268456504,
             "unit": "seconds"
           }
         ]

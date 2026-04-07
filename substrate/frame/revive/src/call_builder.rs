@@ -186,8 +186,7 @@ where
 		input: Vec<u8>,
 		aux_data_size: u32,
 	) -> PreparedCall<'a, StackExt<'a, T>> {
-		module
-			.prepare_call(Runtime::new(ext, input), ExportedFunction::Call, aux_data_size)
+		PreparedCall::new(module, Runtime::new(ext, input), ExportedFunction::Call, aux_data_size)
 			.unwrap()
 	}
 

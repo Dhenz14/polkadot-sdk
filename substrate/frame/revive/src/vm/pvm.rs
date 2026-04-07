@@ -20,13 +20,15 @@
 pub mod env;
 
 use crate::{
-	Code, Config, Error, LOG_TARGET, Pallet, ReentrancyProtection, RuntimeCosts, SENTINEL,
+	Code, Config, ContractBlob, DebugSettings, Error, LOG_TARGET, Pallet, ReentrancyProtection,
+	RuntimeCosts, SENTINEL,
 	exec::{CallResources, ExecError, ExecResult, Ext, Key},
 	limits,
 	metering::ChargedAmount,
 	precompiles::{All as AllPrecompiles, Precompiles},
 	primitives::ExecReturnValue,
 	tracing::FrameTraceInfo,
+	vm::ExportedFunction,
 };
 use alloc::{vec, vec::Vec};
 use codec::Encode;
@@ -831,6 +833,73 @@ pub struct PreparedCall<'a, E: Ext> {
 }
 
 impl<'a, E: Ext> PreparedCall<'a, E> {
+	/// Compile and instantiate contract.
+	///
+	/// `aux_data_size` is only used for runtime benchmarks. Real contracts
+	/// don't make use of this buffer. Hence this should not be set to anything
+	/// other than `0` when not used for benchmarking.
+	pub fn new(
+		blob: ContractBlob<E::T>,
+		mut runtime: Runtime<E, polkavm::RawInstance>,
+		entry_point: ExportedFunction,
+		aux_data_size: u32,
+	) -> Result<PreparedCall<E>, ExecError> {
+		let mut config = polkavm::Config::default();
+		// Log filtering by level with log::enabled! returns always true,
+		// passing all logs through impacting performance \
+		// (more details: https://github.com/paritytech/polkadot-sdk/issues/8760#issuecomment-3499548774)
+		// By default, disable polkavm logging unless pvm_logs debug setting is enabled.
+		let pvm_logs_enabled = DebugSettings::is_pvm_logs_enabled::<E::T>();
+		config.set_imperfect_logger_filtering_workaround(!pvm_logs_enabled);
+		config.set_backend(Some(polkavm::BackendKind::Interpreter));
+		config.set_cache_enabled(false);
+		#[cfg(feature = "std")]
+		if std::env::var_os("REVIVE_USE_COMPILER").is_some() {
+			log::warn!(target: LOG_TARGET, "Using PolkaVM compiler backend because env var REVIVE_USE_COMPILER is set");
+			config.set_backend(Some(polkavm::BackendKind::Compiler));
+		}
+		let engine = polkavm::Engine::new(&config).expect(
+			"on-chain (no_std) use of interpreter is hard coded.
+				interpreter is available on all platforms; qed",
+		);
+
+		let mut module_config = polkavm::ModuleConfig::new();
+		module_config.set_page_size(limits::PAGE_SIZE);
+		module_config.set_gas_metering(Some(polkavm::GasMeteringKind::Sync));
+		module_config.set_aux_data_size(aux_data_size);
+		let module =
+			polkavm::Module::new(&engine, &module_config, blob.code.into()).map_err(|err| {
+				log::debug!(target: LOG_TARGET, "failed to create polkavm module: {err:?}");
+				Error::<E::T>::CodeRejected
+			})?;
+
+		let entry_program_counter = module
+			.exports()
+			.find(|export| export.symbol().as_bytes() == entry_point.identifier().as_bytes())
+			.ok_or_else(|| <Error<E::T>>::CodeRejected)?
+			.program_counter();
+
+		let gas_limit_polkavm: polkavm::Gas = runtime.ext().frame_meter_mut().sync_to_executor();
+
+		let mut instance = module.instantiate().map_err(|err| {
+			log::debug!(target: LOG_TARGET, "failed to instantiate polkavm module: {err:?}");
+			Error::<E::T>::CodeRejected
+		})?;
+
+		instance.set_gas(gas_limit_polkavm);
+		instance
+			.set_interpreter_cache_size_limit(Some(polkavm::SetCacheSizeLimitArgs {
+				max_block_size: limits::code::BASIC_BLOCK_SIZE,
+				max_cache_size_bytes: limits::code::INTERPRETER_CACHE_BYTES
+					.try_into()
+					.map_err(|_| Error::<E::T>::CodeRejected)?,
+			}))
+			.map_err(|_| Error::<E::T>::CodeRejected)?;
+		instance.prepare_call_untyped(entry_program_counter, &[]);
+
+		Ok(PreparedCall { module, instance, runtime })
+	}
+
 	pub fn call(mut self) -> ExecResult {
 		let exec_result = loop {
 			let interrupt = self.instance.run();

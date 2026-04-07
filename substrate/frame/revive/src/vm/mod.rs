@@ -30,6 +30,7 @@ use crate::{
 	exec::{ExecResult, Executable, ExportedFunction, Ext},
 	frame_support::{ensure, error::BadOrigin},
 	metering::{ResourceMeter, State, Token},
+	vm::pvm::PreparedCall,
 	weights::WeightInfo,
 };
 use alloc::vec::Vec;
@@ -330,7 +331,7 @@ impl<T: Config> Executable<T> for ContractBlob<T> {
 	) -> ExecResult {
 		if self.code_info().is_pvm() {
 			let prepared_call =
-				self.prepare_call(pvm::Runtime::new(ext, input_data), function, 0)?;
+				PreparedCall::new(self, pvm::Runtime::new(ext, input_data), function, 0)?;
 			prepared_call.call()
 		} else if T::AllowEVMBytecode::get() {
 			use revm::bytecode::Bytecode;

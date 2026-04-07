@@ -20,11 +20,10 @@ use super::*;
 use crate::{
 	AccountIdOf, CodeInfo, Config, ContractBlob, Error, SENTINEL, Weight,
 	address::AddressMapper,
-	debug::DebugSettings,
 	exec::Ext,
 	limits,
 	primitives::ExecReturnValue,
-	vm::{BytecodeType, ExportedFunction, RuntimeCosts, calculate_code_deposit},
+	vm::{BytecodeType, RuntimeCosts, calculate_code_deposit},
 };
 use alloc::vec::Vec;
 use core::mem;
@@ -34,75 +33,6 @@ use pallet_revive_uapi::{CallFlags, ReturnErrorCode, ReturnFlags};
 use sp_core::U256;
 use sp_io::hashing::keccak_256;
 use sp_runtime::{DispatchError, SaturatedConversion};
-
-impl<T: Config> ContractBlob<T> {
-	/// Compile and instantiate contract.
-	///
-	/// `aux_data_size` is only used for runtime benchmarks. Real contracts
-	/// don't make use of this buffer. Hence this should not be set to anything
-	/// other than `0` when not used for benchmarking.
-	pub fn prepare_call<E: Ext<T = T>>(
-		self,
-		mut runtime: Runtime<E, polkavm::RawInstance>,
-		entry_point: ExportedFunction,
-		aux_data_size: u32,
-	) -> Result<PreparedCall<E>, ExecError> {
-		let mut config = polkavm::Config::default();
-		// Log filtering by level with log::enabled! returns always true,
-		// passing all logs through impacting performance \
-		// (more details: https://github.com/paritytech/polkadot-sdk/issues/8760#issuecomment-3499548774)
-		// By default, disable polkavm logging unless pvm_logs debug setting is enabled.
-		let pvm_logs_enabled = DebugSettings::is_pvm_logs_enabled::<T>();
-		config.set_imperfect_logger_filtering_workaround(!pvm_logs_enabled);
-		config.set_backend(Some(polkavm::BackendKind::Interpreter));
-		config.set_cache_enabled(false);
-		#[cfg(feature = "std")]
-		if std::env::var_os("REVIVE_USE_COMPILER").is_some() {
-			log::warn!(target: LOG_TARGET, "Using PolkaVM compiler backend because env var REVIVE_USE_COMPILER is set");
-			config.set_backend(Some(polkavm::BackendKind::Compiler));
-		}
-		let engine = polkavm::Engine::new(&config).expect(
-			"on-chain (no_std) use of interpreter is hard coded.
-				interpreter is available on all platforms; qed",
-		);
-
-		let mut module_config = polkavm::ModuleConfig::new();
-		module_config.set_page_size(limits::PAGE_SIZE);
-		module_config.set_gas_metering(Some(polkavm::GasMeteringKind::Sync));
-		module_config.set_aux_data_size(aux_data_size);
-		let module =
-			polkavm::Module::new(&engine, &module_config, self.code.into()).map_err(|err| {
-				log::debug!(target: LOG_TARGET, "failed to create polkavm module: {err:?}");
-				Error::<T>::CodeRejected
-			})?;
-
-		let entry_program_counter = module
-			.exports()
-			.find(|export| export.symbol().as_bytes() == entry_point.identifier().as_bytes())
-			.ok_or_else(|| <Error<T>>::CodeRejected)?
-			.program_counter();
-
-		let gas_limit_polkavm: polkavm::Gas = runtime.ext().frame_meter_mut().sync_to_executor();
-
-		let mut instance = module.instantiate().map_err(|err| {
-			log::debug!(target: LOG_TARGET, "failed to instantiate polkavm module: {err:?}");
-			Error::<T>::CodeRejected
-		})?;
-
-		instance.set_gas(gas_limit_polkavm);
-		instance
-			.set_interpreter_cache_size_limit(Some(polkavm::SetCacheSizeLimitArgs {
-				max_block_size: limits::code::BASIC_BLOCK_SIZE,
-				max_cache_size_bytes: limits::code::INTERPRETER_CACHE_BYTES
-					.try_into()
-					.map_err(|_| Error::<T>::CodeRejected)?,
-			}))
-			.map_err(|_| Error::<T>::CodeRejected)?;
-		instance.prepare_call_untyped(entry_program_counter, &[]);
-
-		Ok(PreparedCall { module, instance, runtime })
-	}
-}
 
 impl<T: Config> ContractBlob<T> {
 	/// We only check for size and nothing else when the code is uploaded.

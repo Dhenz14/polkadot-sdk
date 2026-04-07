@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775557102060,
+  "lastUpdate": 1775560190945,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -74195,6 +74195,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 3980627918,
             "range": "± 134838936",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c9e84992741de0136fbf7ca66727a1aa42fb8433",
+          "message": "statement-store: add concurrent and multi-peer propagation tests (#11611)\n\n# Description\n\nImplement unit tests for \"Propagation under normal load\" #11534 \n\n## Summary\n- Add 3 multi-peer propagation tests for the network handler (all-peers\ndelivery, known-statement filtering, same-statement deduplication)\n- Refactor 3 duplicate test builder functions into a single canonical\n`build_handler_multi_peers(n)` with thin wrappers\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Andrei Eres <eresav@me.com>",
+          "timestamp": "2026-04-07T09:07:33Z",
+          "tree_id": "d4e9da1978b569e219ad7f518379490cb6b2604a",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/c9e84992741de0136fbf7ca66727a1aa42fb8433"
+        },
+        "date": 1775560170604,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 22180577,
+            "range": "± 393045",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 24376342,
+            "range": "± 560302",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 27457512,
+            "range": "± 447817",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 33331559,
+            "range": "± 986531",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 84262850,
+            "range": "± 2368474",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 477003665,
+            "range": "± 9789383",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 3037827943,
+            "range": "± 200051427",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 18538797,
+            "range": "± 407268",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 18373310,
+            "range": "± 334147",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 19327266,
+            "range": "± 415978",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 24935043,
+            "range": "± 922502",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 73906950,
+            "range": "± 978740",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 437469872,
+            "range": "± 8326008",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 3358720769,
+            "range": "± 109514224",
             "unit": "ns/iter"
           }
         ]

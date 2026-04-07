@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775583324183,
+  "lastUpdate": 1775600273943,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "363911+pepoviola@users.noreply.github.com",
-            "name": "Javier Viola",
-            "username": "pepoviola"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "0034d178fff88a0fd87cf0ec1d8f122ae0011d78",
-          "message": "[CI] add timeout to allow alloy to process the logs (#9459)\n\nCI fix to give time to process zombienet's logs.\n\ncc https://github.com/paritytech/devops/issues/4229",
-          "timestamp": "2025-08-11T18:05:05Z",
-          "tree_id": "6cc0759361e6f4b043a6d1d53ef60866f5f68f67",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/0034d178fff88a0fd87cf0ec1d8f122ae0011d78"
-        },
-        "date": 1754939758360,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15735844777333338,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013174754566666674,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007318288840000004,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022396400960000003,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "bitfield-distribution",
             "value": 0.025669578999999998,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "jfanatiker@gmx.at",
+            "name": "eskimor",
+            "username": "eskimor"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "89ad96ed0003ced574a6e21e55e334680fd0aeff",
+          "message": "Enforce current relay parent to be available (#11621)\n\nI would suggest to encode our intention directly instead of working\naround a symptom. This makes it much easier to reason about the code in\nmy opinion and should have less edge cases. In particular this change\nwill also wait for the current relay parent mid-parachain slot, which is\nuseful as otherwise we would build on an older than expected relay\nparent, which could then again affect block confidence as the relay\nparent might be out of scope already before the collation can land on\nchain.\n\nAlso worth mentioning: As the original PR already shows, we have the\nimplicit assumption that the current relay parent has arrived after 1s\ninto the relay chain slot. This seems to be the case most of the time,\nbut not always - triggering the issue this PR is fixing. For best\nperformance we should consider bumping the slot offset some more. If I\nunderstand correctly the error case we found was by a relay parent\ncoming late by only a couple of milliseconds - thus 1.5s might already\nbe plenty for the needed wait to almost never happen, but ideally we\nshould find a good value based on data from prod.\n\n---------\n\nSigned-off-by: Alexandru Vasile <alexandru.vasile@parity.io>\nCo-authored-by: Alexandru Vasile <alexandru.vasile@parity.io>",
+          "timestamp": "2026-04-07T20:57:51Z",
+          "tree_id": "9a9e714cec14724c257a16367dbd6e53cf6a4e25",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/89ad96ed0003ced574a6e21e55e334680fd0aeff"
+        },
+        "date": 1775600251588,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.00725700268,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.025484820553333332,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14197907374666677,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009234647819999988,
             "unit": "seconds"
           }
         ]

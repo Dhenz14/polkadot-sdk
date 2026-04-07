@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775563259530,
+  "lastUpdate": 1775566282296,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "mich@elmueller.net",
-            "name": "Michael Müller",
-            "username": "cmichi"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "beb9030b249cc078b3955232074a8495e7e0302a",
-          "message": "[pallet-revive] Implement basic `System` pre-compile, move `seal_hash_blake2_256` into it (#9441)\n\nPart of closing https://github.com/paritytech/polkadot-sdk/issues/8572.\n\nJust the `hash_blake2_256` in this PR, to gauge if you're fine with this\nsetup.\n\ncc @athei @pgherveou\n\n---------\n\nCo-authored-by: Alexander Theißen <alex.theissen@me.com>",
-          "timestamp": "2025-08-07T11:20:46Z",
-          "tree_id": "61e2c4a158c8f86612d14047e993f1858f2b86fd",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/beb9030b249cc078b3955232074a8495e7e0302a"
-        },
-        "date": 1754570458112,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.20249095479999996,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.2203460116,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.1268456504,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "10196091+Ank4n@users.noreply.github.com",
+            "name": "Ankan",
+            "username": "Ank4n"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "99be95da17c08dfc8388be26c213157db86dba22",
+          "message": "[Staking] Fix LastValidatorEra false positive (#11647)\n\nresolves partially:\nhttps://github.com/paritytech/polkadot-sdk/issues/11646",
+          "timestamp": "2026-04-07T11:18:18Z",
+          "tree_id": "a1cb6cf5bf48f5937e698339fdeaba306731eb0b",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/99be95da17c08dfc8388be26c213157db86dba22"
+        },
+        "date": 1775566260577,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1201964418,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.5995613916,
             "unit": "seconds"
           }
         ]

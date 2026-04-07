@@ -62,7 +62,6 @@ impl<'a, E: Ext, M: PolkaVmInstance<E::T>> Runtime<'a, E, M> {
 	pub fn handle_interrupt(
 		&mut self,
 		interrupt: Result<polkavm::InterruptKind, polkavm::Error>,
-		module: &polkavm::Module,
 		instance: &mut M,
 	) -> Option<ExecResult> {
 		use polkavm::InterruptKind::*;
@@ -91,10 +90,10 @@ impl<'a, E: Ext, M: PolkaVmInstance<E::T>> Runtime<'a, E, M> {
 						data: Vec::new(),
 					}));
 				}
-				let Some(syscall_symbol) = module.imports().get(idx) else {
+				let Some(syscall_symbol) = instance.resolve_import(idx) else {
 					return Some(Err(<Error<E::T>>::InvalidSyscall.into()));
 				};
-				match self.handle_ecall(instance, syscall_symbol.as_bytes()) {
+				match self.handle_ecall(instance, &syscall_symbol) {
 					Ok(None) => None,
 					Ok(Some(return_value)) => {
 						instance.write_output(return_value);

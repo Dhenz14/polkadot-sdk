@@ -138,6 +138,12 @@ pub trait PolkaVmInstance<T: Config>: Memory<T> {
 	fn set_gas(&mut self, gas: polkavm::Gas);
 	fn read_input_regs(&self) -> (u64, u64, u64, u64, u64, u64);
 	fn write_output(&mut self, output: u64);
+
+	/// Execute until the next interrupt and return the interrupt kind.
+	fn run(&mut self) -> Result<polkavm::InterruptKind, polkavm::Error>;
+
+	/// Resolve an import index to its symbol bytes.
+	fn resolve_import(&self, idx: u32) -> Option<Vec<u8>>;
 }
 
 // Memory implementation used in benchmarking where guest memory is mapped into the host.
@@ -171,48 +177,70 @@ impl<T: Config> Memory<T> for [u8] {
 	fn reset_interpreter_cache(&mut self) {}
 }
 
-impl<T: Config> Memory<T> for polkavm::RawInstance {
+/// Wraps a [`polkavm::RawInstance`] and its [`polkavm::Module`] into a single
+/// type that implements [`PolkaVmInstance`].
+pub struct NativeInstance {
+	instance: polkavm::RawInstance,
+	module: polkavm::Module,
+}
+
+impl NativeInstance {
+	pub fn new(instance: polkavm::RawInstance, module: polkavm::Module) -> Self {
+		Self { instance, module }
+	}
+}
+
+impl<T: Config> Memory<T> for NativeInstance {
 	fn read_into_buf(&mut self, ptr: u32, buf: &mut [u8]) -> Result<(), DispatchError> {
-		self.read_memory_into(ptr, buf)
+		self.instance
+			.read_memory_into(ptr, buf)
 			.map(|_| ())
 			.map_err(|_| Error::<T>::OutOfBounds.into())
 	}
 
 	fn write(&mut self, ptr: u32, buf: &[u8]) -> Result<(), DispatchError> {
-		self.write_memory(ptr, buf).map_err(|_| Error::<T>::OutOfBounds.into())
+		self.instance.write_memory(ptr, buf).map_err(|_| Error::<T>::OutOfBounds.into())
 	}
 
 	fn zero(&mut self, ptr: u32, len: u32) -> Result<(), DispatchError> {
-		self.zero_memory(ptr, len).map_err(|_| Error::<T>::OutOfBounds.into())
+		self.instance.zero_memory(ptr, len).map_err(|_| Error::<T>::OutOfBounds.into())
 	}
 
 	fn reset_interpreter_cache(&mut self) {
-		self.reset_interpreter_cache();
+		self.instance.reset_interpreter_cache();
 	}
 }
 
-impl<T: Config> PolkaVmInstance<T> for polkavm::RawInstance {
+impl<T: Config> PolkaVmInstance<T> for NativeInstance {
 	fn gas(&self) -> polkavm::Gas {
-		self.gas()
+		self.instance.gas()
 	}
 
 	fn set_gas(&mut self, gas: polkavm::Gas) {
-		self.set_gas(gas)
+		self.instance.set_gas(gas)
 	}
 
 	fn read_input_regs(&self) -> (u64, u64, u64, u64, u64, u64) {
 		(
-			self.reg(polkavm::Reg::A0),
-			self.reg(polkavm::Reg::A1),
-			self.reg(polkavm::Reg::A2),
-			self.reg(polkavm::Reg::A3),
-			self.reg(polkavm::Reg::A4),
-			self.reg(polkavm::Reg::A5),
+			self.instance.reg(polkavm::Reg::A0),
+			self.instance.reg(polkavm::Reg::A1),
+			self.instance.reg(polkavm::Reg::A2),
+			self.instance.reg(polkavm::Reg::A3),
+			self.instance.reg(polkavm::Reg::A4),
+			self.instance.reg(polkavm::Reg::A5),
 		)
 	}
 
 	fn write_output(&mut self, output: u64) {
-		self.set_reg(polkavm::Reg::A0, output);
+		self.instance.set_reg(polkavm::Reg::A0, output);
+	}
+
+	fn run(&mut self) -> Result<polkavm::InterruptKind, polkavm::Error> {
+		self.instance.run()
+	}
+
+	fn resolve_import(&self, idx: u32) -> Option<Vec<u8>> {
+		self.module.imports().get(idx).map(|s| s.as_bytes().to_vec())
 	}
 }
 
@@ -826,24 +854,43 @@ impl<'a, E: Ext, M: ?Sized + Memory<E::T>> FrameTraceInfo for Runtime<'a, E, M> 
 	}
 }
 
-pub struct PreparedCall<'a, E: Ext> {
-	module: polkavm::Module,
-	instance: polkavm::RawInstance,
-	runtime: Runtime<'a, E, polkavm::RawInstance>,
+pub struct PreparedCall<'a, E: Ext, I: PolkaVmInstance<E::T>> {
+	instance: I,
+	runtime: Runtime<'a, E, I>,
 }
 
-impl<'a, E: Ext> PreparedCall<'a, E> {
-	/// Compile and instantiate contract.
+impl<'a, E: Ext, I: PolkaVmInstance<E::T>> PreparedCall<'a, E, I> {
+	pub fn call(mut self) -> ExecResult {
+		let exec_result = loop {
+			let interrupt = self.instance.run();
+			if let Some(exec_result) = self.runtime.handle_interrupt(interrupt, &mut self.instance)
+			{
+				break exec_result;
+			}
+		};
+		crate::tracing::if_tracing(|tracer| {
+			tracer.enter_ecall(crate::tracing::PVM_FUEL_NAME, &[], &self.runtime)
+		});
+		let sync_result =
+			self.runtime.ext().frame_meter_mut().sync_from_executor(self.instance.gas());
+		crate::tracing::if_tracing(|tracer| tracer.exit_step(&self.runtime, None));
+		sync_result?;
+		exec_result
+	}
+}
+
+impl<'a, E: Ext> PreparedCall<'a, E, NativeInstance> {
+	/// Compile and instantiate contract using the native PolkaVM interpreter.
 	///
 	/// `aux_data_size` is only used for runtime benchmarks. Real contracts
 	/// don't make use of this buffer. Hence this should not be set to anything
 	/// other than `0` when not used for benchmarking.
-	pub fn new(
+	pub fn new_native(
 		blob: ContractBlob<E::T>,
-		mut runtime: Runtime<E, polkavm::RawInstance>,
+		mut runtime: Runtime<'a, E, NativeInstance>,
 		entry_point: ExportedFunction,
 		aux_data_size: u32,
-	) -> Result<PreparedCall<E>, ExecError> {
+	) -> Result<Self, ExecError> {
 		let mut config = polkavm::Config::default();
 		// Log filtering by level with log::enabled! returns always true,
 		// passing all logs through impacting performance \
@@ -897,32 +944,14 @@ impl<'a, E: Ext> PreparedCall<'a, E> {
 			.map_err(|_| Error::<E::T>::CodeRejected)?;
 		instance.prepare_call_untyped(entry_program_counter, &[]);
 
-		Ok(PreparedCall { module, instance, runtime })
-	}
-
-	pub fn call(mut self) -> ExecResult {
-		let exec_result = loop {
-			let interrupt = self.instance.run();
-			if let Some(exec_result) =
-				self.runtime.handle_interrupt(interrupt, &self.module, &mut self.instance)
-			{
-				break exec_result;
-			}
-		};
-		crate::tracing::if_tracing(|tracer| {
-			tracer.enter_ecall(crate::tracing::PVM_FUEL_NAME, &[], &self.runtime)
-		});
-		let sync_result =
-			self.runtime.ext().frame_meter_mut().sync_from_executor(self.instance.gas());
-		crate::tracing::if_tracing(|tracer| tracer.exit_step(&self.runtime, None));
-		sync_result?;
-		exec_result
+		let instance = NativeInstance::new(instance, module);
+		Ok(PreparedCall { instance, runtime })
 	}
 
 	/// The guest memory address at which the aux data is located.
 	#[cfg(feature = "runtime-benchmarks")]
 	pub fn aux_data_base(&self) -> u32 {
-		self.instance.module().memory_map().aux_data_address()
+		self.instance.instance.module().memory_map().aux_data_address()
 	}
 
 	/// Copies `data` to the aux data at address `offset`.
@@ -939,12 +968,12 @@ impl<'a, E: Ext> PreparedCall<'a, E> {
 		a1: u64,
 	) -> frame_support::dispatch::DispatchResult {
 		let a0 = self.aux_data_base().saturating_add(offset);
-		self.instance.write_memory(a0, data).map_err(|err| {
+		self.instance.instance.write_memory(a0, data).map_err(|err| {
 			log::debug!(target: LOG_TARGET, "failed to write aux data: {err:?}");
 			Error::<E::T>::CodeRejected
 		})?;
-		self.instance.set_reg(polkavm::Reg::A0, a0.into());
-		self.instance.set_reg(polkavm::Reg::A1, a1);
+		self.instance.instance.set_reg(polkavm::Reg::A0, a0.into());
+		self.instance.instance.set_reg(polkavm::Reg::A1, a1);
 		Ok(())
 	}
 }

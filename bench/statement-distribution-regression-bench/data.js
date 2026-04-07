@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775563348821,
+  "lastUpdate": 1775566372229,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "paolo@parity.io",
-            "name": "Paolo La Camera",
-            "username": "sigurpol"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "0f59afba36c8affac3b7fd41b0518fd9b81cefef",
-          "message": "staking-async/papi-tests: fix justfile to run in CI (#9411)\n\nMake sure to run `just killall` step in a bash shell, otherwise while\ntrying to kill a non existing process e.g.\n```bash\nkillall:\n  pkill -f zombienet || true\n```\n\nwe would get the following issue while running in a container:\n\n```bash\nRun just setup\n  just setup\n  shell: sh -e {0}\n  env:\n    IMAGE: docker.io/paritytech/ci-unified:bullseye-1.85.0-2025-01-28-v202504231537\n    RUST_INFO: rustup show && cargo --version && rustup +nightly show && cargo +nightly --version\n    CACHE_ON_FAILURE: true\n    CARGO_INCREMENTAL: 0\n🧹 Killing any existing zombienet or chain processes...\npkill -f zombienet || true\nerror: Recipe `killall` was terminated on line 124 by signal 15\nerror: Recipe `setup` failed with exit code 143\nError: Process completed with exit code 143.\n```\n\nRunning the just step within a bash shell, ensure that the error is\nproperly handled and propagated without terminating the just script.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-08-05T08:24:56Z",
-          "tree_id": "d7576a5133a9265d2155b6a6babad37d766607fd",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/0f59afba36c8affac3b7fd41b0518fd9b81cefef"
-        },
-        "date": 1754386602990,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 127.97399999999998,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04488447616799997,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03409721985800001,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.039505041939999985,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "10196091+Ank4n@users.noreply.github.com",
+            "name": "Ankan",
+            "username": "Ank4n"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "99be95da17c08dfc8388be26c213157db86dba22",
+          "message": "[Staking] Fix LastValidatorEra false positive (#11647)\n\nresolves partially:\nhttps://github.com/paritytech/polkadot-sdk/issues/11646",
+          "timestamp": "2026-04-07T11:18:18Z",
+          "tree_id": "a1cb6cf5bf48f5937e698339fdeaba306731eb0b",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/99be95da17c08dfc8388be26c213157db86dba22"
+        },
+        "date": 1775566350476,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.05,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08885818374599987,
+            "unit": "seconds"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.039284722976000004,
             "unit": "seconds"
           }
         ]

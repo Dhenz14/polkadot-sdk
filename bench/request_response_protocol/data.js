@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775572080561,
+  "lastUpdate": 1775573325214,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -74627,6 +74627,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2837017236,
             "range": "± 39043987",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "60601340+lexnv@users.noreply.github.com",
+            "name": "Alexandru Vasile",
+            "username": "lexnv"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "cf245e0df46f34d1a24f7f42f4a9845a7f6b770b",
+          "message": "collator-protocol: Enhance visibility into para id of failed to fetch collations (#11629)\n\nThis PR enhances the observability of our logs when validators refuse to\nfetch advertised collations for certain para IDs.\n\nThe validator keeps track of advertised collations from collators.\nThen, the validator checks if it has sufficient slots\n(`is_slot_available`) and if the collation can be seconded\n(`can_second`).\nIf either of the mentioned functions fails, the validator silently\nignores the collation.\n\nThis PR aims to surface this behavior and help investigate further\nissues.\n\nThis PR is already deployed on validators and has surfaced:\n- https://github.com/paritytech/polkadot-sdk/issues/11625\n\nPart of:\n- https://github.com/paritytech/polkadot-sdk/issues/11377\n\n---------\n\nSigned-off-by: Alexandru Vasile <alexandru.vasile@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Tsvetomir Dimitrov <tsvetomir@parity.io>",
+          "timestamp": "2026-04-07T13:34:59Z",
+          "tree_id": "ede38e5c65cd589a7bee6f97619f5e406d7699d2",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/cf245e0df46f34d1a24f7f42f4a9845a7f6b770b"
+        },
+        "date": 1775573302924,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18777221,
+            "range": "± 115420",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 19066721,
+            "range": "± 147287",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20834401,
+            "range": "± 162083",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 25435299,
+            "range": "± 270973",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 61016301,
+            "range": "± 1013466",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 357994383,
+            "range": "± 4422867",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2610543934,
+            "range": "± 146184332",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15742173,
+            "range": "± 103390",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15888167,
+            "range": "± 237444",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16223198,
+            "range": "± 347041",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21022676,
+            "range": "± 243596",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 61974107,
+            "range": "± 1888736",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 378288438,
+            "range": "± 4528366",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2688927736,
+            "range": "± 32036891",
             "unit": "ns/iter"
           }
         ]

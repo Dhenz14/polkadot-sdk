@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775579675223,
+  "lastUpdate": 1775583356239,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "mich@elmueller.net",
-            "name": "Michael Müller",
-            "username": "cmichi"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "beb9030b249cc078b3955232074a8495e7e0302a",
-          "message": "[pallet-revive] Implement basic `System` pre-compile, move `seal_hash_blake2_256` into it (#9441)\n\nPart of closing https://github.com/paritytech/polkadot-sdk/issues/8572.\n\nJust the `hash_blake2_256` in this PR, to gauge if you're fine with this\nsetup.\n\ncc @athei @pgherveou\n\n---------\n\nCo-authored-by: Alexander Theißen <alex.theissen@me.com>",
-          "timestamp": "2025-08-07T11:20:46Z",
-          "tree_id": "61e2c4a158c8f86612d14047e993f1858f2b86fd",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/beb9030b249cc078b3955232074a8495e7e0302a"
-        },
-        "date": 1754570507647,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52943.3,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63627.479999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005677543110000004,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.48456336888,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.0000219845,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.445938479059997,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.51689302889,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.502766132010001,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000020851519999999996,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.4429789371899977,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000020851519999999996,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9487543641199996,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.5443051048599994,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.778397949930979,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.0000219845,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting/test-environment",
             "value": 0.00002697013,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "bruno.devic@parity.io",
+            "name": "BDevParity",
+            "username": "BDevParity"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b0afea2776217a1a79cca98237464186b40ef248",
+          "message": "[Release|CI/CD] Fix warnings in GH workflows or release pipeline (#11632)\n\nhttps://github.com/paritytech/release-engineering/issues/291\n\nTODO:\n- handle warnings on all workflows regarding deprecated Node version 20",
+          "timestamp": "2026-04-07T16:04:23Z",
+          "tree_id": "2fdb315f6425204ed4d76d5765c6247515d57299",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/b0afea2776217a1a79cca98237464186b40ef248"
+        },
+        "date": 1775583334235,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 52939.8,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 63624.26000000001,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.000020051350000000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.414128410773,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.75920867189995,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.000020051350000000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.00003551926,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.9012370765299993,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.00003551926,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.9330452727699994,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.8530448775700004,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.00514504779,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.82103236465,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.4810622212900006,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.764641811299949,
             "unit": "seconds"
           }
         ]

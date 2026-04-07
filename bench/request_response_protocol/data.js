@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775566047769,
+  "lastUpdate": 1775572080561,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -74519,6 +74519,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2638023339,
             "range": "± 62969367",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "e45c2970e7b30c25e49e280841c3850acb9dd3c7",
+          "message": "statement-store: add eviction priority ordering tests (#11615)\n\n# Description\nImplement unit tests for \"Eviction: verify the lowest-priority\nstatements are evicted first, corner cases of priority ordering\" #11534\n## Summary\n- Extend the existing `constraints()` test with eviction priority\nordering corner cases:\n- Verify that equal priority statements are rejected with `AccountFull`\nwhen the account is full\n- Verify that specific evicted statement hashes appear in the expired\nmap\n\n---------\n\nCo-authored-by: Andrei Eres <eresav@me.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-07T13:20:01Z",
+          "tree_id": "93724f7dcbc165439fbd0e3db61b541e6e99b758",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/e45c2970e7b30c25e49e280841c3850acb9dd3c7"
+        },
+        "date": 1775572058208,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18158313,
+            "range": "± 81986",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18583274,
+            "range": "± 179947",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20092471,
+            "range": "± 131455",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24560614,
+            "range": "± 171160",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 57303304,
+            "range": "± 320826",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 326136311,
+            "range": "± 11199239",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2590158848,
+            "range": "± 64877321",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15223257,
+            "range": "± 246331",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15282561,
+            "range": "± 290512",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 15690508,
+            "range": "± 232463",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20435371,
+            "range": "± 260976",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 57188619,
+            "range": "± 457851",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 328354429,
+            "range": "± 10674166",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2837017236,
+            "range": "± 39043987",
             "unit": "ns/iter"
           }
         ]

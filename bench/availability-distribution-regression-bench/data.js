@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775557959331,
+  "lastUpdate": 1775560464138,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "xlchen1291@gmail.com",
-            "name": "Xiliang Chen",
-            "username": "xlc"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "cf5a24ecc5802ecf78d943f9723b6f4ccdc0ddfa",
-          "message": "pallet-timestamp is dev dependency of pallet-xcm (#9435)\n\nit is only used in mock\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-08-06T07:18:50Z",
-          "tree_id": "18684bbb92e38d18676ffa52b4c6665a77cc1449",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/cf5a24ecc5802ecf78d943f9723b6f4ccdc0ddfa"
-        },
-        "date": 1754469023129,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02230688152666667,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15721317086000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013154632213333326,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.00711924608666663,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-distribution",
             "value": 0.007382068373333332,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c9e84992741de0136fbf7ca66727a1aa42fb8433",
+          "message": "statement-store: add concurrent and multi-peer propagation tests (#11611)\n\n# Description\n\nImplement unit tests for \"Propagation under normal load\" #11534 \n\n## Summary\n- Add 3 multi-peer propagation tests for the network handler (all-peers\ndelivery, known-statement filtering, same-statement deduplication)\n- Refactor 3 duplicate test builder functions into a single canonical\n`build_handler_multi_peers(n)` with thin wrappers\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Andrei Eres <eresav@me.com>",
+          "timestamp": "2026-04-07T09:07:33Z",
+          "tree_id": "d4e9da1978b569e219ad7f518379490cb6b2604a",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/c9e84992741de0136fbf7ca66727a1aa42fb8433"
+        },
+        "date": 1775560441618,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007184781686666666,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.0254080901,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14275726156000001,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009584855619999985,
             "unit": "seconds"
           }
         ]

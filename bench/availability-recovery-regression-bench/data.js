@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775557928221,
+  "lastUpdate": 1775560433697,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "git@kchr.de",
-            "name": "Bastian Köcher",
-            "username": "bkchr"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "43da422003fa5a5e66faee0bf9919a8a32bb630f",
-          "message": "CumulusDigestItem: Add function to fetch the relay block identifier (#9432)\n\nThis simplifies code paths that are fetching these information from a\nparachain header.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-08-06T19:08:19Z",
-          "tree_id": "bcc9d3db53b62f7a85fe3db2e791b1da77787ae7",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/43da422003fa5a5e66faee0bf9919a8a32bb630f"
-        },
-        "date": 1754511426839,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.265108221233337,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.20131184963333335,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.13134459110000002,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c9e84992741de0136fbf7ca66727a1aa42fb8433",
+          "message": "statement-store: add concurrent and multi-peer propagation tests (#11611)\n\n# Description\n\nImplement unit tests for \"Propagation under normal load\" #11534 \n\n## Summary\n- Add 3 multi-peer propagation tests for the network handler (all-peers\ndelivery, known-statement filtering, same-statement deduplication)\n- Refactor 3 duplicate test builder functions into a single canonical\n`build_handler_multi_peers(n)` with thin wrappers\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Andrei Eres <eresav@me.com>",
+          "timestamp": "2026-04-07T09:07:33Z",
+          "tree_id": "d4e9da1978b569e219ad7f518379490cb6b2604a",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/c9e84992741de0136fbf7ca66727a1aa42fb8433"
+        },
+        "date": 1775560410822,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.67123568633333,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13065295103333333,
             "unit": "seconds"
           }
         ]

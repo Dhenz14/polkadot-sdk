@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775574258128,
+  "lastUpdate": 1775579644775,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "adrian@parity.io",
-            "name": "Adrian Catangiu",
-            "username": "acatangiu"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "0d765ce37b258640a6eeb575f6bff76d6a7b7c46",
-          "message": "pallet-xcm: fix authorized_alias benchmarks (#9445)\n\nDepending on runtime configuration of ED and storage deposits, the old\nbenchmark code did not set up enough funds to cover authorized aliases\nstorage deposits.\n\nFix it by adding more funds as part of benchmark setup.\n\n---------\n\nSigned-off-by: Adrian Catangiu <adrian@parity.io>\nCo-authored-by: Karol Kokoszka <karol.k91@gmail.com>",
-          "timestamp": "2025-08-07T19:28:09Z",
-          "tree_id": "143f16d946fef64897bb51a08e29cbc6ccc42185",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/0d765ce37b258640a6eeb575f6bff76d6a7b7c46"
-        },
-        "date": 1754599173364,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15727883354000005,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013000627473333335,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022361318219999995,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.0073778449799999715,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.009842275246666653,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "jfanatiker@gmx.at",
+            "name": "eskimor",
+            "username": "eskimor"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "1b71ca68ca00771d4bb5bd7b192ca42e873c8538",
+          "message": "Fix zombienet tests: Use compressed runtimes & log errors. (#11641)\n\nTest runtimes grew too large, we need compression now to fit the limits.\nThis fixes the runtime upgrading zombienet tests. In addition I added\nlogging, such that errors like this will be easier to find next time.\n\nFixes: https://github.com/paritytech/polkadot-sdk/issues/11568\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-07T15:04:47Z",
+          "tree_id": "73da9efd76dd118c59af6512c3b024573c2a0c52",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/1b71ca68ca00771d4bb5bd7b192ca42e873c8538"
+        },
+        "date": 1775579622630,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.025342536,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007080637379999997,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14247549610666674,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.00954523320666665,
             "unit": "seconds"
           }
         ]

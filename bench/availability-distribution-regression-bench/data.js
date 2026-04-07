@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775560464138,
+  "lastUpdate": 1775563289762,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "git@kchr.de",
-            "name": "Bastian Köcher",
-            "username": "bkchr"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "43da422003fa5a5e66faee0bf9919a8a32bb630f",
-          "message": "CumulusDigestItem: Add function to fetch the relay block identifier (#9432)\n\nThis simplifies code paths that are fetching these information from a\nparachain header.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-08-06T19:08:19Z",
-          "tree_id": "bcc9d3db53b62f7a85fe3db2e791b1da77787ae7",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/43da422003fa5a5e66faee0bf9919a8a32bb630f"
-        },
-        "date": 1754511452125,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02280968048666667,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013335061740000001,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15915182258666666,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007542443046666645,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.009584855619999985,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "bruno.devic@parity.io",
+            "name": "BDevParity",
+            "username": "BDevParity"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "20d65ad1febe16991b847d5d57c8d2cbdbf2979c",
+          "message": "[Release|CI/CD] Trigger check-sync flow in callable flows only if they are triggered manually and not with the workflow_call trigger (#11631)\n\nhttps://github.com/paritytech/release-engineering/issues/291",
+          "timestamp": "2026-04-07T10:40:36Z",
+          "tree_id": "2ad6bae28a6e46a10cba89ebf3c59d74ce1ac35d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/20d65ad1febe16991b847d5d57c8d2cbdbf2979c"
+        },
+        "date": 1775563267861,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.00725532256666667,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.025401261419999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14323047528666671,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009635290926666644,
             "unit": "seconds"
           }
         ]

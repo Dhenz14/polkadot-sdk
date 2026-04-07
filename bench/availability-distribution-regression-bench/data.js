@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775513084789,
+  "lastUpdate": 1775557959331,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "363911+pepoviola@users.noreply.github.com",
-            "name": "Javier Viola",
-            "username": "pepoviola"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "56f683fabfc5a4554d4b9208e91103624264407c",
-          "message": "do not trigger zombienet workflows on 'labeled' (#9427)\n\nAt some point of the stabilization process we added the 'labeled' to the\nlist of events that trigger the zombienet workflows. This is not needed\nanymore and also is causing failures because the _artifacts_ could be\nexpired\n([example](https://github.com/paritytech/polkadot-sdk/actions/runs/16529272288/job/46752021278?pr=9286#step:6:127)).\n\nThx!",
-          "timestamp": "2025-08-05T15:10:46Z",
-          "tree_id": "445f4b598ca4a41c328ca69c595b652faa137169",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/56f683fabfc5a4554d4b9208e91103624264407c"
-        },
-        "date": 1754410986285,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012852347826666666,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022386366513333332,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.0073525013999999654,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15712550618666665,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-distribution",
             "value": 0.007308371813333336,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "48632512+s0me0ne-unkn0wn@users.noreply.github.com",
+            "name": "s0me0ne-unkn0wn",
+            "username": "s0me0ne-unkn0wn"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "5e1f597fd9ff388bf3315d6d805de4fdf88ae4d4",
+          "message": "Update PolkaVM to latest version (#11650)",
+          "timestamp": "2026-04-07T08:53:13Z",
+          "tree_id": "aea557c47a059041d5337471d3f6872e4202dd4b",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/5e1f597fd9ff388bf3315d6d805de4fdf88ae4d4"
+        },
+        "date": 1775557936797,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009587068886666649,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.1436258057733334,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.025568179833333326,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007382068373333332,
             "unit": "seconds"
           }
         ]

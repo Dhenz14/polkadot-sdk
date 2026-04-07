@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775566372229,
+  "lastUpdate": 1775574319184,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "363911+pepoviola@users.noreply.github.com",
-            "name": "Javier Viola",
-            "username": "pepoviola"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "56f683fabfc5a4554d4b9208e91103624264407c",
-          "message": "do not trigger zombienet workflows on 'labeled' (#9427)\n\nAt some point of the stabilization process we added the 'labeled' to the\nlist of events that trigger the zombienet workflows. This is not needed\nanymore and also is causing failures because the _artifacts_ could be\nexpired\n([example](https://github.com/paritytech/polkadot-sdk/actions/runs/16529272288/job/46752021278?pr=9286#step:6:127)).\n\nThx!",
-          "timestamp": "2025-08-05T15:10:46Z",
-          "tree_id": "445f4b598ca4a41c328ca69c595b652faa137169",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/56f683fabfc5a4554d4b9208e91103624264407c"
-        },
-        "date": 1754411035979,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.95399999999994,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04456783414399992,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03419867113200001,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.039284722976000004,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "60601340+lexnv@users.noreply.github.com",
+            "name": "Alexandru Vasile",
+            "username": "lexnv"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "cf245e0df46f34d1a24f7f42f4a9845a7f6b770b",
+          "message": "collator-protocol: Enhance visibility into para id of failed to fetch collations (#11629)\n\nThis PR enhances the observability of our logs when validators refuse to\nfetch advertised collations for certain para IDs.\n\nThe validator keeps track of advertised collations from collators.\nThen, the validator checks if it has sufficient slots\n(`is_slot_available`) and if the collation can be seconded\n(`can_second`).\nIf either of the mentioned functions fails, the validator silently\nignores the collation.\n\nThis PR aims to surface this behavior and help investigate further\nissues.\n\nThis PR is already deployed on validators and has surfaced:\n- https://github.com/paritytech/polkadot-sdk/issues/11625\n\nPart of:\n- https://github.com/paritytech/polkadot-sdk/issues/11377\n\n---------\n\nSigned-off-by: Alexandru Vasile <alexandru.vasile@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Tsvetomir Dimitrov <tsvetomir@parity.io>",
+          "timestamp": "2026-04-07T13:34:59Z",
+          "tree_id": "ede38e5c65cd589a7bee6f97619f5e406d7699d2",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/cf245e0df46f34d1a24f7f42f4a9845a7f6b770b"
+        },
+        "date": 1775574296845,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.072,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.03773398187400001,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.07658054310199991,
             "unit": "seconds"
           }
         ]

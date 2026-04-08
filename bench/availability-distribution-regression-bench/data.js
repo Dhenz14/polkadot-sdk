@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775639682664,
+  "lastUpdate": 1775643897504,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "14218860+iulianbarbu@users.noreply.github.com",
-            "name": "Iulian Barbu",
-            "username": "iulianbarbu"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "5bb3afcd733a18744a09c1df840c3813623fb0ab",
-          "message": "check-semver: enable the support for edition 2024 (#9473)\n\n# Description\n\n`check-semver` job fails since some time in the majority of the PRs, and\nthe issue has been tracked down to an indirect dependency which is based\non edition 2024 rust, which can not compile successfully with the\ncurrent nightly.\n\n## Integration\n\nN/A\n\n## Review Notes\n\n- Updated parity-publish:\nhttps://github.com/paritytech/parity-publish/pull/58\n- This PR completes the circle and makes check-semver functional again\n- Tested already these changes here:\nhttps://github.com/paritytech/polkadot-sdk/actions/runs/16909276800/workflow\n\nSigned-off-by: Iulian Barbu <iulian.barbu@parity.io>",
-          "timestamp": "2025-08-13T07:37:51Z",
-          "tree_id": "623c90f2a9e3da06be3694e350eafc34b23a00b3",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/5bb3afcd733a18744a09c1df840c3813623fb0ab"
-        },
-        "date": 1755074840681,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012808602033333331,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022458894586666663,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007127159486666645,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.1566110295666667,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-distribution",
             "value": 0.007115788800000002,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "pgherveou@gmail.com",
+            "name": "PG Herveou",
+            "username": "pgherveou"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d8837ceb93f00290612d51b5348ae3e80d0eb8a8",
+          "message": "revive: Automatic address mapping via OnNewAccount/OnKilledAccount (#11416)\n\nThis PR add the necessary code to automatically map Substrate account to\nan Eth H160 address.\nIt does that by leveraging the OnNewAccount/OnKilledAccount frame_system\nhooks.\n\nIn that configuration pallet-revive map/ unmap dispatchable becomes\nessentially noop.\nNo extra deposit is taken from the the account. We also don't increase\nthe existential deposit since doing so would mean that we need to mint\nthe difference to all existing account\n\n \nChanges summary:\n- Add `AutoMapper<T>` struct that implements\n`OnNewAccount`/`OnKilledAccount` to automatically map accounts when\ncreated and unmap when killed\n- Add `AutoMap` config constant to enable/disable the feature\nper-runtime\n- Guard `map_account`/`unmap_account` dispatchables with\n`AutoMappingEnabled` error when auto-mapping is active\n- Wire up `AutoMapper` in Asset Hub Westend and dev-node runtimes with\n`AutoMap = true`\n- Add v3 multi-block migration to auto-map all existing accounts and\nrelease deposits for already-mapped accounts\n- Add `v3_migration_step` benchmark\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-08T09:02:21Z",
+          "tree_id": "d6d4f1d7d867b8838c3d09874091f7c85c1a9321",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/d8837ceb93f00290612d51b5348ae3e80d0eb8a8"
+        },
+        "date": 1775643875041,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007076040806666668,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009589883739999985,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.025348893639999995,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14241410822666664,
             "unit": "seconds"
           }
         ]

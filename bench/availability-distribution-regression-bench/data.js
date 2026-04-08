@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775606653929,
+  "lastUpdate": 1775639682664,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "bkontur@gmail.com",
-            "name": "Branislav Kontur",
-            "username": "bkontur"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "2db5e16bf2b497e8ef877d3d7e79b3fcdcab5f82",
-          "message": "Bridges - relax trait bound from Codec to Encode (#9470)\n\n### Problem\n\nWhile bumping the parity-bridges-common repo to the latest polkadot-sdk\nmaster, we encountered a new compilation issue:\n```\nerror[E0277]: the trait bound `UncheckedExtrinsic<MultiAddress<AccountId32, ()>, ..., ..., ..., 16777216>: Decode` is not satisfied\n   --> relay-clients/client-rococo/src/lib.rs:95:3\n    |\n95  |         bp_polkadot_core::UncheckedExtrinsic<Self::Call, bp_rococo::TransactionExtension>;\n    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the trait `parity_scale_codec::Decode` is not implemented for `UncheckedExtrinsic<MultiAddress<AccountId32, ()>, ..., ..., ..., 16777216>`\n    |\n    = help: the trait `parity_scale_codec::Decode` is implemented for `sp_runtime::generic::UncheckedExtrinsic<Address, Call, Signature, Extension, MAX_CALL_SIZE>`\n    = note: required for `<Rococo as ChainWithTransactions>::SignedTransaction` to implement `parity_scale_codec::Codec`\nnote: required by a bound in `relay_substrate_client::ChainWithTransactions::SignedTransaction`\n   --> ~/.cargo/git/checkouts/polkadot-sdk-dee0edd6eefa0594/c40b36c/bridges/relays/client-substrate/src/chain.rs:227:42\n    |\n227 |     type SignedTransaction: Clone + Debug + Codec + Send + 'static;\n    |                                             ^^^^^ required by this bound in `ChainWithTransactions::SignedTransaction`\n```\n\nI added the test simulating the same compilation error here in the\npolkadot-sdk:\n```\ncargo test -p relay-substrate-client\n\nerror[E0277]: the trait bound `UncheckedExtrinsic<MultiAddress<AccountId32, ()>, ..., ..., ..., 16777216>: Decode` is not satisfied\n   --> bridges/relays/client-substrate/src/test_chain.rs:92:27\n    |\n92  |       type SignedTransaction = bp_polkadot_core::UncheckedExtrinsic<\n    |  ______________________________^\n93  | |         TestRuntimeCall,\n94  | |         bp_polkadot_core::SuffixedCommonTransactionExtension<(\n95  | |             bp_runtime::extensions::BridgeRejectObsoleteHeadersAndMessages,\n96  | |             bp_runtime::extensions::RefundBridgedParachainMessagesSchema,\n97  | |         )>,\n98  | |     >;\n    | |_____^ the trait `parity_scale_codec::Decode` is not implemented for `UncheckedExtrinsic<MultiAddress<AccountId32, ()>, EncodedOrDecodedCall<...>, ..., ..., 16777216>`\n    |\n    = help: the trait `parity_scale_codec::Decode` is implemented for `UncheckedExtrinsic<Address, Call, Signature, Extension, MAX_CALL_SIZE>`\n    = note: required for `<TestChain as ChainWithTransactions>::SignedTransaction` to implement `parity_scale_codec::Codec`\nnote: required by a bound in `ChainWithTransactions::SignedTransaction`\n   --> bridges/relays/client-substrate/src/chain.rs:227:42\n    |\n227 |     type SignedTransaction: Clone + Debug + Codec + Send + 'static;\n    |                                             ^^^^^ required by this bound in `ChainWithTransactions::SignedTransaction`\n    = note: the full name for the type has been written to '/home/bkontur/cargo-remote-builds-aaa/4049172861662423200/target/debug/deps/relay_substrate_client-3bc9e3563aed810c.long-type-11484417815568207698.txt'\n```\n\n### Solution?\n\nAfter some investigation, this compilation issue stared with\nhttps://github.com/paritytech/polkadot-sdk/pull/8234, and relaxing the\n`type SignedTransaction` constraint resolves the issue. Any other\nsolution?\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-08-12T10:11:16Z",
-          "tree_id": "99b4240a7c41440c005fff1d1b4f9a5a6537f9b0",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/2db5e16bf2b497e8ef877d3d7e79b3fcdcab5f82"
-        },
-        "date": 1754997678401,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012946175760000001,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.1573041814866667,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007250538506666689,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022489925373333334,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "bitfield-distribution",
             "value": 0.02541467233333333,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49718502+alexggh@users.noreply.github.com",
+            "name": "Alexandru Gheorghe",
+            "username": "alexggh"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "4050536124f2285ea8d7ae4661611b9e256d398e",
+          "message": "statement-store: read allowance on best hash (#11667)\n\nTo allow accepting statements as early as possible\n\n---------\n\nSigned-off-by: Alexandru Gheorghe <alexandru.gheorghe@parity.io>\nCo-authored-by: Andrei Eres <eresav@me.com>",
+          "timestamp": "2026-04-08T07:40:51Z",
+          "tree_id": "b9b5de2ac209791a72d5158faa256f51d71d9bb3",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/4050536124f2285ea8d7ae4661611b9e256d398e"
+        },
+        "date": 1775639658892,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.025697019559999992,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.1440677412466667,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.00976415420666665,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007115788800000002,
             "unit": "seconds"
           }
         ]

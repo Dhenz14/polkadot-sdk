@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775671766626,
+  "lastUpdate": 1775676682027,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "178801527+raymondkfcheung@users.noreply.github.com",
-            "name": "Raymond Cheung",
-            "username": "raymondkfcheung"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "e117602f60bf3a0debe6843c94278275e3912a40",
-          "message": "Remove free balance check in `prepare_unlock` (#9489)\n\nThe free balance check during unlocking is unnecessary since a lock can\ncover both free and reserved balances. Removing it allows locks to be\ncleared even if part of the locked funds is reserved or already slashed.",
-          "timestamp": "2025-08-15T06:33:29Z",
-          "tree_id": "44a9e3e9bbdefd13644497674a8362005a86ec67",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/e117602f60bf3a0debe6843c94278275e3912a40"
-        },
-        "date": 1755243807156,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.172232358066665,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.20039990706666666,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 11.864585572466666,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "bruno.devic@parity.io",
+            "name": "BDevParity",
+            "username": "BDevParity"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "bf0fb0117518f02b2b97fab162265e2be71ef990",
+          "message": "Add disk cleanup option to publish crates workflow (#11693)\n\n## Summary\n- Adds `clean_every` workflow input to the publish crates workflow that\nruns `cargo clean` after every N published crates to free disk space\n- Recommended value of 50 for major releases with 100+ crates, where the\nrunner disk would otherwise fill up\n- Default is 0 (disabled), so no change to existing behavior\n- Bumps parity-publish to 0.10.15 which adds the `--clean-every` CLI\nflag\n\n## Issue\n- https://github.com/paritytech/release-engineering/issues/291\n\nCo-authored-by: Egor_P <egor@parity.io>",
+          "timestamp": "2026-04-08T18:09:31Z",
+          "tree_id": "0314d38ab7f5e8b9c880ee4bec3413fb301786ca",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/bf0fb0117518f02b2b97fab162265e2be71ef990"
+        },
+        "date": 1775676660407,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.638244306399999,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12695166173333333,
             "unit": "seconds"
           }
         ]

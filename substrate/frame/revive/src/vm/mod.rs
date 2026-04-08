@@ -330,9 +330,19 @@ impl<T: Config> Executable<T> for ContractBlob<T> {
 		input_data: Vec<u8>,
 	) -> ExecResult {
 		if self.code_info().is_pvm() {
-			let prepared_call =
-				PreparedCall::new_interpreter(self, pvm::Runtime::new(ext, input_data), function, 0)?;
-			prepared_call.call()
+			if T::UnsafeEnableJIT::get() {
+				let prepared_call =
+					PreparedCall::new_jit(self, pvm::Runtime::new(ext, input_data), function)?;
+				prepared_call.call()
+			} else {
+				let prepared_call = PreparedCall::new_interpreter(
+					self,
+					pvm::Runtime::new(ext, input_data),
+					function,
+					0,
+				)?;
+				prepared_call.call()
+			}
 		} else if T::AllowEVMBytecode::get() {
 			use revm::bytecode::Bytecode;
 			let bytecode = Bytecode::new_raw(self.code.into());

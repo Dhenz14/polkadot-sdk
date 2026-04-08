@@ -41,7 +41,8 @@ use frame_support::{
 	pallet_prelude::EnsureOrigin,
 	parameter_types,
 	traits::{
-		ConstU32, ConstU128, FindAuthor, OriginTrait, StorageVersion, tokens::imbalance::ResolveTo,
+		ConstBool, ConstU32, ConstU128, FindAuthor, OriginTrait, StorageVersion,
+		tokens::imbalance::ResolveTo,
 	},
 	weights::{FixedFee, Weight, constants::WEIGHT_REF_TIME_PER_SECOND},
 };
@@ -405,6 +406,7 @@ impl Config for Test {
 	type FeeInfo = FeeInfo<Address, Signature, EthExtraImpl>;
 	type DebugEnabled = DebugFlag;
 	type OnBurn = ResolveTo<BurnDestination, Balances>;
+	type UnsafeEnableJIT = ConstBool<true>;
 }
 
 impl TryFrom<RuntimeCall> for Call<Test> {

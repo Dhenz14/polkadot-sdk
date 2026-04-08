@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775639713997,
+  "lastUpdate": 1775643928400,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "claravanstaden64@gmail.com",
-            "name": "Clara van Staden",
-            "username": "claravanstaden"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "9fe9950f2173981209dcbe1b6d640764090d9f36",
-          "message": "Minor Snowbridge test fixes (#9463)\n\nThe Polkadot runtimes repo block size is too small to test all Ethereum\nclient extrinsics in a single block. This PR runs to the next block\nbefore attempting more test extriniscs. Once this PR has been released,\nthe following code can be removed from the fellows runtime repo:\nhttps://github.com/polkadot-fellows/runtimes/blob/main/system-parachains/bridge-hubs/bridge-hub-polkadot/tests/snowbridge.rs#L234-L370\n\n---------\n\nCo-authored-by: Adrian Catangiu <adrian@parity.io>",
-          "timestamp": "2025-08-12T07:06:26Z",
-          "tree_id": "c5e7264aa47b9ad38029d67eae255579d1a026c6",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/9fe9950f2173981209dcbe1b6d640764090d9f36"
-        },
-        "date": 1754988018544,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52937.90000000001,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63628.09999999999,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.0000193252,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.0000201787,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9899650865600058,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.711245388711027,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.548493980630008,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.5232994521600007,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.4386409605499967,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.5314605732100013,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.0000193252,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.0000201787,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005509588989999997,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.5010088613600017,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.558609457800001,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting/test-environment",
             "value": 0.000021031059999999996,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "pgherveou@gmail.com",
+            "name": "PG Herveou",
+            "username": "pgherveou"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d8837ceb93f00290612d51b5348ae3e80d0eb8a8",
+          "message": "revive: Automatic address mapping via OnNewAccount/OnKilledAccount (#11416)\n\nThis PR add the necessary code to automatically map Substrate account to\nan Eth H160 address.\nIt does that by leveraging the OnNewAccount/OnKilledAccount frame_system\nhooks.\n\nIn that configuration pallet-revive map/ unmap dispatchable becomes\nessentially noop.\nNo extra deposit is taken from the the account. We also don't increase\nthe existential deposit since doing so would mean that we need to mint\nthe difference to all existing account\n\n \nChanges summary:\n- Add `AutoMapper<T>` struct that implements\n`OnNewAccount`/`OnKilledAccount` to automatically map accounts when\ncreated and unmap when killed\n- Add `AutoMap` config constant to enable/disable the feature\nper-runtime\n- Guard `map_account`/`unmap_account` dispatchables with\n`AutoMappingEnabled` error when auto-mapping is active\n- Wire up `AutoMapper` in Asset Hub Westend and dev-node runtimes with\n`AutoMap = true`\n- Add v3 multi-block migration to auto-map all existing accounts and\nrelease deposits for already-mapped accounts\n- Add `v3_migration_step` benchmark\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-08T09:02:21Z",
+          "tree_id": "d6d4f1d7d867b8838c3d09874091f7c85c1a9321",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/d8837ceb93f00290612d51b5348ae3e80d0eb8a8"
+        },
+        "date": 1775643906236,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 63624.880000000005,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 52940.90000000001,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.9239847389099998,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.000031521510000000014,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.719282698969948,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.820753484880001,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7412888834099564,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.0000237248,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.85560777507,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.485631949929992,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.885965765380001,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.352467784402746,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.006050101389999997,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.000031521510000000014,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.0000237248,
             "unit": "seconds"
           }
         ]

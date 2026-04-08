@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775600304997,
+  "lastUpdate": 1775606684139,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "5588131+kianenigma@users.noreply.github.com",
-            "name": "Kian Paimani",
-            "username": "kianenigma"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "c40b36c3a7c208f9a6837b80812473af3d9ba7f7",
-          "message": "Cleanup staking try states + fix min bonds (#9415)\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-08-08T09:25:18Z",
-          "tree_id": "6f1e8993c14fa59502c2a975c3bbe1d6d991ad61",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/c40b36c3a7c208f9a6837b80812473af3d9ba7f7"
-        },
-        "date": 1754650263108,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 63631.999999999985,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 52936.3,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.44327408676000096,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.0056356432700000025,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 2.0531676616500114,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.0000204034,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.0000204034,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.5062832440600014,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.5431544350600017,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.548845417200017,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.5069366318600013,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.49039371454,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.00002043864,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.741217762700882,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.00002043864,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 4.285099246992845,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "luka.ciric2106@gmail.com",
+            "name": "Luka Ciric",
+            "username": "cirko33"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5a8eaa7825953ed960d88ff73dd6c363f59495d2",
+          "message": "Remove Meta Tx from Westend RC (#11668)\n\nRemoval of the Meta Transaction from the Westend Relay Chain.\nWith this removal, pallet Verify Signature is removed as well.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-07T22:43:26Z",
+          "tree_id": "371eaa3179ed4541feb73a88eed80b1e1a1b5298",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/5a8eaa7825953ed960d88ff73dd6c363f59495d2"
+        },
+        "date": 1775606661940,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 63630.44999999999,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 52948.8,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7602909825899544,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.816649002100001,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.00002643481,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.0000218427,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.813946591049964,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.860695979529999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.912957276780002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.00002643481,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.00549227491,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.295590510102743,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.805630997930001,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.652230077210004,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.0000218427,
             "unit": "seconds"
           }
         ]

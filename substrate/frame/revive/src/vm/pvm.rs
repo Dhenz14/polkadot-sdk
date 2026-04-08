@@ -362,7 +362,10 @@ impl<T: Config> PolkaVmInstance<T> for JitInstance {
 				});
 				Interrupt::Ecalli(0)
 			},
-			Err(VirtExecError::OutOfGas) => Interrupt::OutOfGas,
+			Err(VirtExecError::OutOfGas) => {
+				self.gas = 0;
+				Interrupt::OutOfGas
+			},
 			Err(VirtExecError::Trap) => Interrupt::Trap,
 			Err(err) => {
 				log::error!(target: LOG_TARGET, "virt execution error: {err:?}");

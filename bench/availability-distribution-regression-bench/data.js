@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775671797351,
+  "lastUpdate": 1775676712837,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "45178695+pkhry@users.noreply.github.com",
-            "name": "Pavlo Khrystenko",
-            "username": "pkhry"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "fd417de617f303b84a0cac1972cf5d7090000d2f",
-          "message": "[pallet-revive] expose `exec::Key` (#9482)\n\n# Description\n\nThis is a fix for the fact that `exec::Key` is exposed from within\n`pallet_revive::tracing::Tracing` interface, but not from the crate\nitself making custom tracers effectively unimplementable outside said\ncrate.\n\nIn my case it's useful for implementing custom tracers for integration\nwith `foundry`\n\n## Integration\n\nRequires no downstream changes\n\n## Review Notes\n\nThis is a fix for the fact that `exec::Key` is exposed from within\n`pallet_revive::tracing::Tracing` interface, but not from the crate\nitself making custom tracers effectively unimplementable outside said\ncrate.\n\nsee here for one of the methods: [`exec::Key` exposed to the\nimplementor, despite not being exported by the\n`crate`](https://github.com/paritytech/polkadot-sdk/blob/pkhry/expose_key_pallet_revive/substrate/frame/revive/src/tracing.rs#L68)\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-08-14T12:06:16Z",
-          "tree_id": "989ae132623b6eea42407bc96833a8495c8fef21",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/fd417de617f303b84a0cac1972cf5d7090000d2f"
-        },
-        "date": 1755177891138,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013056793519999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.00727133901999997,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.1571280888466667,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02238095077333333,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-distribution",
             "value": 0.007050281513333333,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "bruno.devic@parity.io",
+            "name": "BDevParity",
+            "username": "BDevParity"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "bf0fb0117518f02b2b97fab162265e2be71ef990",
+          "message": "Add disk cleanup option to publish crates workflow (#11693)\n\n## Summary\n- Adds `clean_every` workflow input to the publish crates workflow that\nruns `cargo clean` after every N published crates to free disk space\n- Recommended value of 50 for major releases with 100+ crates, where the\nrunner disk would otherwise fill up\n- Default is 0 (disabled), so no change to existing behavior\n- Bumps parity-publish to 0.10.15 which adds the `--clean-every` CLI\nflag\n\n## Issue\n- https://github.com/paritytech/release-engineering/issues/291\n\nCo-authored-by: Egor_P <egor@parity.io>",
+          "timestamp": "2026-04-08T18:09:31Z",
+          "tree_id": "0314d38ab7f5e8b9c880ee4bec3413fb301786ca",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/bf0fb0117518f02b2b97fab162265e2be71ef990"
+        },
+        "date": 1775676691051,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14258961155333336,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007477708613333337,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009415551419999984,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.02545911413333332,
             "unit": "seconds"
           }
         ]

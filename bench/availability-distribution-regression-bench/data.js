@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775667978702,
+  "lastUpdate": 1775671797351,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "60601340+lexnv@users.noreply.github.com",
-            "name": "Alexandru Vasile",
-            "username": "lexnv"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "c8e7a682f5961dd812fde30f9d909b86f16cd54f",
-          "message": "cargo: Use rust-yamux version 0.13.6 (#9479)\n\nThis PR updates the litep2p' rust-yamux crate to version 0.13.6.\n\nThis version solves the following issue:\n\n```\n0: sp_panic_handler::set::{{closure}}\n1: std::panicking::rust_panic_with_hook\n2: std::panicking::begin_panic_handler::{{closure}}\n3: std::sys::backtrace::__rust_end_short_backtrace\n4: rust_begin_unwind\n5: core::panicking::panic_fmt\n6: core::slice::index::slice_start_index_len_fail::do_panic::runtime\n7: core::slice::index::slice_start_index_len_fail\n8: <yamux::frame::io::Io as futures_sink::Sink<yamux::frame::Frame<()>>>::poll_ready\n9: yamux::connection::Connection::poll_next_inbound\n10: litep2p::transport::websocket::connection::WebSocketConnection::start::{{closure}}\n11: <litep2p::transport::websocket::WebSocketTransport as litep2p::transport::Transport>::accept::{{closure}}\n12: <tracing_futures::Instrumented as core::future::future::Future>::poll\n13: tokio::runtime::task::raw::poll\n14: tokio::runtime::scheduler::multi_thread::worker::Context::run_task\n15: tokio::runtime::scheduler::multi_thread::worker::run\n16: tokio::runtime::task::raw::poll\n17: std::sys::backtrace::__rust_begin_short_backtrace\n18: core::ops::function::FnOnce::call_once{{vtable.shim}}\n19: std::sys::pal::unix::thread::Thread::new::thread_start\n20: start_thread\nat /build/glibc-FcRMwW/glibc-2.31/nptl/pthread_create.c:477:8\n21: clone\nat /build/glibc-FcRMwW/glibc-2.31/misc/../sysdeps/unix/sysv/linux/x86_64/clone.S:95\n```\n\nPart of: https://github.com/paritytech/polkadot-sdk/issues/9169\n\n---------\n\nSigned-off-by: Alexandru Vasile <alexandru.vasile@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-08-14T08:25:37Z",
-          "tree_id": "7a997ec7458a771c3d93301b5c35483cbe458228",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/c8e7a682f5961dd812fde30f9d909b86f16cd54f"
-        },
-        "date": 1755166047810,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022353274453333332,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15699495330000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013098565666666671,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007353099913333313,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-distribution",
             "value": 0.007072704953333333,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "marian@parity.io",
+            "name": "Marian Radu",
+            "username": "marian-radu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "2ae43774747e1d54c617d30dc5573570d0e6f7c6",
+          "message": "eth-rpc: Add trace logging for receipt lookup debugging (#11522)\n\nAdd trace logging to receipt handling to help diagnose intermittent\nreceipt retrieval failures for finalized transactions, observed while\nrunning revive differential test benchmarks.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-08T16:45:55Z",
+          "tree_id": "7b0a5e0ac611eadb5d74f4fc4f29baec64e616eb",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/2ae43774747e1d54c617d30dc5573570d0e6f7c6"
+        },
+        "date": 1775671775091,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.025391625173333335,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009758162899999976,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.1423706863533333,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007050281513333333,
             "unit": "seconds"
           }
         ]

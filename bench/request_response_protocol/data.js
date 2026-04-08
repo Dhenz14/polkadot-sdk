@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775639709500,
+  "lastUpdate": 1775641185223,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -75383,6 +75383,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 3083011344,
             "range": "± 113489827",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "robertvaneerdewijk@gmail.com",
+            "name": "0xRVE",
+            "username": "0xRVE"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "fda79a52e494aa9588ce72c95908f0646071d5c7",
+          "message": "Add asset-conversion precompile (#11590)\n\nAdds a precompile that exposes pallet-asset-conversion (Asset Hub DEX)\nto Solidity contracts running on pallet-revive. This enables smart\ncontracts to swap tokens through the on-chain DEX and query swap prices.\n\nThe primary use case is W3S products (e.g. ticketing app) where\ncontracts accept payment in one asset (e.g. USDC) and convert it to\nDOT/PUSD via the Asset Hub DEX, rather than holding arbitrary tokens\ndirectly.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-08T08:06:26Z",
+          "tree_id": "1d1c6b637e8d6854700287037eb7aa0931297a1e",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/fda79a52e494aa9588ce72c95908f0646071d5c7"
+        },
+        "date": 1775641163558,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18163778,
+            "range": "± 83932",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18447645,
+            "range": "± 53439",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 19888612,
+            "range": "± 127576",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24316735,
+            "range": "± 141559",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 56948854,
+            "range": "± 450729",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 325033463,
+            "range": "± 7665573",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2598522070,
+            "range": "± 24648512",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 14888215,
+            "range": "± 167478",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15073658,
+            "range": "± 224020",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 15821322,
+            "range": "± 538256",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20090100,
+            "range": "± 151385",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 55063210,
+            "range": "± 413038",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 318312533,
+            "range": "± 3892803",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2534556419,
+            "range": "± 38649793",
             "unit": "ns/iter"
           }
         ]

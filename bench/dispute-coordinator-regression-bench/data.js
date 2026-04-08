@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775668072554,
+  "lastUpdate": 1775671888401,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "claravanstaden64@gmail.com",
-            "name": "Clara van Staden",
-            "username": "claravanstaden"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "9fe9950f2173981209dcbe1b6d640764090d9f36",
-          "message": "Minor Snowbridge test fixes (#9463)\n\nThe Polkadot runtimes repo block size is too small to test all Ethereum\nclient extrinsics in a single block. This PR runs to the next block\nbefore attempting more test extriniscs. Once this PR has been released,\nthe following code can be removed from the fellows runtime repo:\nhttps://github.com/polkadot-fellows/runtimes/blob/main/system-parachains/bridge-hubs/bridge-hub-polkadot/tests/snowbridge.rs#L234-L370\n\n---------\n\nCo-authored-by: Adrian Catangiu <adrian@parity.io>",
-          "timestamp": "2025-08-12T07:06:26Z",
-          "tree_id": "c5e7264aa47b9ad38029d67eae255579d1a026c6",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/9fe9950f2173981209dcbe1b6d640764090d9f36"
-        },
-        "date": 1754988067976,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0027865009600000013,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.00901572283999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005396325759999992,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.010286014229999996,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "marian@parity.io",
+            "name": "Marian Radu",
+            "username": "marian-radu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "2ae43774747e1d54c617d30dc5573570d0e6f7c6",
+          "message": "eth-rpc: Add trace logging for receipt lookup debugging (#11522)\n\nAdd trace logging to receipt handling to help diagnose intermittent\nreceipt retrieval failures for finalized transactions, observed while\nrunning revive differential test benchmarks.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-08T16:45:55Z",
+          "tree_id": "7b0a5e0ac611eadb5d74f4fc4f29baec64e616eb",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/2ae43774747e1d54c617d30dc5573570d0e6f7c6"
+        },
+        "date": 1775671866304,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.00260082849,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.010082009859999989,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009286771299999988,
             "unit": "seconds"
           }
         ]

@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775667119103,
+  "lastUpdate": 1775670823950,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -75707,6 +75707,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2898879834,
             "range": "± 85070559",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "marian@parity.io",
+            "name": "Marian Radu",
+            "username": "marian-radu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "2ae43774747e1d54c617d30dc5573570d0e6f7c6",
+          "message": "eth-rpc: Add trace logging for receipt lookup debugging (#11522)\n\nAdd trace logging to receipt handling to help diagnose intermittent\nreceipt retrieval failures for finalized transactions, observed while\nrunning revive differential test benchmarks.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-08T16:45:55Z",
+          "tree_id": "7b0a5e0ac611eadb5d74f4fc4f29baec64e616eb",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/2ae43774747e1d54c617d30dc5573570d0e6f7c6"
+        },
+        "date": 1775670801525,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18032010,
+            "range": "± 189574",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18509706,
+            "range": "± 281240",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 19904936,
+            "range": "± 199848",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24438172,
+            "range": "± 75307",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 57525652,
+            "range": "± 681311",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 340914206,
+            "range": "± 5297874",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2529364014,
+            "range": "± 165140780",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15085723,
+            "range": "± 213299",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15383736,
+            "range": "± 266645",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 15773894,
+            "range": "± 196874",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20406274,
+            "range": "± 242930",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 57481501,
+            "range": "± 512402",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 335682329,
+            "range": "± 13235773",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2568686630,
+            "range": "± 50920716",
             "unit": "ns/iter"
           }
         ]

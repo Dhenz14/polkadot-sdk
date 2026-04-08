@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775670823950,
+  "lastUpdate": 1775676477817,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -75815,6 +75815,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2568686630,
             "range": "± 50920716",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "bruno.devic@parity.io",
+            "name": "BDevParity",
+            "username": "BDevParity"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "bf0fb0117518f02b2b97fab162265e2be71ef990",
+          "message": "Add disk cleanup option to publish crates workflow (#11693)\n\n## Summary\n- Adds `clean_every` workflow input to the publish crates workflow that\nruns `cargo clean` after every N published crates to free disk space\n- Recommended value of 50 for major releases with 100+ crates, where the\nrunner disk would otherwise fill up\n- Default is 0 (disabled), so no change to existing behavior\n- Bumps parity-publish to 0.10.15 which adds the `--clean-every` CLI\nflag\n\n## Issue\n- https://github.com/paritytech/release-engineering/issues/291\n\nCo-authored-by: Egor_P <egor@parity.io>",
+          "timestamp": "2026-04-08T18:09:31Z",
+          "tree_id": "0314d38ab7f5e8b9c880ee4bec3413fb301786ca",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/bf0fb0117518f02b2b97fab162265e2be71ef990"
+        },
+        "date": 1775676455278,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 20278249,
+            "range": "± 209153",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 20793798,
+            "range": "± 219084",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 21883453,
+            "range": "± 228537",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 26325040,
+            "range": "± 228122",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 70196028,
+            "range": "± 2892485",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 427638467,
+            "range": "± 12588184",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 3074833731,
+            "range": "± 150874149",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 16126646,
+            "range": "± 1075378",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 16397836,
+            "range": "± 412974",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 17499667,
+            "range": "± 325509",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 22217172,
+            "range": "± 358309",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 67057151,
+            "range": "± 1182646",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 398461182,
+            "range": "± 8240773",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 3048100091,
+            "range": "± 60685834",
             "unit": "ns/iter"
           }
         ]

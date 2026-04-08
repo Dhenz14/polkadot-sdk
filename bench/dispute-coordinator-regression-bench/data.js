@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775639774506,
+  "lastUpdate": 1775643989799,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "5588131+kianenigma@users.noreply.github.com",
-            "name": "Kian Paimani",
-            "username": "kianenigma"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "c40b36c3a7c208f9a6837b80812473af3d9ba7f7",
-          "message": "Cleanup staking try states + fix min bonds (#9415)\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-08-08T09:25:18Z",
-          "tree_id": "6f1e8993c14fa59502c2a975c3bbe1d6d991ad61",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/c40b36c3a7c208f9a6837b80812473af3d9ba7f7"
-        },
-        "date": 1754650312547,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005185368899999991,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0026787099000000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008681026779999984,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.008663223500000001,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "pgherveou@gmail.com",
+            "name": "PG Herveou",
+            "username": "pgherveou"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d8837ceb93f00290612d51b5348ae3e80d0eb8a8",
+          "message": "revive: Automatic address mapping via OnNewAccount/OnKilledAccount (#11416)\n\nThis PR add the necessary code to automatically map Substrate account to\nan Eth H160 address.\nIt does that by leveraging the OnNewAccount/OnKilledAccount frame_system\nhooks.\n\nIn that configuration pallet-revive map/ unmap dispatchable becomes\nessentially noop.\nNo extra deposit is taken from the the account. We also don't increase\nthe existential deposit since doing so would mean that we need to mint\nthe difference to all existing account\n\n \nChanges summary:\n- Add `AutoMapper<T>` struct that implements\n`OnNewAccount`/`OnKilledAccount` to automatically map accounts when\ncreated and unmap when killed\n- Add `AutoMap` config constant to enable/disable the feature\nper-runtime\n- Guard `map_account`/`unmap_account` dispatchables with\n`AutoMappingEnabled` error when auto-mapping is active\n- Wire up `AutoMapper` in Asset Hub Westend and dev-node runtimes with\n`AutoMap = true`\n- Add v3 multi-block migration to auto-map all existing accounts and\nrelease deposits for already-mapped accounts\n- Add `v3_migration_step` benchmark\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-08T09:02:21Z",
+          "tree_id": "d6d4f1d7d867b8838c3d09874091f7c85c1a9321",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/d8837ceb93f00290612d51b5348ae3e80d0eb8a8"
+        },
+        "date": 1775643967623,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009172367709999987,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009723749600000008,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.00265031792,
             "unit": "seconds"
           }
         ]

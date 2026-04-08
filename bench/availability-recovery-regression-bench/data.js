@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775639650427,
+  "lastUpdate": 1775643866272,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "enntheprogrammer@gmail.com",
-            "name": "sistemd",
-            "username": "sistemd"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "29a0c4a746a61a690df06822c52266ef69bf6b64",
-          "message": "store headers and justifications during warp sync (#9424)\n\nCloses https://github.com/paritytech/polkadot-sdk/issues/2738.\n\nStill need to add tests for this - but I think the easiest way might be\nafter the zombienet tests are converted to Rust, in the warp sync test\nmaybe we can just request the headers (and justifications?) from\nJSON-RPC? Though I'm not sure there is an API for the justifications.\nBut in any case we can in theory make a P2P justifications request as\nwell and the node should be able to respond. Let me know if anybody has\nsome better ideas.\n\n---------\n\nSigned-off-by: sistemd <enntheprogrammer@gmail.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Iulian Barbu <14218860+iulianbarbu@users.noreply.github.com>",
-          "timestamp": "2025-08-13T14:50:47Z",
-          "tree_id": "b2b0080997291071c910a50b9deac8ed488c035f",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/29a0c4a746a61a690df06822c52266ef69bf6b64"
-        },
-        "date": 1755100832180,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.250859953900003,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19699711490000005,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.12475099190000001,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "pgherveou@gmail.com",
+            "name": "PG Herveou",
+            "username": "pgherveou"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d8837ceb93f00290612d51b5348ae3e80d0eb8a8",
+          "message": "revive: Automatic address mapping via OnNewAccount/OnKilledAccount (#11416)\n\nThis PR add the necessary code to automatically map Substrate account to\nan Eth H160 address.\nIt does that by leveraging the OnNewAccount/OnKilledAccount frame_system\nhooks.\n\nIn that configuration pallet-revive map/ unmap dispatchable becomes\nessentially noop.\nNo extra deposit is taken from the the account. We also don't increase\nthe existential deposit since doing so would mean that we need to mint\nthe difference to all existing account\n\n \nChanges summary:\n- Add `AutoMapper<T>` struct that implements\n`OnNewAccount`/`OnKilledAccount` to automatically map accounts when\ncreated and unmap when killed\n- Add `AutoMap` config constant to enable/disable the feature\nper-runtime\n- Guard `map_account`/`unmap_account` dispatchables with\n`AutoMappingEnabled` error when auto-mapping is active\n- Wire up `AutoMapper` in Asset Hub Westend and dev-node runtimes with\n`AutoMap = true`\n- Add v3 multi-block migration to auto-map all existing accounts and\nrelease deposits for already-mapped accounts\n- Add `v3_migration_step` benchmark\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-08T09:02:21Z",
+          "tree_id": "d6d4f1d7d867b8838c3d09874091f7c85c1a9321",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/d8837ceb93f00290612d51b5348ae3e80d0eb8a8"
+        },
+        "date": 1775643844315,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13578445803333333,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.672424002933337,
             "unit": "seconds"
           }
         ]

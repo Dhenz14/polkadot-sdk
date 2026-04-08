@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775643897504,
+  "lastUpdate": 1775667978702,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "enntheprogrammer@gmail.com",
-            "name": "sistemd",
-            "username": "sistemd"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "29a0c4a746a61a690df06822c52266ef69bf6b64",
-          "message": "store headers and justifications during warp sync (#9424)\n\nCloses https://github.com/paritytech/polkadot-sdk/issues/2738.\n\nStill need to add tests for this - but I think the easiest way might be\nafter the zombienet tests are converted to Rust, in the warp sync test\nmaybe we can just request the headers (and justifications?) from\nJSON-RPC? Though I'm not sure there is an API for the justifications.\nBut in any case we can in theory make a P2P justifications request as\nwell and the node should be able to respond. Let me know if anybody has\nsome better ideas.\n\n---------\n\nSigned-off-by: sistemd <enntheprogrammer@gmail.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Iulian Barbu <14218860+iulianbarbu@users.noreply.github.com>",
-          "timestamp": "2025-08-13T14:50:47Z",
-          "tree_id": "b2b0080997291071c910a50b9deac8ed488c035f",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/29a0c4a746a61a690df06822c52266ef69bf6b64"
-        },
-        "date": 1755100857239,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007109208606666651,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022552012439999995,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013068490246666668,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15822641040666674,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-store",
             "value": 0.14241410822666664,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "lrazovic@gmail.com",
+            "name": "Leonardo Razovic",
+            "username": "lrazovic"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "dd79f9668c46bd439cec8a916eabbb02ce74bba1",
+          "message": "Introduce PSM pallet (part of the pUSD Project) (#11068)\n\n## Description\n\nThis PR introduces `pallet-psm`, a new FRAME pallet that implements a\nPeg Stability Module (PSM) for pUSD. The pallet enables 1:1 swaps\nbetween pUSD and approved external stablecoins (e.g. USDC/USDT), with\nconfigurable mint/redeem fees and per-asset circuit breakers.\n\nThe pallet enforces a three-tier debt ceiling model before minting:\n- System-wide cap from Vaults (`MaximumIssuance`)\n- Aggregate PSM cap (`MaxPsmDebtOfTotal`)\n- Per-asset normalized ceiling (`AssetCeilingWeight`)\n\nIt also adds cross-pallet interfaces in\n`frame_support::traits::tokens::stable`:\n- `VaultsInterface` (PSM -> Vaults): query system issuance ceiling\n- `PsmInterface` (Vaults/others -> PSM): query reserved PSM capacity\n\n## Integration\n\n### For Runtime Developers\n\nTo integrate `pallet-psm` into your runtime:\n\n1. Add dependency to your runtime `Cargo.toml`:\n\n```toml\npallet-psm = { version = \"0.1.0\", default-features = false }\n```\n\n2. Implement the Config trait in your runtime:\n\n```rust\nimpl pallet_psm::Config for Runtime {\n    type Fungibles = Assets;                     // fungibles impl (must impl metadata::Inspect)\n    type AssetId = u32;                          // asset identifier type\n    type VaultsInterface = Vaults;               // must implement VaultsInterface\n    type ManagerOrigin = EnsurePsmManager;       // returns PsmManagerLevel (Full/Emergency)\n    type WeightInfo = pallet_psm::weights::SubstrateWeight<Runtime>;\n    type StableAsset = ItemOf<Assets, StablecoinAssetId, AccountId>;  // pUSD as fungible\n    type FeeHandler = ResolveTo<InsuranceFundAccount, Self::StableAsset>;\n    type PalletId = PsmPalletId;                 // PSM reserve account derivation\n    type MinSwapAmount = MinSwapAmount;          // minimum mint/redeem amount\n    type MaxExternalAssets = ConstU32<10>;        // max approved external assets\n}\n```\n\n3. Add to `construct_runtime!`:\n\n```rust\nconstruct_runtime!(\n    pub enum Runtime {\n        // ... other pallets\n        Psm: pallet_psm,\n    }\n);\n```\n\n4. Ensure Vaults exposes issuance ceiling to PSM:\n\n```rust\nuse frame_support::traits::tokens::stable::VaultsInterface;\n\nimpl VaultsInterface for Vaults {\n    type Balance = Balance;\n    fn get_maximum_issuance() -> Balance {\n        // return system-wide pUSD ceiling\n    }\n}\n```\n\n5. For existing chains, include the migration:\n\n```rust\npub struct PsmInitialConfig;\n\nimpl pallet_psm::migrations::v1::InitialPsmConfig<Runtime> for PsmInitialConfig {\n    fn max_psm_debt_of_total() -> Permill { Permill::from_percent(10) }\n    fn external_asset_ids() -> Vec<AssetId> { vec![USDC_ASSET_ID, USDT_ASSET_ID] }\n    fn asset_configs() -> BTreeMap<AssetId, (Permill, Permill, Permill)> {\n        // asset -> (mint_fee, redeem_fee, ceiling_weight)\n        [\n            (USDC_ASSET_ID, (Permill::from_percent(1), Permill::from_percent(1), Permill::from_percent(50))),\n            (USDT_ASSET_ID, (Permill::from_percent(1), Permill::from_percent(1), Permill::from_percent(50))),\n        ].into_iter().collect()\n    }\n}\n\npub type Migrations = (\n    pallet_psm::migrations::v1::MigrateToV1<Runtime, PsmInitialConfig>,\n);\n```\n\n### For Pallet Developers\n\nOther pallets can query PSM-reserved issuance capacity via\n`PsmInterface`:\n\n```rust\nuse frame_support::traits::tokens::stable::PsmInterface;\n\nlet reserved = <Psm as PsmInterface>::reserved_capacity();\n```\n\nThis can be used to account for PSM-reserved issuance when computing\nvault minting headroom.\n\n## Review Notes\n\n### Key Features\n\n- 1:1 swaps: `mint` (external -> pUSD) and `redeem` (pUSD -> external)\n- Multi-asset support with explicit approval list (`add_external_asset`\n/ `remove_external_asset`)\n- Three-tier debt ceiling enforcement (system-wide, aggregate PSM,\nper-asset normalized)\n- Per-asset circuit breaker: `AllEnabled` -> `MintingDisabled` ->\n`AllDisabled`\n- Tiered governance origin:\n  - `Full`: all parameter and asset-management operations\n  - `Emergency`: can only set circuit breaker status\n- Fee model:\n- Mint fee: deducted from minted pUSD, fee credit issued to `FeeHandler`\n- Redeem fee: deducted from pUSD input, fee withdrawn as credit to\n`FeeHandler`\n- Safety invariant on redeem: limited by tracked `PsmDebt` (not just raw\nreserve), preventing withdrawal of donated reserves\n- Includes benchmarks and V0 -> V1 migration for post-genesis deployment\n\n### Swap Lifecycle\n\n**Mint (External -> pUSD):**\n1. User calls `mint(asset_id, external_amount)`\n2. Checks: approved asset, circuit breaker, min amount\n3. Enforces ceilings in order: system-wide -> aggregate PSM -> per-asset\n4. Transfers external asset into PSM account\n5. Mints pUSD to user minus fee\n6. Issues fee as pUSD credit to `FeeHandler`\n7. Increases `PsmDebt[asset_id]`\n\n**Redeem (pUSD -> External):**\n1. User calls `redeem(asset_id, pusd_amount)`\n2. Checks: approved asset, circuit breaker, min amount\n3. Calculates fee and external output amount\n4. Verifies tracked debt and reserve are sufficient\n5. Burns pUSD principal portion from user\n6. Withdraws pUSD fee from user as credit to `FeeHandler`\n7. Transfers external asset from PSM account to user\n8. Decreases `PsmDebt[asset_id]`\n\n### Governance/Operations\n\n- `set_minting_fee`\n- `set_redemption_fee`\n- `set_max_psm_debt`\n- `set_asset_ceiling_weight`\n- `set_asset_status`\n- `add_external_asset`\n- `remove_external_asset` (requires zero debt; cleans up config storage)\n\n### Config Trait\n\n| Type | Purpose |\n|---|---|\n| `Fungibles` | Fungibles impl for pUSD + external assets. |\n| `AssetId` | Asset identifier type. |\n| `VaultsInterface` | Query system-wide issuance ceiling. |\n| `ManagerOrigin` | Returns `PsmManagerLevel` (`Full` / `Emergency`). |\n| `WeightInfo` | Benchmark weights. |\n| `StableAsset` | pUSD as a single-asset `fungible` type (typically\n`ItemOf<Assets, StablecoinAssetId>`). Must implement `FungibleMutate` +\n`FungibleBalanced`. |\n| `FeeHandler` | `OnUnbalanced` handler for fee credits. |\n| `PalletId` | Derives the PSM reserve account. |\n| `MinSwapAmount` | Minimum mint/redeem amount. |\n| `MaxExternalAssets` | Maximum number of approved external assets. |\n\n### Testing\n\nThe pallet includes comprehensive coverage for:\n- Mint/redeem success paths and failure modes\n- Fee edge cases (0%, non-zero, 100%)\n- Three-tier ceiling enforcement and boundary conditions\n- Per-asset ceiling redistribution when weight is set to 0%\n- Circuit breaker behavior per asset\n- Full vs emergency governance permissions\n- Asset onboarding/offboarding invariants and cleanup\n- Reserve-vs-debt safety (donated reserve cannot be redeemed)\n- Long-running mint/redeem cycles and accounting invariants\n- Migration tests (`v0 -> v1` and skip-when-already-v1)\n\n---------\n\nCo-authored-by: Kian Paimani <5588131+kianenigma@users.noreply.github.com>",
+          "timestamp": "2026-04-08T14:25:35Z",
+          "tree_id": "b9194793351e60e7fa3eae559a87a4da9f17a92a",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/dd79f9668c46bd439cec8a916eabbb02ce74bba1"
+        },
+        "date": 1775667956361,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.1427178683733333,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.025482720566666662,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009459909079999974,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007072704953333333,
             "unit": "seconds"
           }
         ]

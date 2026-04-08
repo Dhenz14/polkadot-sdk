@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775643928400,
+  "lastUpdate": 1775668009505,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "bkontur@gmail.com",
-            "name": "Branislav Kontur",
-            "username": "bkontur"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "2db5e16bf2b497e8ef877d3d7e79b3fcdcab5f82",
-          "message": "Bridges - relax trait bound from Codec to Encode (#9470)\n\n### Problem\n\nWhile bumping the parity-bridges-common repo to the latest polkadot-sdk\nmaster, we encountered a new compilation issue:\n```\nerror[E0277]: the trait bound `UncheckedExtrinsic<MultiAddress<AccountId32, ()>, ..., ..., ..., 16777216>: Decode` is not satisfied\n   --> relay-clients/client-rococo/src/lib.rs:95:3\n    |\n95  |         bp_polkadot_core::UncheckedExtrinsic<Self::Call, bp_rococo::TransactionExtension>;\n    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the trait `parity_scale_codec::Decode` is not implemented for `UncheckedExtrinsic<MultiAddress<AccountId32, ()>, ..., ..., ..., 16777216>`\n    |\n    = help: the trait `parity_scale_codec::Decode` is implemented for `sp_runtime::generic::UncheckedExtrinsic<Address, Call, Signature, Extension, MAX_CALL_SIZE>`\n    = note: required for `<Rococo as ChainWithTransactions>::SignedTransaction` to implement `parity_scale_codec::Codec`\nnote: required by a bound in `relay_substrate_client::ChainWithTransactions::SignedTransaction`\n   --> ~/.cargo/git/checkouts/polkadot-sdk-dee0edd6eefa0594/c40b36c/bridges/relays/client-substrate/src/chain.rs:227:42\n    |\n227 |     type SignedTransaction: Clone + Debug + Codec + Send + 'static;\n    |                                             ^^^^^ required by this bound in `ChainWithTransactions::SignedTransaction`\n```\n\nI added the test simulating the same compilation error here in the\npolkadot-sdk:\n```\ncargo test -p relay-substrate-client\n\nerror[E0277]: the trait bound `UncheckedExtrinsic<MultiAddress<AccountId32, ()>, ..., ..., ..., 16777216>: Decode` is not satisfied\n   --> bridges/relays/client-substrate/src/test_chain.rs:92:27\n    |\n92  |       type SignedTransaction = bp_polkadot_core::UncheckedExtrinsic<\n    |  ______________________________^\n93  | |         TestRuntimeCall,\n94  | |         bp_polkadot_core::SuffixedCommonTransactionExtension<(\n95  | |             bp_runtime::extensions::BridgeRejectObsoleteHeadersAndMessages,\n96  | |             bp_runtime::extensions::RefundBridgedParachainMessagesSchema,\n97  | |         )>,\n98  | |     >;\n    | |_____^ the trait `parity_scale_codec::Decode` is not implemented for `UncheckedExtrinsic<MultiAddress<AccountId32, ()>, EncodedOrDecodedCall<...>, ..., ..., 16777216>`\n    |\n    = help: the trait `parity_scale_codec::Decode` is implemented for `UncheckedExtrinsic<Address, Call, Signature, Extension, MAX_CALL_SIZE>`\n    = note: required for `<TestChain as ChainWithTransactions>::SignedTransaction` to implement `parity_scale_codec::Codec`\nnote: required by a bound in `ChainWithTransactions::SignedTransaction`\n   --> bridges/relays/client-substrate/src/chain.rs:227:42\n    |\n227 |     type SignedTransaction: Clone + Debug + Codec + Send + 'static;\n    |                                             ^^^^^ required by this bound in `ChainWithTransactions::SignedTransaction`\n    = note: the full name for the type has been written to '/home/bkontur/cargo-remote-builds-aaa/4049172861662423200/target/debug/deps/relay_substrate_client-3bc9e3563aed810c.long-type-11484417815568207698.txt'\n```\n\n### Solution?\n\nAfter some investigation, this compilation issue stared with\nhttps://github.com/paritytech/polkadot-sdk/pull/8234, and relaxing the\n`type SignedTransaction` constraint resolves the issue. Any other\nsolution?\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-08-12T10:11:16Z",
-          "tree_id": "99b4240a7c41440c005fff1d1b4f9a5a6537f9b0",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/2db5e16bf2b497e8ef877d3d7e79b3fcdcab5f82"
-        },
-        "date": 1754997703831,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 63626.81,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 52942.5,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000020045089999999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000020045089999999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.54795464465,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.00535792263000001,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.5137207589399995,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.0000216133,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.5066337412099995,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9613653008999923,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.7135203587308063,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.5103917137499994,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.0000216133,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.4241813924800023,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.469605474559994,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting",
             "value": 0.0000237248,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "lrazovic@gmail.com",
+            "name": "Leonardo Razovic",
+            "username": "lrazovic"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "dd79f9668c46bd439cec8a916eabbb02ce74bba1",
+          "message": "Introduce PSM pallet (part of the pUSD Project) (#11068)\n\n## Description\n\nThis PR introduces `pallet-psm`, a new FRAME pallet that implements a\nPeg Stability Module (PSM) for pUSD. The pallet enables 1:1 swaps\nbetween pUSD and approved external stablecoins (e.g. USDC/USDT), with\nconfigurable mint/redeem fees and per-asset circuit breakers.\n\nThe pallet enforces a three-tier debt ceiling model before minting:\n- System-wide cap from Vaults (`MaximumIssuance`)\n- Aggregate PSM cap (`MaxPsmDebtOfTotal`)\n- Per-asset normalized ceiling (`AssetCeilingWeight`)\n\nIt also adds cross-pallet interfaces in\n`frame_support::traits::tokens::stable`:\n- `VaultsInterface` (PSM -> Vaults): query system issuance ceiling\n- `PsmInterface` (Vaults/others -> PSM): query reserved PSM capacity\n\n## Integration\n\n### For Runtime Developers\n\nTo integrate `pallet-psm` into your runtime:\n\n1. Add dependency to your runtime `Cargo.toml`:\n\n```toml\npallet-psm = { version = \"0.1.0\", default-features = false }\n```\n\n2. Implement the Config trait in your runtime:\n\n```rust\nimpl pallet_psm::Config for Runtime {\n    type Fungibles = Assets;                     // fungibles impl (must impl metadata::Inspect)\n    type AssetId = u32;                          // asset identifier type\n    type VaultsInterface = Vaults;               // must implement VaultsInterface\n    type ManagerOrigin = EnsurePsmManager;       // returns PsmManagerLevel (Full/Emergency)\n    type WeightInfo = pallet_psm::weights::SubstrateWeight<Runtime>;\n    type StableAsset = ItemOf<Assets, StablecoinAssetId, AccountId>;  // pUSD as fungible\n    type FeeHandler = ResolveTo<InsuranceFundAccount, Self::StableAsset>;\n    type PalletId = PsmPalletId;                 // PSM reserve account derivation\n    type MinSwapAmount = MinSwapAmount;          // minimum mint/redeem amount\n    type MaxExternalAssets = ConstU32<10>;        // max approved external assets\n}\n```\n\n3. Add to `construct_runtime!`:\n\n```rust\nconstruct_runtime!(\n    pub enum Runtime {\n        // ... other pallets\n        Psm: pallet_psm,\n    }\n);\n```\n\n4. Ensure Vaults exposes issuance ceiling to PSM:\n\n```rust\nuse frame_support::traits::tokens::stable::VaultsInterface;\n\nimpl VaultsInterface for Vaults {\n    type Balance = Balance;\n    fn get_maximum_issuance() -> Balance {\n        // return system-wide pUSD ceiling\n    }\n}\n```\n\n5. For existing chains, include the migration:\n\n```rust\npub struct PsmInitialConfig;\n\nimpl pallet_psm::migrations::v1::InitialPsmConfig<Runtime> for PsmInitialConfig {\n    fn max_psm_debt_of_total() -> Permill { Permill::from_percent(10) }\n    fn external_asset_ids() -> Vec<AssetId> { vec![USDC_ASSET_ID, USDT_ASSET_ID] }\n    fn asset_configs() -> BTreeMap<AssetId, (Permill, Permill, Permill)> {\n        // asset -> (mint_fee, redeem_fee, ceiling_weight)\n        [\n            (USDC_ASSET_ID, (Permill::from_percent(1), Permill::from_percent(1), Permill::from_percent(50))),\n            (USDT_ASSET_ID, (Permill::from_percent(1), Permill::from_percent(1), Permill::from_percent(50))),\n        ].into_iter().collect()\n    }\n}\n\npub type Migrations = (\n    pallet_psm::migrations::v1::MigrateToV1<Runtime, PsmInitialConfig>,\n);\n```\n\n### For Pallet Developers\n\nOther pallets can query PSM-reserved issuance capacity via\n`PsmInterface`:\n\n```rust\nuse frame_support::traits::tokens::stable::PsmInterface;\n\nlet reserved = <Psm as PsmInterface>::reserved_capacity();\n```\n\nThis can be used to account for PSM-reserved issuance when computing\nvault minting headroom.\n\n## Review Notes\n\n### Key Features\n\n- 1:1 swaps: `mint` (external -> pUSD) and `redeem` (pUSD -> external)\n- Multi-asset support with explicit approval list (`add_external_asset`\n/ `remove_external_asset`)\n- Three-tier debt ceiling enforcement (system-wide, aggregate PSM,\nper-asset normalized)\n- Per-asset circuit breaker: `AllEnabled` -> `MintingDisabled` ->\n`AllDisabled`\n- Tiered governance origin:\n  - `Full`: all parameter and asset-management operations\n  - `Emergency`: can only set circuit breaker status\n- Fee model:\n- Mint fee: deducted from minted pUSD, fee credit issued to `FeeHandler`\n- Redeem fee: deducted from pUSD input, fee withdrawn as credit to\n`FeeHandler`\n- Safety invariant on redeem: limited by tracked `PsmDebt` (not just raw\nreserve), preventing withdrawal of donated reserves\n- Includes benchmarks and V0 -> V1 migration for post-genesis deployment\n\n### Swap Lifecycle\n\n**Mint (External -> pUSD):**\n1. User calls `mint(asset_id, external_amount)`\n2. Checks: approved asset, circuit breaker, min amount\n3. Enforces ceilings in order: system-wide -> aggregate PSM -> per-asset\n4. Transfers external asset into PSM account\n5. Mints pUSD to user minus fee\n6. Issues fee as pUSD credit to `FeeHandler`\n7. Increases `PsmDebt[asset_id]`\n\n**Redeem (pUSD -> External):**\n1. User calls `redeem(asset_id, pusd_amount)`\n2. Checks: approved asset, circuit breaker, min amount\n3. Calculates fee and external output amount\n4. Verifies tracked debt and reserve are sufficient\n5. Burns pUSD principal portion from user\n6. Withdraws pUSD fee from user as credit to `FeeHandler`\n7. Transfers external asset from PSM account to user\n8. Decreases `PsmDebt[asset_id]`\n\n### Governance/Operations\n\n- `set_minting_fee`\n- `set_redemption_fee`\n- `set_max_psm_debt`\n- `set_asset_ceiling_weight`\n- `set_asset_status`\n- `add_external_asset`\n- `remove_external_asset` (requires zero debt; cleans up config storage)\n\n### Config Trait\n\n| Type | Purpose |\n|---|---|\n| `Fungibles` | Fungibles impl for pUSD + external assets. |\n| `AssetId` | Asset identifier type. |\n| `VaultsInterface` | Query system-wide issuance ceiling. |\n| `ManagerOrigin` | Returns `PsmManagerLevel` (`Full` / `Emergency`). |\n| `WeightInfo` | Benchmark weights. |\n| `StableAsset` | pUSD as a single-asset `fungible` type (typically\n`ItemOf<Assets, StablecoinAssetId>`). Must implement `FungibleMutate` +\n`FungibleBalanced`. |\n| `FeeHandler` | `OnUnbalanced` handler for fee credits. |\n| `PalletId` | Derives the PSM reserve account. |\n| `MinSwapAmount` | Minimum mint/redeem amount. |\n| `MaxExternalAssets` | Maximum number of approved external assets. |\n\n### Testing\n\nThe pallet includes comprehensive coverage for:\n- Mint/redeem success paths and failure modes\n- Fee edge cases (0%, non-zero, 100%)\n- Three-tier ceiling enforcement and boundary conditions\n- Per-asset ceiling redistribution when weight is set to 0%\n- Circuit breaker behavior per asset\n- Full vs emergency governance permissions\n- Asset onboarding/offboarding invariants and cleanup\n- Reserve-vs-debt safety (donated reserve cannot be redeemed)\n- Long-running mint/redeem cycles and accounting invariants\n- Migration tests (`v0 -> v1` and skip-when-already-v1)\n\n---------\n\nCo-authored-by: Kian Paimani <5588131+kianenigma@users.noreply.github.com>",
+          "timestamp": "2026-04-08T14:25:35Z",
+          "tree_id": "b9194793351e60e7fa3eae559a87a4da9f17a92a",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/dd79f9668c46bd439cec8a916eabbb02ce74bba1"
+        },
+        "date": 1775667986914,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 63614.43000000001,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 52939.3,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.822271618469999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.000025412610000000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.000025412610000000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.637139029649921,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.8500189671299987,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.4728612683199827,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7602183231699419,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005352167439999996,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.000021746519999999997,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.847609944430001,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.000021746519999999997,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.87880674069,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.232381541722842,
             "unit": "seconds"
           }
         ]

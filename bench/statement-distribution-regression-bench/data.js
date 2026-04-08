@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775600335457,
+  "lastUpdate": 1775606714322,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "mich@elmueller.net",
-            "name": "Michael Müller",
-            "username": "cmichi"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "beb9030b249cc078b3955232074a8495e7e0302a",
-          "message": "[pallet-revive] Implement basic `System` pre-compile, move `seal_hash_blake2_256` into it (#9441)\n\nPart of closing https://github.com/paritytech/polkadot-sdk/issues/8572.\n\nJust the `hash_blake2_256` in this PR, to gauge if you're fine with this\nsetup.\n\ncc @athei @pgherveou\n\n---------\n\nCo-authored-by: Alexander Theißen <alex.theissen@me.com>",
-          "timestamp": "2025-08-07T11:20:46Z",
-          "tree_id": "61e2c4a158c8f86612d14047e993f1858f2b86fd",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/beb9030b249cc078b3955232074a8495e7e0302a"
-        },
-        "date": 1754570532234,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.96599999999998,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03401005545800001,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04440820644599995,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.09000497813799994,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "luka.ciric2106@gmail.com",
+            "name": "Luka Ciric",
+            "username": "cirko33"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5a8eaa7825953ed960d88ff73dd6c363f59495d2",
+          "message": "Remove Meta Tx from Westend RC (#11668)\n\nRemoval of the Meta Transaction from the Westend Relay Chain.\nWith this removal, pallet Verify Signature is removed as well.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-07T22:43:26Z",
+          "tree_id": "371eaa3179ed4541feb73a88eed80b1e1a1b5298",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/5a8eaa7825953ed960d88ff73dd6c363f59495d2"
+        },
+        "date": 1775606692560,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.07,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.09185693544599992,
+            "unit": "seconds"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038635363532,
             "unit": "seconds"
           }
         ]

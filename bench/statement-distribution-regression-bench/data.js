@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775606714322,
+  "lastUpdate": 1775639744462,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "adrian@parity.io",
-            "name": "Adrian Catangiu",
-            "username": "acatangiu"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "0d765ce37b258640a6eeb575f6bff76d6a7b7c46",
-          "message": "pallet-xcm: fix authorized_alias benchmarks (#9445)\n\nDepending on runtime configuration of ED and storage deposits, the old\nbenchmark code did not set up enough funds to cover authorized aliases\nstorage deposits.\n\nFix it by adding more funds as part of benchmark setup.\n\n---------\n\nSigned-off-by: Adrian Catangiu <adrian@parity.io>\nCo-authored-by: Karol Kokoszka <karol.k91@gmail.com>",
-          "timestamp": "2025-08-07T19:28:09Z",
-          "tree_id": "143f16d946fef64897bb51a08e29cbc6ccc42185",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/0d765ce37b258640a6eeb575f6bff76d6a7b7c46"
-        },
-        "date": 1754599223190,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 127.96999999999994,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.044482598785999965,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03392095223400001,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.038635363532,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49718502+alexggh@users.noreply.github.com",
+            "name": "Alexandru Gheorghe",
+            "username": "alexggh"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "4050536124f2285ea8d7ae4661611b9e256d398e",
+          "message": "statement-store: read allowance on best hash (#11667)\n\nTo allow accepting statements as early as possible\n\n---------\n\nSigned-off-by: Alexandru Gheorghe <alexandru.gheorghe@parity.io>\nCo-authored-by: Andrei Eres <eresav@me.com>",
+          "timestamp": "2026-04-08T07:40:51Z",
+          "tree_id": "b9b5de2ac209791a72d5158faa256f51d71d9bb3",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/4050536124f2285ea8d7ae4661611b9e256d398e"
+        },
+        "date": 1775639721910,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.03799999999993,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038579964455999975,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08026556462399993,
             "unit": "seconds"
           }
         ]

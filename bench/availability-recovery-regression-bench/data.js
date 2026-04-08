@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775606623311,
+  "lastUpdate": 1775639650427,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "14218860+iulianbarbu@users.noreply.github.com",
-            "name": "Iulian Barbu",
-            "username": "iulianbarbu"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "5bb3afcd733a18744a09c1df840c3813623fb0ab",
-          "message": "check-semver: enable the support for edition 2024 (#9473)\n\n# Description\n\n`check-semver` job fails since some time in the majority of the PRs, and\nthe issue has been tracked down to an indirect dependency which is based\non edition 2024 rust, which can not compile successfully with the\ncurrent nightly.\n\n## Integration\n\nN/A\n\n## Review Notes\n\n- Updated parity-publish:\nhttps://github.com/paritytech/parity-publish/pull/58\n- This PR completes the circle and makes check-semver functional again\n- Tested already these changes here:\nhttps://github.com/paritytech/polkadot-sdk/actions/runs/16909276800/workflow\n\nSigned-off-by: Iulian Barbu <iulian.barbu@parity.io>",
-          "timestamp": "2025-08-13T07:37:51Z",
-          "tree_id": "623c90f2a9e3da06be3694e350eafc34b23a00b3",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/5bb3afcd733a18744a09c1df840c3813623fb0ab"
-        },
-        "date": 1755074816210,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.2810873116,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19422399019999997,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.12450417629999999,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49718502+alexggh@users.noreply.github.com",
+            "name": "Alexandru Gheorghe",
+            "username": "alexggh"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "4050536124f2285ea8d7ae4661611b9e256d398e",
+          "message": "statement-store: read allowance on best hash (#11667)\n\nTo allow accepting statements as early as possible\n\n---------\n\nSigned-off-by: Alexandru Gheorghe <alexandru.gheorghe@parity.io>\nCo-authored-by: Andrei Eres <eresav@me.com>",
+          "timestamp": "2026-04-08T07:40:51Z",
+          "tree_id": "b9b5de2ac209791a72d5158faa256f51d71d9bb3",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/4050536124f2285ea8d7ae4661611b9e256d398e"
+        },
+        "date": 1775639628287,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.917424580600002,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12475099190000001,
             "unit": "seconds"
           }
         ]

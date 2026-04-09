@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775676742690,
+  "lastUpdate": 1775710134339,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "60601340+lexnv@users.noreply.github.com",
-            "name": "Alexandru Vasile",
-            "username": "lexnv"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "c8e7a682f5961dd812fde30f9d909b86f16cd54f",
-          "message": "cargo: Use rust-yamux version 0.13.6 (#9479)\n\nThis PR updates the litep2p' rust-yamux crate to version 0.13.6.\n\nThis version solves the following issue:\n\n```\n0: sp_panic_handler::set::{{closure}}\n1: std::panicking::rust_panic_with_hook\n2: std::panicking::begin_panic_handler::{{closure}}\n3: std::sys::backtrace::__rust_end_short_backtrace\n4: rust_begin_unwind\n5: core::panicking::panic_fmt\n6: core::slice::index::slice_start_index_len_fail::do_panic::runtime\n7: core::slice::index::slice_start_index_len_fail\n8: <yamux::frame::io::Io as futures_sink::Sink<yamux::frame::Frame<()>>>::poll_ready\n9: yamux::connection::Connection::poll_next_inbound\n10: litep2p::transport::websocket::connection::WebSocketConnection::start::{{closure}}\n11: <litep2p::transport::websocket::WebSocketTransport as litep2p::transport::Transport>::accept::{{closure}}\n12: <tracing_futures::Instrumented as core::future::future::Future>::poll\n13: tokio::runtime::task::raw::poll\n14: tokio::runtime::scheduler::multi_thread::worker::Context::run_task\n15: tokio::runtime::scheduler::multi_thread::worker::run\n16: tokio::runtime::task::raw::poll\n17: std::sys::backtrace::__rust_begin_short_backtrace\n18: core::ops::function::FnOnce::call_once{{vtable.shim}}\n19: std::sys::pal::unix::thread::Thread::new::thread_start\n20: start_thread\nat /build/glibc-FcRMwW/glibc-2.31/nptl/pthread_create.c:477:8\n21: clone\nat /build/glibc-FcRMwW/glibc-2.31/misc/../sysdeps/unix/sysv/linux/x86_64/clone.S:95\n```\n\nPart of: https://github.com/paritytech/polkadot-sdk/issues/9169\n\n---------\n\nSigned-off-by: Alexandru Vasile <alexandru.vasile@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-08-14T08:25:37Z",
-          "tree_id": "7a997ec7458a771c3d93301b5c35483cbe458228",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/c8e7a682f5961dd812fde30f9d909b86f16cd54f"
-        },
-        "date": 1755166071989,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52942,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63623.53999999999,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.4282272099500008,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.6172305744108364,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.5110329336900015,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4568500671500013,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9326073160999997,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000020146810000000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.263658065640001,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.00002058506,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.0054730895700000025,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.468073910309999,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.00002058506,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000020146810000000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.4613935388700012,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting-parallel/approval-voting-parallel-1",
             "value": 2.855961292340001,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "gui.thiolliere@gmail.com",
+            "name": "Guillaume Thiolliere",
+            "username": "gui1117"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0ec94c97e2599a90b43abee84104133793caf5fe",
+          "message": "fix links: 404 individuality private repo. (#11644)",
+          "timestamp": "2026-04-09T03:25:19Z",
+          "tree_id": "d2ed74146d689c990bb42d4436ec62c6fe27928b",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/0ec94c97e2599a90b43abee84104133793caf5fe"
+        },
+        "date": 1775710112459,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 52940.40000000001,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 63630.530000000006,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.4799216945299984,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.3602699621129695,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.84743054496,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.921138088679998,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.000022333930000000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.000022333930000000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005842048830000006,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.8707096771300016,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.00002375069,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7256215565699651,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.00002375069,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.687136677579966,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.8364730668800013,
             "unit": "seconds"
           }
         ]

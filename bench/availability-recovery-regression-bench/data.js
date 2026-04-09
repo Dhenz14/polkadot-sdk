@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775710074898,
+  "lastUpdate": 1775726565834,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "mich@elmueller.net",
-            "name": "Michael Müller",
-            "username": "cmichi"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "8744f5e5ee65786e3254cf45c4de54606917effd",
-          "message": "[pallet-revive] Move `to_account_id` host function to `System` pre-compile (#9455)\n\nPart of closing https://github.com/paritytech/polkadot-sdk/issues/8572.\n\ncc @athei @pgherveou\n\n---------\n\nCo-authored-by: xermicus <bigcyrill@hotmail.com>\nCo-authored-by: Alexander Theißen <alex.theissen@me.com>",
-          "timestamp": "2025-08-18T09:05:56Z",
-          "tree_id": "bdf0796810802ecf2bc56112c470efa5a7f72319",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/8744f5e5ee65786e3254cf45c4de54606917effd"
-        },
-        "date": 1755513366366,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.2000949387666667,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.145907639200006,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.13411547130000004,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "marian@parity.io",
+            "name": "Marian Radu",
+            "username": "marian-radu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "99670e9703224aa06c5c1e863034841d58525c1f",
+          "message": "[eth-rpc] Detect and backfill gaps in finalized block subscriptions (#11538)\n\nTemporary connection drops can result in missed blocks, leaving gaps in\nthe local database and causing incomplete results for RPC methods such\nas eth_getLogs and eth_getBlockByNumber. This PR introduces automatic\ngap detection in the finalized block subscription and backfills missing\nranges via a background worker.\n\n- Gap detection: When a newly finalized block arrives with a number\nhigher than expected, the skipped range is queued for backfill.\n- Gap-fill queue: A bounded in-memory channel (capacity: 32),\nnon-blocking; a separate atomic counter tracks queued and in-flight\nrequests.\n- Gap-filler task: A background worker processes requests sequentially,\nreusing sync_backward_range; it does not update Head/Tail sync labels or\nthe first_evm_block boundary.\n- Sync state (Head advancement): The sync head does not advance while\ngap fills are in flight, ensuring continuity of the synced block range.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-09T07:57:02Z",
+          "tree_id": "35e9ca9e924e613bff73c9d49c462d81c8b5918b",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/99670e9703224aa06c5c1e863034841d58525c1f"
+        },
+        "date": 1775726543593,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13505210586666663,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 12.006680041433336,
             "unit": "seconds"
           }
         ]

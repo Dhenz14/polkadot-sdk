@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775734534359,
+  "lastUpdate": 1775753795453,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "mich@elmueller.net",
-            "name": "Michael Müller",
-            "username": "cmichi"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "8744f5e5ee65786e3254cf45c4de54606917effd",
-          "message": "[pallet-revive] Move `to_account_id` host function to `System` pre-compile (#9455)\n\nPart of closing https://github.com/paritytech/polkadot-sdk/issues/8572.\n\ncc @athei @pgherveou\n\n---------\n\nCo-authored-by: xermicus <bigcyrill@hotmail.com>\nCo-authored-by: Alexander Theißen <alex.theissen@me.com>",
-          "timestamp": "2025-08-18T09:05:56Z",
-          "tree_id": "bdf0796810802ecf2bc56112c470efa5a7f72319",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/8744f5e5ee65786e3254cf45c4de54606917effd"
-        },
-        "date": 1755513416619,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 63634.83999999999,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 52941.7,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.50172597746,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.510968902840001,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000020269329999999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.37149544225999,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005767686370000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.000022768489999999997,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4691432505599984,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.4820437679999987,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.000022768489999999997,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9649261554099933,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.43691970161999816,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.691388158750885,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000020269329999999998,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
             "value": 0.7694966149999762,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "marian@parity.io",
+            "name": "Marian Radu",
+            "username": "marian-radu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a3f0e923b94c50aac0876fdee40de823c2dd8d4c",
+          "message": "[eth-rpc] Handle event decode errors across runtime upgrades (#11655)\n\n### Motivation\nDuring backward sync, eth-rpc processes historical blocks using the\ncurrent runtime's metadata. If the event layout differs between the\ncurrent runtime and the runtime that produced those blocks (e.g., the\nBalances pallet gained new event variants in #7250), event decoding\nfails and receipts are lost.\n\n### Changes\nReplace events.has::<EthExtrinsicRevert>() with an event iterator that\nlogs and skips decode errors, checks revert status by pallet/variant\nname, and collects ContractEmitted logs in a single pass — so that\nundecodable events no longer cause the entire receipt to be lost.\n\nBehavior change: Previously, any undecodable event in a block caused the\nentire receipt to be lost. Now, decode errors are logged and skipped —\nthe receipt is stored with best-effort revert status and logs.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-09T15:35:51Z",
+          "tree_id": "9eb5052e02bacb2d0befc23c97dd5c4d36deacc3",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/a3f0e923b94c50aac0876fdee40de823c2dd8d4c"
+        },
+        "date": 1775753772862,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 52940.5,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 63617.61,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.00002096624,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.84829408686,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005225187010000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.929744111860002,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.2688073099827974,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.00002096624,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.9300705737900015,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.860354966269999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.779187792289964,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.000021558369999999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.474620767119999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.000021558369999999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7308780993799617,
             "unit": "seconds"
           }
         ]

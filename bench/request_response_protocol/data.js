@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775709133482,
+  "lastUpdate": 1775724503090,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -76031,6 +76031,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2785557930,
             "range": "± 69370314",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "robertvaneerdewijk@gmail.com",
+            "name": "0xRVE",
+            "username": "0xRVE"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "9c21405463f4d71b16d2ee8c7b3a844fd6f7cda0",
+          "message": "[pallet-assets] Reject delegatecall into pallet-assets ERC20 precompile (#11676)\n\nThere is no legitimate use case for delegatecalling into the asset\nprecompile. This matches the precedent set by the Storage precompile,\nwhich already enforces a delegatecall check (in the opposite direction —\nit *requires* delegatecall).\n\n## Changes\n\n- `lib.rs`: Add `ERR_DELEGATECALL_DENIED` const and `is_delegate_call()`\nguard before any dispatch logic\n- `tests.rs`: Add `delegatecall_is_rejected` test using the `Caller.sol`\nfixture\n\n## Test plan\n\n- [x] `cargo test -p pallet-assets-precompiles` — all 67 tests pass\n- [x] `delegatecall_is_rejected` verifies the guard rejects delegatecall\nvia the `Caller` fixture contract\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-09T07:42:11Z",
+          "tree_id": "ecbaff58a8f30622f50b8a6a3e47a3ff663c5fa9",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/9c21405463f4d71b16d2ee8c7b3a844fd6f7cda0"
+        },
+        "date": 1775724481035,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 19266992,
+            "range": "± 144915",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 19893117,
+            "range": "± 326405",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 21290122,
+            "range": "± 321811",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 26257915,
+            "range": "± 323476",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 61832602,
+            "range": "± 696310",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 347181648,
+            "range": "± 3472153",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2742742398,
+            "range": "± 125154141",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 16132601,
+            "range": "± 241364",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 16377353,
+            "range": "± 398091",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16933051,
+            "range": "± 570281",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21512618,
+            "range": "± 301026",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 60180958,
+            "range": "± 936466",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 364003824,
+            "range": "± 5503711",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2696740751,
+            "range": "± 51076677",
             "unit": "ns/iter"
           }
         ]

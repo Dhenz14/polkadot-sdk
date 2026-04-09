@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775730749328,
+  "lastUpdate": 1775734566065,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "45178695+pkhry@users.noreply.github.com",
-            "name": "Pavlo Khrystenko",
-            "username": "pkhry"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "fd417de617f303b84a0cac1972cf5d7090000d2f",
-          "message": "[pallet-revive] expose `exec::Key` (#9482)\n\n# Description\n\nThis is a fix for the fact that `exec::Key` is exposed from within\n`pallet_revive::tracing::Tracing` interface, but not from the crate\nitself making custom tracers effectively unimplementable outside said\ncrate.\n\nIn my case it's useful for implementing custom tracers for integration\nwith `foundry`\n\n## Integration\n\nRequires no downstream changes\n\n## Review Notes\n\nThis is a fix for the fact that `exec::Key` is exposed from within\n`pallet_revive::tracing::Tracing` interface, but not from the crate\nitself making custom tracers effectively unimplementable outside said\ncrate.\n\nsee here for one of the methods: [`exec::Key` exposed to the\nimplementor, despite not being exported by the\n`crate`](https://github.com/paritytech/polkadot-sdk/blob/pkhry/expose_key_pallet_revive/substrate/frame/revive/src/tracing.rs#L68)\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-08-14T12:06:16Z",
-          "tree_id": "989ae132623b6eea42407bc96833a8495c8fef21",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/fd417de617f303b84a0cac1972cf5d7090000d2f"
-        },
-        "date": 1755177939338,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.978,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03426917203000001,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04507103590599993,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.03859038682799997,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "monica@parity.io",
+            "name": "Monica Jin",
+            "username": "mokita-j"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "2ca26a002cfe1cd5e04c5ccb988fdf3126d55105",
+          "message": "[asset-hub-westend] Add revive_debug cfg for DebugEnabled (#11507)\n\n## Description\n\n`debug_trace*` RPCs (`debug_traceTransaction`,\n`debug_traceBlockByNumber`, `debug_traceCall`) only work when\npallet-revive's `DebugEnabled` config is set to `true`. Currently only\nthe dev-node has this enabled, but the dev-node is a simplified\nenvironment that doesn't fully replicate parachain runtime behavior\n(e.g. no PoV deduplication, different weight/fee configuration). To get\naccurate debug tracing data, it needs to run on actual parachain\nruntimes.\n\nPreviously this required editing the runtime's source code to flip\n`ConstBool<false>` to `ConstBool<true>`. This PR uses a plain `cfg` flag\nso debug mode can be toggled at build time without code changes.\nBuild with:\n```bash\nRUSTFLAGS=\"--cfg revive_debug\" cargo build -p asset-hub-westend-runtime --release\n```\n\n## Integration\n\nNo integration required for downstream projects. This change is\nself-contained within `asset-hub-westend-runtime`.\n\nOther runtimes can adopt the same pattern by using `ConstBool<{\ncfg!(revive_debug) }>` for `DebugEnabled`.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Alexander Theißen <alex.theissen@me.com>",
+          "timestamp": "2026-04-09T09:51:54Z",
+          "tree_id": "5991841f3549897591ff1aed2066b21d6b9447e3",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/2ca26a002cfe1cd5e04c5ccb988fdf3126d55105"
+        },
+        "date": 1775734544205,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.07,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038832427878,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08168186966399987,
             "unit": "seconds"
           }
         ]

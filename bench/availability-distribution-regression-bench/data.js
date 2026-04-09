@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775753764744,
+  "lastUpdate": 1775756989817,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "bkontur@gmail.com",
-            "name": "Branislav Kontur",
-            "username": "bkontur"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "7f1949d86d179d82d647a749c34a02b71492f5ff",
-          "message": "Paras: Clean up `AuthorizedCodeHash` when offboarding (#9514)\n\nThis PR updates the `Paras` pallet to clear entries in\n`AuthorizedCodeHash` as part of the offboarding process.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-08-19T15:45:15Z",
-          "tree_id": "a974eaac440aa21cf92978876f2af93910cbcd41",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/7f1949d86d179d82d647a749c34a02b71492f5ff"
-        },
-        "date": 1755622728165,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007176925826666647,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02240401732,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013007434753333338,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.1571135196600001,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-distribution",
             "value": 0.007412737526666666,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "eresav@me.com",
+            "name": "Andrei Eres",
+            "username": "AndreiEres"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0bf65ec8994dd0477995451e5db4695ba40a7e39",
+          "message": "statement-store: test crash mid-sync (#11691)\n\n# Description\n\nPart of https://github.com/paritytech/polkadot-sdk/issues/11536: covers\nnode crash mid-sync.\n\nAdds a zombienet integration test that verifies statement store recovery\nafter a node crash mid-sync. The test submits statements concurrently to\nmultiple nodes, kills one mid-gossip, submits more while it's down, then\nasserts all recoverable statements converge after restart.\n\n## Integration\n\nNo integration needed.\n\n## Review Notes\n                                                           \n- Three-node setup (alice, bob, charlie) with ~0.6 MiB statements to\nforce one-per-gossip-notification pacing\n- Bob is restarted immediately after receiving at least one alice\nstatement (mid-sync window)\n- Recovery verified by parsing 'Statement loaded' log lines (requires\nstatement-store=trace)\n- Tolerates at most 1 lost bob statement due to ParityDB's async fsync\non SIGKILL\n- Refactored subscribe_topic into subscribe_topic +\nsubscribe_topic_filter for MatchAny support\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-09T16:29:52Z",
+          "tree_id": "13dba3ac0133316c54c72a8d4f82fbbe890b2e4a",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/0bf65ec8994dd0477995451e5db4695ba40a7e39"
+        },
+        "date": 1775756967145,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.025443939266666663,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007016399173333332,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14664704488000008,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009440632646666645,
             "unit": "seconds"
           }
         ]

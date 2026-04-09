@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775676712837,
+  "lastUpdate": 1775710104732,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "178801527+raymondkfcheung@users.noreply.github.com",
-            "name": "Raymond Cheung",
-            "username": "raymondkfcheung"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "e117602f60bf3a0debe6843c94278275e3912a40",
-          "message": "Remove free balance check in `prepare_unlock` (#9489)\n\nThe free balance check during unlocking is unnecessary since a lock can\ncover both free and reserved balances. Removing it allows locks to be\ncleared even if part of the locked funds is reserved or already slashed.",
-          "timestamp": "2025-08-15T06:33:29Z",
-          "tree_id": "44a9e3e9bbdefd13644497674a8362005a86ec67",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/e117602f60bf3a0debe6843c94278275e3912a40"
-        },
-        "date": 1755243831693,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.00758443412,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013282512193333335,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15879670012000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022658680639999998,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "bitfield-distribution",
             "value": 0.02545911413333332,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "gui.thiolliere@gmail.com",
+            "name": "Guillaume Thiolliere",
+            "username": "gui1117"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0ec94c97e2599a90b43abee84104133793caf5fe",
+          "message": "fix links: 404 individuality private repo. (#11644)",
+          "timestamp": "2026-04-09T03:25:19Z",
+          "tree_id": "d2ed74146d689c990bb42d4436ec62c6fe27928b",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/0ec94c97e2599a90b43abee84104133793caf5fe"
+        },
+        "date": 1775710082896,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14459330689333336,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009679132066666657,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007114162066666666,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.02552613101333334,
             "unit": "seconds"
           }
         ]

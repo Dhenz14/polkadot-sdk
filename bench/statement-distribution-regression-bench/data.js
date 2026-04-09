@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775676771884,
+  "lastUpdate": 1775710165275,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "14218860+iulianbarbu@users.noreply.github.com",
-            "name": "Iulian Barbu",
-            "username": "iulianbarbu"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "5bb3afcd733a18744a09c1df840c3813623fb0ab",
-          "message": "check-semver: enable the support for edition 2024 (#9473)\n\n# Description\n\n`check-semver` job fails since some time in the majority of the PRs, and\nthe issue has been tracked down to an indirect dependency which is based\non edition 2024 rust, which can not compile successfully with the\ncurrent nightly.\n\n## Integration\n\nN/A\n\n## Review Notes\n\n- Updated parity-publish:\nhttps://github.com/paritytech/parity-publish/pull/58\n- This PR completes the circle and makes check-semver functional again\n- Tested already these changes here:\nhttps://github.com/paritytech/polkadot-sdk/actions/runs/16909276800/workflow\n\nSigned-off-by: Iulian Barbu <iulian.barbu@parity.io>",
-          "timestamp": "2025-08-13T07:37:51Z",
-          "tree_id": "623c90f2a9e3da06be3694e350eafc34b23a00b3",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/5bb3afcd733a18744a09c1df840c3813623fb0ab"
-        },
-        "date": 1755074889177,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 127.95199999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03463496967799999,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04506016512999997,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.03884924882,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "gui.thiolliere@gmail.com",
+            "name": "Guillaume Thiolliere",
+            "username": "gui1117"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0ec94c97e2599a90b43abee84104133793caf5fe",
+          "message": "fix links: 404 individuality private repo. (#11644)",
+          "timestamp": "2026-04-09T03:25:19Z",
+          "tree_id": "d2ed74146d689c990bb42d4436ec62c6fe27928b",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/0ec94c97e2599a90b43abee84104133793caf5fe"
+        },
+        "date": 1775710142961,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.04,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038619150277999996,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08152578965599991,
             "unit": "seconds"
           }
         ]

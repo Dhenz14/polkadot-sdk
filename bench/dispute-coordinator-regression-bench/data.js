@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775726688184,
+  "lastUpdate": 1775730781387,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "60601340+lexnv@users.noreply.github.com",
-            "name": "Alexandru Vasile",
-            "username": "lexnv"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "c8e7a682f5961dd812fde30f9d909b86f16cd54f",
-          "message": "cargo: Use rust-yamux version 0.13.6 (#9479)\n\nThis PR updates the litep2p' rust-yamux crate to version 0.13.6.\n\nThis version solves the following issue:\n\n```\n0: sp_panic_handler::set::{{closure}}\n1: std::panicking::rust_panic_with_hook\n2: std::panicking::begin_panic_handler::{{closure}}\n3: std::sys::backtrace::__rust_end_short_backtrace\n4: rust_begin_unwind\n5: core::panicking::panic_fmt\n6: core::slice::index::slice_start_index_len_fail::do_panic::runtime\n7: core::slice::index::slice_start_index_len_fail\n8: <yamux::frame::io::Io as futures_sink::Sink<yamux::frame::Frame<()>>>::poll_ready\n9: yamux::connection::Connection::poll_next_inbound\n10: litep2p::transport::websocket::connection::WebSocketConnection::start::{{closure}}\n11: <litep2p::transport::websocket::WebSocketTransport as litep2p::transport::Transport>::accept::{{closure}}\n12: <tracing_futures::Instrumented as core::future::future::Future>::poll\n13: tokio::runtime::task::raw::poll\n14: tokio::runtime::scheduler::multi_thread::worker::Context::run_task\n15: tokio::runtime::scheduler::multi_thread::worker::run\n16: tokio::runtime::task::raw::poll\n17: std::sys::backtrace::__rust_begin_short_backtrace\n18: core::ops::function::FnOnce::call_once{{vtable.shim}}\n19: std::sys::pal::unix::thread::Thread::new::thread_start\n20: start_thread\nat /build/glibc-FcRMwW/glibc-2.31/nptl/pthread_create.c:477:8\n21: clone\nat /build/glibc-FcRMwW/glibc-2.31/misc/../sysdeps/unix/sysv/linux/x86_64/clone.S:95\n```\n\nPart of: https://github.com/paritytech/polkadot-sdk/issues/9169\n\n---------\n\nSigned-off-by: Alexandru Vasile <alexandru.vasile@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-08-14T08:25:37Z",
-          "tree_id": "7a997ec7458a771c3d93301b5c35483cbe458228",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/c8e7a682f5961dd812fde30f9d909b86f16cd54f"
-        },
-        "date": 1755166121546,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008563362489999985,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0026181287600000004,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005072127819999993,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-distribution",
             "value": 0.00947498646999997,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "alex.theissen@me.com",
+            "name": "Alexander Theißen",
+            "username": "athei"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "bc4a4c40c7c46868b7e041a3e8de9f45e39e64f1",
+          "message": "Add virtualization host functions (#3520)\n\nThis PR adds experimental support for the virtualization host functions.\nThose allow the runtime to spawn and run PolkaVM instances. It is\nexperimental because the behaviour is subject to change until PolkaVM\nand the host functions have a spec. However, we need to merge the code\nto go on with development. Docs and tests are all there and hence I\nargue it is good enough to be merged. I added a note that users should\nnot use those functions in production.\n\nThis PR adds or changes the following components:\n\n* `sc-executor-wasmtime`: Just exposing our virtualization manager to\nhost functions. Needs to be added here to be available for the whole\nlifetime of a runtime call.\n* `sp-virtualization`: New crate that abstracts away the host functions.\nMeaning that a user (like pallet-contracts) will interface only with\nthis crate and not with the host functions directly. This is necessary\nso that the natively running test code still works. The host functions\nalso depend on this crate. Those also contain all the tests. Everything\nPolkaVM is neatly organized into one crate. It also contains the\ndefinition of the new host functions.\n* `sp-wasm-interface`: We added an interface mirroring the host\nfunctions here. This is necessary in order for the host functions to be\nable to call into the executor.\n\n---------\n\nCo-authored-by: PG Herveou <pgherveou@gmail.com>\nCo-authored-by: Dmitry Sinyavin <dmitry.sinyavin@parity.io>\nCo-authored-by: s0me0ne-unkn0wn <48632512+s0me0ne-unkn0wn@users.noreply.github.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-09T08:52:00Z",
+          "tree_id": "5a5107904f41cfc7fe4b718aa4ceb5ad99ad831e",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/bc4a4c40c7c46868b7e041a3e8de9f45e39e64f1"
+        },
+        "date": 1775730759435,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.002696262209999999,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009950985399999992,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009449536089999976,
             "unit": "seconds"
           }
         ]

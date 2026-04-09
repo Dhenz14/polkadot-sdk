@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775730686430,
+  "lastUpdate": 1775734503754,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "bruno.devic@parity.io",
-            "name": "BDevParity",
-            "username": "BDevParity"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "9899378386f540055b292bcfaf66b98ef2dbe774",
-          "message": "[Release|CI/CD] Create pipeline with build runtimes, publish release draft and build RC all in 1 pipeline (#9437)\n\nThis PR incudes the following changes:\n\n- Creates single pipeline containing build RC, build runtimes and\npublish release candidate.\nCloses: https://github.com/paritytech/devops/issues/3828\n\n---------\n\nCo-authored-by: EgorPopelyaev <egor@parity.io>\nCo-authored-by: Dónal Murray <donal.murray@parity.io>",
-          "timestamp": "2025-08-18T13:35:55Z",
-          "tree_id": "95593c69c5db5e1c3aabd5589581dbe238272b25",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/9899378386f540055b292bcfaf66b98ef2dbe774"
-        },
-        "date": 1755528247206,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013289044753333328,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022578437473333334,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15787955472666673,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007294327893333318,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-distribution",
             "value": 0.00704818404,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "monica@parity.io",
+            "name": "Monica Jin",
+            "username": "mokita-j"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "2ca26a002cfe1cd5e04c5ccb988fdf3126d55105",
+          "message": "[asset-hub-westend] Add revive_debug cfg for DebugEnabled (#11507)\n\n## Description\n\n`debug_trace*` RPCs (`debug_traceTransaction`,\n`debug_traceBlockByNumber`, `debug_traceCall`) only work when\npallet-revive's `DebugEnabled` config is set to `true`. Currently only\nthe dev-node has this enabled, but the dev-node is a simplified\nenvironment that doesn't fully replicate parachain runtime behavior\n(e.g. no PoV deduplication, different weight/fee configuration). To get\naccurate debug tracing data, it needs to run on actual parachain\nruntimes.\n\nPreviously this required editing the runtime's source code to flip\n`ConstBool<false>` to `ConstBool<true>`. This PR uses a plain `cfg` flag\nso debug mode can be toggled at build time without code changes.\nBuild with:\n```bash\nRUSTFLAGS=\"--cfg revive_debug\" cargo build -p asset-hub-westend-runtime --release\n```\n\n## Integration\n\nNo integration required for downstream projects. This change is\nself-contained within `asset-hub-westend-runtime`.\n\nOther runtimes can adopt the same pattern by using `ConstBool<{\ncfg!(revive_debug) }>` for `DebugEnabled`.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Alexander Theißen <alex.theissen@me.com>",
+          "timestamp": "2026-04-09T09:51:54Z",
+          "tree_id": "5991841f3549897591ff1aed2066b21d6b9447e3",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/2ca26a002cfe1cd5e04c5ccb988fdf3126d55105"
+        },
+        "date": 1775734481828,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007138374686666666,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.010210937673333316,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.02545206986666666,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14680383932000007,
             "unit": "seconds"
           }
         ]

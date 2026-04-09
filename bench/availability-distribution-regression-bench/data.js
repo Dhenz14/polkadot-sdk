@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775734503754,
+  "lastUpdate": 1775753764744,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "mich@elmueller.net",
-            "name": "Michael Müller",
-            "username": "cmichi"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "7ede4fd048f8a99e62ef31050aa2e167e99d54b9",
-          "message": "[pallet-revive] Move `blake2_128` host function to `System` pre-compile (#9454)\n\nPart of closing https://github.com/paritytech/polkadot-sdk/issues/8572.\n\nI'm splitting some of the host function migrations into separate PRs, as\nthere are sometimes refactorings involved and this should make reviewing\neasier.\n\ncc @athei @pgherveou",
-          "timestamp": "2025-08-18T18:40:41Z",
-          "tree_id": "a1ee8d9a9483f19af3f1faf1905bef318dc29a79",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/7ede4fd048f8a99e62ef31050aa2e167e99d54b9"
-        },
-        "date": 1755546722462,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02249021076666667,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.01285554642,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15742061387333334,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007209886026666647,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-store",
             "value": 0.14680383932000007,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "marian@parity.io",
+            "name": "Marian Radu",
+            "username": "marian-radu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a3f0e923b94c50aac0876fdee40de823c2dd8d4c",
+          "message": "[eth-rpc] Handle event decode errors across runtime upgrades (#11655)\n\n### Motivation\nDuring backward sync, eth-rpc processes historical blocks using the\ncurrent runtime's metadata. If the event layout differs between the\ncurrent runtime and the runtime that produced those blocks (e.g., the\nBalances pallet gained new event variants in #7250), event decoding\nfails and receipts are lost.\n\n### Changes\nReplace events.has::<EthExtrinsicRevert>() with an event iterator that\nlogs and skips decode errors, checks revert status by pallet/variant\nname, and collects ContractEmitted logs in a single pass — so that\nundecodable events no longer cause the entire receipt to be lost.\n\nBehavior change: Previously, any undecodable event in a block caused the\nentire receipt to be lost. Now, decode errors are logged and skipped —\nthe receipt is stored with best-effort revert status and logs.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-09T15:35:51Z",
+          "tree_id": "9eb5052e02bacb2d0befc23c97dd5c4d36deacc3",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/a3f0e923b94c50aac0876fdee40de823c2dd8d4c"
+        },
+        "date": 1775753742622,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.025636417899999996,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14914470766666676,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009955835906666637,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007412737526666666,
             "unit": "seconds"
           }
         ]

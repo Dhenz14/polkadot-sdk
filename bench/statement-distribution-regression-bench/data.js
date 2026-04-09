@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775753825290,
+  "lastUpdate": 1775757051012,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "1728078+michalkucharczyk@users.noreply.github.com",
-            "name": "Michal Kucharczyk",
-            "username": "michalkucharczyk"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "ce5ecdd483440557d4d49f55818ed517bdf64940",
-          "message": "`fatxpool`: buckets for event-timings metrics adjusted (#9495)\n\nThis PR adjusts the buckets for transactions' event-timings metrics as\nrequested in #9158 for reliability dashboard.\nMetrics were initially introduced in #7355. \n\nfixes: #9158\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-08-15T14:34:38Z",
-          "tree_id": "f9d6c205d02c8530896693bc1f48d6cd90aff2e6",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/ce5ecdd483440557d4d49f55818ed517bdf64940"
-        },
-        "date": 1755272699043,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 127.95999999999998,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.044884408071999934,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.034160506454,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.08405664991799994,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "eresav@me.com",
+            "name": "Andrei Eres",
+            "username": "AndreiEres"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0bf65ec8994dd0477995451e5db4695ba40a7e39",
+          "message": "statement-store: test crash mid-sync (#11691)\n\n# Description\n\nPart of https://github.com/paritytech/polkadot-sdk/issues/11536: covers\nnode crash mid-sync.\n\nAdds a zombienet integration test that verifies statement store recovery\nafter a node crash mid-sync. The test submits statements concurrently to\nmultiple nodes, kills one mid-gossip, submits more while it's down, then\nasserts all recoverable statements converge after restart.\n\n## Integration\n\nNo integration needed.\n\n## Review Notes\n                                                           \n- Three-node setup (alice, bob, charlie) with ~0.6 MiB statements to\nforce one-per-gossip-notification pacing\n- Bob is restarted immediately after receiving at least one alice\nstatement (mid-sync window)\n- Recovery verified by parsing 'Statement loaded' log lines (requires\nstatement-store=trace)\n- Tolerates at most 1 lost bob statement due to ParityDB's async fsync\non SIGKILL\n- Refactored subscribe_topic into subscribe_topic +\nsubscribe_topic_filter for MatchAny support\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-09T16:29:52Z",
+          "tree_id": "13dba3ac0133316c54c72a8d4f82fbbe890b2e4a",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/0bf65ec8994dd0477995451e5db4695ba40a7e39"
+        },
+        "date": 1775757028649,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.07,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038310017727999995,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.07949779584799993,
             "unit": "seconds"
           }
         ]

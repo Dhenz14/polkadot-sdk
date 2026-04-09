@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775676682027,
+  "lastUpdate": 1775710074898,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "1728078+michalkucharczyk@users.noreply.github.com",
-            "name": "Michal Kucharczyk",
-            "username": "michalkucharczyk"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "ce5ecdd483440557d4d49f55818ed517bdf64940",
-          "message": "`fatxpool`: buckets for event-timings metrics adjusted (#9495)\n\nThis PR adjusts the buckets for transactions' event-timings metrics as\nrequested in #9158 for reliability dashboard.\nMetrics were initially introduced in #7355. \n\nfixes: #9158\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-08-15T14:34:38Z",
-          "tree_id": "f9d6c205d02c8530896693bc1f48d6cd90aff2e6",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/ce5ecdd483440557d4d49f55818ed517bdf64940"
-        },
-        "date": 1755272626176,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.177658708200003,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19856455343333337,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.12695166173333333,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "gui.thiolliere@gmail.com",
+            "name": "Guillaume Thiolliere",
+            "username": "gui1117"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0ec94c97e2599a90b43abee84104133793caf5fe",
+          "message": "fix links: 404 individuality private repo. (#11644)",
+          "timestamp": "2026-04-09T03:25:19Z",
+          "tree_id": "d2ed74146d689c990bb42d4436ec62c6fe27928b",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/0ec94c97e2599a90b43abee84104133793caf5fe"
+        },
+        "date": 1775710052775,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.791899541899998,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13411547130000004,
             "unit": "seconds"
           }
         ]

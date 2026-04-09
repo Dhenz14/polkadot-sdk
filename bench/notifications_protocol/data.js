@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775725637810,
+  "lastUpdate": 1775729829876,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "notifications_protocol": [
@@ -136703,6 +136703,198 @@ window.BENCHMARK_DATA = {
             "name": "notifications_protocol/litep2p/with_backpressure/16MB",
             "value": 2605198633,
             "range": "± 101333549",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "alex.theissen@me.com",
+            "name": "Alexander Theißen",
+            "username": "athei"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "bc4a4c40c7c46868b7e041a3e8de9f45e39e64f1",
+          "message": "Add virtualization host functions (#3520)\n\nThis PR adds experimental support for the virtualization host functions.\nThose allow the runtime to spawn and run PolkaVM instances. It is\nexperimental because the behaviour is subject to change until PolkaVM\nand the host functions have a spec. However, we need to merge the code\nto go on with development. Docs and tests are all there and hence I\nargue it is good enough to be merged. I added a note that users should\nnot use those functions in production.\n\nThis PR adds or changes the following components:\n\n* `sc-executor-wasmtime`: Just exposing our virtualization manager to\nhost functions. Needs to be added here to be available for the whole\nlifetime of a runtime call.\n* `sp-virtualization`: New crate that abstracts away the host functions.\nMeaning that a user (like pallet-contracts) will interface only with\nthis crate and not with the host functions directly. This is necessary\nso that the natively running test code still works. The host functions\nalso depend on this crate. Those also contain all the tests. Everything\nPolkaVM is neatly organized into one crate. It also contains the\ndefinition of the new host functions.\n* `sp-wasm-interface`: We added an interface mirroring the host\nfunctions here. This is necessary in order for the host functions to be\nable to call into the executor.\n\n---------\n\nCo-authored-by: PG Herveou <pgherveou@gmail.com>\nCo-authored-by: Dmitry Sinyavin <dmitry.sinyavin@parity.io>\nCo-authored-by: s0me0ne-unkn0wn <48632512+s0me0ne-unkn0wn@users.noreply.github.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-09T08:52:00Z",
+          "tree_id": "5a5107904f41cfc7fe4b718aa4ceb5ad99ad831e",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/bc4a4c40c7c46868b7e041a3e8de9f45e39e64f1"
+        },
+        "date": 1775729808071,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "notifications_protocol/libp2p/serially/64B",
+            "value": 4214266,
+            "range": "± 56445",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64B",
+            "value": 326784,
+            "range": "± 6140",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/512B",
+            "value": 4355922,
+            "range": "± 95261",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/512B",
+            "value": 410550,
+            "range": "± 10093",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/4KB",
+            "value": 4994751,
+            "range": "± 70024",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/4KB",
+            "value": 988437,
+            "range": "± 21140",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/64KB",
+            "value": 11132101,
+            "range": "± 145097",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64KB",
+            "value": 5407796,
+            "range": "± 105776",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/256KB",
+            "value": 48444185,
+            "range": "± 1116710",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/256KB",
+            "value": 39644609,
+            "range": "± 487717",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/2MB",
+            "value": 368728958,
+            "range": "± 4001139",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/2MB",
+            "value": 305434004,
+            "range": "± 1863325",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/16MB",
+            "value": 2615071875,
+            "range": "± 12427268",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/16MB",
+            "value": 2762672230,
+            "range": "± 87216842",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64B",
+            "value": 3355637,
+            "range": "± 56465",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64B",
+            "value": 1640873,
+            "range": "± 16232",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/512B",
+            "value": 3444401,
+            "range": "± 80266",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/512B",
+            "value": 1718763,
+            "range": "± 12878",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/4KB",
+            "value": 4125562,
+            "range": "± 43962",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/4KB",
+            "value": 2093157,
+            "range": "± 18832",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64KB",
+            "value": 8496731,
+            "range": "± 469363",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64KB",
+            "value": 5460284,
+            "range": "± 109886",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/256KB",
+            "value": 36983112,
+            "range": "± 600419",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/256KB",
+            "value": 37038709,
+            "range": "± 1114893",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/2MB",
+            "value": 342122168,
+            "range": "± 3284189",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/2MB",
+            "value": 293558390,
+            "range": "± 6101856",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/16MB",
+            "value": 2628622312,
+            "range": "± 26413001",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/16MB",
+            "value": 2396184804,
+            "range": "± 114346019",
             "unit": "ns/iter"
           }
         ]

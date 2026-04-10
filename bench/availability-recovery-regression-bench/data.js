@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775837827157,
+  "lastUpdate": 1775844063439,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "hetterich.charles@gmail.com",
-            "name": "Charles",
-            "username": "charlesHetterich"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "386b3abb72283c2c0efacd0fd2975163b333bce6",
-          "message": "Added `subkey` to CI release process (#9466)\n\n- Added 2 jobs to `Release - Build node release candidate` CI workflow\nfor linux/mac subkey binaries\n- Added 2 jobs to `RC Build` CI workflow to upload linux/mac `subkey`\nartifacts to S3\n- updated `release_lib.sh` to reflect new S3 artifacts\n\nCLOSES: #9465\n\n---------\n\nCo-authored-by: EgorPopelyaev <egor@parity.io>",
-          "timestamp": "2025-08-20T16:20:41Z",
-          "tree_id": "b37735b9bf06f64f0094cfa01debf9393f601c1d",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/386b3abb72283c2c0efacd0fd2975163b333bce6"
-        },
-        "date": 1755711262698,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.3929821313,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19534666306666673,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 11.713343435533336,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b96d1afb5e99dc118336c78beb5231dc5d9f6d8e",
+          "message": "[Release|CI/CD] Fix git push in Post Crates Activities flow (#11723)\n\nThis PR fixes issue, that commited changes were not pushed to\npost-crates-release branch as there was a check, that was looking for\nuncommited changes",
+          "timestamp": "2026-04-10T16:40:00Z",
+          "tree_id": "d9f6538613df2c66bb25c1994bd022a465897d10",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/b96d1afb5e99dc118336c78beb5231dc5d9f6d8e"
+        },
+        "date": 1775844043140,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.854541097266665,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13250824430000002,
             "unit": "seconds"
           }
         ]

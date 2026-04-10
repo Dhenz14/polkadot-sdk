@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775844140471,
+  "lastUpdate": 1775848376766,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "bkontur@gmail.com",
-            "name": "Branislav Kontur",
-            "username": "bkontur"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "7f1949d86d179d82d647a749c34a02b71492f5ff",
-          "message": "Paras: Clean up `AuthorizedCodeHash` when offboarding (#9514)\n\nThis PR updates the `Paras` pallet to clear entries in\n`AuthorizedCodeHash` as part of the offboarding process.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-08-19T15:45:15Z",
-          "tree_id": "a974eaac440aa21cf92978876f2af93910cbcd41",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/7f1949d86d179d82d647a749c34a02b71492f5ff"
-        },
-        "date": 1755622779435,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 127.95199999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04504263349999992,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.034284729092000005,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.08663708934999992,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "adrian@parity.io",
+            "name": "Adrian Catangiu",
+            "username": "acatangiu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f8156c184007ace837d38b496eb660ea30b667d0",
+          "message": "Make pallet_xcm_bridge_hub_router exporter configurable for paid/unpaid (#11694)\n\nAdd `type Exporter: SendXcm` to the pallet's Config trait so runtimes\ncan choose between `SovereignPaidRemoteExporter` (paid) and\n`UnpaidRemoteExporter` (unpaid) bridging. Provide convenience type\naliases `PaidRemoteExporter` and `UnpaidRemoteExporterAdapter`.\n\nAsset Hub runtimes are configured to now use `UnpaidRemoteExporter` to\nreduce deployment complexity\n(no more need to manage/top-up AH sov account on BH).\n\nSimpler fix for https://github.com/polkadot-fellows/runtimes/issues/392\n\n---------\n\nSigned-off-by: Adrian Catangiu <adrian@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-10T17:35:45Z",
+          "tree_id": "332881d692bdaec87d68e3dda4c3a4c8500c809e",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/f8156c184007ace837d38b496eb660ea30b667d0"
+        },
+        "date": 1775848355439,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.07800000000003,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.03870924098600001,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08644763329599991,
             "unit": "seconds"
           }
         ]

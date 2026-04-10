@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775788916557,
+  "lastUpdate": 1775837827157,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "14218860+iulianbarbu@users.noreply.github.com",
-            "name": "Iulian Barbu",
-            "username": "iulianbarbu"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "349fe9b9111d74b5e4bc3002136b211b3444f28b",
-          "message": "fix: add missing crates bumps and upgrade parity-publish (#9488)\n\n# Description\n\nAdds a few crate bumps associated to PRs which missed to bump them, and\nupdates parity-publish version across the board to 0.10.6 (to support\nrustc 1.88).\n\nAdditionally, makes it so that parity-publish-check-compile runs first\non all unreleased prdocs to bump associated crates, and only after\nmoving those to an `unreleased` directory, runs on the current PR's\nprdoc. This is so that we first create a \"local release\" based on the\nunreleased prdocs, and then we follow with a \"patch\" release based on\nthe previous local release, considering only the prdoc pushed with the\ncurrent PR. If the workflow fails at the end it means current PR missed\ncertain bumps. If we don't do the plan/apply twice we risk to miss bumps\ndue to all prdocs being considered (current PR's prdoc + unreleased\nones) when running parity-publish plan/apply, which might result in a\nset of crate bumps which are sufficient, but once some unreleased prdocs\nwill be moved to a stable prodoc directory, because they will be part of\na stable release, then the ones left will not be enough from a bump\nperspective (e.g. like it happened in #9320). That's why it is important\nto check every PR that adds a prdoc whether it is self-sufficient from a\ncrates bumping perspective.\n\nIf no prdoc is provided, the parity-publish does not need to be taken\ninto consideration, but it should also pass nonetheless.\n\n## Integration\n\nN/A\n\n## Review Notes\n\nThere seems to a be a corner case parity-publish can not easily catch.\nAll bumps below are a manifestation of it. More details below:\n\n* #8714 - a major bump is necessary for `sp-wasm-interface` - context\nhere:\nhttps://github.com/paritytech/polkadot-sdk/pull/8714#discussion_r2273355186\n* `sp-keystore` was bumped during 2506 in #6010 , and the relevant prdoc\ngot moved to stable2506 dir in #9320. This moved prdoc coexisted\nalongside other unreleased prdocs, and covered a needed patch bump for\n`sp-keystore`, that is not easily visible, and also required for crates\npublishing IIUC:\n1. `sp-io` is major bumped because its direct dependency,\n`sp-state-machine`, was major bumped.\n2. `sp-io` has a direct dependency on `sp-core` (minor bumped), and\n`sp-keystore` (not touched, not bumped by now)\n3. `sp-io` fails to compile because it pulls same types from different\n`sp-core` versions (it implements `Keystore` trait from `sp-keystore`\nwith methods signatures referencing types from `sp-core 38.0.0` by using\nthe `sp-core 0.38.1` - unreleased yet - types, which confuses rustc).\n* `sp-rpc` needs a bump too due to pulling `sp-core 38.0.0`, like\n`sp-keystore`, and it is an indirect dependency of `polkadot-cli`, which\nhas also a direct dependency on unreleased `sp-core 38.1.0`, so again,\nif we don't bump `sp-rpc` (historically it has been bumped only with\nmajor, but I think we can go with patch on this one), `polkadot-cli`\ncan't compile.\n* `sc-storage-monitor` is in a similar situation as\n`sp-rpc`/`sp-keystore` - `polkadot-cli` depends on `sc-storage-monitor`\n(which is not bumped, and has a dependency on `sp-core 38.0.0`), but it\nalso depends on `sp-core 38.1.0`. And yet again, something is used in\n`polkadot-cli` from the two different `sp-core` versions, which confuses\nrustc.\n\n---------\n\nSigned-off-by: Iulian Barbu <iulian.barbu@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Alexander Samusev <41779041+alvicsam@users.noreply.github.com>",
-          "timestamp": "2025-08-20T11:47:46Z",
-          "tree_id": "3b32afd34a525f52faa8db9906d3ff42149a8474",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/349fe9b9111d74b5e4bc3002136b211b3444f28b"
-        },
-        "date": 1755694904649,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.259237889866665,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.1979011093,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.12386178033333335,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "pgherveou@gmail.com",
+            "name": "PG Herveou",
+            "username": "pgherveou"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "de4709b0914c8290f0092c919d841b79249db836",
+          "message": "revive: Skip redundant eth_block_hash RPC call in block subscription (#11475)\n\nCo-authored-by: Marian Radu <marian@parity.io>",
+          "timestamp": "2026-04-10T14:54:26Z",
+          "tree_id": "d3087adcddf7732785d390a9c1c3935b215d66f1",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/de4709b0914c8290f0092c919d841b79249db836"
+        },
+        "date": 1775837804897,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13303188250000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.713343435533336,
             "unit": "seconds"
           }
         ]

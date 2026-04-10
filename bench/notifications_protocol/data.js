@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775756726843,
+  "lastUpdate": 1775788097794,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "notifications_protocol": [
@@ -137471,6 +137471,198 @@ window.BENCHMARK_DATA = {
             "name": "notifications_protocol/litep2p/with_backpressure/16MB",
             "value": 2327128452,
             "range": "± 76827630",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "nasihudeen04@gmail.com",
+            "name": "Nasihudeen Jimoh",
+            "username": "Kanasjnr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f8df552131f87ab50bab8577a4254e31a63bfc62",
+          "message": "Kanas/refractored storage derive macro (#10195)\n\n# Description\n\nThis PR introduces a new `#[stored]` attribute macro that simplifies the\ndefinition of storage types in FRAME pallets by automatically generating\nappropriate derive macros and trait bounds. This reduces boilerplate\ncode and makes storage type definitions more maintainable.\n\n**Problem:** Currently, defining storage types requires extensive\nboilerplate with multiple derives, `scale_info` attributes, `codec`\nattributes, and manual trait bounds, making the code verbose and\nerror-prone.\n\n**Solution:** The new `#[stored]` macro automatically applies all\nnecessary derives and intelligently handles phantom type parameters and\n`MaxEncodedLen` requirements through simple, declarative parameters.\n\n**Example:**\n\n```diff\n- #[derive(\n-     CloneNoBound,\n-     PartialEqNoBound,\n-     EqNoBound,\n-     RuntimeDebugNoBound,\n-     TypeInfo,\n-     Encode,\n-     Decode,\n-     DecodeWithMemTracking,\n-     MaxEncodedLen,\n- )]\n- #[scale_info(skip_type_params(Total))]\n- #[codec(mel_bound(Votes: MaxEncodedLen))]\n- pub struct Tally<Votes: Clone + PartialEq + Eq + Debug + TypeInfo + Codec, Total> {\n+ #[stored(skip(Total), mel(Votes))]\n+ pub struct Tally<Votes, Total> {\n      pub ayes: Votes,\n      pub nays: Votes,\n      dummy: PhantomData<Total>,\n  }\n```\n\n## Integration\n\n**This PR is backward compatible and does not require immediate\nmigration.** The `#[stored]` macro is a new optional feature that can be\nadopted gradually.\n### For Downstream Projects\n\nNo changes are required to existing code. The traditional manual\napproach continues to work. However, new storage types can benefit from\nthe simplified syntax:\n\n**Basic Usage:**\n```rust\nuse frame_support::stored;\n\n// Simple storage type with no generics\n#[stored]\npub struct SimpleData {\n    pub value: u32,\n    pub count: u64,\n}\n```\n\n**With Generic Parameters:**\n```rust\n// Automatically adds bounds to generic parameters\n#[stored]\npub struct Account<Balance> {\n    pub free: Balance,\n    pub reserved: Balance,\n}\n```\n\n**With Phantom Types:**\n```rust\n// Use skip() for phantom type parameters\n#[stored(skip(T))]\npub struct ConfigData<T, Value> {\n    pub data: Value,\n    _phantom: PhantomData<T>,\n}\n```\n**With MaxEncodedLen Requirements:**\n```rust\n// Use mel() to specify which generics need MaxEncodedLen\n#[stored(mel(Balance))]\npub struct BalanceInfo<Balance> {\n    pub total: Balance,\n    pub locked: Balance,\n}\n```\n\n**Multiple Parameters:**\n```rust\n// Combine skip() and mel() as needed\n#[stored(skip(T, I), mel(Balance))]\npub struct ComplexType<T, Balance, I> {\n    pub value: Balance,\n    _phantom: PhantomData<(T, I)>,\n}\n```\n\n**Advanced Custom Bounds:**\n```rust\n// Use mel_bound() for complex constraints\n#[stored(skip(T), mel_bound(S: MaxEncodedLen + Encode + Decode))]\npub struct AdvancedType<T, S> {\n    pub data: S,\n    _phantom: PhantomData<T>,\n}\n```\n### Migration Notes\n\n- **No breaking changes:** Existing code continues to work without\nmodification\n- **Optional adoption:** Teams can adopt `#[stored]` incrementally for\nnew types or during refactoring\n- **Functionally equivalent:** The macro generates the same code as the\nmanual approach\n\n## Review Notes\n\n<details>\n<summary>Implementation Details</summary>\n\n### Architecture\n\nThe macro is implemented in\n`substrate/frame/support/procedural/src/stored.rs` with clear separation\nof concerns:\n\n1. **Parsing Layer** (`StoredArgs`, `StoredArg`): Parses the macro\nattributes using `syn`\n2. **Validation Layer**: Ensures all referenced generic parameters exist\nand prevents duplicate specifications\n3. **Generation Layer**: Produces the appropriate derives and attributes\nbased on parsed arguments\n\n### What the Macro Generates\n\nThe `#[stored]` macro automatically applies:\n\n**Derives:**\n- `CloneNoBound`, `PartialEqNoBound`, `EqNoBound`, `RuntimeDebugNoBound`\n- `TypeInfo`, `Encode`, `Decode`, `DecodeWithMemTracking`,\n`MaxEncodedLen`\n\n**Trait Bounds on Generic Parameters (non-skipped):**\n- `Clone + PartialEq + Eq + Debug + TypeInfo + Codec`\n\n**Attributes:**\n- `#[scale_info(skip_type_params(...))]` for skipped parameters\n- `#[codec(mel_bound(...))]` for MaxEncodedLen requirements\n\n### Parameter Handling\n\n| Parameter | Purpose | Example | Generated Output |\n|-----------|---------|---------|------------------|\n| `skip(A, B)` | Phantom types to skip in bounds | `skip(T)` |\n`#[scale_info(skip_type_params(T))]` |\n| `mel(A, B)` | Params needing MaxEncodedLen | `mel(Balance)` |\n`#[codec(mel_bound(Balance: MaxEncodedLen))]` |\n| `mel_bound(...)` | Custom MEL bounds | `mel_bound(B: MaxEncodedLen)` |\n`#[codec(mel_bound(B: MaxEncodedLen))]` |\n\n### Validation\n\nThe macro validates:\n- ✅ All `skip` parameters exist as generic type parameters\n- ✅ All `mel` parameters exist as generic type parameters\n- ✅ No duplicate `skip`, `mel`, or `mel_bound` specifications\n- ✅ Only applied to structs (not enums or unions)\n\n### Testing\n\nUnit tests in `stored.rs` cover:\n- Argument parsing for all parameter types\n- Validation of duplicate arguments (expected failures)\n- Successful macro expansion\n- Error messages for invalid inputs\n\nExample comparison provided in\n`substrate/frame/support/procedural/examples/stored_demo.rs`.\n\n</details>\n\n### Files Changed\n\n- **Added:** `substrate/frame/support/procedural/src/stored.rs` - Core\nimplementation with tests\n- **Added:**\n`substrate/frame/support/procedural/examples/stored_demo.rs` - Usage\nexample\n- **Modified:** `substrate/frame/support/procedural/src/lib.rs` -\nExported macro with documentation\n- **Modified:** `substrate/frame/support/src/lib.rs` - Public API\nexposure with examples\n\n### Leftover TODOs\n\nNone. The implementation is complete and tested.\n\n# Checklist\n\n* [x] My PR includes a detailed description as outlined in the\n\"Description\" and its two subsections above.\n* [ ] My PR follows the [labeling\nrequirements](https://github.com/paritytech/polkadot-sdk/blob/master/docs/contributor/CONTRIBUTING.md#Process)\nof this project (at minimum one label for `T` required)\n* External contributors: `/cmd label T1-FRAME D3-trivial I7-refactor`\n* [x] I have made corresponding changes to the documentation (if\napplicable)\n* [x] I have added tests that prove my fix is effective or that my\nfeature works (if applicable)\n\n---\n\n**Recommended bot commands to run:**\n- `/cmd label T1-FRAME D3-trivial I7-refactor` - Add appropriate labels\n- `/cmd fmt` - Format code before final review\n- `/cmd prdoc` - Generate PR documentation if required\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: gui1117 <guillaume.thiolliere@parity.io>\nCo-authored-by: Guillaume Thiolliere <gui.thiolliere@gmail.com>",
+          "timestamp": "2026-04-10T01:21:33Z",
+          "tree_id": "03f6f22de0f93f455cd97fe53d03ce501849ed1f",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/f8df552131f87ab50bab8577a4254e31a63bfc62"
+        },
+        "date": 1775788076844,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "notifications_protocol/libp2p/serially/64B",
+            "value": 4264690,
+            "range": "± 257125",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64B",
+            "value": 310506,
+            "range": "± 13675",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/512B",
+            "value": 4081654,
+            "range": "± 58019",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/512B",
+            "value": 386236,
+            "range": "± 8257",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/4KB",
+            "value": 4660934,
+            "range": "± 67748",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/4KB",
+            "value": 965904,
+            "range": "± 47661",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/64KB",
+            "value": 10290473,
+            "range": "± 201893",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64KB",
+            "value": 5239239,
+            "range": "± 171074",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/256KB",
+            "value": 45329167,
+            "range": "± 746957",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/256KB",
+            "value": 37769042,
+            "range": "± 579845",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/2MB",
+            "value": 340889152,
+            "range": "± 1876686",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/2MB",
+            "value": 286758541,
+            "range": "± 4060672",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/16MB",
+            "value": 2497564252,
+            "range": "± 109649205",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/16MB",
+            "value": 2729091079,
+            "range": "± 135641043",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64B",
+            "value": 3003418,
+            "range": "± 17028",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64B",
+            "value": 1554194,
+            "range": "± 10740",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/512B",
+            "value": 3195394,
+            "range": "± 139483",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/512B",
+            "value": 1668517,
+            "range": "± 24843",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/4KB",
+            "value": 3852208,
+            "range": "± 365135",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/4KB",
+            "value": 1964760,
+            "range": "± 48941",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64KB",
+            "value": 7611019,
+            "range": "± 69810",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64KB",
+            "value": 4957960,
+            "range": "± 77865",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/256KB",
+            "value": 34448778,
+            "range": "± 1449974",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/256KB",
+            "value": 34127366,
+            "range": "± 849313",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/2MB",
+            "value": 313577922,
+            "range": "± 7379394",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/2MB",
+            "value": 276481977,
+            "range": "± 13891290",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/16MB",
+            "value": 2473619763,
+            "range": "± 102864646",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/16MB",
+            "value": 2443475275,
+            "range": "± 59912980",
             "unit": "ns/iter"
           }
         ]

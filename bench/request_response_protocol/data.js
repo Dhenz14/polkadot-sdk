@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775843050295,
+  "lastUpdate": 1775847269605,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -77003,6 +77003,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2801590123,
             "range": "± 33741832",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "adrian@parity.io",
+            "name": "Adrian Catangiu",
+            "username": "acatangiu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f8156c184007ace837d38b496eb660ea30b667d0",
+          "message": "Make pallet_xcm_bridge_hub_router exporter configurable for paid/unpaid (#11694)\n\nAdd `type Exporter: SendXcm` to the pallet's Config trait so runtimes\ncan choose between `SovereignPaidRemoteExporter` (paid) and\n`UnpaidRemoteExporter` (unpaid) bridging. Provide convenience type\naliases `PaidRemoteExporter` and `UnpaidRemoteExporterAdapter`.\n\nAsset Hub runtimes are configured to now use `UnpaidRemoteExporter` to\nreduce deployment complexity\n(no more need to manage/top-up AH sov account on BH).\n\nSimpler fix for https://github.com/polkadot-fellows/runtimes/issues/392\n\n---------\n\nSigned-off-by: Adrian Catangiu <adrian@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-10T17:35:45Z",
+          "tree_id": "332881d692bdaec87d68e3dda4c3a4c8500c809e",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/f8156c184007ace837d38b496eb660ea30b667d0"
+        },
+        "date": 1775847247735,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18059042,
+            "range": "± 94982",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18397803,
+            "range": "± 164453",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 19878429,
+            "range": "± 228600",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24664479,
+            "range": "± 550948",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 57031299,
+            "range": "± 975135",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 315255064,
+            "range": "± 8961427",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2381218412,
+            "range": "± 71151681",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15023039,
+            "range": "± 294123",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15119300,
+            "range": "± 337464",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 15905532,
+            "range": "± 238328",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 19923941,
+            "range": "± 404302",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 54009799,
+            "range": "± 504310",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 313716164,
+            "range": "± 12594437",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2580931367,
+            "range": "± 70572121",
             "unit": "ns/iter"
           }
         ]

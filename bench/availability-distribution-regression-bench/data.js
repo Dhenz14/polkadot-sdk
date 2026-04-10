@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775844089123,
+  "lastUpdate": 1775848318378,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "hetterich.charles@gmail.com",
-            "name": "Charles",
-            "username": "charlesHetterich"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "386b3abb72283c2c0efacd0fd2975163b333bce6",
-          "message": "Added `subkey` to CI release process (#9466)\n\n- Added 2 jobs to `Release - Build node release candidate` CI workflow\nfor linux/mac subkey binaries\n- Added 2 jobs to `RC Build` CI workflow to upload linux/mac `subkey`\nartifacts to S3\n- updated `release_lib.sh` to reflect new S3 artifacts\n\nCLOSES: #9465\n\n---------\n\nCo-authored-by: EgorPopelyaev <egor@parity.io>",
-          "timestamp": "2025-08-20T16:20:41Z",
-          "tree_id": "b37735b9bf06f64f0094cfa01debf9393f601c1d",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/386b3abb72283c2c0efacd0fd2975163b333bce6"
-        },
-        "date": 1755711288495,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02257317640666666,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007346110866666639,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15853275288666674,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.01322969276,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "bitfield-distribution",
             "value": 0.025339938906666658,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "adrian@parity.io",
+            "name": "Adrian Catangiu",
+            "username": "acatangiu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f8156c184007ace837d38b496eb660ea30b667d0",
+          "message": "Make pallet_xcm_bridge_hub_router exporter configurable for paid/unpaid (#11694)\n\nAdd `type Exporter: SendXcm` to the pallet's Config trait so runtimes\ncan choose between `SovereignPaidRemoteExporter` (paid) and\n`UnpaidRemoteExporter` (unpaid) bridging. Provide convenience type\naliases `PaidRemoteExporter` and `UnpaidRemoteExporterAdapter`.\n\nAsset Hub runtimes are configured to now use `UnpaidRemoteExporter` to\nreduce deployment complexity\n(no more need to manage/top-up AH sov account on BH).\n\nSimpler fix for https://github.com/polkadot-fellows/runtimes/issues/392\n\n---------\n\nSigned-off-by: Adrian Catangiu <adrian@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-10T17:35:45Z",
+          "tree_id": "332881d692bdaec87d68e3dda4c3a4c8500c809e",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/f8156c184007ace837d38b496eb660ea30b667d0"
+        },
+        "date": 1775848296919,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14089074308666671,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.025343978633333344,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.006956912926666663,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.00970976837999998,
             "unit": "seconds"
           }
         ]

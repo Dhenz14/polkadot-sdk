@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775757020176,
+  "lastUpdate": 1775788980216,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "mich@elmueller.net",
-            "name": "Michael Müller",
-            "username": "cmichi"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "7ede4fd048f8a99e62ef31050aa2e167e99d54b9",
-          "message": "[pallet-revive] Move `blake2_128` host function to `System` pre-compile (#9454)\n\nPart of closing https://github.com/paritytech/polkadot-sdk/issues/8572.\n\nI'm splitting some of the host function migrations into separate PRs, as\nthere are sometimes refactorings involved and this should make reviewing\neasier.\n\ncc @athei @pgherveou",
-          "timestamp": "2025-08-18T18:40:41Z",
-          "tree_id": "a1ee8d9a9483f19af3f1faf1905bef318dc29a79",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/7ede4fd048f8a99e62ef31050aa2e167e99d54b9"
-        },
-        "date": 1755546747906,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 63624,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 52942.90000000001,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.5051540325099992,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.4202696661200004,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.677086715921056,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.000019977890000000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.000019977890000000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9323445712999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4533372550999997,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.0000186303,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.0000186303,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.255444957719996,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005516921000000007,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.471250356819998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.4675721548699983,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting-parallel/approval-voting-gather-signatures",
             "value": 0.005225330119999999,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "nasihudeen04@gmail.com",
+            "name": "Nasihudeen Jimoh",
+            "username": "Kanasjnr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f8df552131f87ab50bab8577a4254e31a63bfc62",
+          "message": "Kanas/refractored storage derive macro (#10195)\n\n# Description\n\nThis PR introduces a new `#[stored]` attribute macro that simplifies the\ndefinition of storage types in FRAME pallets by automatically generating\nappropriate derive macros and trait bounds. This reduces boilerplate\ncode and makes storage type definitions more maintainable.\n\n**Problem:** Currently, defining storage types requires extensive\nboilerplate with multiple derives, `scale_info` attributes, `codec`\nattributes, and manual trait bounds, making the code verbose and\nerror-prone.\n\n**Solution:** The new `#[stored]` macro automatically applies all\nnecessary derives and intelligently handles phantom type parameters and\n`MaxEncodedLen` requirements through simple, declarative parameters.\n\n**Example:**\n\n```diff\n- #[derive(\n-     CloneNoBound,\n-     PartialEqNoBound,\n-     EqNoBound,\n-     RuntimeDebugNoBound,\n-     TypeInfo,\n-     Encode,\n-     Decode,\n-     DecodeWithMemTracking,\n-     MaxEncodedLen,\n- )]\n- #[scale_info(skip_type_params(Total))]\n- #[codec(mel_bound(Votes: MaxEncodedLen))]\n- pub struct Tally<Votes: Clone + PartialEq + Eq + Debug + TypeInfo + Codec, Total> {\n+ #[stored(skip(Total), mel(Votes))]\n+ pub struct Tally<Votes, Total> {\n      pub ayes: Votes,\n      pub nays: Votes,\n      dummy: PhantomData<Total>,\n  }\n```\n\n## Integration\n\n**This PR is backward compatible and does not require immediate\nmigration.** The `#[stored]` macro is a new optional feature that can be\nadopted gradually.\n### For Downstream Projects\n\nNo changes are required to existing code. The traditional manual\napproach continues to work. However, new storage types can benefit from\nthe simplified syntax:\n\n**Basic Usage:**\n```rust\nuse frame_support::stored;\n\n// Simple storage type with no generics\n#[stored]\npub struct SimpleData {\n    pub value: u32,\n    pub count: u64,\n}\n```\n\n**With Generic Parameters:**\n```rust\n// Automatically adds bounds to generic parameters\n#[stored]\npub struct Account<Balance> {\n    pub free: Balance,\n    pub reserved: Balance,\n}\n```\n\n**With Phantom Types:**\n```rust\n// Use skip() for phantom type parameters\n#[stored(skip(T))]\npub struct ConfigData<T, Value> {\n    pub data: Value,\n    _phantom: PhantomData<T>,\n}\n```\n**With MaxEncodedLen Requirements:**\n```rust\n// Use mel() to specify which generics need MaxEncodedLen\n#[stored(mel(Balance))]\npub struct BalanceInfo<Balance> {\n    pub total: Balance,\n    pub locked: Balance,\n}\n```\n\n**Multiple Parameters:**\n```rust\n// Combine skip() and mel() as needed\n#[stored(skip(T, I), mel(Balance))]\npub struct ComplexType<T, Balance, I> {\n    pub value: Balance,\n    _phantom: PhantomData<(T, I)>,\n}\n```\n\n**Advanced Custom Bounds:**\n```rust\n// Use mel_bound() for complex constraints\n#[stored(skip(T), mel_bound(S: MaxEncodedLen + Encode + Decode))]\npub struct AdvancedType<T, S> {\n    pub data: S,\n    _phantom: PhantomData<T>,\n}\n```\n### Migration Notes\n\n- **No breaking changes:** Existing code continues to work without\nmodification\n- **Optional adoption:** Teams can adopt `#[stored]` incrementally for\nnew types or during refactoring\n- **Functionally equivalent:** The macro generates the same code as the\nmanual approach\n\n## Review Notes\n\n<details>\n<summary>Implementation Details</summary>\n\n### Architecture\n\nThe macro is implemented in\n`substrate/frame/support/procedural/src/stored.rs` with clear separation\nof concerns:\n\n1. **Parsing Layer** (`StoredArgs`, `StoredArg`): Parses the macro\nattributes using `syn`\n2. **Validation Layer**: Ensures all referenced generic parameters exist\nand prevents duplicate specifications\n3. **Generation Layer**: Produces the appropriate derives and attributes\nbased on parsed arguments\n\n### What the Macro Generates\n\nThe `#[stored]` macro automatically applies:\n\n**Derives:**\n- `CloneNoBound`, `PartialEqNoBound`, `EqNoBound`, `RuntimeDebugNoBound`\n- `TypeInfo`, `Encode`, `Decode`, `DecodeWithMemTracking`,\n`MaxEncodedLen`\n\n**Trait Bounds on Generic Parameters (non-skipped):**\n- `Clone + PartialEq + Eq + Debug + TypeInfo + Codec`\n\n**Attributes:**\n- `#[scale_info(skip_type_params(...))]` for skipped parameters\n- `#[codec(mel_bound(...))]` for MaxEncodedLen requirements\n\n### Parameter Handling\n\n| Parameter | Purpose | Example | Generated Output |\n|-----------|---------|---------|------------------|\n| `skip(A, B)` | Phantom types to skip in bounds | `skip(T)` |\n`#[scale_info(skip_type_params(T))]` |\n| `mel(A, B)` | Params needing MaxEncodedLen | `mel(Balance)` |\n`#[codec(mel_bound(Balance: MaxEncodedLen))]` |\n| `mel_bound(...)` | Custom MEL bounds | `mel_bound(B: MaxEncodedLen)` |\n`#[codec(mel_bound(B: MaxEncodedLen))]` |\n\n### Validation\n\nThe macro validates:\n- ✅ All `skip` parameters exist as generic type parameters\n- ✅ All `mel` parameters exist as generic type parameters\n- ✅ No duplicate `skip`, `mel`, or `mel_bound` specifications\n- ✅ Only applied to structs (not enums or unions)\n\n### Testing\n\nUnit tests in `stored.rs` cover:\n- Argument parsing for all parameter types\n- Validation of duplicate arguments (expected failures)\n- Successful macro expansion\n- Error messages for invalid inputs\n\nExample comparison provided in\n`substrate/frame/support/procedural/examples/stored_demo.rs`.\n\n</details>\n\n### Files Changed\n\n- **Added:** `substrate/frame/support/procedural/src/stored.rs` - Core\nimplementation with tests\n- **Added:**\n`substrate/frame/support/procedural/examples/stored_demo.rs` - Usage\nexample\n- **Modified:** `substrate/frame/support/procedural/src/lib.rs` -\nExported macro with documentation\n- **Modified:** `substrate/frame/support/src/lib.rs` - Public API\nexposure with examples\n\n### Leftover TODOs\n\nNone. The implementation is complete and tested.\n\n# Checklist\n\n* [x] My PR includes a detailed description as outlined in the\n\"Description\" and its two subsections above.\n* [ ] My PR follows the [labeling\nrequirements](https://github.com/paritytech/polkadot-sdk/blob/master/docs/contributor/CONTRIBUTING.md#Process)\nof this project (at minimum one label for `T` required)\n* External contributors: `/cmd label T1-FRAME D3-trivial I7-refactor`\n* [x] I have made corresponding changes to the documentation (if\napplicable)\n* [x] I have added tests that prove my fix is effective or that my\nfeature works (if applicable)\n\n---\n\n**Recommended bot commands to run:**\n- `/cmd label T1-FRAME D3-trivial I7-refactor` - Add appropriate labels\n- `/cmd fmt` - Format code before final review\n- `/cmd prdoc` - Generate PR documentation if required\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: gui1117 <guillaume.thiolliere@parity.io>\nCo-authored-by: Guillaume Thiolliere <gui.thiolliere@gmail.com>",
+          "timestamp": "2026-04-10T01:21:33Z",
+          "tree_id": "03f6f22de0f93f455cd97fe53d03ce501849ed1f",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/f8df552131f87ab50bab8577a4254e31a63bfc62"
+        },
+        "date": 1775788957328,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 52944.5,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 63625.31,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.0058090892200000025,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.476014729620002,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.312254994242924,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.00002070094,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.905932576539999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.000022148410000000004,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.961180626399999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.9060212322100005,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.885216088319968,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.898411619319997,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7318462150099704,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.000022148410000000004,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.00002070094,
             "unit": "seconds"
           }
         ]

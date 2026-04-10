@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775837918446,
+  "lastUpdate": 1775844140471,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "mich@elmueller.net",
-            "name": "Michael Müller",
-            "username": "cmichi"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "7ede4fd048f8a99e62ef31050aa2e167e99d54b9",
-          "message": "[pallet-revive] Move `blake2_128` host function to `System` pre-compile (#9454)\n\nPart of closing https://github.com/paritytech/polkadot-sdk/issues/8572.\n\nI'm splitting some of the host function migrations into separate PRs, as\nthere are sometimes refactorings involved and this should make reviewing\neasier.\n\ncc @athei @pgherveou",
-          "timestamp": "2025-08-18T18:40:41Z",
-          "tree_id": "a1ee8d9a9483f19af3f1faf1905bef318dc29a79",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/7ede4fd048f8a99e62ef31050aa2e167e99d54b9"
-        },
-        "date": 1755546772776,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.94999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.044820777871999944,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.034138106908,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.038536812462,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b96d1afb5e99dc118336c78beb5231dc5d9f6d8e",
+          "message": "[Release|CI/CD] Fix git push in Post Crates Activities flow (#11723)\n\nThis PR fixes issue, that commited changes were not pushed to\npost-crates-release branch as there was a check, that was looking for\nuncommited changes",
+          "timestamp": "2026-04-10T16:40:00Z",
+          "tree_id": "d9f6538613df2c66bb25c1994bd022a465897d10",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/b96d1afb5e99dc118336c78beb5231dc5d9f6d8e"
+        },
+        "date": 1775844120371,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.09799999999998,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038468813208,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08663708934999992,
             "unit": "seconds"
           }
         ]

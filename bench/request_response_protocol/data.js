@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775836876693,
+  "lastUpdate": 1775843050295,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -76895,6 +76895,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2586550714,
             "range": "± 62451865",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b96d1afb5e99dc118336c78beb5231dc5d9f6d8e",
+          "message": "[Release|CI/CD] Fix git push in Post Crates Activities flow (#11723)\n\nThis PR fixes issue, that commited changes were not pushed to\npost-crates-release branch as there was a check, that was looking for\nuncommited changes",
+          "timestamp": "2026-04-10T16:40:00Z",
+          "tree_id": "d9f6538613df2c66bb25c1994bd022a465897d10",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/b96d1afb5e99dc118336c78beb5231dc5d9f6d8e"
+        },
+        "date": 1775843028340,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 19011324,
+            "range": "± 164857",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 19257929,
+            "range": "± 84125",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20819629,
+            "range": "± 127423",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 25590375,
+            "range": "± 216498",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 61594438,
+            "range": "± 658437",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 373950624,
+            "range": "± 5262298",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2570301726,
+            "range": "± 190473030",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15477051,
+            "range": "± 236131",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15491298,
+            "range": "± 194737",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16627025,
+            "range": "± 324151",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21854080,
+            "range": "± 764209",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 59894198,
+            "range": "± 666382",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 355035448,
+            "range": "± 3770678",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2801590123,
+            "range": "± 33741832",
             "unit": "ns/iter"
           }
         ]

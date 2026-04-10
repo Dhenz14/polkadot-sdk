@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775788948951,
+  "lastUpdate": 1775837857933,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "egor@parity.io",
-            "name": "Egor_P",
-            "username": "EgorPopelyaev"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "2b56efc4d5be1a4d47b94b496193a764b8a6488b",
-          "message": "[CI/CD] Fix build binary flow (#9526)\n\nThis PR fixes build-binary flow, that is used to build a binary for the\ntesting purposes from any branch. The issue was that there were too many\ninput args for the build script.",
-          "timestamp": "2025-08-20T08:54:05Z",
-          "tree_id": "49dc83fb4cac9dc3541ffb08932745c28fd5880f",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/2b56efc4d5be1a4d47b94b496193a764b8a6488b"
-        },
-        "date": 1755685130047,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022354495393333337,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15735365396666667,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007281687479999981,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.01298348354,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-store",
             "value": 0.1424279150866667,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "pgherveou@gmail.com",
+            "name": "PG Herveou",
+            "username": "pgherveou"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "de4709b0914c8290f0092c919d841b79249db836",
+          "message": "revive: Skip redundant eth_block_hash RPC call in block subscription (#11475)\n\nCo-authored-by: Marian Radu <marian@parity.io>",
+          "timestamp": "2026-04-10T14:54:26Z",
+          "tree_id": "d3087adcddf7732785d390a9c1c3935b215d66f1",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/de4709b0914c8290f0092c919d841b79249db836"
+        },
+        "date": 1775837835547,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.02573594027333334,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.00984428543999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007176114713333329,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14259755456666673,
             "unit": "seconds"
           }
         ]

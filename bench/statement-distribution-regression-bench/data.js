@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775914518956,
+  "lastUpdate": 1775920224240,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "egor@parity.io",
-            "name": "Egor_P",
-            "username": "EgorPopelyaev"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "2b56efc4d5be1a4d47b94b496193a764b8a6488b",
-          "message": "[CI/CD] Fix build binary flow (#9526)\n\nThis PR fixes build-binary flow, that is used to build a binary for the\ntesting purposes from any branch. The issue was that there were too many\ninput args for the build script.",
-          "timestamp": "2025-08-20T08:54:05Z",
-          "tree_id": "49dc83fb4cac9dc3541ffb08932745c28fd5880f",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/2b56efc4d5be1a4d47b94b496193a764b8a6488b"
-        },
-        "date": 1755685182149,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.94399999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.034290633902,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04444985853399991,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.08611752599199991,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "shawntabrizi@gmail.com",
+            "name": "Shawn Tabrizi",
+            "username": "shawntabrizi"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e7332c1aa702038ba72664290bb148d5d5a49ceb",
+          "message": "Pass NodeExtraArgs through Dev Chain (#11685)\n\nCloses: https://github.com/paritytech/polkadot-sdk/issues/11684\n\nThis is useful if you are trying to build / prototype on top of\nstatement store, but don't want to set up or maintain a whole zombienet.",
+          "timestamp": "2026-04-11T13:46:43Z",
+          "tree_id": "cf3003b4016cf9a9a36ab40054a1d036c4eef28b",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/e7332c1aa702038ba72664290bb148d5d5a49ceb"
+        },
+        "date": 1775920202474,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.08800000000002,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.037926117854,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.07648873858999991,
             "unit": "seconds"
           }
         ]

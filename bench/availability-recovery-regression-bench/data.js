@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775914429748,
+  "lastUpdate": 1775920134499,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "egor@parity.io",
-            "name": "Egor_P",
-            "username": "EgorPopelyaev"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "9969e1e81c94f2153412d647d92ecad8db3ccbf8",
-          "message": "[Backport] Version bumps and prdoc reordering from stable2506-1 (#9529)\n\nThis PR backport regular version bumps and prdocs reordering from the\nstable2506 branch back to master",
-          "timestamp": "2025-08-21T14:46:57Z",
-          "tree_id": "1c02f70053ccdced9c6f2f6a599c00d6076584ef",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/9969e1e81c94f2153412d647d92ecad8db3ccbf8"
-        },
-        "date": 1755793289895,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.265553792899999,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19411998893333332,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.11634180386666663,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "shawntabrizi@gmail.com",
+            "name": "Shawn Tabrizi",
+            "username": "shawntabrizi"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e7332c1aa702038ba72664290bb148d5d5a49ceb",
+          "message": "Pass NodeExtraArgs through Dev Chain (#11685)\n\nCloses: https://github.com/paritytech/polkadot-sdk/issues/11684\n\nThis is useful if you are trying to build / prototype on top of\nstatement store, but don't want to set up or maintain a whole zombienet.",
+          "timestamp": "2026-04-11T13:46:43Z",
+          "tree_id": "cf3003b4016cf9a9a36ab40054a1d036c4eef28b",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/e7332c1aa702038ba72664290bb148d5d5a49ceb"
+        },
+        "date": 1775920112322,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.800293422233333,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13729499946666668,
             "unit": "seconds"
           }
         ]

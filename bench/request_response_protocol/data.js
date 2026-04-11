@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775847269605,
+  "lastUpdate": 1775913570558,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -77111,6 +77111,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2580931367,
             "range": "± 70572121",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "paolo@parity.io",
+            "name": "Paolo La Camera",
+            "username": "sigurpol"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f9855db6280b9b2d21200a046e6acc2f8903944e",
+          "message": "Add legacy NegativeImbalance support to DAP and DAP satellite (#11716)\n\nAdd `DapLegacyAdapter` and `DapSatelliteLegacyAdapter` wrapper structs\nthat implement `OnUnbalanced<NegativeImbalance>` from the legacy\n`Currency` trait, bridging pallets not yet migrated to fungible traits.\n\nWire Westend runtimes: AH referenda slash to DAP, collectives\n(fellowship, ambassador, alliance) and people identity slash to DAP\nsatellite.\n\nCloses #11704.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-11T12:12:45Z",
+          "tree_id": "10e93d9741f1ab779f88df7e7ddebca006b76600",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/f9855db6280b9b2d21200a046e6acc2f8903944e"
+        },
+        "date": 1775913548669,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 19481567,
+            "range": "± 411343",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 19793053,
+            "range": "± 214908",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 21433167,
+            "range": "± 136567",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 26307321,
+            "range": "± 274943",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 64880951,
+            "range": "± 841111",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 390822439,
+            "range": "± 6545363",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2944483792,
+            "range": "± 299249030",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 16026110,
+            "range": "± 269568",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15954814,
+            "range": "± 269979",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16610503,
+            "range": "± 216880",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21604565,
+            "range": "± 183737",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 62627151,
+            "range": "± 798119",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 370543136,
+            "range": "± 6151256",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2827113336,
+            "range": "± 43341797",
             "unit": "ns/iter"
           }
         ]

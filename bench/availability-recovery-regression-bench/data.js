@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775848289456,
+  "lastUpdate": 1775914429748,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "178801527+raymondkfcheung@users.noreply.github.com",
-            "name": "Raymond Cheung",
-            "username": "raymondkfcheung"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "1e4af2353ea9dcb9ad0afc1ce63b03df68108ecf",
-          "message": "Replace `log` with `tracing` on `pallet-bridge-relayers` (#9381)\n\nThis PR replaces `log` with `tracing` instrumentation on\n`pallet-bridge-relayers` by providing structured logging.\n\nPartially addresses #9211",
-          "timestamp": "2025-08-21T10:16:26Z",
-          "tree_id": "227e8c7bb7b7adb486125c662468b3c2894feb3b",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/1e4af2353ea9dcb9ad0afc1ce63b03df68108ecf"
-        },
-        "date": 1755775793783,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.3396716492,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.20112449169999996,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.12868320016666668,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "paolo@parity.io",
+            "name": "Paolo La Camera",
+            "username": "sigurpol"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f9855db6280b9b2d21200a046e6acc2f8903944e",
+          "message": "Add legacy NegativeImbalance support to DAP and DAP satellite (#11716)\n\nAdd `DapLegacyAdapter` and `DapSatelliteLegacyAdapter` wrapper structs\nthat implement `OnUnbalanced<NegativeImbalance>` from the legacy\n`Currency` trait, bridging pallets not yet migrated to fungible traits.\n\nWire Westend runtimes: AH referenda slash to DAP, collectives\n(fellowship, ambassador, alliance) and people identity slash to DAP\nsatellite.\n\nCloses #11704.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-11T12:12:45Z",
+          "tree_id": "10e93d9741f1ab779f88df7e7ddebca006b76600",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/f9855db6280b9b2d21200a046e6acc2f8903944e"
+        },
+        "date": 1775914407691,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.665367089099998,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.11634180386666663,
             "unit": "seconds"
           }
         ]

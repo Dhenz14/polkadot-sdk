@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776079495859,
+  "lastUpdate": 1776099835914,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "serban@parity.io",
-            "name": "Serban Iorga",
-            "username": "serban300"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "2cb8f12822346d3772855be8a9caa25abad21e33",
-          "message": "[XCMP] `take_first_concatenated_xcm()` improvements (#9539)\n\nThis PR:\n- improves `take_first_concatenated_xcm()` avoiding the XCM re-encoding\n- makes the benchmarks for `take_first_concatenated_xcm()` more\ngranular, accounting for the number of bytes of the message\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-08-25T07:57:56Z",
-          "tree_id": "c88ecd500c2bea0dfa451ff9a9fa2e26e5364afb",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/2cb8f12822346d3772855be8a9caa25abad21e33"
-        },
-        "date": 1756113473528,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007238066159999974,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022298493586666662,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012973604866666669,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.1562824275733334,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-distribution",
             "value": 0.007183971753333331,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "serban@parity.io",
+            "name": "Serban Iorga",
+            "username": "serban300"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "122cb84b6467dbb95640d50ae3d937627603728f",
+          "message": "MMR: check `verify_ancestor()` output (#11738)\n\nMMR: check `verify_ancestor()` output\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-13T15:29:53Z",
+          "tree_id": "cba321ddab3afc46ee7b9a60973075b8ba547423",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/122cb84b6467dbb95640d50ae3d937627603728f"
+        },
+        "date": 1776099814071,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009475883359999982,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.025412716453333338,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.1409951002466667,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007182131600000005,
             "unit": "seconds"
           }
         ]

@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775920164043,
+  "lastUpdate": 1776068113783,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "egor@parity.io",
-            "name": "Egor_P",
-            "username": "EgorPopelyaev"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "9969e1e81c94f2153412d647d92ecad8db3ccbf8",
-          "message": "[Backport] Version bumps and prdoc reordering from stable2506-1 (#9529)\n\nThis PR backport regular version bumps and prdocs reordering from the\nstable2506 branch back to master",
-          "timestamp": "2025-08-21T14:46:57Z",
-          "tree_id": "1c02f70053ccdced9c6f2f6a599c00d6076584ef",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/9969e1e81c94f2153412d647d92ecad8db3ccbf8"
-        },
-        "date": 1755793315311,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013282135619999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022431014766666674,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.1573075073466667,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007235209919999975,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "bitfield-distribution",
             "value": 0.025447945766666667,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "73715684+Szegoo@users.noreply.github.com",
+            "name": "Sergej Sakac",
+            "username": "Szegoo"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a5a89478428fb46b8cc378e9003a046bc4a0eece",
+          "message": "Westend AH: Add PSM (#11529)\n\n## Summary\n\nThis PR adds the PSM pallet to the Westend Asset Hub runtime and\nintroduces remote integration tests that run against live on-chain\nstate.\n\n**Runtime configuration:**\n\npUSD asset ID: 50000342\nPSM cap: 5 mil\nFee destination: pUSD insurance fund (`PalletId(*b\"pusd/ins\")`)\nV1 migration initializes USDT (1984) as the first external asset with 0%\nminting fee and 0.01% redemption fee\n\n### Remote tests\nThe tests fetch the Assets pallet state from a live Asset Hub node via\nRPC, inject PSM configuration and check the core functionality:\n\n`mint_and_redeem`: mints pUSD by depositing an external stablecoin, then\nredeems it back. Verifies balances, debt tracking, and fee accounting.\n`circuit_breaker`: tests all three circuit breaker levels\n(MintingDisabled, AllDisabled, AllEnabled) and verifies the correct\noperations are blocked/allowed at each level.\n\nState is fetched once from the RPC node and cached to a local snapshot\nfile so the second test doesn't need another round trip.\n\n### Running\nWith USDT as the external asset:\n```\nRUST_LOG=runtime::psm=info cargo run -p remote-ext-tests-psm -- --asset-id 1984\n```\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>",
+          "timestamp": "2026-04-13T06:39:56Z",
+          "tree_id": "9c8dab6e8dd86ccfd8e9776723646427d5559ea4",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/a5a89478428fb46b8cc378e9003a046bc4a0eece"
+        },
+        "date": 1776068091309,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14233607465333342,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009683615479999996,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007045633646666668,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.02577898549999999,
             "unit": "seconds"
           }
         ]

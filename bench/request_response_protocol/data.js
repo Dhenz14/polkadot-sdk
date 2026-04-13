@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776067131903,
+  "lastUpdate": 1776075444855,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -77435,6 +77435,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2562561131,
             "range": "± 57408410",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "robertvaneerdewijk@gmail.com",
+            "name": "0xRVE",
+            "username": "0xRVE"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "24c4f96edc5f6383013a308c0c45f9b3a6604d47",
+          "message": "Reject delegatecall into precompiles via PrecompileDelegateDenied (#11715)\n\n## Summary\n\n- Add delegatecall guard to the ERC20 assets precompile and XCM\nprecompile, matching the existing pattern in the vesting and\nasset-conversion precompiles\n- Converge asset-conversion precompile from `Error::Revert(string)` to\n`Error::Error(PrecompileDelegateDenied)` for consistency across all\nprecompiles\n- Add delegatecall rejection test for the XCM precompile\n\n## Motivation\n\nDelegatecall to precompiles allows a malicious contract to execute\nprecompile logic in a misleading caller context. The precompiles derive\ncaller identity from `env.caller()`, which during delegatecall returns\nthe original caller — letting the intermediary contract act on the\ncaller's assets or send XCM on their behalf. There is no legitimate use\ncase for delegatecalling into these precompiles.\n\n## Changes\n\n- `substrate/frame/assets/precompiles/src/lib.rs` — add\n`PrecompileDelegateDenied` guard\n- `substrate/frame/asset-conversion/precompiles/src/lib.rs` — replace\n`Error::Revert(ERR_DELEGATE_CALL)` with `PrecompileDelegateDenied`,\nremove unused const\n- `polkadot/xcm/pallet-xcm/precompiles/src/lib.rs` — add\n`PrecompileDelegateDenied` guard\n- `polkadot/xcm/pallet-xcm/precompiles/src/tests.rs` — add\n`delegatecall_is_rejected` test\n- `polkadot/xcm/pallet-xcm/precompiles/Cargo.toml` — add\n`pallet-revive-fixtures` dev-dependency\n\n## Test plan\n\n- [x] `cargo test -p pallet-xcm-precompiles` — 13 tests pass, including\nnew `delegatecall_is_rejected`\n- [x] `cargo test -p pallet-asset-conversion-precompiles` — 18 tests\npass\n- [x] `cargo test -p pallet-assets-precompiles` — 66 tests pass\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-13T09:11:14Z",
+          "tree_id": "8429396e9bad7cb0aa441acef321dcbd9e21966a",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/24c4f96edc5f6383013a308c0c45f9b3a6604d47"
+        },
+        "date": 1776075423420,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 21508766,
+            "range": "± 1182509",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 21886732,
+            "range": "± 816042",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 23977670,
+            "range": "± 550196",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 28083826,
+            "range": "± 890257",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 66912772,
+            "range": "± 3937267",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 414442370,
+            "range": "± 14508217",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2724654455,
+            "range": "± 149318537",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 16978460,
+            "range": "± 544666",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 16551397,
+            "range": "± 893918",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16914935,
+            "range": "± 539772",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 22755788,
+            "range": "± 947636",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 66529233,
+            "range": "± 2215460",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 406984900,
+            "range": "± 10604620",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2995279675,
+            "range": "± 92759527",
             "unit": "ns/iter"
           }
         ]

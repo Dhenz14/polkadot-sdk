@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775920194092,
+  "lastUpdate": 1776068144327,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "5588131+kianenigma@users.noreply.github.com",
-            "name": "Kian Paimani",
-            "username": "kianenigma"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "56d3c42cf4b8b650ae416db0482ad56eb64938c9",
-          "message": "EPMB/Signed: Make invulnerables non-eject-able (#9511)\n\nFollow-up to https://github.com/paritytech/polkadot-sdk/pull/8877 and\naudits: Make it such that invulnerable accounts cannot be ejected from\nthe election signed queue altogether.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Dónal Murray <donal.murray@parity.io>",
-          "timestamp": "2025-08-21T08:22:32Z",
-          "tree_id": "2d9f9eabd9dddec904ce178c9d3486ceddf00d59",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/56d3c42cf4b8b650ae416db0482ad56eb64938c9"
-        },
-        "date": 1755768922329,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 63625.5,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 52943.5,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.4446661289400022,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.924618980839999,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.00002105423,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.00001976783,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.00567483493,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.43969721972,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.4547979431200018,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.497117396410001,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.7065955555309844,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.00001976783,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.00002105423,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.228042744260005,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.461470240300001,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 4.177305860922751,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "73715684+Szegoo@users.noreply.github.com",
+            "name": "Sergej Sakac",
+            "username": "Szegoo"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a5a89478428fb46b8cc378e9003a046bc4a0eece",
+          "message": "Westend AH: Add PSM (#11529)\n\n## Summary\n\nThis PR adds the PSM pallet to the Westend Asset Hub runtime and\nintroduces remote integration tests that run against live on-chain\nstate.\n\n**Runtime configuration:**\n\npUSD asset ID: 50000342\nPSM cap: 5 mil\nFee destination: pUSD insurance fund (`PalletId(*b\"pusd/ins\")`)\nV1 migration initializes USDT (1984) as the first external asset with 0%\nminting fee and 0.01% redemption fee\n\n### Remote tests\nThe tests fetch the Assets pallet state from a live Asset Hub node via\nRPC, inject PSM configuration and check the core functionality:\n\n`mint_and_redeem`: mints pUSD by depositing an external stablecoin, then\nredeems it back. Verifies balances, debt tracking, and fee accounting.\n`circuit_breaker`: tests all three circuit breaker levels\n(MintingDisabled, AllDisabled, AllEnabled) and verifies the correct\noperations are blocked/allowed at each level.\n\nState is fetched once from the RPC node and cached to a local snapshot\nfile so the second test doesn't need another round trip.\n\n### Running\nWith USDT as the external asset:\n```\nRUST_LOG=runtime::psm=info cargo run -p remote-ext-tests-psm -- --asset-id 1984\n```\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>",
+          "timestamp": "2026-04-13T06:39:56Z",
+          "tree_id": "9c8dab6e8dd86ccfd8e9776723646427d5559ea4",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/a5a89478428fb46b8cc378e9003a046bc4a0eece"
+        },
+        "date": 1776068121869,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 63623.14,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 52944.40000000001,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.00001965793,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.91377855108,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.5163232786300043,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7481800550699665,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.8801902907499985,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.00001965793,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.90327409283,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005805343210000007,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.000022177039999999997,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.000022177039999999997,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.235395700952956,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.911507465959968,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.9439558543899995,
             "unit": "seconds"
           }
         ]

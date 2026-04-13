@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776076550919,
+  "lastUpdate": 1776079594260,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "5588131+kianenigma@users.noreply.github.com",
-            "name": "Kian Paimani",
-            "username": "kianenigma"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "56d3c42cf4b8b650ae416db0482ad56eb64938c9",
-          "message": "EPMB/Signed: Make invulnerables non-eject-able (#9511)\n\nFollow-up to https://github.com/paritytech/polkadot-sdk/pull/8877 and\naudits: Make it such that invulnerable accounts cannot be ejected from\nthe election signed queue altogether.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Dónal Murray <donal.murray@parity.io>",
-          "timestamp": "2025-08-21T08:22:32Z",
-          "tree_id": "2d9f9eabd9dddec904ce178c9d3486ceddf00d59",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/56d3c42cf4b8b650ae416db0482ad56eb64938c9"
-        },
-        "date": 1755768972632,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.00259508205,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005002684619999993,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008450085419999991,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-distribution",
             "value": 0.009301444439999968,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "eresav@me.com",
+            "name": "Andrei Eres",
+            "username": "AndreiEres"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6688a8236432e59a48749503eca1506f11ba2241",
+          "message": "statement-store: Fix node restart in mid-crush test (#11737)\n\n# Description\n\nA small fix to allow nodes to restart without failing in CI\n\n## Integration\n\nNo integration needed",
+          "timestamp": "2026-04-13T10:04:29Z",
+          "tree_id": "e540ba0e8bbabab25928828cd8f9a4f2e6dee531",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/6688a8236432e59a48749503eca1506f11ba2241"
+        },
+        "date": 1776079571345,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.00948315637999997,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.010769719290000007,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.00267772665,
             "unit": "seconds"
           }
         ]

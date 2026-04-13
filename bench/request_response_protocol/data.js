@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776075444855,
+  "lastUpdate": 1776078521038,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -77543,6 +77543,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2995279675,
             "range": "± 92759527",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "eresav@me.com",
+            "name": "Andrei Eres",
+            "username": "AndreiEres"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6688a8236432e59a48749503eca1506f11ba2241",
+          "message": "statement-store: Fix node restart in mid-crush test (#11737)\n\n# Description\n\nA small fix to allow nodes to restart without failing in CI\n\n## Integration\n\nNo integration needed",
+          "timestamp": "2026-04-13T10:04:29Z",
+          "tree_id": "e540ba0e8bbabab25928828cd8f9a4f2e6dee531",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/6688a8236432e59a48749503eca1506f11ba2241"
+        },
+        "date": 1776078498791,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18698245,
+            "range": "± 899828",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18706052,
+            "range": "± 124179",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20332352,
+            "range": "± 189835",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24872093,
+            "range": "± 180413",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 58112594,
+            "range": "± 457799",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 328675794,
+            "range": "± 11840610",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2479503632,
+            "range": "± 54939920",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15133592,
+            "range": "± 193668",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15523920,
+            "range": "± 253258",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16010509,
+            "range": "± 228814",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20488790,
+            "range": "± 333781",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 58523236,
+            "range": "± 567790",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 374849383,
+            "range": "± 7963216",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2706702607,
+            "range": "± 41448109",
             "unit": "ns/iter"
           }
         ]

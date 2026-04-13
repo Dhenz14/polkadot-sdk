@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776098899293,
+  "lastUpdate": 1776111205486,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "notifications_protocol": [
@@ -139391,6 +139391,198 @@ window.BENCHMARK_DATA = {
             "name": "notifications_protocol/litep2p/with_backpressure/16MB",
             "value": 2431526633,
             "range": "± 58905665",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "10196091+Ank4n@users.noreply.github.com",
+            "name": "Ankan",
+            "username": "Ank4n"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "de2291157851582dbdddec5bdd96c3d87d68cae8",
+          "message": "[Staking] Move reward minting to DAP; payouts from drip-funded era pots (#11616)\n\nExtracted from #10844.\n\n## Overview\n\nThis PR introduces dual-mode era rewards for `pallet-staking-async`:\n\n- **Non-minting mode** (`DisableMinting = true`): Staking does not mint.\nAn external source (e.g. `pallet-dap`) funds a general reward pot.\nStaking snapshots the pot into era-specific accounts at each era\nboundary. Payouts transfer from the era pot.\n- **Legacy minting mode** (`DisableMinting = false`): `EraPayout`\ncomputes inflation, tokens are minted on-the-fly during payout. Kept for\nKusama compatibility where inflation depends on the staking ratio.\n\nSwitching from legacy to non-minting is a one-way migration.\n\n## How it works\n\n### Non-minting mode (Polkadot)\n\nDAP drips inflation continuously into a general staker reward pot. At\neach era boundary, `EraRewardManager::snapshot_era_rewards` transfers\nthe accumulated balance into an era-specific pot. Payouts transfer from\nthat pot. When an era expires past `HistoryDepth`, unclaimed funds are\nreturned via `UnclaimedRewardHandler`.\n\n`DisableMintingGuard` is set on the first successful snapshot as a\npayout-side safety net -- prevents minting for eras that should have\npots.\n\n#### Runtime Changes\n**Staking Async**\n- `DisableMinting = ConstBool<true>`\n- `EraPayout = ()` (noop, never called)\n- `RewardRemainder = ()`, `MaxEraDuration = ()`\n- `GeneralPots` / `EraPots` = `Seed<StakingPotsPalletId>`\n- `UnclaimedRewardHandler` = DAP (or any `OnUnbalanced` handler)\n\n**DAP**\n- Implement `IssuanceCurve` -- same as EraPayout except it does not do\nthe reward-treasury split and returns one single amount.\n- register `DAP::buffer` and `Staking::StakerRewardRecipient` in\n`BudgetRecipients`.\n- Run `MigrateV1ToV2` to seed `LastIssuanceTimestamp` and\n`BudgetAllocation`\n- Pre-fund general staker pot with ED\n\n### Legacy minting mode (Kusama and other non-polkadot runtimes)\n\nSame as before:\n`EraPayout::era_payout()` computes inflation from `total_staked`,\n`total_issuance`, and era duration. `MaxStakedRewards` caps the staker\nportion. Remainder goes to `RewardRemainder`. Tokens minted on payout.\n\n#### Runtime Changes\n**Staking Async**\n- `DisableMinting = ConstBool<false>`\n- `EraPayout` = same as before\n- `GeneralPots` / `EraPots` = `Seed<AnyPalletId>` (required to compile,\nnever called)\n\nNo DAP needed\n\n## Config Changes\n\n**Added:**\n- `DisableMinting: Get<bool>`: compile-time constant controlling which\nmode. **Irreversible** once `true`.\n- `UnclaimedRewardHandler`: receives unclaimed era rewards during stale\nera cleanup.\n- `GeneralPots` / `EraPots`: pot account providers for era reward\nbookkeeping.\n- `StakerRewardCalculator`: Implementation for commission based\nreward-split between the validator and nominators.\n\n**Preserved for legacy mode (Kusama):**\n- `EraPayout`, `RewardRemainder`, `MaxEraDuration`, `MaxStakedRewards`:\nused only when `DisableMinting = false`.\n\n**New storage:**\n- `MaxCommission`: upper bound on validator commission (defaults to\n100%).\n- `DisableMintingGuard`: safety guard: era from which legacy minting is\npermanently disabled on the payout side.\n\n**New extrinsic:**\n- `set_max_commission`: callable via `AdminOrigin` (StakingAdmin).\n\n## WAH\n- `PolkadotIssuanceCurve` replaces old `EraPayout` impl.\n- DAP `MigrateV1ToV2` migration.\n\n## TODO\n- [x] Run benchmark for staking and dap pallets.\n- [ ] Create issue to pre fund general staking pots with ED post merge.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Paolo La Camera <paolo@parity.io>",
+          "timestamp": "2026-04-13T18:52:53Z",
+          "tree_id": "70145afcf6b387bcb10b0058a0769cdf35f43afd",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/de2291157851582dbdddec5bdd96c3d87d68cae8"
+        },
+        "date": 1776111183363,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "notifications_protocol/libp2p/serially/64B",
+            "value": 3994242,
+            "range": "± 61791",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64B",
+            "value": 303207,
+            "range": "± 16676",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/512B",
+            "value": 4168791,
+            "range": "± 46183",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/512B",
+            "value": 390026,
+            "range": "± 29565",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/4KB",
+            "value": 4688017,
+            "range": "± 46248",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/4KB",
+            "value": 914286,
+            "range": "± 9715",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/64KB",
+            "value": 10269603,
+            "range": "± 113604",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64KB",
+            "value": 4965063,
+            "range": "± 107193",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/256KB",
+            "value": 44422722,
+            "range": "± 513135",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/256KB",
+            "value": 37373571,
+            "range": "± 577605",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/2MB",
+            "value": 335441167,
+            "range": "± 3020346",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/2MB",
+            "value": 285923677,
+            "range": "± 3577296",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/16MB",
+            "value": 2481200571,
+            "range": "± 12708580",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/16MB",
+            "value": 2808460157,
+            "range": "± 72429888",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64B",
+            "value": 3091803,
+            "range": "± 30595",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64B",
+            "value": 1617953,
+            "range": "± 32887",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/512B",
+            "value": 3230013,
+            "range": "± 25369",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/512B",
+            "value": 1672879,
+            "range": "± 14971",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/4KB",
+            "value": 3881959,
+            "range": "± 30152",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/4KB",
+            "value": 1995988,
+            "range": "± 22251",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64KB",
+            "value": 7933126,
+            "range": "± 45550",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64KB",
+            "value": 4952436,
+            "range": "± 72863",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/256KB",
+            "value": 35014179,
+            "range": "± 165576",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/256KB",
+            "value": 33351084,
+            "range": "± 456182",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/2MB",
+            "value": 307069000,
+            "range": "± 3746293",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/2MB",
+            "value": 263047069,
+            "range": "± 2812417",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/16MB",
+            "value": 2409114025,
+            "range": "± 28354050",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/16MB",
+            "value": 2219675093,
+            "range": "± 64312641",
             "unit": "ns/iter"
           }
         ]

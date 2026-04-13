@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776068144327,
+  "lastUpdate": 1776076488665,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "178801527+raymondkfcheung@users.noreply.github.com",
-            "name": "Raymond Cheung",
-            "username": "raymondkfcheung"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "1e4af2353ea9dcb9ad0afc1ce63b03df68108ecf",
-          "message": "Replace `log` with `tracing` on `pallet-bridge-relayers` (#9381)\n\nThis PR replaces `log` with `tracing` instrumentation on\n`pallet-bridge-relayers` by providing structured logging.\n\nPartially addresses #9211",
-          "timestamp": "2025-08-21T10:16:26Z",
-          "tree_id": "227e8c7bb7b7adb486125c662468b3c2894feb3b",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/1e4af2353ea9dcb9ad0afc1ce63b03df68108ecf"
-        },
-        "date": 1755775841903,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52941.59999999999,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63626.979999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000017614080000000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.000018310309999999997,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.4575511810600004,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000017614080000000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.4397169690400013,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.0056946242799999994,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.149578283760018,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9141802715300131,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.434099385940001,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.477506128380002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.42082972353000214,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.6403476898109695,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.000018310309999999997,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting-parallel/approval-voting-parallel-2",
             "value": 2.9439558543899995,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "robertvaneerdewijk@gmail.com",
+            "name": "0xRVE",
+            "username": "0xRVE"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "24c4f96edc5f6383013a308c0c45f9b3a6604d47",
+          "message": "Reject delegatecall into precompiles via PrecompileDelegateDenied (#11715)\n\n## Summary\n\n- Add delegatecall guard to the ERC20 assets precompile and XCM\nprecompile, matching the existing pattern in the vesting and\nasset-conversion precompiles\n- Converge asset-conversion precompile from `Error::Revert(string)` to\n`Error::Error(PrecompileDelegateDenied)` for consistency across all\nprecompiles\n- Add delegatecall rejection test for the XCM precompile\n\n## Motivation\n\nDelegatecall to precompiles allows a malicious contract to execute\nprecompile logic in a misleading caller context. The precompiles derive\ncaller identity from `env.caller()`, which during delegatecall returns\nthe original caller — letting the intermediary contract act on the\ncaller's assets or send XCM on their behalf. There is no legitimate use\ncase for delegatecalling into these precompiles.\n\n## Changes\n\n- `substrate/frame/assets/precompiles/src/lib.rs` — add\n`PrecompileDelegateDenied` guard\n- `substrate/frame/asset-conversion/precompiles/src/lib.rs` — replace\n`Error::Revert(ERR_DELEGATE_CALL)` with `PrecompileDelegateDenied`,\nremove unused const\n- `polkadot/xcm/pallet-xcm/precompiles/src/lib.rs` — add\n`PrecompileDelegateDenied` guard\n- `polkadot/xcm/pallet-xcm/precompiles/src/tests.rs` — add\n`delegatecall_is_rejected` test\n- `polkadot/xcm/pallet-xcm/precompiles/Cargo.toml` — add\n`pallet-revive-fixtures` dev-dependency\n\n## Test plan\n\n- [x] `cargo test -p pallet-xcm-precompiles` — 13 tests pass, including\nnew `delegatecall_is_rejected`\n- [x] `cargo test -p pallet-asset-conversion-precompiles` — 18 tests\npass\n- [x] `cargo test -p pallet-assets-precompiles` — 66 tests pass\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-13T09:11:14Z",
+          "tree_id": "8429396e9bad7cb0aa441acef321dcbd9e21966a",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/24c4f96edc5f6383013a308c0c45f9b3a6604d47"
+        },
+        "date": 1776076465686,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 63633.45,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 52944.90000000001,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.00002388461,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.9373652147800002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7484699602299574,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.504514169870005,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005484631339999999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.9123099306100015,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.80061673956996,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.307343867942928,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.8442411948300004,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.000022888540000000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.000022888540000000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.8482316379099992,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.00002388461,
             "unit": "seconds"
           }
         ]

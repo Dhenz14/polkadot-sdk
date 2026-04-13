@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776067101588,
+  "lastUpdate": 1776075414896,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "notifications_protocol": [
@@ -138815,6 +138815,198 @@ window.BENCHMARK_DATA = {
             "name": "notifications_protocol/litep2p/with_backpressure/16MB",
             "value": 2536941787,
             "range": "± 41159268",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "robertvaneerdewijk@gmail.com",
+            "name": "0xRVE",
+            "username": "0xRVE"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "24c4f96edc5f6383013a308c0c45f9b3a6604d47",
+          "message": "Reject delegatecall into precompiles via PrecompileDelegateDenied (#11715)\n\n## Summary\n\n- Add delegatecall guard to the ERC20 assets precompile and XCM\nprecompile, matching the existing pattern in the vesting and\nasset-conversion precompiles\n- Converge asset-conversion precompile from `Error::Revert(string)` to\n`Error::Error(PrecompileDelegateDenied)` for consistency across all\nprecompiles\n- Add delegatecall rejection test for the XCM precompile\n\n## Motivation\n\nDelegatecall to precompiles allows a malicious contract to execute\nprecompile logic in a misleading caller context. The precompiles derive\ncaller identity from `env.caller()`, which during delegatecall returns\nthe original caller — letting the intermediary contract act on the\ncaller's assets or send XCM on their behalf. There is no legitimate use\ncase for delegatecalling into these precompiles.\n\n## Changes\n\n- `substrate/frame/assets/precompiles/src/lib.rs` — add\n`PrecompileDelegateDenied` guard\n- `substrate/frame/asset-conversion/precompiles/src/lib.rs` — replace\n`Error::Revert(ERR_DELEGATE_CALL)` with `PrecompileDelegateDenied`,\nremove unused const\n- `polkadot/xcm/pallet-xcm/precompiles/src/lib.rs` — add\n`PrecompileDelegateDenied` guard\n- `polkadot/xcm/pallet-xcm/precompiles/src/tests.rs` — add\n`delegatecall_is_rejected` test\n- `polkadot/xcm/pallet-xcm/precompiles/Cargo.toml` — add\n`pallet-revive-fixtures` dev-dependency\n\n## Test plan\n\n- [x] `cargo test -p pallet-xcm-precompiles` — 13 tests pass, including\nnew `delegatecall_is_rejected`\n- [x] `cargo test -p pallet-asset-conversion-precompiles` — 18 tests\npass\n- [x] `cargo test -p pallet-assets-precompiles` — 66 tests pass\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-13T09:11:14Z",
+          "tree_id": "8429396e9bad7cb0aa441acef321dcbd9e21966a",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/24c4f96edc5f6383013a308c0c45f9b3a6604d47"
+        },
+        "date": 1776075393669,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "notifications_protocol/libp2p/serially/64B",
+            "value": 4214725,
+            "range": "± 109747",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64B",
+            "value": 327829,
+            "range": "± 15920",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/512B",
+            "value": 4348473,
+            "range": "± 109867",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/512B",
+            "value": 412795,
+            "range": "± 18277",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/4KB",
+            "value": 5086818,
+            "range": "± 71520",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/4KB",
+            "value": 986549,
+            "range": "± 85574",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/64KB",
+            "value": 10718362,
+            "range": "± 485069",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64KB",
+            "value": 5401913,
+            "range": "± 427768",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/256KB",
+            "value": 48897356,
+            "range": "± 1927805",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/256KB",
+            "value": 39233918,
+            "range": "± 533568",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/2MB",
+            "value": 359161173,
+            "range": "± 6511614",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/2MB",
+            "value": 301135766,
+            "range": "± 6055485",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/16MB",
+            "value": 2624552591,
+            "range": "± 53587957",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/16MB",
+            "value": 2803155677,
+            "range": "± 84464632",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64B",
+            "value": 3279734,
+            "range": "± 144228",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64B",
+            "value": 1631986,
+            "range": "± 14994",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/512B",
+            "value": 3314663,
+            "range": "± 122645",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/512B",
+            "value": 1700167,
+            "range": "± 15636",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/4KB",
+            "value": 3929643,
+            "range": "± 105379",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/4KB",
+            "value": 2066104,
+            "range": "± 87160",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64KB",
+            "value": 8189622,
+            "range": "± 179056",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64KB",
+            "value": 5203898,
+            "range": "± 93638",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/256KB",
+            "value": 36053183,
+            "range": "± 505007",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/256KB",
+            "value": 35555131,
+            "range": "± 845840",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/2MB",
+            "value": 329937359,
+            "range": "± 11896745",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/2MB",
+            "value": 279527464,
+            "range": "± 3569377",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/16MB",
+            "value": 2479573117,
+            "range": "± 13759529",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/16MB",
+            "value": 2365008177,
+            "range": "± 77216495",
             "unit": "ns/iter"
           }
         ]

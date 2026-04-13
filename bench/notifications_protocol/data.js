@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775919181810,
+  "lastUpdate": 1776067101588,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "notifications_protocol": [
@@ -138623,6 +138623,198 @@ window.BENCHMARK_DATA = {
             "name": "notifications_protocol/litep2p/with_backpressure/16MB",
             "value": 2193960597,
             "range": "± 37126635",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "73715684+Szegoo@users.noreply.github.com",
+            "name": "Sergej Sakac",
+            "username": "Szegoo"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a5a89478428fb46b8cc378e9003a046bc4a0eece",
+          "message": "Westend AH: Add PSM (#11529)\n\n## Summary\n\nThis PR adds the PSM pallet to the Westend Asset Hub runtime and\nintroduces remote integration tests that run against live on-chain\nstate.\n\n**Runtime configuration:**\n\npUSD asset ID: 50000342\nPSM cap: 5 mil\nFee destination: pUSD insurance fund (`PalletId(*b\"pusd/ins\")`)\nV1 migration initializes USDT (1984) as the first external asset with 0%\nminting fee and 0.01% redemption fee\n\n### Remote tests\nThe tests fetch the Assets pallet state from a live Asset Hub node via\nRPC, inject PSM configuration and check the core functionality:\n\n`mint_and_redeem`: mints pUSD by depositing an external stablecoin, then\nredeems it back. Verifies balances, debt tracking, and fee accounting.\n`circuit_breaker`: tests all three circuit breaker levels\n(MintingDisabled, AllDisabled, AllEnabled) and verifies the correct\noperations are blocked/allowed at each level.\n\nState is fetched once from the RPC node and cached to a local snapshot\nfile so the second test doesn't need another round trip.\n\n### Running\nWith USDT as the external asset:\n```\nRUST_LOG=runtime::psm=info cargo run -p remote-ext-tests-psm -- --asset-id 1984\n```\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>",
+          "timestamp": "2026-04-13T06:39:56Z",
+          "tree_id": "9c8dab6e8dd86ccfd8e9776723646427d5559ea4",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/a5a89478428fb46b8cc378e9003a046bc4a0eece"
+        },
+        "date": 1776067079844,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "notifications_protocol/libp2p/serially/64B",
+            "value": 3989724,
+            "range": "± 64150",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64B",
+            "value": 300365,
+            "range": "± 22674",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/512B",
+            "value": 3966501,
+            "range": "± 58167",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/512B",
+            "value": 383363,
+            "range": "± 5717",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/4KB",
+            "value": 4714194,
+            "range": "± 42591",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/4KB",
+            "value": 932941,
+            "range": "± 5121",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/64KB",
+            "value": 10391037,
+            "range": "± 72686",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64KB",
+            "value": 5070074,
+            "range": "± 131841",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/256KB",
+            "value": 45413854,
+            "range": "± 940656",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/256KB",
+            "value": 38555384,
+            "range": "± 651970",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/2MB",
+            "value": 345539698,
+            "range": "± 7315503",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/2MB",
+            "value": 284457115,
+            "range": "± 2609045",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/16MB",
+            "value": 2466496539,
+            "range": "± 19395813",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/16MB",
+            "value": 2687742042,
+            "range": "± 52254730",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64B",
+            "value": 3096632,
+            "range": "± 22887",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64B",
+            "value": 1569787,
+            "range": "± 9607",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/512B",
+            "value": 3188293,
+            "range": "± 21216",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/512B",
+            "value": 1624967,
+            "range": "± 31419",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/4KB",
+            "value": 3767484,
+            "range": "± 12203",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/4KB",
+            "value": 1978643,
+            "range": "± 16100",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64KB",
+            "value": 7794975,
+            "range": "± 124384",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64KB",
+            "value": 5056897,
+            "range": "± 118503",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/256KB",
+            "value": 34964800,
+            "range": "± 525288",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/256KB",
+            "value": 33875132,
+            "range": "± 1911202",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/2MB",
+            "value": 312138242,
+            "range": "± 4131424",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/2MB",
+            "value": 269963997,
+            "range": "± 3117094",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/16MB",
+            "value": 2379355232,
+            "range": "± 16378055",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/16MB",
+            "value": 2536941787,
+            "range": "± 41159268",
             "unit": "ns/iter"
           }
         ]

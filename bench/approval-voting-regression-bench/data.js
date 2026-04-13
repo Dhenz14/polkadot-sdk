@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776099866126,
+  "lastUpdate": 1776112206727,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "pgherveou@gmail.com",
-            "name": "PG Herveou",
-            "username": "pgherveou"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "13320f333c00619165c406fdfcb28b6056b543df",
-          "message": "align eth-rpc response with geth (#9177)\n\n- Update some serde encoding for eth-rpc to match serialization behavior\nof Geth\n- Add support for serializing / deserializing EIP7702 tx types\n- Disable transaction type we don't support yet in\ntry_ino_unchecked_extrinsics\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-08-22T14:18:13Z",
-          "tree_id": "c37739e4310b85426b09807e257c5ce83e309bb4",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/13320f333c00619165c406fdfcb28b6056b543df"
-        },
-        "date": 1755876860104,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 63624.2,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 52943.09999999999,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.473708049629999,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.512369566320001,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.639944506171053,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000020115219999999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000020115219999999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.943332856799995,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.323146817339998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4640884782400017,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.482947613139999,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.00002038639,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.4411257107400015,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005574542470000007,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.00002038639,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting-parallel/approval-voting-parallel-1",
             "value": 2.8292871998100013,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "10196091+Ank4n@users.noreply.github.com",
+            "name": "Ankan",
+            "username": "Ank4n"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "de2291157851582dbdddec5bdd96c3d87d68cae8",
+          "message": "[Staking] Move reward minting to DAP; payouts from drip-funded era pots (#11616)\n\nExtracted from #10844.\n\n## Overview\n\nThis PR introduces dual-mode era rewards for `pallet-staking-async`:\n\n- **Non-minting mode** (`DisableMinting = true`): Staking does not mint.\nAn external source (e.g. `pallet-dap`) funds a general reward pot.\nStaking snapshots the pot into era-specific accounts at each era\nboundary. Payouts transfer from the era pot.\n- **Legacy minting mode** (`DisableMinting = false`): `EraPayout`\ncomputes inflation, tokens are minted on-the-fly during payout. Kept for\nKusama compatibility where inflation depends on the staking ratio.\n\nSwitching from legacy to non-minting is a one-way migration.\n\n## How it works\n\n### Non-minting mode (Polkadot)\n\nDAP drips inflation continuously into a general staker reward pot. At\neach era boundary, `EraRewardManager::snapshot_era_rewards` transfers\nthe accumulated balance into an era-specific pot. Payouts transfer from\nthat pot. When an era expires past `HistoryDepth`, unclaimed funds are\nreturned via `UnclaimedRewardHandler`.\n\n`DisableMintingGuard` is set on the first successful snapshot as a\npayout-side safety net -- prevents minting for eras that should have\npots.\n\n#### Runtime Changes\n**Staking Async**\n- `DisableMinting = ConstBool<true>`\n- `EraPayout = ()` (noop, never called)\n- `RewardRemainder = ()`, `MaxEraDuration = ()`\n- `GeneralPots` / `EraPots` = `Seed<StakingPotsPalletId>`\n- `UnclaimedRewardHandler` = DAP (or any `OnUnbalanced` handler)\n\n**DAP**\n- Implement `IssuanceCurve` -- same as EraPayout except it does not do\nthe reward-treasury split and returns one single amount.\n- register `DAP::buffer` and `Staking::StakerRewardRecipient` in\n`BudgetRecipients`.\n- Run `MigrateV1ToV2` to seed `LastIssuanceTimestamp` and\n`BudgetAllocation`\n- Pre-fund general staker pot with ED\n\n### Legacy minting mode (Kusama and other non-polkadot runtimes)\n\nSame as before:\n`EraPayout::era_payout()` computes inflation from `total_staked`,\n`total_issuance`, and era duration. `MaxStakedRewards` caps the staker\nportion. Remainder goes to `RewardRemainder`. Tokens minted on payout.\n\n#### Runtime Changes\n**Staking Async**\n- `DisableMinting = ConstBool<false>`\n- `EraPayout` = same as before\n- `GeneralPots` / `EraPots` = `Seed<AnyPalletId>` (required to compile,\nnever called)\n\nNo DAP needed\n\n## Config Changes\n\n**Added:**\n- `DisableMinting: Get<bool>`: compile-time constant controlling which\nmode. **Irreversible** once `true`.\n- `UnclaimedRewardHandler`: receives unclaimed era rewards during stale\nera cleanup.\n- `GeneralPots` / `EraPots`: pot account providers for era reward\nbookkeeping.\n- `StakerRewardCalculator`: Implementation for commission based\nreward-split between the validator and nominators.\n\n**Preserved for legacy mode (Kusama):**\n- `EraPayout`, `RewardRemainder`, `MaxEraDuration`, `MaxStakedRewards`:\nused only when `DisableMinting = false`.\n\n**New storage:**\n- `MaxCommission`: upper bound on validator commission (defaults to\n100%).\n- `DisableMintingGuard`: safety guard: era from which legacy minting is\npermanently disabled on the payout side.\n\n**New extrinsic:**\n- `set_max_commission`: callable via `AdminOrigin` (StakingAdmin).\n\n## WAH\n- `PolkadotIssuanceCurve` replaces old `EraPayout` impl.\n- DAP `MigrateV1ToV2` migration.\n\n## TODO\n- [x] Run benchmark for staking and dap pallets.\n- [ ] Create issue to pre fund general staking pots with ED post merge.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Paolo La Camera <paolo@parity.io>",
+          "timestamp": "2026-04-13T18:52:53Z",
+          "tree_id": "70145afcf6b387bcb10b0058a0769cdf35f43afd",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/de2291157851582dbdddec5bdd96c3d87d68cae8"
+        },
+        "date": 1776112184255,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 52937.40000000001,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 63624.44,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.00001962213,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.000020023130000000004,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.8505889957999964,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.818670434580002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005537035809999996,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7608233568399434,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.465341133840012,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.270355842722837,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.00001962213,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.000020023130000000004,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.685014014649955,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.949312261160001,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.8347407966200016,
             "unit": "seconds"
           }
         ]

@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776076425604,
+  "lastUpdate": 1776079463986,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "serban@parity.io",
-            "name": "Serban Iorga",
-            "username": "serban300"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "2cb8f12822346d3772855be8a9caa25abad21e33",
-          "message": "[XCMP] `take_first_concatenated_xcm()` improvements (#9539)\n\nThis PR:\n- improves `take_first_concatenated_xcm()` avoiding the XCM re-encoding\n- makes the benchmarks for `take_first_concatenated_xcm()` more\ngranular, accounting for the number of bytes of the message\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-08-25T07:57:56Z",
-          "tree_id": "c88ecd500c2bea0dfa451ff9a9fa2e26e5364afb",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/2cb8f12822346d3772855be8a9caa25abad21e33"
-        },
-        "date": 1756113445716,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.264728943633338,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.1982387105666667,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.12762121973333335,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "eresav@me.com",
+            "name": "Andrei Eres",
+            "username": "AndreiEres"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6688a8236432e59a48749503eca1506f11ba2241",
+          "message": "statement-store: Fix node restart in mid-crush test (#11737)\n\n# Description\n\nA small fix to allow nodes to restart without failing in CI\n\n## Integration\n\nNo integration needed",
+          "timestamp": "2026-04-13T10:04:29Z",
+          "tree_id": "e540ba0e8bbabab25928828cd8f9a4f2e6dee531",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/6688a8236432e59a48749503eca1506f11ba2241"
+        },
+        "date": 1776079440560,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.903490285199998,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1272886285333333,
             "unit": "seconds"
           }
         ]

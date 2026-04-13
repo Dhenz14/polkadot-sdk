@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776079594260,
+  "lastUpdate": 1776099925956,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "178801527+raymondkfcheung@users.noreply.github.com",
-            "name": "Raymond Cheung",
-            "username": "raymondkfcheung"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "1e4af2353ea9dcb9ad0afc1ce63b03df68108ecf",
-          "message": "Replace `log` with `tracing` on `pallet-bridge-relayers` (#9381)\n\nThis PR replaces `log` with `tracing` instrumentation on\n`pallet-bridge-relayers` by providing structured logging.\n\nPartially addresses #9211",
-          "timestamp": "2025-08-21T10:16:26Z",
-          "tree_id": "227e8c7bb7b7adb486125c662468b3c2894feb3b",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/1e4af2353ea9dcb9ad0afc1ce63b03df68108ecf"
-        },
-        "date": 1755775892336,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.00857276897999999,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005090415769999991,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0027136283300000013,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-coordinator",
             "value": 0.00267772665,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "serban@parity.io",
+            "name": "Serban Iorga",
+            "username": "serban300"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "122cb84b6467dbb95640d50ae3d937627603728f",
+          "message": "MMR: check `verify_ancestor()` output (#11738)\n\nMMR: check `verify_ancestor()` output\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-13T15:29:53Z",
+          "tree_id": "cba321ddab3afc46ee7b9a60973075b8ba547423",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/122cb84b6467dbb95640d50ae3d937627603728f"
+        },
+        "date": 1776099904249,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009597288579999995,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009185361739999972,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.00264044272,
             "unit": "seconds"
           }
         ]

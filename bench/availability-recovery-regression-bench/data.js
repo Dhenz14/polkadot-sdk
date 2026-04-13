@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775920134499,
+  "lastUpdate": 1776068081421,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "14218860+iulianbarbu@users.noreply.github.com",
-            "name": "Iulian Barbu",
-            "username": "iulianbarbu"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "2660bf5f04736beef5c7002ffb5a5856e9420d1a",
-          "message": "`polkadot-omni-node`: fixes and changes related to `GetParachainInfo` (#9201)\n\n# Description\n\n- log::info! the error of accessing `GetParachainInfo::parachain_id()`\nruntime api if any, before reading the `para_id` from the chain\nspecification (relevant for debugging).\n- removes comments/deprecation notices throughout the code that\nintroduce `para-id` flag removal (from chain-spec-builder and support\nfor parsing it from chain specifications)\n\nCloses #9217 \n\n## Integration\n\nN/A\n\n## Review Notes\n\nN/A\n\n---------\n\nSigned-off-by: Iulian Barbu <iulian.barbu@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Sebastian Kunert <mail@skunert.dev>\nCo-authored-by: Andrei Sandu <54316454+sandreim@users.noreply.github.com>",
-          "timestamp": "2025-08-22T12:59:14Z",
-          "tree_id": "5b83afefc295e7e302e0f1ae5f368c6b316f7ab8",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/2660bf5f04736beef5c7002ffb5a5856e9420d1a"
-        },
-        "date": 1755871926263,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.366101673233333,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.198595142,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.13729499946666668,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "73715684+Szegoo@users.noreply.github.com",
+            "name": "Sergej Sakac",
+            "username": "Szegoo"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a5a89478428fb46b8cc378e9003a046bc4a0eece",
+          "message": "Westend AH: Add PSM (#11529)\n\n## Summary\n\nThis PR adds the PSM pallet to the Westend Asset Hub runtime and\nintroduces remote integration tests that run against live on-chain\nstate.\n\n**Runtime configuration:**\n\npUSD asset ID: 50000342\nPSM cap: 5 mil\nFee destination: pUSD insurance fund (`PalletId(*b\"pusd/ins\")`)\nV1 migration initializes USDT (1984) as the first external asset with 0%\nminting fee and 0.01% redemption fee\n\n### Remote tests\nThe tests fetch the Assets pallet state from a live Asset Hub node via\nRPC, inject PSM configuration and check the core functionality:\n\n`mint_and_redeem`: mints pUSD by depositing an external stablecoin, then\nredeems it back. Verifies balances, debt tracking, and fee accounting.\n`circuit_breaker`: tests all three circuit breaker levels\n(MintingDisabled, AllDisabled, AllEnabled) and verifies the correct\noperations are blocked/allowed at each level.\n\nState is fetched once from the RPC node and cached to a local snapshot\nfile so the second test doesn't need another round trip.\n\n### Running\nWith USDT as the external asset:\n```\nRUST_LOG=runtime::psm=info cargo run -p remote-ext-tests-psm -- --asset-id 1984\n```\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>",
+          "timestamp": "2026-04-13T06:39:56Z",
+          "tree_id": "9c8dab6e8dd86ccfd8e9776723646427d5559ea4",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/a5a89478428fb46b8cc378e9003a046bc4a0eece"
+        },
+        "date": 1776068058845,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.739259300100004,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13303963683333334,
             "unit": "seconds"
           }
         ]

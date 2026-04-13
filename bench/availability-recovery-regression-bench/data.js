@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776068081421,
+  "lastUpdate": 1776076425604,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "pgherveou@gmail.com",
-            "name": "PG Herveou",
-            "username": "pgherveou"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "13320f333c00619165c406fdfcb28b6056b543df",
-          "message": "align eth-rpc response with geth (#9177)\n\n- Update some serde encoding for eth-rpc to match serialization behavior\nof Geth\n- Add support for serializing / deserializing EIP7702 tx types\n- Disable transaction type we don't support yet in\ntry_ino_unchecked_extrinsics\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-08-22T14:18:13Z",
-          "tree_id": "c37739e4310b85426b09807e257c5ce83e309bb4",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/13320f333c00619165c406fdfcb28b6056b543df"
-        },
-        "date": 1755876805764,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.2728467879,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.1994683913666667,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.13303963683333334,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "robertvaneerdewijk@gmail.com",
+            "name": "0xRVE",
+            "username": "0xRVE"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "24c4f96edc5f6383013a308c0c45f9b3a6604d47",
+          "message": "Reject delegatecall into precompiles via PrecompileDelegateDenied (#11715)\n\n## Summary\n\n- Add delegatecall guard to the ERC20 assets precompile and XCM\nprecompile, matching the existing pattern in the vesting and\nasset-conversion precompiles\n- Converge asset-conversion precompile from `Error::Revert(string)` to\n`Error::Error(PrecompileDelegateDenied)` for consistency across all\nprecompiles\n- Add delegatecall rejection test for the XCM precompile\n\n## Motivation\n\nDelegatecall to precompiles allows a malicious contract to execute\nprecompile logic in a misleading caller context. The precompiles derive\ncaller identity from `env.caller()`, which during delegatecall returns\nthe original caller — letting the intermediary contract act on the\ncaller's assets or send XCM on their behalf. There is no legitimate use\ncase for delegatecalling into these precompiles.\n\n## Changes\n\n- `substrate/frame/assets/precompiles/src/lib.rs` — add\n`PrecompileDelegateDenied` guard\n- `substrate/frame/asset-conversion/precompiles/src/lib.rs` — replace\n`Error::Revert(ERR_DELEGATE_CALL)` with `PrecompileDelegateDenied`,\nremove unused const\n- `polkadot/xcm/pallet-xcm/precompiles/src/lib.rs` — add\n`PrecompileDelegateDenied` guard\n- `polkadot/xcm/pallet-xcm/precompiles/src/tests.rs` — add\n`delegatecall_is_rejected` test\n- `polkadot/xcm/pallet-xcm/precompiles/Cargo.toml` — add\n`pallet-revive-fixtures` dev-dependency\n\n## Test plan\n\n- [x] `cargo test -p pallet-xcm-precompiles` — 13 tests pass, including\nnew `delegatecall_is_rejected`\n- [x] `cargo test -p pallet-asset-conversion-precompiles` — 18 tests\npass\n- [x] `cargo test -p pallet-assets-precompiles` — 66 tests pass\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-13T09:11:14Z",
+          "tree_id": "8429396e9bad7cb0aa441acef321dcbd9e21966a",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/24c4f96edc5f6383013a308c0c45f9b3a6604d47"
+        },
+        "date": 1776076402919,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.960865598066668,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12762121973333335,
             "unit": "seconds"
           }
         ]

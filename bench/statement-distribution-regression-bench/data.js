@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776099896469,
+  "lastUpdate": 1776112237452,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "egor@parity.io",
-            "name": "Egor_P",
-            "username": "EgorPopelyaev"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "9969e1e81c94f2153412d647d92ecad8db3ccbf8",
-          "message": "[Backport] Version bumps and prdoc reordering from stable2506-1 (#9529)\n\nThis PR backport regular version bumps and prdocs reordering from the\nstable2506 branch back to master",
-          "timestamp": "2025-08-21T14:46:57Z",
-          "tree_id": "1c02f70053ccdced9c6f2f6a599c00d6076584ef",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/9969e1e81c94f2153412d647d92ecad8db3ccbf8"
-        },
-        "date": 1755793365770,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.93999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.044339489343999956,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.034269351877999996,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.08550450607799996,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "10196091+Ank4n@users.noreply.github.com",
+            "name": "Ankan",
+            "username": "Ank4n"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "de2291157851582dbdddec5bdd96c3d87d68cae8",
+          "message": "[Staking] Move reward minting to DAP; payouts from drip-funded era pots (#11616)\n\nExtracted from #10844.\n\n## Overview\n\nThis PR introduces dual-mode era rewards for `pallet-staking-async`:\n\n- **Non-minting mode** (`DisableMinting = true`): Staking does not mint.\nAn external source (e.g. `pallet-dap`) funds a general reward pot.\nStaking snapshots the pot into era-specific accounts at each era\nboundary. Payouts transfer from the era pot.\n- **Legacy minting mode** (`DisableMinting = false`): `EraPayout`\ncomputes inflation, tokens are minted on-the-fly during payout. Kept for\nKusama compatibility where inflation depends on the staking ratio.\n\nSwitching from legacy to non-minting is a one-way migration.\n\n## How it works\n\n### Non-minting mode (Polkadot)\n\nDAP drips inflation continuously into a general staker reward pot. At\neach era boundary, `EraRewardManager::snapshot_era_rewards` transfers\nthe accumulated balance into an era-specific pot. Payouts transfer from\nthat pot. When an era expires past `HistoryDepth`, unclaimed funds are\nreturned via `UnclaimedRewardHandler`.\n\n`DisableMintingGuard` is set on the first successful snapshot as a\npayout-side safety net -- prevents minting for eras that should have\npots.\n\n#### Runtime Changes\n**Staking Async**\n- `DisableMinting = ConstBool<true>`\n- `EraPayout = ()` (noop, never called)\n- `RewardRemainder = ()`, `MaxEraDuration = ()`\n- `GeneralPots` / `EraPots` = `Seed<StakingPotsPalletId>`\n- `UnclaimedRewardHandler` = DAP (or any `OnUnbalanced` handler)\n\n**DAP**\n- Implement `IssuanceCurve` -- same as EraPayout except it does not do\nthe reward-treasury split and returns one single amount.\n- register `DAP::buffer` and `Staking::StakerRewardRecipient` in\n`BudgetRecipients`.\n- Run `MigrateV1ToV2` to seed `LastIssuanceTimestamp` and\n`BudgetAllocation`\n- Pre-fund general staker pot with ED\n\n### Legacy minting mode (Kusama and other non-polkadot runtimes)\n\nSame as before:\n`EraPayout::era_payout()` computes inflation from `total_staked`,\n`total_issuance`, and era duration. `MaxStakedRewards` caps the staker\nportion. Remainder goes to `RewardRemainder`. Tokens minted on payout.\n\n#### Runtime Changes\n**Staking Async**\n- `DisableMinting = ConstBool<false>`\n- `EraPayout` = same as before\n- `GeneralPots` / `EraPots` = `Seed<AnyPalletId>` (required to compile,\nnever called)\n\nNo DAP needed\n\n## Config Changes\n\n**Added:**\n- `DisableMinting: Get<bool>`: compile-time constant controlling which\nmode. **Irreversible** once `true`.\n- `UnclaimedRewardHandler`: receives unclaimed era rewards during stale\nera cleanup.\n- `GeneralPots` / `EraPots`: pot account providers for era reward\nbookkeeping.\n- `StakerRewardCalculator`: Implementation for commission based\nreward-split between the validator and nominators.\n\n**Preserved for legacy mode (Kusama):**\n- `EraPayout`, `RewardRemainder`, `MaxEraDuration`, `MaxStakedRewards`:\nused only when `DisableMinting = false`.\n\n**New storage:**\n- `MaxCommission`: upper bound on validator commission (defaults to\n100%).\n- `DisableMintingGuard`: safety guard: era from which legacy minting is\npermanently disabled on the payout side.\n\n**New extrinsic:**\n- `set_max_commission`: callable via `AdminOrigin` (StakingAdmin).\n\n## WAH\n- `PolkadotIssuanceCurve` replaces old `EraPayout` impl.\n- DAP `MigrateV1ToV2` migration.\n\n## TODO\n- [x] Run benchmark for staking and dap pallets.\n- [ ] Create issue to pre fund general staking pots with ED post merge.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Paolo La Camera <paolo@parity.io>",
+          "timestamp": "2026-04-13T18:52:53Z",
+          "tree_id": "70145afcf6b387bcb10b0058a0769cdf35f43afd",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/de2291157851582dbdddec5bdd96c3d87d68cae8"
+        },
+        "date": 1776112214899,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.07999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.03872623579,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08475916208199992,
             "unit": "seconds"
           }
         ]

@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776098930260,
+  "lastUpdate": 1776111237044,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -77759,6 +77759,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 3086812899,
             "range": "± 84873086",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "10196091+Ank4n@users.noreply.github.com",
+            "name": "Ankan",
+            "username": "Ank4n"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "de2291157851582dbdddec5bdd96c3d87d68cae8",
+          "message": "[Staking] Move reward minting to DAP; payouts from drip-funded era pots (#11616)\n\nExtracted from #10844.\n\n## Overview\n\nThis PR introduces dual-mode era rewards for `pallet-staking-async`:\n\n- **Non-minting mode** (`DisableMinting = true`): Staking does not mint.\nAn external source (e.g. `pallet-dap`) funds a general reward pot.\nStaking snapshots the pot into era-specific accounts at each era\nboundary. Payouts transfer from the era pot.\n- **Legacy minting mode** (`DisableMinting = false`): `EraPayout`\ncomputes inflation, tokens are minted on-the-fly during payout. Kept for\nKusama compatibility where inflation depends on the staking ratio.\n\nSwitching from legacy to non-minting is a one-way migration.\n\n## How it works\n\n### Non-minting mode (Polkadot)\n\nDAP drips inflation continuously into a general staker reward pot. At\neach era boundary, `EraRewardManager::snapshot_era_rewards` transfers\nthe accumulated balance into an era-specific pot. Payouts transfer from\nthat pot. When an era expires past `HistoryDepth`, unclaimed funds are\nreturned via `UnclaimedRewardHandler`.\n\n`DisableMintingGuard` is set on the first successful snapshot as a\npayout-side safety net -- prevents minting for eras that should have\npots.\n\n#### Runtime Changes\n**Staking Async**\n- `DisableMinting = ConstBool<true>`\n- `EraPayout = ()` (noop, never called)\n- `RewardRemainder = ()`, `MaxEraDuration = ()`\n- `GeneralPots` / `EraPots` = `Seed<StakingPotsPalletId>`\n- `UnclaimedRewardHandler` = DAP (or any `OnUnbalanced` handler)\n\n**DAP**\n- Implement `IssuanceCurve` -- same as EraPayout except it does not do\nthe reward-treasury split and returns one single amount.\n- register `DAP::buffer` and `Staking::StakerRewardRecipient` in\n`BudgetRecipients`.\n- Run `MigrateV1ToV2` to seed `LastIssuanceTimestamp` and\n`BudgetAllocation`\n- Pre-fund general staker pot with ED\n\n### Legacy minting mode (Kusama and other non-polkadot runtimes)\n\nSame as before:\n`EraPayout::era_payout()` computes inflation from `total_staked`,\n`total_issuance`, and era duration. `MaxStakedRewards` caps the staker\nportion. Remainder goes to `RewardRemainder`. Tokens minted on payout.\n\n#### Runtime Changes\n**Staking Async**\n- `DisableMinting = ConstBool<false>`\n- `EraPayout` = same as before\n- `GeneralPots` / `EraPots` = `Seed<AnyPalletId>` (required to compile,\nnever called)\n\nNo DAP needed\n\n## Config Changes\n\n**Added:**\n- `DisableMinting: Get<bool>`: compile-time constant controlling which\nmode. **Irreversible** once `true`.\n- `UnclaimedRewardHandler`: receives unclaimed era rewards during stale\nera cleanup.\n- `GeneralPots` / `EraPots`: pot account providers for era reward\nbookkeeping.\n- `StakerRewardCalculator`: Implementation for commission based\nreward-split between the validator and nominators.\n\n**Preserved for legacy mode (Kusama):**\n- `EraPayout`, `RewardRemainder`, `MaxEraDuration`, `MaxStakedRewards`:\nused only when `DisableMinting = false`.\n\n**New storage:**\n- `MaxCommission`: upper bound on validator commission (defaults to\n100%).\n- `DisableMintingGuard`: safety guard: era from which legacy minting is\npermanently disabled on the payout side.\n\n**New extrinsic:**\n- `set_max_commission`: callable via `AdminOrigin` (StakingAdmin).\n\n## WAH\n- `PolkadotIssuanceCurve` replaces old `EraPayout` impl.\n- DAP `MigrateV1ToV2` migration.\n\n## TODO\n- [x] Run benchmark for staking and dap pallets.\n- [ ] Create issue to pre fund general staking pots with ED post merge.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Paolo La Camera <paolo@parity.io>",
+          "timestamp": "2026-04-13T18:52:53Z",
+          "tree_id": "70145afcf6b387bcb10b0058a0769cdf35f43afd",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/de2291157851582dbdddec5bdd96c3d87d68cae8"
+        },
+        "date": 1776111215384,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18425571,
+            "range": "± 119741",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18573803,
+            "range": "± 233413",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20287349,
+            "range": "± 149251",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24889202,
+            "range": "± 169903",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 59030405,
+            "range": "± 633775",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 339655857,
+            "range": "± 4147623",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2466784633,
+            "range": "± 63172534",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15203070,
+            "range": "± 318155",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 14889775,
+            "range": "± 1079454",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16017001,
+            "range": "± 261904",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20636500,
+            "range": "± 196369",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 59276505,
+            "range": "± 1611163",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 345732393,
+            "range": "± 4375129",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2667788824,
+            "range": "± 67497429",
             "unit": "ns/iter"
           }
         ]

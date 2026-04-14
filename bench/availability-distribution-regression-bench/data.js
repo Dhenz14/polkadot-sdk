@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776112175913,
+  "lastUpdate": 1776155724594,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "evgeny@parity.io",
-            "name": "Evgeny Snitko",
-            "username": "AndWeHaveAPlan"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "3f9231dc75346c65826e70112ecc1a3a507e187f",
-          "message": "tests-linux-stable cattery wf (#9041)\n\ncc https://github.com/paritytech/devops/issues/3875\n\n---------\n\nCo-authored-by: alvicsam <alvicsam@gmail.com>\nCo-authored-by: Alexander Samusev <41779041+alvicsam@users.noreply.github.com>",
-          "timestamp": "2025-08-26T14:52:31Z",
-          "tree_id": "d5e89c8b65bc6930c3c9dfefbc7aedf231e212b6",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/3f9231dc75346c65826e70112ecc1a3a507e187f"
-        },
-        "date": 1756224566257,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15780900863333341,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013176692926666667,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.0072378581399999845,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02234721169333333,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-distribution",
             "value": 0.007198427360000001,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "yrong1997@gmail.com",
+            "name": "Ron",
+            "username": "yrong"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "728514a8eb057de1b75bb62068d09f032cf1c1e3",
+          "message": "Snowbride: Fix alloy receipt verification (#11739)\n\n### Context\n\nHardens Snowbridge receipt proof verification by only accepting the\n`ValueMismatch { got: Some(_), expected: None }` extraction path when\nthe mismatch path equals the queried trie key.",
+          "timestamp": "2026-04-14T07:12:38Z",
+          "tree_id": "5969e64309265cead3cc9da652e221425c1d2ebc",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/728514a8eb057de1b75bb62068d09f032cf1c1e3"
+        },
+        "date": 1776155703267,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007141728613333334,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14257126406666665,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009614707806666645,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.025890613526666665,
             "unit": "seconds"
           }
         ]

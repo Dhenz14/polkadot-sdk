@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776155694039,
+  "lastUpdate": 1776159531405,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "vrom911@gmail.com",
-            "name": "Veronika Romashkina",
-            "username": "vrom911"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "0c51d2e259d1742a809d11fecbeb663033726846",
-          "message": "Improve omni-node installation docs (#9555)\n\n# Description\n\nWhile following the `polkadot-omni-node` installation section\ninstructions [here](https://crates.io/crates/polkadot-omni-node), I\nfound that it could be improved a bit.\n\nThe `<stable_release_tag>` should be replaced with the release tag, but\nthere is no mention of how to get that tag fast.\nI added this information as a note in addition to the existing line.\n\nCo-authored-by: Raymond Cheung <178801527+raymondkfcheung@users.noreply.github.com>",
-          "timestamp": "2025-08-27T02:24:11Z",
-          "tree_id": "71a0907d4ce3e8cd70743ddc7c830028a1e0bdd3",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/0c51d2e259d1742a809d11fecbeb663033726846"
-        },
-        "date": 1756265815449,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.218786233800003,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19647791016666666,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 11.8614411558,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "73715684+Szegoo@users.noreply.github.com",
+            "name": "Sergej Sakac",
+            "username": "Szegoo"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ca40ef596465ea4e37823da7da1f5e2cf329f913",
+          "message": "Asset Hub Westend: Monetary guard track (#11736)\n\n## Summary\n\nAdds a dedicated `MonetaryGuard` governance track for fast circuit\nbreaker activation for PSM on Asset Hub Westend.\n\n### Changes\n\n- Adds `MonetaryGuard` custom origin and governance track (ID 16)\n- Updates `EnsurePsmManager` origin mapping:\n  - Root -> Full (all PSM operations)\n  - MonetaryGuard -> Emergency (circuit breaker only)\n\n### Track parameters\n\n| Parameter | Value |\n|---|---|\n| max_deciding | 3 |\n| decision_deposit | 500 WND |\n| prepare_period | 20 min |\n| decision_period | 20 min |\n| confirm_period | 4 min |\n| min_enactment | 1 min |\n\nNOTE: the periods and deposits are low for testing purposes\n\n---------\n\nCo-authored-by: muharem <ismailov.m.h@gmail.com>",
+          "timestamp": "2026-04-14T08:18:33Z",
+          "tree_id": "5938f7329b5ab5955e1b77fd95149411d0073005",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/ca40ef596465ea4e37823da7da1f5e2cf329f913"
+        },
+        "date": 1776159508962,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12368885603333332,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.850717887200002,
             "unit": "seconds"
           }
         ]

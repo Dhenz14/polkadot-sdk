@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776175669707,
+  "lastUpdate": 1776186528337,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "54316454+sandreim@users.noreply.github.com",
-            "name": "Andrei Sandu",
-            "username": "sandreim"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "3dfbdf4a454f35238500779e503e1ec32ba7fc63",
-          "message": "Parachains runtime: properly filter backed candidate votes (#9564)\n\nThe `filter_backed_statements_from_disabled_validators` function does\nnot properly map indices in the validator group to indices in the\nvalidity votes vec. This PR fixes that.\n\nTODO: \n- [x] add more tests\n- [x] PRDoc\n\n---------\n\nSigned-off-by: Andrei Sandu <andrei-mihail@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-08-27T19:52:12Z",
-          "tree_id": "52879c2b0806e93ea47828178932bd130f45092c",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/3dfbdf4a454f35238500779e503e1ec32ba7fc63"
-        },
-        "date": 1756328553613,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012974770386666667,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15728135460666673,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.0075132907733333485,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02251224479333333,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.009984911053333309,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "oliver.tale-yazdi@parity.io",
+            "name": "Oliver Tale-Yazdi",
+            "username": "ggwpez"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ce8b548166154dfaf7c330a0305da8bb93cd0c75",
+          "message": "Post 2603 cleanup (#11750)\n\n- **make clone of AssetsInHolding available for std**\n- **Make pallet assets try-state check more lenient**\n\n---------\n\nSigned-off-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>",
+          "timestamp": "2026-04-14T15:46:00Z",
+          "tree_id": "2deeaae73c8eacc3ac4d893178e6868f224d22ff",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/ce8b548166154dfaf7c330a0305da8bb93cd0c75"
+        },
+        "date": 1776186506281,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.1411151544733333,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007020490859999997,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009921734586666642,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.025281197039999998,
             "unit": "seconds"
           }
         ]

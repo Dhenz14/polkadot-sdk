@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776166500418,
+  "lastUpdate": 1776169567346,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "ismailov.m.h@gmail.com",
-            "name": "muharem",
-            "username": "muharem"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "1a512570552119a49a8ecb2abfb7021954c4422d",
-          "message": "Society pallet supports non-consecutive block provider (#9497)\n\nSociety pallet supports non-consecutive block provider\n\nSociety pallet correctly handles situations where `on_initialize` is\ninvoked with block numbers that:\n- increase but are not strictly consecutive (e.g., jump from 5 → 10), or\n- are repeated (e.g., multiple blocks are built at the same Relay Chain\nparent block, all reporting the same BlockNumberProvider value).\n\nThis situation may occur when the BlockNumberProvider is not local - for\nexample, on a parachain using the Relay Chain block number provider.\n\n---------\n\nCo-authored-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>",
-          "timestamp": "2025-08-25T11:04:31Z",
-          "tree_id": "2d5738b63692aa5d082a7286608ad0a8ba3f9bdc",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/1a512570552119a49a8ecb2abfb7021954c4422d"
-        },
-        "date": 1756124852007,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008596276549999988,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005156241139999993,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0026511979999999987,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.009755357979999988,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@kchr.de",
+            "name": "Bastian Köcher",
+            "username": "bkchr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6417acacecd3c0c698faca8e7a5af7816655ab82",
+          "message": "Double max memory on block import (#11557)\n\nThere is a fixed memory budget for block production. Right now we run\nwith the same memory budget when importing a block. However, there is a\nbig difference between block production and block import. For block\nproduction we always create a new fresh wasm instance for each extrinsic\nand the entire memory is freed afterwards. For block import, we keep\neverything in memory and use one wasm instance. This can lead to issues\nfor big blocks which may use too much memory. So, this pull request\ndoubles the memory budget by 2x to what is available on block\nproduction. Given the default budget of 128 MiB and only having blocks\nof max ~16MiB, the extra 128MiB should be enough to hold everything in\nmemory.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Sebastian Kunert <skunert49@gmail.com>\nCo-authored-by: Sebastian Kunert <mail@skunert.dev>",
+          "timestamp": "2026-04-14T11:01:17Z",
+          "tree_id": "23a1351bebcb0170f0900d96b16268dd8a5192b0",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/6417acacecd3c0c698faca8e7a5af7816655ab82"
+        },
+        "date": 1776169547177,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009443754989999985,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.010425830940000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.0026660895699999994,
             "unit": "seconds"
           }
         ]

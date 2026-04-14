@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776159561071,
+  "lastUpdate": 1776166409195,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "vrom911@gmail.com",
-            "name": "Veronika Romashkina",
-            "username": "vrom911"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "0c51d2e259d1742a809d11fecbeb663033726846",
-          "message": "Improve omni-node installation docs (#9555)\n\n# Description\n\nWhile following the `polkadot-omni-node` installation section\ninstructions [here](https://crates.io/crates/polkadot-omni-node), I\nfound that it could be improved a bit.\n\nThe `<stable_release_tag>` should be replaced with the release tag, but\nthere is no mention of how to get that tag fast.\nI added this information as a note in addition to the existing line.\n\nCo-authored-by: Raymond Cheung <178801527+raymondkfcheung@users.noreply.github.com>",
-          "timestamp": "2025-08-27T02:24:11Z",
-          "tree_id": "71a0907d4ce3e8cd70743ddc7c830028a1e0bdd3",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/0c51d2e259d1742a809d11fecbeb663033726846"
-        },
-        "date": 1756265842864,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012969079326666667,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02242291713333333,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007424464599999987,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.1565797755066666,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "bitfield-distribution",
             "value": 0.02562305553333333,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "paolo@parity.io",
+            "name": "Paolo La Camera",
+            "username": "sigurpol"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "8cd0f22d777ae13df502a2179dc7fa4f0978c9ea",
+          "message": "Redirect XCM delivery fees to DAP / DAP satellite on Westend chains (#11700)\n\nRoute XCM delivery fees to DAP satellite (or DAP on Asset Hub) instead\nof treasury on all Westend system chains: relay, asset-hub, bridge-hub,\ncoretime, collectives, people.\n\nFollow-up PR(s) will address remaining `TODO` linked to #11705.\n\nCloses #11410.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-14T10:11:09Z",
+          "tree_id": "d5d8f4dae4c0f7c1aebe75ba0fd2294518b5a154",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/8cd0f22d777ae13df502a2179dc7fa4f0978c9ea"
+        },
+        "date": 1776166387636,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.00987386417333331,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.025774819866666666,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.1412928384200001,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007393775893333333,
             "unit": "seconds"
           }
         ]

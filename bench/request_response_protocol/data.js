@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776165477301,
+  "lastUpdate": 1776168991405,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -78191,6 +78191,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 3093781563,
             "range": "± 154023308",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@kchr.de",
+            "name": "Bastian Köcher",
+            "username": "bkchr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6417acacecd3c0c698faca8e7a5af7816655ab82",
+          "message": "Double max memory on block import (#11557)\n\nThere is a fixed memory budget for block production. Right now we run\nwith the same memory budget when importing a block. However, there is a\nbig difference between block production and block import. For block\nproduction we always create a new fresh wasm instance for each extrinsic\nand the entire memory is freed afterwards. For block import, we keep\neverything in memory and use one wasm instance. This can lead to issues\nfor big blocks which may use too much memory. So, this pull request\ndoubles the memory budget by 2x to what is available on block\nproduction. Given the default budget of 128 MiB and only having blocks\nof max ~16MiB, the extra 128MiB should be enough to hold everything in\nmemory.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Sebastian Kunert <skunert49@gmail.com>\nCo-authored-by: Sebastian Kunert <mail@skunert.dev>",
+          "timestamp": "2026-04-14T11:01:17Z",
+          "tree_id": "23a1351bebcb0170f0900d96b16268dd8a5192b0",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/6417acacecd3c0c698faca8e7a5af7816655ab82"
+        },
+        "date": 1776168969419,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18433436,
+            "range": "± 128875",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18691436,
+            "range": "± 184900",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20245486,
+            "range": "± 142739",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24749845,
+            "range": "± 161775",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 58274164,
+            "range": "± 1221936",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 340243457,
+            "range": "± 2402133",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2674189395,
+            "range": "± 71745478",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15243245,
+            "range": "± 134709",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15245178,
+            "range": "± 200280",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 15938839,
+            "range": "± 240454",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20308758,
+            "range": "± 168029",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 57121234,
+            "range": "± 1064124",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 325403679,
+            "range": "± 5241150",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2682619638,
+            "range": "± 72753073",
             "unit": "ns/iter"
           }
         ]

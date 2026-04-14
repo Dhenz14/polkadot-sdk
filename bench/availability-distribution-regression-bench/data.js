@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776166409195,
+  "lastUpdate": 1776169488756,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "eresav@me.com",
-            "name": "Andrei Eres",
-            "username": "AndreiEres"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "930d4ca1b82fa52681f9607360a690506b277b54",
-          "message": "Fix regression benchmarks (#9044)\n\nCo-authored-by: Alexander Samusev <41779041+alvicsam@users.noreply.github.com>",
-          "timestamp": "2025-08-27T12:54:27Z",
-          "tree_id": "d15d13bb0172be70338d2f687eb2985e65f8e78c",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/930d4ca1b82fa52681f9607360a690506b277b54"
-        },
-        "date": 1756304168454,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007699274053333335,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02258643769333334,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.1576874525,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.01311492258,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-distribution",
             "value": 0.007393775893333333,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@kchr.de",
+            "name": "Bastian Köcher",
+            "username": "bkchr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6417acacecd3c0c698faca8e7a5af7816655ab82",
+          "message": "Double max memory on block import (#11557)\n\nThere is a fixed memory budget for block production. Right now we run\nwith the same memory budget when importing a block. However, there is a\nbig difference between block production and block import. For block\nproduction we always create a new fresh wasm instance for each extrinsic\nand the entire memory is freed afterwards. For block import, we keep\neverything in memory and use one wasm instance. This can lead to issues\nfor big blocks which may use too much memory. So, this pull request\ndoubles the memory budget by 2x to what is available on block\nproduction. Given the default budget of 128 MiB and only having blocks\nof max ~16MiB, the extra 128MiB should be enough to hold everything in\nmemory.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Sebastian Kunert <skunert49@gmail.com>\nCo-authored-by: Sebastian Kunert <mail@skunert.dev>",
+          "timestamp": "2026-04-14T11:01:17Z",
+          "tree_id": "23a1351bebcb0170f0900d96b16268dd8a5192b0",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/6417acacecd3c0c698faca8e7a5af7816655ab82"
+        },
+        "date": 1776169468438,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.025401274826666667,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.00986007820666665,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007183651373333333,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.1405213690400001,
             "unit": "seconds"
           }
         ]

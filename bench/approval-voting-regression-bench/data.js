@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776169514664,
+  "lastUpdate": 1776175699098,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "vrom911@gmail.com",
-            "name": "Veronika Romashkina",
-            "username": "vrom911"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "0c51d2e259d1742a809d11fecbeb663033726846",
-          "message": "Improve omni-node installation docs (#9555)\n\n# Description\n\nWhile following the `polkadot-omni-node` installation section\ninstructions [here](https://crates.io/crates/polkadot-omni-node), I\nfound that it could be improved a bit.\n\nThe `<stable_release_tag>` should be replaced with the release tag, but\nthere is no mention of how to get that tag fast.\nI added this information as a note in addition to the existing line.\n\nCo-authored-by: Raymond Cheung <178801527+raymondkfcheung@users.noreply.github.com>",
-          "timestamp": "2025-08-27T02:24:11Z",
-          "tree_id": "71a0907d4ce3e8cd70743ddc7c830028a1e0bdd3",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/0c51d2e259d1742a809d11fecbeb663033726846"
-        },
-        "date": 1756265870521,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 63626.340000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 52942.90000000001,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.5133121080800014,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.6621968466808754,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.000020408419999999997,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.4510834825099983,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.00002076065,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.4427646563600026,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9590268355300011,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.4648563949100017,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.000020408419999999997,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.00002076065,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.308678685370007,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4719721792000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.00566302878,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting/test-environment",
             "value": 0.000020038449999999998,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49718502+alexggh@users.noreply.github.com",
+            "name": "Alexandru Gheorghe",
+            "username": "alexggh"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "54108b3cd17f8522aa13f94df25a95c30525f071",
+          "message": "statement-store: allow light clients to specify topic affinity (#11329)\n\n## Description\n\nAdd explicit topic affinity support to the statement protocol, allowing\nnodes to advertise at P2P level which statement topics they're\ninterested in. When a peer's affinity changes, relevant statements are\nre-sent.\n\nThe topic affinity is specified as a BloomFilter, all statements that\nmatch the filter are forwarded to new peers.\n\nCurrently, this is meant to be used by light clients like smoldot to\nreceive only the statements they are interested in. In the future, this\ncan also be used by statement store full nodes, but some other changes\nwill also be needed.\n\n##  Changes\n- Change the format of the message and introduce a new protocol\n\"statement/2\".\n```\nenum StatementMessage {\n\tStatements(Vec<Statement>),\n\t/// Bloom filter bytes representing the topics this peer is interested in.\n\tExplicitTopicAffinity(AffinityFilter),\n}\n```\n- Light client nodes connected on the new protocol need to also\nadvertise a topic affinity before they are receiving any statements.\n- If node define a topic affinity send them only the statements matching\nthat affinity.\n\n## TODO\n- [x] Integration testing of the new flow, tested with modify\n[node](https://github.com/paritytech/polkadot-sdk/commit/01460f4eb1a3b82fa7d00cb6db1a2194b8ab27fc#diff-21bd75369585eed301c19cf082010908ee6fa3c75a635da1bb8a8d3e6127f394R85)\n- [x] E2E integrations tests with smoldot:\nhttps://github.com/paritytech/polkadot-sdk/commit/e9a20b663e9a2e7a02321eec76990264a6ad7e4f.\n- [x] Rate limit Explicit Affinity\n\n---------\n\nSigned-off-by: Alexandru Gheorghe <alexandru.gheorghe@parity.io>\nCo-authored-by: Andrei Eres <eresav@me.com>",
+          "timestamp": "2026-04-14T12:29:36Z",
+          "tree_id": "523908122b5a97d22a7de56c9d0f529e02716b80",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/54108b3cd17f8522aa13f94df25a95c30525f071"
+        },
+        "date": 1776175677351,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 63637.93000000001,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 52942.3,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.8917956230099984,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.00002237299,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.88160838598,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.8806577691000004,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.4977083238799884,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.000023523569999999997,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.00510236119,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.000023523569999999997,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.8850149553300004,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7581595127999654,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.416303778832906,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.00002237299,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.800046931289955,
             "unit": "seconds"
           }
         ]

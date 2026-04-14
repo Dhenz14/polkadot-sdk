@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776175728997,
+  "lastUpdate": 1776186591400,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "enntheprogrammer@gmail.com",
-            "name": "sistemd",
-            "username": "sistemd"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "dcd9cacf40b282ea1fb9870e29e0eec8fbfd1c88",
-          "message": "track authorities from aura digests (#9272)\n\nCloses https://github.com/paritytech/polkadot-sdk/issues/9064.\n\nTracks AURA authorities in a `ForkTree`. The fork tree is updated\nwhenever there is an authorities change log in the digest. If the fork\ntree doesn't contain the authorities, they are fetched for the runtime\n(should only happen at startup, or if something weird is going on with\nforks maybe).\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-08-26T17:14:45Z",
-          "tree_id": "92913a06102ac8246dd730837e5c8598925b9de5",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/dcd9cacf40b282ea1fb9870e29e0eec8fbfd1c88"
-        },
-        "date": 1756233017158,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.96399999999998,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04447190493799993,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03413874445399998,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.038511577228000006,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "oliver.tale-yazdi@parity.io",
+            "name": "Oliver Tale-Yazdi",
+            "username": "ggwpez"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ce8b548166154dfaf7c330a0305da8bb93cd0c75",
+          "message": "Post 2603 cleanup (#11750)\n\n- **make clone of AssetsInHolding available for std**\n- **Make pallet assets try-state check more lenient**\n\n---------\n\nSigned-off-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>",
+          "timestamp": "2026-04-14T15:46:00Z",
+          "tree_id": "2deeaae73c8eacc3ac4d893178e6868f224d22ff",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/ce8b548166154dfaf7c330a0305da8bb93cd0c75"
+        },
+        "date": 1776186569356,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.058,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038953780004000016,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08218246235999992,
             "unit": "seconds"
           }
         ]

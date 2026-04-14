@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776111237044,
+  "lastUpdate": 1776154658177,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -77867,6 +77867,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2667788824,
             "range": "± 67497429",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "yrong1997@gmail.com",
+            "name": "Ron",
+            "username": "yrong"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "728514a8eb057de1b75bb62068d09f032cf1c1e3",
+          "message": "Snowbride: Fix alloy receipt verification (#11739)\n\n### Context\n\nHardens Snowbridge receipt proof verification by only accepting the\n`ValueMismatch { got: Some(_), expected: None }` extraction path when\nthe mismatch path equals the queried trie key.",
+          "timestamp": "2026-04-14T07:12:38Z",
+          "tree_id": "5969e64309265cead3cc9da652e221425c1d2ebc",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/728514a8eb057de1b75bb62068d09f032cf1c1e3"
+        },
+        "date": 1776154635934,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18123210,
+            "range": "± 63259",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18649772,
+            "range": "± 209867",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20061613,
+            "range": "± 166103",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24652750,
+            "range": "± 161113",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 57215502,
+            "range": "± 836377",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 319793861,
+            "range": "± 8068273",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2397236481,
+            "range": "± 53799237",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15045257,
+            "range": "± 146074",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15147927,
+            "range": "± 189683",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 15991626,
+            "range": "± 143183",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20067848,
+            "range": "± 551879",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 56581445,
+            "range": "± 923637",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 324989994,
+            "range": "± 3491380",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2649499373,
+            "range": "± 42267705",
             "unit": "ns/iter"
           }
         ]

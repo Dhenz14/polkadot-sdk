@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776169567346,
+  "lastUpdate": 1776175758457,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "evgeny@parity.io",
-            "name": "Evgeny Snitko",
-            "username": "AndWeHaveAPlan"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "3f9231dc75346c65826e70112ecc1a3a507e187f",
-          "message": "tests-linux-stable cattery wf (#9041)\n\ncc https://github.com/paritytech/devops/issues/3875\n\n---------\n\nCo-authored-by: alvicsam <alvicsam@gmail.com>\nCo-authored-by: Alexander Samusev <41779041+alvicsam@users.noreply.github.com>",
-          "timestamp": "2025-08-26T14:52:31Z",
-          "tree_id": "d5e89c8b65bc6930c3c9dfefbc7aedf231e212b6",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/3f9231dc75346c65826e70112ecc1a3a507e187f"
-        },
-        "date": 1756224646952,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0025754759999999997,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005060706459999996,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.00847520664999999,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-coordinator",
             "value": 0.0026660895699999994,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49718502+alexggh@users.noreply.github.com",
+            "name": "Alexandru Gheorghe",
+            "username": "alexggh"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "54108b3cd17f8522aa13f94df25a95c30525f071",
+          "message": "statement-store: allow light clients to specify topic affinity (#11329)\n\n## Description\n\nAdd explicit topic affinity support to the statement protocol, allowing\nnodes to advertise at P2P level which statement topics they're\ninterested in. When a peer's affinity changes, relevant statements are\nre-sent.\n\nThe topic affinity is specified as a BloomFilter, all statements that\nmatch the filter are forwarded to new peers.\n\nCurrently, this is meant to be used by light clients like smoldot to\nreceive only the statements they are interested in. In the future, this\ncan also be used by statement store full nodes, but some other changes\nwill also be needed.\n\n##  Changes\n- Change the format of the message and introduce a new protocol\n\"statement/2\".\n```\nenum StatementMessage {\n\tStatements(Vec<Statement>),\n\t/// Bloom filter bytes representing the topics this peer is interested in.\n\tExplicitTopicAffinity(AffinityFilter),\n}\n```\n- Light client nodes connected on the new protocol need to also\nadvertise a topic affinity before they are receiving any statements.\n- If node define a topic affinity send them only the statements matching\nthat affinity.\n\n## TODO\n- [x] Integration testing of the new flow, tested with modify\n[node](https://github.com/paritytech/polkadot-sdk/commit/01460f4eb1a3b82fa7d00cb6db1a2194b8ab27fc#diff-21bd75369585eed301c19cf082010908ee6fa3c75a635da1bb8a8d3e6127f394R85)\n- [x] E2E integrations tests with smoldot:\nhttps://github.com/paritytech/polkadot-sdk/commit/e9a20b663e9a2e7a02321eec76990264a6ad7e4f.\n- [x] Rate limit Explicit Affinity\n\n---------\n\nSigned-off-by: Alexandru Gheorghe <alexandru.gheorghe@parity.io>\nCo-authored-by: Andrei Eres <eresav@me.com>",
+          "timestamp": "2026-04-14T12:29:36Z",
+          "tree_id": "523908122b5a97d22a7de56c9d0f529e02716b80",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/54108b3cd17f8522aa13f94df25a95c30525f071"
+        },
+        "date": 1776175737175,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.00951565487,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.00268098123,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009295904039999978,
             "unit": "seconds"
           }
         ]

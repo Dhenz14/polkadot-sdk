@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776166379764,
+  "lastUpdate": 1776169462239,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "hs+github@haikoschol.com",
-            "name": "Haiko Schol",
-            "username": "haikoschol"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "b7b7f0c50f6ce8bad7a7a3a10139e53714740b4e",
-          "message": "Cumulus: Remove `--relay-chain-light-client` (#9446)\n\n# Description\n\nThis PR removes the experimental flag `--relay-chain-light-client` from\ncumulus and as a consequence, smoldot and smoldot-light as workspace\ndependencies.\n\nCloses #9013 \n\n## Integration\n\nSince this PR changes the public API of\n[cumulus-relay-chain-rpc-interface](https://crates.io/crates/cumulus-relay-chain-rpc-interface),\nit affects node developers and the PR should include a prdoc file. Since\nthe crate is not v1 yet, I reckon prdoc should include `bump: minor`.",
-          "timestamp": "2025-08-27T13:55:11Z",
-          "tree_id": "337ee44b8294a43c32b5e779850b81585ab362b1",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/b7b7f0c50f6ce8bad7a7a3a10139e53714740b4e"
-        },
-        "date": 1756307319698,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.24606486033333,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19609591089999998,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 11.673126534500003,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@kchr.de",
+            "name": "Bastian Köcher",
+            "username": "bkchr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6417acacecd3c0c698faca8e7a5af7816655ab82",
+          "message": "Double max memory on block import (#11557)\n\nThere is a fixed memory budget for block production. Right now we run\nwith the same memory budget when importing a block. However, there is a\nbig difference between block production and block import. For block\nproduction we always create a new fresh wasm instance for each extrinsic\nand the entire memory is freed afterwards. For block import, we keep\neverything in memory and use one wasm instance. This can lead to issues\nfor big blocks which may use too much memory. So, this pull request\ndoubles the memory budget by 2x to what is available on block\nproduction. Given the default budget of 128 MiB and only having blocks\nof max ~16MiB, the extra 128MiB should be enough to hold everything in\nmemory.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Sebastian Kunert <skunert49@gmail.com>\nCo-authored-by: Sebastian Kunert <mail@skunert.dev>",
+          "timestamp": "2026-04-14T11:01:17Z",
+          "tree_id": "23a1351bebcb0170f0900d96b16268dd8a5192b0",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/6417acacecd3c0c698faca8e7a5af7816655ab82"
+        },
+        "date": 1776169442069,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.7874658707,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1175651097,
             "unit": "seconds"
           }
         ]

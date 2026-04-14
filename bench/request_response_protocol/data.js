@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776158627154,
+  "lastUpdate": 1776165477301,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -78083,6 +78083,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2819716676,
             "range": "± 68623028",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "paolo@parity.io",
+            "name": "Paolo La Camera",
+            "username": "sigurpol"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "8cd0f22d777ae13df502a2179dc7fa4f0978c9ea",
+          "message": "Redirect XCM delivery fees to DAP / DAP satellite on Westend chains (#11700)\n\nRoute XCM delivery fees to DAP satellite (or DAP on Asset Hub) instead\nof treasury on all Westend system chains: relay, asset-hub, bridge-hub,\ncoretime, collectives, people.\n\nFollow-up PR(s) will address remaining `TODO` linked to #11705.\n\nCloses #11410.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-14T10:11:09Z",
+          "tree_id": "d5d8f4dae4c0f7c1aebe75ba0fd2294518b5a154",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/8cd0f22d777ae13df502a2179dc7fa4f0978c9ea"
+        },
+        "date": 1776165455175,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18689622,
+            "range": "± 182303",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 19021443,
+            "range": "± 148691",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20602859,
+            "range": "± 94943",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 25500131,
+            "range": "± 262281",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 61089098,
+            "range": "± 1085165",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 372050761,
+            "range": "± 5867406",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2477907823,
+            "range": "± 138205201",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15510878,
+            "range": "± 380759",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15617616,
+            "range": "± 400191",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16355336,
+            "range": "± 444908",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21442186,
+            "range": "± 259624",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 71590378,
+            "range": "± 2344215",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 473405680,
+            "range": "± 6040407",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 3093781563,
+            "range": "± 154023308",
             "unit": "ns/iter"
           }
         ]

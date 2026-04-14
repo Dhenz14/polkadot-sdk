@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776155754309,
+  "lastUpdate": 1776159591186,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "ismailov.m.h@gmail.com",
-            "name": "muharem",
-            "username": "muharem"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "1a512570552119a49a8ecb2abfb7021954c4422d",
-          "message": "Society pallet supports non-consecutive block provider (#9497)\n\nSociety pallet supports non-consecutive block provider\n\nSociety pallet correctly handles situations where `on_initialize` is\ninvoked with block numbers that:\n- increase but are not strictly consecutive (e.g., jump from 5 → 10), or\n- are repeated (e.g., multiple blocks are built at the same Relay Chain\nparent block, all reporting the same BlockNumberProvider value).\n\nThis situation may occur when the BlockNumberProvider is not local - for\nexample, on a parachain using the Relay Chain block number provider.\n\n---------\n\nCo-authored-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>",
-          "timestamp": "2025-08-25T11:04:31Z",
-          "tree_id": "2d5738b63692aa5d082a7286608ad0a8ba3f9bdc",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/1a512570552119a49a8ecb2abfb7021954c4422d"
-        },
-        "date": 1756124798263,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 63622.71,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 52938.8,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.000022097399999999996,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.000022097399999999996,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.716384820181024,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.446390248840001,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.479740145130001,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.445677170110001,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.0055914103300000045,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.941558236869992,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.0000201668,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.0000201668,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.24087590236,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.43502926992000274,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.4868894211599994,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting-parallel/approval-voting-parallel-2",
             "value": 2.9253395950700014,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "73715684+Szegoo@users.noreply.github.com",
+            "name": "Sergej Sakac",
+            "username": "Szegoo"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ca40ef596465ea4e37823da7da1f5e2cf329f913",
+          "message": "Asset Hub Westend: Monetary guard track (#11736)\n\n## Summary\n\nAdds a dedicated `MonetaryGuard` governance track for fast circuit\nbreaker activation for PSM on Asset Hub Westend.\n\n### Changes\n\n- Adds `MonetaryGuard` custom origin and governance track (ID 16)\n- Updates `EnsurePsmManager` origin mapping:\n  - Root -> Full (all PSM operations)\n  - MonetaryGuard -> Emergency (circuit breaker only)\n\n### Track parameters\n\n| Parameter | Value |\n|---|---|\n| max_deciding | 3 |\n| decision_deposit | 500 WND |\n| prepare_period | 20 min |\n| decision_period | 20 min |\n| confirm_period | 4 min |\n| min_enactment | 1 min |\n\nNOTE: the periods and deposits are low for testing purposes\n\n---------\n\nCo-authored-by: muharem <ismailov.m.h@gmail.com>",
+          "timestamp": "2026-04-14T08:18:33Z",
+          "tree_id": "5938f7329b5ab5955e1b77fd95149411d0073005",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/ca40ef596465ea4e37823da7da1f5e2cf329f913"
+        },
+        "date": 1776159569320,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 52937,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 63624.58,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.9347958377699994,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005800054659999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.00002240262,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.000023764640000000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.921813327909954,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.9154310442800013,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.000023764640000000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.8689732013999985,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.8802174496900026,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.5116752332199868,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.472993400552914,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.804920506889966,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.00002240262,
             "unit": "seconds"
           }
         ]

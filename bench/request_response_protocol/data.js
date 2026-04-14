@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776168991405,
+  "lastUpdate": 1776174852739,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -78299,6 +78299,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2682619638,
             "range": "± 72753073",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49718502+alexggh@users.noreply.github.com",
+            "name": "Alexandru Gheorghe",
+            "username": "alexggh"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "54108b3cd17f8522aa13f94df25a95c30525f071",
+          "message": "statement-store: allow light clients to specify topic affinity (#11329)\n\n## Description\n\nAdd explicit topic affinity support to the statement protocol, allowing\nnodes to advertise at P2P level which statement topics they're\ninterested in. When a peer's affinity changes, relevant statements are\nre-sent.\n\nThe topic affinity is specified as a BloomFilter, all statements that\nmatch the filter are forwarded to new peers.\n\nCurrently, this is meant to be used by light clients like smoldot to\nreceive only the statements they are interested in. In the future, this\ncan also be used by statement store full nodes, but some other changes\nwill also be needed.\n\n##  Changes\n- Change the format of the message and introduce a new protocol\n\"statement/2\".\n```\nenum StatementMessage {\n\tStatements(Vec<Statement>),\n\t/// Bloom filter bytes representing the topics this peer is interested in.\n\tExplicitTopicAffinity(AffinityFilter),\n}\n```\n- Light client nodes connected on the new protocol need to also\nadvertise a topic affinity before they are receiving any statements.\n- If node define a topic affinity send them only the statements matching\nthat affinity.\n\n## TODO\n- [x] Integration testing of the new flow, tested with modify\n[node](https://github.com/paritytech/polkadot-sdk/commit/01460f4eb1a3b82fa7d00cb6db1a2194b8ab27fc#diff-21bd75369585eed301c19cf082010908ee6fa3c75a635da1bb8a8d3e6127f394R85)\n- [x] E2E integrations tests with smoldot:\nhttps://github.com/paritytech/polkadot-sdk/commit/e9a20b663e9a2e7a02321eec76990264a6ad7e4f.\n- [x] Rate limit Explicit Affinity\n\n---------\n\nSigned-off-by: Alexandru Gheorghe <alexandru.gheorghe@parity.io>\nCo-authored-by: Andrei Eres <eresav@me.com>",
+          "timestamp": "2026-04-14T12:29:36Z",
+          "tree_id": "523908122b5a97d22a7de56c9d0f529e02716b80",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/54108b3cd17f8522aa13f94df25a95c30525f071"
+        },
+        "date": 1776174832240,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 20719186,
+            "range": "± 188109",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 21318863,
+            "range": "± 183345",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 22487963,
+            "range": "± 168438",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 27262638,
+            "range": "± 305654",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 65626419,
+            "range": "± 738841",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 379484556,
+            "range": "± 13661435",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2533712571,
+            "range": "± 159967791",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 16720800,
+            "range": "± 1319739",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 17424431,
+            "range": "± 377024",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 17394804,
+            "range": "± 209938",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 22265247,
+            "range": "± 368088",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 62367988,
+            "range": "± 686479",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 374691876,
+            "range": "± 4819874",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2870682201,
+            "range": "± 40670263",
             "unit": "ns/iter"
           }
         ]

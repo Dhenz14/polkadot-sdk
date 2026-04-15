@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776267034712,
+  "lastUpdate": 1776282537074,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "claravanstaden64@gmail.com",
-            "name": "Clara van Staden",
-            "username": "claravanstaden"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "f87d061a195ff40d7e91b00c8c1e40a75140c2cb",
-          "message": "Snowbridge Westend runtime config cleanup (#9547)\n\nMinor cleanup to match Polkadot runtime config.",
-          "timestamp": "2025-08-29T08:34:30Z",
-          "tree_id": "1e8fe29aa15813b490bbc10bab20d60c7198d865",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/f87d061a195ff40d7e91b00c8c1e40a75140c2cb"
-        },
-        "date": 1756460771305,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0027465320299999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.00917544285999999,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005346878929999995,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-distribution",
             "value": 0.009477859649999993,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "bruno.devic@parity.io",
+            "name": "BDevParity",
+            "username": "BDevParity"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "9f6182fe1ef2a4bd2013571396999ddd4044a8ef",
+          "message": "[CI] Fix random job cancellations in combined publish workflows (#11703)\n\n## Summary\n\n- The combined publish workflows (`release-70`, `release-22`) call\nmultiple sub-workflows that each invoke `check-synchronization.yml`.\nThat reusable workflow has a concurrency group (`${{ github.repository\n}}-${{ github.workflow }}-${{ github.ref }}`) that evaluates to the\n**same value** for all callers within a single run, causing GitHub to\nrandomly cancel competing jobs.\n- PR #11631 attempted to fix this with `github.event_name ==\n'workflow_dispatch'` guards, but `github.event_name` propagates the\noriginal trigger through `workflow_call` chains, so the guard doesn't\nreliably skip the check.\n- This PR replaces that guard with an explicit `skip_sync_check` boolean\ninput. Combined workflows pass `skip_sync_check: true` since they\nalready run the check at the top level. Standalone dispatches default to\n`false`, preserving existing behavior.\n- Also removes the redundant `check-synchronization` job from\n`release-reusable-publish-packages.yml` (only ever called from workflows\nthat already perform the check).\n\nEvidence: [4 consecutive failed\nattempts](https://github.com/paritytech-release/polkadot-sdk/actions/runs/23787944175)\nwith different random jobs cancelled each time.\n\n## Issue\n\n- https://github.com/paritytech/release-engineering/issues/291\n\n---------\n\nCo-authored-by: Egor_P <egor@parity.io>",
+          "timestamp": "2026-04-15T18:02:46Z",
+          "tree_id": "476d14e5d739f6a66e36af53f32b47a9ad9a9c25",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/9f6182fe1ef2a4bd2013571396999ddd4044a8ef"
+        },
+        "date": 1776282514847,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009264422439999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.0026972762300000006,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009361121529999976,
             "unit": "seconds"
           }
         ]

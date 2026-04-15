@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776212196257,
+  "lastUpdate": 1776251317236,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "eresav@me.com",
-            "name": "Andrei Eres",
-            "username": "AndreiEres"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "930d4ca1b82fa52681f9607360a690506b277b54",
-          "message": "Fix regression benchmarks (#9044)\n\nCo-authored-by: Alexander Samusev <41779041+alvicsam@users.noreply.github.com>",
-          "timestamp": "2025-08-27T12:54:27Z",
-          "tree_id": "d15d13bb0172be70338d2f687eb2985e65f8e78c",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/930d4ca1b82fa52681f9607360a690506b277b54"
-        },
-        "date": 1756304259145,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0026435064999999996,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008546927909999986,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005041544189999992,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-coordinator",
             "value": 0.0026474168600000006,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5e15555a5c52e422d12bca05dbfaf7e0f425f75c",
+          "message": "Bump westend runtimes spec_versions (#11757)\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
+          "timestamp": "2026-04-15T09:46:10Z",
+          "tree_id": "5c750c7d6797db721a1bd172049d7d189645e391",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/5e15555a5c52e422d12bca05dbfaf7e0f425f75c"
+        },
+        "date": 1776251295003,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.0026580341800000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009226784269999986,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009064809739999999,
             "unit": "seconds"
           }
         ]

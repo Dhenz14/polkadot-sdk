@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776282506183,
+  "lastUpdate": 1776285011957,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "ismailov.m.h@gmail.com",
-            "name": "muharem",
-            "username": "muharem"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "27519874677950b3cb8a3aea4116bbdfcbb69a22",
-          "message": "Society pallet: Make fields of storage-persisted types public (#9604)\n\nSociety pallet: Make fields of storage-persisted types public.\n\nFields of types persisted in storage have been made public.",
-          "timestamp": "2025-08-29T13:21:51Z",
-          "tree_id": "961e5ef109e6333061079cc1c61094ba014c326e",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/27519874677950b3cb8a3aea4116bbdfcbb69a22"
-        },
-        "date": 1756478069270,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.94999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.033975173970000015,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04455861621799992,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.08522080318599995,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "OmarAbdulla7@hotmail.com",
+            "name": "Omar",
+            "username": "0xOmarA"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ae622e0fec600867debead185c5017fffd53c4c2",
+          "message": "Support State Overrides in Tracing (#11581)\n\n# Description\n\nAdds support for [Geth-compatible state\noverrides](https://geth.ethereum.org/docs/interacting-with-geth/rpc/objects#state-override-set)\nin `debug_traceCall`, extending the state override support introduced in\n#11545 (which added them to `eth_call`).\n\nPer the [Geth\nspecification](https://geth.ethereum.org/docs/interacting-with-geth/rpc/ns-debug#debugtracecall),\n`debug_traceCall` accepts a config object that is a superset of the base\ntracer config, adding `stateOverrides` for ephemerally modifying account\nstate during traced execution.\n\n## Changes\n\n### Pallet (`pallet-revive`)\n\n- **`TracingConfig` type** — New backwards-compatible config type\nfollowing the same pattern as `DryRunConfig` from #11545 (custom\n`Decode` impl, append-only fields, must be the last runtime API\nargument).\n- **`trace_call_with_config` runtime API** — New method that applies\nstate overrides then delegates to the existing `trace_call`. Implemented\nin the macro so it can call `Self::trace_call` directly.\n- **`state_overrides` module** made `#[doc(hidden)] pub` so the\nmacro-generated code can access it from downstream runtime crates.\n\n### ETH-RPC (`pallet-revive-eth-rpc`)\n\n- **`TraceCallConfig` type** — Extends `TracerConfig` (flattened) with\nan optional `stateOverrides` field, matching Geth's `TraceCallConfig`\nschema.\n- **`debug_traceCall`** signature updated to accept\n`Option<TraceCallConfig>`. When state overrides are present, the RPC\nuses `trace_call_with_config`; otherwise it falls back to `trace_call`\nfor backwards compatibility with older runtimes.\n\n## Integration\n\nExisting `debug_traceCall` callers are unaffected — the config parameter\nremains optional, and omitting `stateOverrides` uses the original code\npath. Callers wanting state overrides pass them in the config object\nalongside the tracer settings:\n\n```json\n{\n  \"tracer\": \"callTracer\",\n  \"stateOverrides\": {\n    \"0x1234...\": {\n      \"balance\": \"0xDE0B6B3A7640000\",\n      \"code\": \"0x6080...\"\n    }\n  }\n}\n```\n\n## Review Notes\n\n- `TracingConfig` mirrors `DryRunConfig`'s backwards compatibility\nstrategy documented in #11545. The custom `Decode` impl defaults missing\nfields, and `sp_api`'s `Decode::decode` (not `decode_all`) discards\ntrailing bytes from newer encodings.\n- The macro impl applies overrides before delegating to\n`Self::trace_call`, keeping the tracing logic in one place.\n- A single integration test (`test_state_override_trace_call`) verifies\nend-to-end functionality using alloy's\n`DebugApi::debug_trace_call_callframe` with state overrides.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-15T18:22:26Z",
+          "tree_id": "0b4889ad70b67f6483e02d84dd42c10315d8e2bd",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/ae622e0fec600867debead185c5017fffd53c4c2"
+        },
+        "date": 1776284992141,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.07399999999998,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.07833954016199991,
+            "unit": "seconds"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038382583241999994,
             "unit": "seconds"
           }
         ]

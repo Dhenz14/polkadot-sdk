@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776251196751,
+  "lastUpdate": 1776260598159,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "serban@parity.io",
-            "name": "Serban Iorga",
-            "username": "serban300"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "33819101a1a465d31303b9e97d55b24e0d6902a3",
-          "message": "Fix `check_hrmp_message_metadata()` (#9602)\n\nWe need to update `maybe_prev_msg_metadata` inside\n`check_hrmp_message_metadata()`\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-08-29T14:33:15Z",
-          "tree_id": "c8fbda75bdd1620aaead47bebd7a70da1a6ca53f",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/33819101a1a465d31303b9e97d55b24e0d6902a3"
-        },
-        "date": 1756482262733,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.1980966986333333,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.237339110966667,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 11.765787261366665,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@kchr.de",
+            "name": "Bastian Köcher",
+            "username": "bkchr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "dcdeff430bc51f4056c9219a9723c375c7adb7ff",
+          "message": "Compile Zombienet Tests in release mode (#11765)\n\nRevert the unrelated wasm-builder changes.",
+          "timestamp": "2026-04-15T12:14:38Z",
+          "tree_id": "ea2dc5b1a0f8754fb387070f4f4a34307056200d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/dcdeff430bc51f4056c9219a9723c375c7adb7ff"
+        },
+        "date": 1776260576741,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.668227676333334,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13219063333333333,
             "unit": "seconds"
           }
         ]

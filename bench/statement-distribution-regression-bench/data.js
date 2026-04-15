@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776285011957,
+  "lastUpdate": 1776289146299,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "serban@parity.io",
-            "name": "Serban Iorga",
-            "username": "serban300"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "33819101a1a465d31303b9e97d55b24e0d6902a3",
-          "message": "Fix `check_hrmp_message_metadata()` (#9602)\n\nWe need to update `maybe_prev_msg_metadata` inside\n`check_hrmp_message_metadata()`\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-08-29T14:33:15Z",
-          "tree_id": "c8fbda75bdd1620aaead47bebd7a70da1a6ca53f",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/33819101a1a465d31303b9e97d55b24e0d6902a3"
-        },
-        "date": 1756482345679,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.95599999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03419493666,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.044513619353999896,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.038382583241999994,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "OmarAbdulla7@hotmail.com",
+            "name": "Omar",
+            "username": "0xOmarA"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3768df0fc7a42419e1774bda79031cceec130020",
+          "message": "pallet-revive: expose pre-dispatch weight runtime API (#11710)\n\n# Description\n\nThis PR adds a new `pallet-revive` runtime API for computing the booked\npre-dispatch weight of an\nEthereum transaction from its signed payload bytes.\n\nThe new API decodes the signed Ethereum transaction payload, converts it\ninto the inner revive\ncall, and returns the same per-extrinsic weight contribution that\n`frame_system::CheckWeight`\nbooks:\n\n- `dispatch_info.total_weight()` including extension weight\n- the dispatch class `base_extrinsic`\n- the length-based proof-size charge\n\nThis is intended to expose the actual booked pre-dispatch weight for\nbenchmarking and analysis,\nwithout reconstructing the outer transaction from a\n`GenericTransaction`.\n\n## Integration\n\nThis changes the `ReviveApi` runtime API surface by adding:\n\n```rust\nfn eth_pre_dispatch_weight(tx: Vec<u8>) -> Result<Weight, EthTransactError>;\n```\n\nDownstream consumers of `ReviveApi` will need regenerated metadata or\nupdated runtime API bindings\nto call the new method.\n\nThe method expects the signed Ethereum transaction payload bytes, not a\n`GenericTransaction`. This\nis important because the outer transaction length contributes to\nproof-size booking and should come\nfrom the real signed payload.\n\nThere is no storage migration and no change to dispatch behavior.\n\n## Review Notes\n\nImplementation details:\n\n- the new pallet helper decodes `TransactionSigned` from the provided\npayload\n- it recovers the signer address and builds the `GenericTransaction`\nfrom the signed tx\n- it computes the actual outer `eth_transact` encoded length from the\nprovided payload\n- it reuses `into_call(CreateCallMode::ExtrinsicExecution(...))` to\nconstruct the inner revive call\n- it returns:\n\n```rust\ndispatch_info.total_weight()\n+ base_extrinsic\n+ Weight::from_parts(0, encoded_len)\n```\n\nThe PR also adds a regression test,\n`eth_pre_dispatch_weight_matches_check_weight_booking`, which\nchecks that the new API returns the same booked weight that\n`CheckWeight` would account for.\n\nExample usage:\n\n```rust\nlet weight = runtime_api.eth_pre_dispatch_weight(signed_tx_bytes)?;\n```\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-15T20:15:07Z",
+          "tree_id": "08406ec206a8a98516dba720f867ada870fe9abd",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/3768df0fc7a42419e1774bda79031cceec130020"
+        },
+        "date": 1776289124315,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.062,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.03894106030399999,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.09046799609199992,
             "unit": "seconds"
           }
         ]

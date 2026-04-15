@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776282415590,
+  "lastUpdate": 1776284934353,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "pgherveou@gmail.com",
-            "name": "PG Herveou",
-            "username": "pgherveou"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "c5b4afcaea03367ff56062834fbe258489e74fa1",
-          "message": "[pallet-revive] Update genesis config (#9557)\n\nUpdate pallet-revive Genesis config\nMake it possible to define accounts (contracts or EOA) that we want to\nsetup at Genesis\n\n---------\n\nSigned-off-by: Cyrill Leutwiler <bigcyrill@hotmail.com>\nSigned-off-by: xermicus <cyrill@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Alexander Theißen <alex.theissen@me.com>\nCo-authored-by: xermicus <cyrill@parity.io>\nCo-authored-by: 0xRVE <robertvaneerdewijk@gmail.com>\nCo-authored-by: Robert van Eerdewijk <robert@Roberts-MacBook-Pro.local>",
-          "timestamp": "2025-09-02T07:40:25Z",
-          "tree_id": "6df31dbaa2e64663ba4d7c118e8872f85e26a68a",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/c5b4afcaea03367ff56062834fbe258489e74fa1"
-        },
-        "date": 1756803317289,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.266968340899997,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19870221750000003,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.12748095706666668,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "OmarAbdulla7@hotmail.com",
+            "name": "Omar",
+            "username": "0xOmarA"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ae622e0fec600867debead185c5017fffd53c4c2",
+          "message": "Support State Overrides in Tracing (#11581)\n\n# Description\n\nAdds support for [Geth-compatible state\noverrides](https://geth.ethereum.org/docs/interacting-with-geth/rpc/objects#state-override-set)\nin `debug_traceCall`, extending the state override support introduced in\n#11545 (which added them to `eth_call`).\n\nPer the [Geth\nspecification](https://geth.ethereum.org/docs/interacting-with-geth/rpc/ns-debug#debugtracecall),\n`debug_traceCall` accepts a config object that is a superset of the base\ntracer config, adding `stateOverrides` for ephemerally modifying account\nstate during traced execution.\n\n## Changes\n\n### Pallet (`pallet-revive`)\n\n- **`TracingConfig` type** — New backwards-compatible config type\nfollowing the same pattern as `DryRunConfig` from #11545 (custom\n`Decode` impl, append-only fields, must be the last runtime API\nargument).\n- **`trace_call_with_config` runtime API** — New method that applies\nstate overrides then delegates to the existing `trace_call`. Implemented\nin the macro so it can call `Self::trace_call` directly.\n- **`state_overrides` module** made `#[doc(hidden)] pub` so the\nmacro-generated code can access it from downstream runtime crates.\n\n### ETH-RPC (`pallet-revive-eth-rpc`)\n\n- **`TraceCallConfig` type** — Extends `TracerConfig` (flattened) with\nan optional `stateOverrides` field, matching Geth's `TraceCallConfig`\nschema.\n- **`debug_traceCall`** signature updated to accept\n`Option<TraceCallConfig>`. When state overrides are present, the RPC\nuses `trace_call_with_config`; otherwise it falls back to `trace_call`\nfor backwards compatibility with older runtimes.\n\n## Integration\n\nExisting `debug_traceCall` callers are unaffected — the config parameter\nremains optional, and omitting `stateOverrides` uses the original code\npath. Callers wanting state overrides pass them in the config object\nalongside the tracer settings:\n\n```json\n{\n  \"tracer\": \"callTracer\",\n  \"stateOverrides\": {\n    \"0x1234...\": {\n      \"balance\": \"0xDE0B6B3A7640000\",\n      \"code\": \"0x6080...\"\n    }\n  }\n}\n```\n\n## Review Notes\n\n- `TracingConfig` mirrors `DryRunConfig`'s backwards compatibility\nstrategy documented in #11545. The custom `Decode` impl defaults missing\nfields, and `sp_api`'s `Decode::decode` (not `decode_all`) discards\ntrailing bytes from newer encodings.\n- The macro impl applies overrides before delegating to\n`Self::trace_call`, keeping the tracing logic in one place.\n- A single integration test (`test_state_override_trace_call`) verifies\nend-to-end functionality using alloy's\n`DebugApi::debug_trace_call_callframe` with state overrides.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-15T18:22:26Z",
+          "tree_id": "0b4889ad70b67f6483e02d84dd42c10315d8e2bd",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/ae622e0fec600867debead185c5017fffd53c4c2"
+        },
+        "date": 1776284913983,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.889796837166665,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1346310448,
             "unit": "seconds"
           }
         ]

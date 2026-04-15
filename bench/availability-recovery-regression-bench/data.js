@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776186498003,
+  "lastUpdate": 1776212073583,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "claravanstaden64@gmail.com",
-            "name": "Clara van Staden",
-            "username": "claravanstaden"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "f87d061a195ff40d7e91b00c8c1e40a75140c2cb",
-          "message": "Snowbridge Westend runtime config cleanup (#9547)\n\nMinor cleanup to match Polkadot runtime config.",
-          "timestamp": "2025-08-29T08:34:30Z",
-          "tree_id": "1e8fe29aa15813b490bbc10bab20d60c7198d865",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/f87d061a195ff40d7e91b00c8c1e40a75140c2cb"
-        },
-        "date": 1756460661284,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.233632660866668,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19770786760000006,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.13478191816666665,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "evgeny@parity.io",
+            "name": "Evgeny Snitko",
+            "username": "AndWeHaveAPlan"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b9447f0539360174e040ecf41d6213d98a2114cb",
+          "message": "Update ci-unified version in .github/env (#11711)\n\nforklift 0.16.0, fixed https://github.com/paritytech/forklift/issues/30\n\nCo-authored-by: Bastian Köcher <git@kchr.de>",
+          "timestamp": "2026-04-14T22:54:59Z",
+          "tree_id": "2d178ab11d1a3838e812111e0119b6d295f45447",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/b9447f0539360174e040ecf41d6213d98a2114cb"
+        },
+        "date": 1776212051449,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.807096642633335,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1153939481,
             "unit": "seconds"
           }
         ]

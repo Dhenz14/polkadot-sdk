@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776281630060,
+  "lastUpdate": 1776284002708,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -79271,6 +79271,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 3047674718,
             "range": "± 124763362",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "OmarAbdulla7@hotmail.com",
+            "name": "Omar",
+            "username": "0xOmarA"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ae622e0fec600867debead185c5017fffd53c4c2",
+          "message": "Support State Overrides in Tracing (#11581)\n\n# Description\n\nAdds support for [Geth-compatible state\noverrides](https://geth.ethereum.org/docs/interacting-with-geth/rpc/objects#state-override-set)\nin `debug_traceCall`, extending the state override support introduced in\n#11545 (which added them to `eth_call`).\n\nPer the [Geth\nspecification](https://geth.ethereum.org/docs/interacting-with-geth/rpc/ns-debug#debugtracecall),\n`debug_traceCall` accepts a config object that is a superset of the base\ntracer config, adding `stateOverrides` for ephemerally modifying account\nstate during traced execution.\n\n## Changes\n\n### Pallet (`pallet-revive`)\n\n- **`TracingConfig` type** — New backwards-compatible config type\nfollowing the same pattern as `DryRunConfig` from #11545 (custom\n`Decode` impl, append-only fields, must be the last runtime API\nargument).\n- **`trace_call_with_config` runtime API** — New method that applies\nstate overrides then delegates to the existing `trace_call`. Implemented\nin the macro so it can call `Self::trace_call` directly.\n- **`state_overrides` module** made `#[doc(hidden)] pub` so the\nmacro-generated code can access it from downstream runtime crates.\n\n### ETH-RPC (`pallet-revive-eth-rpc`)\n\n- **`TraceCallConfig` type** — Extends `TracerConfig` (flattened) with\nan optional `stateOverrides` field, matching Geth's `TraceCallConfig`\nschema.\n- **`debug_traceCall`** signature updated to accept\n`Option<TraceCallConfig>`. When state overrides are present, the RPC\nuses `trace_call_with_config`; otherwise it falls back to `trace_call`\nfor backwards compatibility with older runtimes.\n\n## Integration\n\nExisting `debug_traceCall` callers are unaffected — the config parameter\nremains optional, and omitting `stateOverrides` uses the original code\npath. Callers wanting state overrides pass them in the config object\nalongside the tracer settings:\n\n```json\n{\n  \"tracer\": \"callTracer\",\n  \"stateOverrides\": {\n    \"0x1234...\": {\n      \"balance\": \"0xDE0B6B3A7640000\",\n      \"code\": \"0x6080...\"\n    }\n  }\n}\n```\n\n## Review Notes\n\n- `TracingConfig` mirrors `DryRunConfig`'s backwards compatibility\nstrategy documented in #11545. The custom `Decode` impl defaults missing\nfields, and `sp_api`'s `Decode::decode` (not `decode_all`) discards\ntrailing bytes from newer encodings.\n- The macro impl applies overrides before delegating to\n`Self::trace_call`, keeping the tracing logic in one place.\n- A single integration test (`test_state_override_trace_call`) verifies\nend-to-end functionality using alloy's\n`DebugApi::debug_trace_call_callframe` with state overrides.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-15T18:22:26Z",
+          "tree_id": "0b4889ad70b67f6483e02d84dd42c10315d8e2bd",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/ae622e0fec600867debead185c5017fffd53c4c2"
+        },
+        "date": 1776283981083,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18224449,
+            "range": "± 119597",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18606379,
+            "range": "± 95132",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20118971,
+            "range": "± 121282",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24503800,
+            "range": "± 101676",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 57509661,
+            "range": "± 876486",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 332203635,
+            "range": "± 8267570",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2690491224,
+            "range": "± 47728346",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15154267,
+            "range": "± 366999",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15090757,
+            "range": "± 111600",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 15953941,
+            "range": "± 205106",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20345015,
+            "range": "± 208091",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 58288906,
+            "range": "± 1607509",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 392439269,
+            "range": "± 8791397",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 3020112186,
+            "range": "± 69321271",
             "unit": "ns/iter"
           }
         ]

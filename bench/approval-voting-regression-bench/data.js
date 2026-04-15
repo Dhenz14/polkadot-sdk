@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776282475691,
+  "lastUpdate": 1776284986167,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "pgherveou@gmail.com",
-            "name": "PG Herveou",
-            "username": "pgherveou"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "40cd38db9e3a758e80af28ba2aa9f6420173ee65",
-          "message": "[revive] revm backend (#9285)\n\n# EVM initial support  for pallet-revive\n\nInitial EVM support via the REVM crate to create a dual-VM system that\ncan execute both PolkaVM and EVM\n\n- Added `AllowEVMBytecode: Get<bool>` to the config to enable/disable\nEVM call and instantiation\n- CodeInfo has been updated to add the type of bytecode (EVM / PVM).\n`migration/v2.rs` takes care of migrating existing storages\n- The CodeUploadDeposit is not held by a pallet account instead of being\nheld on the uploader, It's automatically refunded when the refcount\ndrops to 0 and the code is removed.\n- The basic flow of uploading an EVM contract and running it should work\n- instructions are copied and adapted from REVM they should be ignored\nin this PR and reviewed in follow-up PR\n(**reviewers** please ignore\n`substrate/frame/revive/src/vm/evm/instructions/*` for now)\n\n## Implementation Guidelines\n\n### Basic Instruction Structure\nA basic instruction looks like this:\n\n```rust\npub fn coinbase<'ext, E: Ext>(context: Context<'_, 'ext, E>) {\n\tgas_legacy!(context.interpreter, revm_gas::BASE);\n\tpush!(context.interpreter, context.host.beneficiary().into_word().into());\n}\n```\n\n### Required Changes for REVM Instructions\n\nAll instructions have been copied from `REVM` and updated with generic\ntypes for pallet-revive. Two main changes are required:\n\n#### 1. Gas Handling\nReplace REVM gas calls with existing benchmarks where available:\n\n```diff\n- gas_legacy!(context.interpreter, revm_gas::BASE);\n+ gas!(context.interpreter, RuntimeCosts::BlockAuthor);\n```\n\n#### 2. Context Access\nReplace `context.host` calls with `context.extend` (set to `&mut Ext`):\n\n```diff\n- push!(context.interpreter, context.host.beneficiary().into_word().into());\n+ let coinbase: Address = context.interpreter.extend.block_author().unwrap_or_default().0.into();\n+ push!(context.interpreter, coinbase.into_word().into());\n```\n\n### Gas Benchmarking Notes\n- For cases without existing benchmarks (e.g arithmetic, bitwise) , we\nwill keep `gas_legacy!`\n- The u64 gas value are multiplied by a base cost benchmarked by\n`evm_opcode`\n\n- ### Important Rules\n- All calls to `context.host` should be removed (initialized to default\nvalues)\n- All calls to `context.interpreter.gas` should be removed (except\n`gas.memory` handled by `resize_memory!` macro)\n- See `block_number` implementation as a reference example\n\nThe following instructions in src/vm/evm/instructions/** need to be\nupdated\n\n### Basic Instructions\n\nWe probably don't need to touch these implementations here, they use the\ngas_legacy! macro to charge a low gas value that will be scaled with our\ngas_to_weight benchmark. The only thing needed here are tests that\nexercise these instructions\n\n<details>\n\n#### Arithmetic Instructions\n\n- [ ] **add**\n- [ ] **mul**\n- [ ] **sub**\n- [ ] **div**\n- [ ] **sdiv**\n- [ ] **rem**\n- [ ] **smod**\n- [ ] **addmod**\n- [ ] **mulmod**\n- [ ] **exp**\n- [ ] **signextend**\n\n#### Bitwise Instructions\n\n- [ ] **lt**\n- [ ] **gt**\n- [ ] **slt**\n- [ ] **sgt**\n- [ ] **eq**\n- [ ] **iszero**\n- [ ] **bitand**\n- [ ] **bitor**\n- [ ] **bitxor**\n- [ ] **not**\n- [ ] **byte**\n- [ ] **shl**\n- [ ] **shr**\n- [ ] **sar**\n- [ ] **clz**\n\n#### Control Flow Instructions\n\n- [ ] **jump**\n- [ ] **jumpi**\n- [ ] **jumpdest**\n- [ ] **pc**\n- [ ] **stop**\n- [ ] **ret**\n- [ ] **revert**\n- [ ] **invalid**\n\n### Memory Instructions\n- [ ] **mload**\n- [ ] **mstore**\n- [ ] **mstore8**\n- [ ] **msize**\n- [ ] **mcopy**\n\n#### Stack Instructions\n- [ ] **pop**\n- [ ] **push0**\n- [ ] **push**\n- [ ] **dup**\n- [ ] **swap**\n\n</details>\n\n### Sys calls instructions\n\nThese instructions should be updated from using gas_legacy! to gas! with\nthe appropriate RuntimeCost, the returned value need to be pulled from\nour `&mut Ext` ctx.interpreter.extend instead of the host or input\ncontext value\n\n<details>\n\n#### Block Info Instructions\n\n- [x] **block_number**\n- [ ] **coinbase**\n- [ ] **timestamp**\n- [ ] **difficulty**\n- [ ] **gaslimit**\n- [ ] **chainid**\n- [ ] **basefee**\n- [ ] **blob_basefee**\n\n#### Host Instructions\n\n- [ ] **balance**\n- [ ] **extcodesize**\n- [ ] **extcodecopy**\n- [ ] **extcodehash**\n- [ ] **blockhash**\n- [ ] **sload**\n- [ ] **sstore**\n- [ ] **tload**\n- [ ] **tstore**\n- [ ] **log**\n- [ ] **selfdestruct**\n- [ ] **selfbalance**\n\n#### System Instructions\n- [ ] **keccak256**\n- [ ] **address**\n- [ ] **caller**\n- [ ] **callvalue**\n- [ ] **calldataload**\n- [ ] **calldatasize**\n- [ ] **calldatacopy**\n- [ ] **codesize**\n- [ ] **codecopy**\n- [ ] **returndatasize**\n- [ ] **returndatacopy**\n- [ ] **gas**\n\n#### Transaction Info Instructions\n- [ ] **origin**\n- [ ] **gasprice**\n- [ ] **blob_hash**\n\n</details>\n\n### Contract Instructions\n\nThese instructions should be updated,, that's where I expect the most\ncode change in the instruction implementation.\nSee how it's done in vm/pvm module, the final result should look pretty\nsimilar to what we are doing there with the addition of custom gas_limit\ncalculation that works with our gas model.\n\nsee also example code here https://github.com/paritytech/revm_example\n\n<details>\n\n- [ ] **create**\n- [ ] **create**\n- [ ] **call**\n- [ ] **call_code**\n- [ ] **delegate_call**\n- [ ] **static_call**\n\n</details>\n\n---------\n\nSigned-off-by: Cyrill Leutwiler <bigcyrill@hotmail.com>\nSigned-off-by: xermicus <cyrill@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Alexander Theißen <alex.theissen@me.com>\nCo-authored-by: xermicus <cyrill@parity.io>\nCo-authored-by: 0xRVE <robertvaneerdewijk@gmail.com>\nCo-authored-by: Robert van Eerdewijk <robert@Roberts-MacBook-Pro.local>",
-          "timestamp": "2025-09-01T09:50:02Z",
-          "tree_id": "d9b8743fb3951843e2e35b32fbb2ebaedd43cbef",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/40cd38db9e3a758e80af28ba2aa9f6420173ee65"
-        },
-        "date": 1756724381647,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52936.8,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63627.85000000001,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.00002134945,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.498609879980001,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.549470913279999,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.0055444121600000005,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.4999925275099986,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.718247560220831,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.4281022182200006,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9704598173399852,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.499426775520001,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.00002241699,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.00002134945,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.00002241699,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.451606544009984,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting-parallel/approval-voting-gather-signatures",
             "value": 0.005673635330000001,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "OmarAbdulla7@hotmail.com",
+            "name": "Omar",
+            "username": "0xOmarA"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ae622e0fec600867debead185c5017fffd53c4c2",
+          "message": "Support State Overrides in Tracing (#11581)\n\n# Description\n\nAdds support for [Geth-compatible state\noverrides](https://geth.ethereum.org/docs/interacting-with-geth/rpc/objects#state-override-set)\nin `debug_traceCall`, extending the state override support introduced in\n#11545 (which added them to `eth_call`).\n\nPer the [Geth\nspecification](https://geth.ethereum.org/docs/interacting-with-geth/rpc/ns-debug#debugtracecall),\n`debug_traceCall` accepts a config object that is a superset of the base\ntracer config, adding `stateOverrides` for ephemerally modifying account\nstate during traced execution.\n\n## Changes\n\n### Pallet (`pallet-revive`)\n\n- **`TracingConfig` type** — New backwards-compatible config type\nfollowing the same pattern as `DryRunConfig` from #11545 (custom\n`Decode` impl, append-only fields, must be the last runtime API\nargument).\n- **`trace_call_with_config` runtime API** — New method that applies\nstate overrides then delegates to the existing `trace_call`. Implemented\nin the macro so it can call `Self::trace_call` directly.\n- **`state_overrides` module** made `#[doc(hidden)] pub` so the\nmacro-generated code can access it from downstream runtime crates.\n\n### ETH-RPC (`pallet-revive-eth-rpc`)\n\n- **`TraceCallConfig` type** — Extends `TracerConfig` (flattened) with\nan optional `stateOverrides` field, matching Geth's `TraceCallConfig`\nschema.\n- **`debug_traceCall`** signature updated to accept\n`Option<TraceCallConfig>`. When state overrides are present, the RPC\nuses `trace_call_with_config`; otherwise it falls back to `trace_call`\nfor backwards compatibility with older runtimes.\n\n## Integration\n\nExisting `debug_traceCall` callers are unaffected — the config parameter\nremains optional, and omitting `stateOverrides` uses the original code\npath. Callers wanting state overrides pass them in the config object\nalongside the tracer settings:\n\n```json\n{\n  \"tracer\": \"callTracer\",\n  \"stateOverrides\": {\n    \"0x1234...\": {\n      \"balance\": \"0xDE0B6B3A7640000\",\n      \"code\": \"0x6080...\"\n    }\n  }\n}\n```\n\n## Review Notes\n\n- `TracingConfig` mirrors `DryRunConfig`'s backwards compatibility\nstrategy documented in #11545. The custom `Decode` impl defaults missing\nfields, and `sp_api`'s `Decode::decode` (not `decode_all`) discards\ntrailing bytes from newer encodings.\n- The macro impl applies overrides before delegating to\n`Self::trace_call`, keeping the tracing logic in one place.\n- A single integration test (`test_state_override_trace_call`) verifies\nend-to-end functionality using alloy's\n`DebugApi::debug_trace_call_callframe` with state overrides.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-15T18:22:26Z",
+          "tree_id": "0b4889ad70b67f6483e02d84dd42c10315d8e2bd",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/ae622e0fec600867debead185c5017fffd53c4c2"
+        },
+        "date": 1776284966154,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 52944.59999999999,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 63628.71,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.77286848035996,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.914573667199999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.00002561171,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.00002561171,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.000023980170000000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.765227143379956,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005214469659999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.000023980170000000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.8878056938500003,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.8612625554200015,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.4835813658899957,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.398104292562841,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.8399209110000014,
             "unit": "seconds"
           }
         ]

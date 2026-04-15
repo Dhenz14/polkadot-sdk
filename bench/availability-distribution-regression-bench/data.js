@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776260628135,
+  "lastUpdate": 1776263815906,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "serban@parity.io",
-            "name": "Serban Iorga",
-            "username": "serban300"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "33819101a1a465d31303b9e97d55b24e0d6902a3",
-          "message": "Fix `check_hrmp_message_metadata()` (#9602)\n\nWe need to update `maybe_prev_msg_metadata` inside\n`check_hrmp_message_metadata()`\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-08-29T14:33:15Z",
-          "tree_id": "c8fbda75bdd1620aaead47bebd7a70da1a6ca53f",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/33819101a1a465d31303b9e97d55b24e0d6902a3"
-        },
-        "date": 1756482289715,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022321774346666667,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007574676919999976,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.1568677002066667,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.01301714332,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.009555074833333316,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "73715684+Szegoo@users.noreply.github.com",
+            "name": "Sergej Sakac",
+            "username": "Szegoo"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0688fe97808b6bff442115868beba51c3e1b9f64",
+          "message": "Fix PSM storage migration (#11770)\n\n## Summary\n\nFixes the PSM migration to run on first deployment by replacing the\nversioned `MigrateToV1` with an idempotent `InitializePsm`.\n\n### Problem\n\nWhen a pallet is first added to a runtime, `BeforeAllRuntimeMigrations`\ninitializes the on-chain storage version to the pallet's in-code\nversion. With `STORAGE_VERSION = 1`, the on-chain version was set to `1`\nbefore `MigrateToV1` ran. Since `VersionedMigration<0, 1>` only executes\nwhen the on-chain version is `0`, the migration was skipped, leaving the\nPSM unconfigured (no external assets, no fees, no ceiling weights).\n\n### Fix\n\nReplace `MigrateToV1` (versioned) with `InitializePsm` (idempotent).\nInstead of relying on storage versions, it checks whether each external\nasset already exists and skips it if so. Safe to run multiple times.\n\n### Tests\n\n- `initialize_psm_configures_new_assets` — fresh deployment configures\nall assets\n- `initialize_psm_skips_existing_assets` — already-configured assets are\nnot overwritten\n- `initialize_psm_is_idempotent` — running twice produces the same\nresult",
+          "timestamp": "2026-04-15T13:14:29Z",
+          "tree_id": "c71f0d1937252f90a3a5c3dcbbccd12e8e5886c4",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/0688fe97808b6bff442115868beba51c3e1b9f64"
+        },
+        "date": 1776263794109,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.02538368507333333,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007274470279999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009479326946666646,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.1405891151466667,
             "unit": "seconds"
           }
         ]

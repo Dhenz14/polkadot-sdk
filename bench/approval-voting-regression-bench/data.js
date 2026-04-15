@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776284986167,
+  "lastUpdate": 1776289114160,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "eresav@me.com",
-            "name": "Andrei Eres",
-            "username": "AndreiEres"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "44416758c410cad2c7c2adee09c18f99b1f92d02",
-          "message": "[pallet-revive] Expose `AccountInfo` and `ContractInfo` in the public interface (#9606)\n\n# Description\n\nPart of https://github.com/paritytech/polkadot-sdk/issues/9553\nSee https://github.com/paritytech/foundry-polkadot/issues/276\n\nExposes revive types to use in foundry-polkadot project.\n\n## Integration\n\nShould not affect downstream projects.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-01T11:45:58Z",
-          "tree_id": "28f5c5c2c78d69f2bc31a51ad855fe79a9d5a4a0",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/44416758c410cad2c7c2adee09c18f99b1f92d02"
-        },
-        "date": 1756731852200,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52942.90000000001,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63620.83,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.000020791160000000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.499354453009999,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.530027154840002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.000020791160000000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000019734,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.399643903869997,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000019734,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005503668200000006,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.49486035781,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9363536325899982,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.43577721282999643,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.4977674245899992,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.674139501870866,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting-parallel/approval-voting-parallel-1",
             "value": 2.8399209110000014,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "OmarAbdulla7@hotmail.com",
+            "name": "Omar",
+            "username": "0xOmarA"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3768df0fc7a42419e1774bda79031cceec130020",
+          "message": "pallet-revive: expose pre-dispatch weight runtime API (#11710)\n\n# Description\n\nThis PR adds a new `pallet-revive` runtime API for computing the booked\npre-dispatch weight of an\nEthereum transaction from its signed payload bytes.\n\nThe new API decodes the signed Ethereum transaction payload, converts it\ninto the inner revive\ncall, and returns the same per-extrinsic weight contribution that\n`frame_system::CheckWeight`\nbooks:\n\n- `dispatch_info.total_weight()` including extension weight\n- the dispatch class `base_extrinsic`\n- the length-based proof-size charge\n\nThis is intended to expose the actual booked pre-dispatch weight for\nbenchmarking and analysis,\nwithout reconstructing the outer transaction from a\n`GenericTransaction`.\n\n## Integration\n\nThis changes the `ReviveApi` runtime API surface by adding:\n\n```rust\nfn eth_pre_dispatch_weight(tx: Vec<u8>) -> Result<Weight, EthTransactError>;\n```\n\nDownstream consumers of `ReviveApi` will need regenerated metadata or\nupdated runtime API bindings\nto call the new method.\n\nThe method expects the signed Ethereum transaction payload bytes, not a\n`GenericTransaction`. This\nis important because the outer transaction length contributes to\nproof-size booking and should come\nfrom the real signed payload.\n\nThere is no storage migration and no change to dispatch behavior.\n\n## Review Notes\n\nImplementation details:\n\n- the new pallet helper decodes `TransactionSigned` from the provided\npayload\n- it recovers the signer address and builds the `GenericTransaction`\nfrom the signed tx\n- it computes the actual outer `eth_transact` encoded length from the\nprovided payload\n- it reuses `into_call(CreateCallMode::ExtrinsicExecution(...))` to\nconstruct the inner revive call\n- it returns:\n\n```rust\ndispatch_info.total_weight()\n+ base_extrinsic\n+ Weight::from_parts(0, encoded_len)\n```\n\nThe PR also adds a regression test,\n`eth_pre_dispatch_weight_matches_check_weight_booking`, which\nchecks that the new API returns the same booked weight that\n`CheckWeight` would account for.\n\nExample usage:\n\n```rust\nlet weight = runtime_api.eth_pre_dispatch_weight(signed_tx_bytes)?;\n```\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-15T20:15:07Z",
+          "tree_id": "08406ec206a8a98516dba720f867ada870fe9abd",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/3768df0fc7a42419e1774bda79031cceec130020"
+        },
+        "date": 1776289091914,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 52943.8,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 63634.78999999999,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.00002416186,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.818771694929999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.00002416186,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.8670312178700024,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.793760469259976,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.88478445488,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.000024451329999999996,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7732094459499775,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.000024451329999999996,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005076073789999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.948650596240001,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.496236985599993,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.230099455052728,
             "unit": "seconds"
           }
         ]

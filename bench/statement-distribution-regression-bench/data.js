@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776263874803,
+  "lastUpdate": 1776267003159,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "franciscoaguirreperez@gmail.com",
-            "name": "Francisco Aguirre",
-            "username": "franciscoaguirre"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "c1a31e3505c0c4e01b9d2daad5f4d19b220345ec",
-          "message": "Disable reserve_asset_transfer for DOT (#9544)\n\n- [x] Add check to `do_reserve_asset_transfer`\n- [x] Modify existing tests\n- [ ] Add new tests if needed\n\n---------\n\nCo-authored-by: Karol Kokoszka <karol@parity.io>",
-          "timestamp": "2025-08-28T21:31:06Z",
-          "tree_id": "1e246b2a94ebc81065a2bdcf7b7fcc4f3851c436",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/c1a31e3505c0c4e01b9d2daad5f4d19b220345ec"
-        },
-        "date": 1756421259033,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.95999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04444300746999991,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.034157457902000005,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.0819966451719999,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "robertvaneerdewijk@gmail.com",
+            "name": "0xRVE",
+            "username": "0xRVE"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "baaaa925927eaf4a488f33ac1f1ecd6bacd24db3",
+          "message": "asset-conversion-precompiles expose pool management (#11690)\n\nAdd createPool, addLiquidity, and removeLiquidity functions to the\nasset-conversion precompile, enabling EVM contracts to manage liquidity\npools directly. Also refactors common helpers (caller lookup, path\nvalidation) for reuse across swap and liquidity operations.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-15T14:06:01Z",
+          "tree_id": "1f147cb91b909822a1d2d6bd229ba65fcdc42d62",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/baaaa925927eaf4a488f33ac1f1ecd6bacd24db3"
+        },
+        "date": 1776266980714,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.06599999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08199760228399994,
+            "unit": "seconds"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038651411232,
             "unit": "seconds"
           }
         ]

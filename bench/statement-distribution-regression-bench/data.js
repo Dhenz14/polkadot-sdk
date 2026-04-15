@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776260688732,
+  "lastUpdate": 1776263874803,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "54316454+sandreim@users.noreply.github.com",
-            "name": "Andrei Sandu",
-            "username": "sandreim"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "3dfbdf4a454f35238500779e503e1ec32ba7fc63",
-          "message": "Parachains runtime: properly filter backed candidate votes (#9564)\n\nThe `filter_backed_statements_from_disabled_validators` function does\nnot properly map indices in the validator group to indices in the\nvalidity votes vec. This PR fixes that.\n\nTODO: \n- [x] add more tests\n- [x] PRDoc\n\n---------\n\nSigned-off-by: Andrei Sandu <andrei-mihail@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-08-27T19:52:12Z",
-          "tree_id": "52879c2b0806e93ea47828178932bd130f45092c",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/3dfbdf4a454f35238500779e503e1ec32ba7fc63"
-        },
-        "date": 1756328607203,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.93599999999995,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03420574625399999,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04450465685399994,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.0763134934519999,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "73715684+Szegoo@users.noreply.github.com",
+            "name": "Sergej Sakac",
+            "username": "Szegoo"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0688fe97808b6bff442115868beba51c3e1b9f64",
+          "message": "Fix PSM storage migration (#11770)\n\n## Summary\n\nFixes the PSM migration to run on first deployment by replacing the\nversioned `MigrateToV1` with an idempotent `InitializePsm`.\n\n### Problem\n\nWhen a pallet is first added to a runtime, `BeforeAllRuntimeMigrations`\ninitializes the on-chain storage version to the pallet's in-code\nversion. With `STORAGE_VERSION = 1`, the on-chain version was set to `1`\nbefore `MigrateToV1` ran. Since `VersionedMigration<0, 1>` only executes\nwhen the on-chain version is `0`, the migration was skipped, leaving the\nPSM unconfigured (no external assets, no fees, no ceiling weights).\n\n### Fix\n\nReplace `MigrateToV1` (versioned) with `InitializePsm` (idempotent).\nInstead of relying on storage versions, it checks whether each external\nasset already exists and skips it if so. Safe to run multiple times.\n\n### Tests\n\n- `initialize_psm_configures_new_assets` — fresh deployment configures\nall assets\n- `initialize_psm_skips_existing_assets` — already-configured assets are\nnot overwritten\n- `initialize_psm_is_idempotent` — running twice produces the same\nresult",
+          "timestamp": "2026-04-15T13:14:29Z",
+          "tree_id": "c71f0d1937252f90a3a5c3dcbbccd12e8e5886c4",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/0688fe97808b6bff442115868beba51c3e1b9f64"
+        },
+        "date": 1776263853410,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.08,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038364670367999995,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.0819966451719999,
             "unit": "seconds"
           }
         ]

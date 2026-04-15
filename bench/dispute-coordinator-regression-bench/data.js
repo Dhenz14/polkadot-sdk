@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776186622093,
+  "lastUpdate": 1776212196257,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "vrom911@gmail.com",
-            "name": "Veronika Romashkina",
-            "username": "vrom911"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "0c51d2e259d1742a809d11fecbeb663033726846",
-          "message": "Improve omni-node installation docs (#9555)\n\n# Description\n\nWhile following the `polkadot-omni-node` installation section\ninstructions [here](https://crates.io/crates/polkadot-omni-node), I\nfound that it could be improved a bit.\n\nThe `<stable_release_tag>` should be replaced with the release tag, but\nthere is no mention of how to get that tag fast.\nI added this information as a note in addition to the existing line.\n\nCo-authored-by: Raymond Cheung <178801527+raymondkfcheung@users.noreply.github.com>",
-          "timestamp": "2025-08-27T02:24:11Z",
-          "tree_id": "71a0907d4ce3e8cd70743ddc7c830028a1e0bdd3",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/0c51d2e259d1742a809d11fecbeb663033726846"
-        },
-        "date": 1756265925761,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.0050568395999999955,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008486870399999989,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.00264166529,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.008704488519999987,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "evgeny@parity.io",
+            "name": "Evgeny Snitko",
+            "username": "AndWeHaveAPlan"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b9447f0539360174e040ecf41d6213d98a2114cb",
+          "message": "Update ci-unified version in .github/env (#11711)\n\nforklift 0.16.0, fixed https://github.com/paritytech/forklift/issues/30\n\nCo-authored-by: Bastian Köcher <git@kchr.de>",
+          "timestamp": "2026-04-14T22:54:59Z",
+          "tree_id": "2d178ab11d1a3838e812111e0119b6d295f45447",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/b9447f0539360174e040ecf41d6213d98a2114cb"
+        },
+        "date": 1776212174301,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009399544879999973,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009852387889999993,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.0026474168600000006,
             "unit": "seconds"
           }
         ]

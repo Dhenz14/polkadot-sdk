@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776212073583,
+  "lastUpdate": 1776251196751,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "ismailov.m.h@gmail.com",
-            "name": "muharem",
-            "username": "muharem"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "27519874677950b3cb8a3aea4116bbdfcbb69a22",
-          "message": "Society pallet: Make fields of storage-persisted types public (#9604)\n\nSociety pallet: Make fields of storage-persisted types public.\n\nFields of types persisted in storage have been made public.",
-          "timestamp": "2025-08-29T13:21:51Z",
-          "tree_id": "961e5ef109e6333061079cc1c61094ba014c326e",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/27519874677950b3cb8a3aea4116bbdfcbb69a22"
-        },
-        "date": 1756477987745,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.2308440061,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19639245796666666,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.1153939481,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5e15555a5c52e422d12bca05dbfaf7e0f425f75c",
+          "message": "Bump westend runtimes spec_versions (#11757)\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
+          "timestamp": "2026-04-15T09:46:10Z",
+          "tree_id": "5c750c7d6797db721a1bd172049d7d189645e391",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/5e15555a5c52e422d12bca05dbfaf7e0f425f75c"
+        },
+        "date": 1776251174591,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1310344513,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.765787261366665,
             "unit": "seconds"
           }
         ]

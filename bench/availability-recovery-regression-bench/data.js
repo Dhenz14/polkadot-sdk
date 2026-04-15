@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776263785196,
+  "lastUpdate": 1776266909439,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "eresav@me.com",
-            "name": "Andrei Eres",
-            "username": "AndreiEres"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "44416758c410cad2c7c2adee09c18f99b1f92d02",
-          "message": "[pallet-revive] Expose `AccountInfo` and `ContractInfo` in the public interface (#9606)\n\n# Description\n\nPart of https://github.com/paritytech/polkadot-sdk/issues/9553\nSee https://github.com/paritytech/foundry-polkadot/issues/276\n\nExposes revive types to use in foundry-polkadot project.\n\n## Integration\n\nShould not affect downstream projects.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-01T11:45:58Z",
-          "tree_id": "28f5c5c2c78d69f2bc31a51ad855fe79a9d5a4a0",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/44416758c410cad2c7c2adee09c18f99b1f92d02"
-        },
-        "date": 1756731797732,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.266550241866666,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.20070495053333337,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.13223289256666668,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "robertvaneerdewijk@gmail.com",
+            "name": "0xRVE",
+            "username": "0xRVE"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "baaaa925927eaf4a488f33ac1f1ecd6bacd24db3",
+          "message": "asset-conversion-precompiles expose pool management (#11690)\n\nAdd createPool, addLiquidity, and removeLiquidity functions to the\nasset-conversion precompile, enabling EVM contracts to manage liquidity\npools directly. Also refactors common helpers (caller lookup, path\nvalidation) for reuse across swap and liquidity operations.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-15T14:06:01Z",
+          "tree_id": "1f147cb91b909822a1d2d6bd229ba65fcdc42d62",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/baaaa925927eaf4a488f33ac1f1ecd6bacd24db3"
+        },
+        "date": 1776266887375,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 12.011046081666668,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12240877060000004,
             "unit": "seconds"
           }
         ]

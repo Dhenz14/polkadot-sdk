@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776251226498,
+  "lastUpdate": 1776260628135,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "ismailov.m.h@gmail.com",
-            "name": "muharem",
-            "username": "muharem"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "27519874677950b3cb8a3aea4116bbdfcbb69a22",
-          "message": "Society pallet: Make fields of storage-persisted types public (#9604)\n\nSociety pallet: Make fields of storage-persisted types public.\n\nFields of types persisted in storage have been made public.",
-          "timestamp": "2025-08-29T13:21:51Z",
-          "tree_id": "961e5ef109e6333061079cc1c61094ba014c326e",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/27519874677950b3cb8a3aea4116bbdfcbb69a22"
-        },
-        "date": 1756478015055,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.01312180616,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022408413919999995,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007440649253333309,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15698233573333342,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "bitfield-distribution",
             "value": 0.025411868259999998,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@kchr.de",
+            "name": "Bastian Köcher",
+            "username": "bkchr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "dcdeff430bc51f4056c9219a9723c375c7adb7ff",
+          "message": "Compile Zombienet Tests in release mode (#11765)\n\nRevert the unrelated wasm-builder changes.",
+          "timestamp": "2026-04-15T12:14:38Z",
+          "tree_id": "ea2dc5b1a0f8754fb387070f4f4a34307056200d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/dcdeff430bc51f4056c9219a9723c375c7adb7ff"
+        },
+        "date": 1776260606635,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14093711814666665,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.02537677532,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.0071613298066666685,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009555074833333316,
             "unit": "seconds"
           }
         ]

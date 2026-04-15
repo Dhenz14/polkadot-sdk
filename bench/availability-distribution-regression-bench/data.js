@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776284960753,
+  "lastUpdate": 1776289083352,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "pgherveou@gmail.com",
-            "name": "PG Herveou",
-            "username": "pgherveou"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "c5b4afcaea03367ff56062834fbe258489e74fa1",
-          "message": "[pallet-revive] Update genesis config (#9557)\n\nUpdate pallet-revive Genesis config\nMake it possible to define accounts (contracts or EOA) that we want to\nsetup at Genesis\n\n---------\n\nSigned-off-by: Cyrill Leutwiler <bigcyrill@hotmail.com>\nSigned-off-by: xermicus <cyrill@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Alexander Theißen <alex.theissen@me.com>\nCo-authored-by: xermicus <cyrill@parity.io>\nCo-authored-by: 0xRVE <robertvaneerdewijk@gmail.com>\nCo-authored-by: Robert van Eerdewijk <robert@Roberts-MacBook-Pro.local>",
-          "timestamp": "2025-09-02T07:40:25Z",
-          "tree_id": "6df31dbaa2e64663ba4d7c118e8872f85e26a68a",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/c5b4afcaea03367ff56062834fbe258489e74fa1"
-        },
-        "date": 1756803347207,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007533725946666646,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013200251320000005,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.16001863982000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022758891886666657,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "bitfield-distribution",
             "value": 0.025466515479999997,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "OmarAbdulla7@hotmail.com",
+            "name": "Omar",
+            "username": "0xOmarA"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3768df0fc7a42419e1774bda79031cceec130020",
+          "message": "pallet-revive: expose pre-dispatch weight runtime API (#11710)\n\n# Description\n\nThis PR adds a new `pallet-revive` runtime API for computing the booked\npre-dispatch weight of an\nEthereum transaction from its signed payload bytes.\n\nThe new API decodes the signed Ethereum transaction payload, converts it\ninto the inner revive\ncall, and returns the same per-extrinsic weight contribution that\n`frame_system::CheckWeight`\nbooks:\n\n- `dispatch_info.total_weight()` including extension weight\n- the dispatch class `base_extrinsic`\n- the length-based proof-size charge\n\nThis is intended to expose the actual booked pre-dispatch weight for\nbenchmarking and analysis,\nwithout reconstructing the outer transaction from a\n`GenericTransaction`.\n\n## Integration\n\nThis changes the `ReviveApi` runtime API surface by adding:\n\n```rust\nfn eth_pre_dispatch_weight(tx: Vec<u8>) -> Result<Weight, EthTransactError>;\n```\n\nDownstream consumers of `ReviveApi` will need regenerated metadata or\nupdated runtime API bindings\nto call the new method.\n\nThe method expects the signed Ethereum transaction payload bytes, not a\n`GenericTransaction`. This\nis important because the outer transaction length contributes to\nproof-size booking and should come\nfrom the real signed payload.\n\nThere is no storage migration and no change to dispatch behavior.\n\n## Review Notes\n\nImplementation details:\n\n- the new pallet helper decodes `TransactionSigned` from the provided\npayload\n- it recovers the signer address and builds the `GenericTransaction`\nfrom the signed tx\n- it computes the actual outer `eth_transact` encoded length from the\nprovided payload\n- it reuses `into_call(CreateCallMode::ExtrinsicExecution(...))` to\nconstruct the inner revive call\n- it returns:\n\n```rust\ndispatch_info.total_weight()\n+ base_extrinsic\n+ Weight::from_parts(0, encoded_len)\n```\n\nThe PR also adds a regression test,\n`eth_pre_dispatch_weight_matches_check_weight_booking`, which\nchecks that the new API returns the same booked weight that\n`CheckWeight` would account for.\n\nExample usage:\n\n```rust\nlet weight = runtime_api.eth_pre_dispatch_weight(signed_tx_bytes)?;\n```\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-15T20:15:07Z",
+          "tree_id": "08406ec206a8a98516dba720f867ada870fe9abd",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/3768df0fc7a42419e1774bda79031cceec130020"
+        },
+        "date": 1776289061502,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14154063342000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009615714846666646,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007063485373333334,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.02540842100666667,
             "unit": "seconds"
           }
         ]

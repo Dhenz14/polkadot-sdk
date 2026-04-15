@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776251286288,
+  "lastUpdate": 1776260688732,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "hs+github@haikoschol.com",
-            "name": "Haiko Schol",
-            "username": "haikoschol"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "b7b7f0c50f6ce8bad7a7a3a10139e53714740b4e",
-          "message": "Cumulus: Remove `--relay-chain-light-client` (#9446)\n\n# Description\n\nThis PR removes the experimental flag `--relay-chain-light-client` from\ncumulus and as a consequence, smoldot and smoldot-light as workspace\ndependencies.\n\nCloses #9013 \n\n## Integration\n\nSince this PR changes the public API of\n[cumulus-relay-chain-rpc-interface](https://crates.io/crates/cumulus-relay-chain-rpc-interface),\nit affects node developers and the PR should include a prdoc file. Since\nthe crate is not v1 yet, I reckon prdoc should include `bump: minor`.",
-          "timestamp": "2025-08-27T13:55:11Z",
-          "tree_id": "337ee44b8294a43c32b5e779850b81585ab362b1",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/b7b7f0c50f6ce8bad7a7a3a10139e53714740b4e"
-        },
-        "date": 1756307402218,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 127.94799999999994,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04447005223999993,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.034329454952,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.03824222258999999,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@kchr.de",
+            "name": "Bastian Köcher",
+            "username": "bkchr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "dcdeff430bc51f4056c9219a9723c375c7adb7ff",
+          "message": "Compile Zombienet Tests in release mode (#11765)\n\nRevert the unrelated wasm-builder changes.",
+          "timestamp": "2026-04-15T12:14:38Z",
+          "tree_id": "ea2dc5b1a0f8754fb387070f4f4a34307056200d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/dcdeff430bc51f4056c9219a9723c375c7adb7ff"
+        },
+        "date": 1776260666970,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.052,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038312659936,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.0763134934519999,
             "unit": "seconds"
           }
         ]

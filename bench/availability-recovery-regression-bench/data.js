@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776356068262,
+  "lastUpdate": 1776360272710,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "yrong1997@gmail.com",
-            "name": "Ron",
-            "username": "yrong"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "b8a05717efc3f1b730321554ba603c1bfe71a4cb",
-          "message": "Improve Penpal with async backing (#9293)",
-          "timestamp": "2025-09-02T21:35:13Z",
-          "tree_id": "02ce070e5eaea90e01fe60f36dc2b24a2a9f6b28",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/b8a05717efc3f1b730321554ba603c1bfe71a4cb"
-        },
-        "date": 1756853428256,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.570438361633332,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19827437199999998,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.1327863537,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "paolo@parity.io",
+            "name": "Paolo La Camera",
+            "username": "sigurpol"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "cd3eb6de88ebeec6483b10e368a2ec56b391523e",
+          "message": "[westend] Remove pallet_treasury from RC and clean up system parachains matchers (#11763)\n\n- Remove pallet_treasury entirely from Westend relay chain.\n- Drain residual balances from the legacy `py/trsry`-derived account\ninto the local DAP satellite buffer on the relay and on each Westend\nsystem parachain (bridge-hub, collectives, coretime, people).\n- Remove RelayTreasuryLocation matchers from all Westend system\nparachains.\n\nCloses #11705.\n\n**NOTE**: a followup PR will remove also all remaining OpenGov related\npallets from RC (issue #11775, stacked PR: #11796).\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-16T16:01:49Z",
+          "tree_id": "467857ff3b0324ad909c032a610e22ec83e0ebb4",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/cd3eb6de88ebeec6483b10e368a2ec56b391523e"
+        },
+        "date": 1776360250272,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1283195835,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.800964707233337,
             "unit": "seconds"
           }
         ]

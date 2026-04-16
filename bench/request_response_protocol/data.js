@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776339323721,
+  "lastUpdate": 1776353679891,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -79595,6 +79595,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2575202156,
             "range": "± 54333163",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "ismailov.m.h@gmail.com",
+            "name": "muharem",
+            "username": "muharem"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "8c8d9f9b8374075ce5c1131db694d3fa6d492f0d",
+          "message": "Harden asset-conversion quote functions against zero amounts (#11795)\n\nHardens `quote_price_exact_tokens_for_tokens` and\n`quote_price_tokens_for_exact_tokens` in `pallet-asset-conversion` to\nreturn `None` for zero input amounts and when integer rounding produces\na zero output. Previously, zero inputs could propagate through the AMM\nmath and zero outputs from small-input rounding were returned as\n`Some(0)`.",
+          "timestamp": "2026-04-16T14:27:16Z",
+          "tree_id": "2446c19b6be15ad74497f35124051bd013f91ee1",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/8c8d9f9b8374075ce5c1131db694d3fa6d492f0d"
+        },
+        "date": 1776353639168,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 19730858,
+            "range": "± 182638",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 20393490,
+            "range": "± 226330",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 22671282,
+            "range": "± 453967",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 26998157,
+            "range": "± 186388",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 65722901,
+            "range": "± 979786",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 409513432,
+            "range": "± 16424731",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2802932083,
+            "range": "± 214854429",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 16432470,
+            "range": "± 199365",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 16659266,
+            "range": "± 218265",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 17442858,
+            "range": "± 670986",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 22142694,
+            "range": "± 163601",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 64440115,
+            "range": "± 904691",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 392629808,
+            "range": "± 5996976",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2841961177,
+            "range": "± 68993863",
             "unit": "ns/iter"
           }
         ]

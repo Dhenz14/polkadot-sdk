@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776360366414,
+  "lastUpdate": 1776377551360,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "pgherveou@gmail.com",
-            "name": "PG Herveou",
-            "username": "pgherveou"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "c5b4afcaea03367ff56062834fbe258489e74fa1",
-          "message": "[pallet-revive] Update genesis config (#9557)\n\nUpdate pallet-revive Genesis config\nMake it possible to define accounts (contracts or EOA) that we want to\nsetup at Genesis\n\n---------\n\nSigned-off-by: Cyrill Leutwiler <bigcyrill@hotmail.com>\nSigned-off-by: xermicus <cyrill@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Alexander Theißen <alex.theissen@me.com>\nCo-authored-by: xermicus <cyrill@parity.io>\nCo-authored-by: 0xRVE <robertvaneerdewijk@gmail.com>\nCo-authored-by: Robert van Eerdewijk <robert@Roberts-MacBook-Pro.local>",
-          "timestamp": "2025-09-02T07:40:25Z",
-          "tree_id": "6df31dbaa2e64663ba4d7c118e8872f85e26a68a",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/c5b4afcaea03367ff56062834fbe258489e74fa1"
-        },
-        "date": 1756803407719,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.94799999999995,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.044856143811999906,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03406271151,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.038409580142,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "gui.thiolliere@gmail.com",
+            "name": "Guillaume Thiolliere",
+            "username": "gui1117"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4fba586ff870438250674e5787c1a58204117bd3",
+          "message": "frame-omni-bencher: better diagnostic on insufficient data points (#11510)\n\nWhen a benchmark is run with not enough steps and too many points are\nskipped then it can make the analysis panic. This PR improves the panic\nmessage and gives precise information about which benchmark is at fault.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Shawn Tabrizi <shawntabrizi@gmail.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
+          "timestamp": "2026-04-16T20:43:45Z",
+          "tree_id": "0cf7271908e8f3aa3deeeb5c8643ef2938363fcb",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/4fba586ff870438250674e5787c1a58204117bd3"
+        },
+        "date": 1776377531637,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.07399999999998,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08531553985599993,
+            "unit": "seconds"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038343295769999994,
             "unit": "seconds"
           }
         ]

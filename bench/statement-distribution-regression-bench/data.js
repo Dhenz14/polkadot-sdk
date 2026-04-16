@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776289146299,
+  "lastUpdate": 1776340298842,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "pgherveou@gmail.com",
-            "name": "PG Herveou",
-            "username": "pgherveou"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "40cd38db9e3a758e80af28ba2aa9f6420173ee65",
-          "message": "[revive] revm backend (#9285)\n\n# EVM initial support  for pallet-revive\n\nInitial EVM support via the REVM crate to create a dual-VM system that\ncan execute both PolkaVM and EVM\n\n- Added `AllowEVMBytecode: Get<bool>` to the config to enable/disable\nEVM call and instantiation\n- CodeInfo has been updated to add the type of bytecode (EVM / PVM).\n`migration/v2.rs` takes care of migrating existing storages\n- The CodeUploadDeposit is not held by a pallet account instead of being\nheld on the uploader, It's automatically refunded when the refcount\ndrops to 0 and the code is removed.\n- The basic flow of uploading an EVM contract and running it should work\n- instructions are copied and adapted from REVM they should be ignored\nin this PR and reviewed in follow-up PR\n(**reviewers** please ignore\n`substrate/frame/revive/src/vm/evm/instructions/*` for now)\n\n## Implementation Guidelines\n\n### Basic Instruction Structure\nA basic instruction looks like this:\n\n```rust\npub fn coinbase<'ext, E: Ext>(context: Context<'_, 'ext, E>) {\n\tgas_legacy!(context.interpreter, revm_gas::BASE);\n\tpush!(context.interpreter, context.host.beneficiary().into_word().into());\n}\n```\n\n### Required Changes for REVM Instructions\n\nAll instructions have been copied from `REVM` and updated with generic\ntypes for pallet-revive. Two main changes are required:\n\n#### 1. Gas Handling\nReplace REVM gas calls with existing benchmarks where available:\n\n```diff\n- gas_legacy!(context.interpreter, revm_gas::BASE);\n+ gas!(context.interpreter, RuntimeCosts::BlockAuthor);\n```\n\n#### 2. Context Access\nReplace `context.host` calls with `context.extend` (set to `&mut Ext`):\n\n```diff\n- push!(context.interpreter, context.host.beneficiary().into_word().into());\n+ let coinbase: Address = context.interpreter.extend.block_author().unwrap_or_default().0.into();\n+ push!(context.interpreter, coinbase.into_word().into());\n```\n\n### Gas Benchmarking Notes\n- For cases without existing benchmarks (e.g arithmetic, bitwise) , we\nwill keep `gas_legacy!`\n- The u64 gas value are multiplied by a base cost benchmarked by\n`evm_opcode`\n\n- ### Important Rules\n- All calls to `context.host` should be removed (initialized to default\nvalues)\n- All calls to `context.interpreter.gas` should be removed (except\n`gas.memory` handled by `resize_memory!` macro)\n- See `block_number` implementation as a reference example\n\nThe following instructions in src/vm/evm/instructions/** need to be\nupdated\n\n### Basic Instructions\n\nWe probably don't need to touch these implementations here, they use the\ngas_legacy! macro to charge a low gas value that will be scaled with our\ngas_to_weight benchmark. The only thing needed here are tests that\nexercise these instructions\n\n<details>\n\n#### Arithmetic Instructions\n\n- [ ] **add**\n- [ ] **mul**\n- [ ] **sub**\n- [ ] **div**\n- [ ] **sdiv**\n- [ ] **rem**\n- [ ] **smod**\n- [ ] **addmod**\n- [ ] **mulmod**\n- [ ] **exp**\n- [ ] **signextend**\n\n#### Bitwise Instructions\n\n- [ ] **lt**\n- [ ] **gt**\n- [ ] **slt**\n- [ ] **sgt**\n- [ ] **eq**\n- [ ] **iszero**\n- [ ] **bitand**\n- [ ] **bitor**\n- [ ] **bitxor**\n- [ ] **not**\n- [ ] **byte**\n- [ ] **shl**\n- [ ] **shr**\n- [ ] **sar**\n- [ ] **clz**\n\n#### Control Flow Instructions\n\n- [ ] **jump**\n- [ ] **jumpi**\n- [ ] **jumpdest**\n- [ ] **pc**\n- [ ] **stop**\n- [ ] **ret**\n- [ ] **revert**\n- [ ] **invalid**\n\n### Memory Instructions\n- [ ] **mload**\n- [ ] **mstore**\n- [ ] **mstore8**\n- [ ] **msize**\n- [ ] **mcopy**\n\n#### Stack Instructions\n- [ ] **pop**\n- [ ] **push0**\n- [ ] **push**\n- [ ] **dup**\n- [ ] **swap**\n\n</details>\n\n### Sys calls instructions\n\nThese instructions should be updated from using gas_legacy! to gas! with\nthe appropriate RuntimeCost, the returned value need to be pulled from\nour `&mut Ext` ctx.interpreter.extend instead of the host or input\ncontext value\n\n<details>\n\n#### Block Info Instructions\n\n- [x] **block_number**\n- [ ] **coinbase**\n- [ ] **timestamp**\n- [ ] **difficulty**\n- [ ] **gaslimit**\n- [ ] **chainid**\n- [ ] **basefee**\n- [ ] **blob_basefee**\n\n#### Host Instructions\n\n- [ ] **balance**\n- [ ] **extcodesize**\n- [ ] **extcodecopy**\n- [ ] **extcodehash**\n- [ ] **blockhash**\n- [ ] **sload**\n- [ ] **sstore**\n- [ ] **tload**\n- [ ] **tstore**\n- [ ] **log**\n- [ ] **selfdestruct**\n- [ ] **selfbalance**\n\n#### System Instructions\n- [ ] **keccak256**\n- [ ] **address**\n- [ ] **caller**\n- [ ] **callvalue**\n- [ ] **calldataload**\n- [ ] **calldatasize**\n- [ ] **calldatacopy**\n- [ ] **codesize**\n- [ ] **codecopy**\n- [ ] **returndatasize**\n- [ ] **returndatacopy**\n- [ ] **gas**\n\n#### Transaction Info Instructions\n- [ ] **origin**\n- [ ] **gasprice**\n- [ ] **blob_hash**\n\n</details>\n\n### Contract Instructions\n\nThese instructions should be updated,, that's where I expect the most\ncode change in the instruction implementation.\nSee how it's done in vm/pvm module, the final result should look pretty\nsimilar to what we are doing there with the addition of custom gas_limit\ncalculation that works with our gas model.\n\nsee also example code here https://github.com/paritytech/revm_example\n\n<details>\n\n- [ ] **create**\n- [ ] **create**\n- [ ] **call**\n- [ ] **call_code**\n- [ ] **delegate_call**\n- [ ] **static_call**\n\n</details>\n\n---------\n\nSigned-off-by: Cyrill Leutwiler <bigcyrill@hotmail.com>\nSigned-off-by: xermicus <cyrill@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Alexander Theißen <alex.theissen@me.com>\nCo-authored-by: xermicus <cyrill@parity.io>\nCo-authored-by: 0xRVE <robertvaneerdewijk@gmail.com>\nCo-authored-by: Robert van Eerdewijk <robert@Roberts-MacBook-Pro.local>",
-          "timestamp": "2025-09-01T09:50:02Z",
-          "tree_id": "d9b8743fb3951843e2e35b32fbb2ebaedd43cbef",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/40cd38db9e3a758e80af28ba2aa9f6420173ee65"
-        },
-        "date": 1756724408945,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 127.95599999999995,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.034247652341999994,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.044751679665999945,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.09046799609199992,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d7bc514f0cc9029f614c9a28ce01f8944dd62693",
+          "message": "Bump spec_version WAH (#11792)\n\nBumps WAH spec_version after latest upgrade",
+          "timestamp": "2026-04-16T10:31:35Z",
+          "tree_id": "e07ebe9b0f15a155ef6f4e1e10170bc0e74608ae",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/d7bc514f0cc9029f614c9a28ce01f8944dd62693"
+        },
+        "date": 1776340276804,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.06599999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.0381348483,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.07999853858399993,
             "unit": "seconds"
           }
         ]

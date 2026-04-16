@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776340238490,
+  "lastUpdate": 1776356098981,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "363911+pepoviola@users.noreply.github.com",
-            "name": "Javier Viola",
-            "username": "pepoviola"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "12b5b37b8cd1cef19d01679dc70b933d0d80ba68",
-          "message": "bump zombienet-sdk and subxt versions (#9587)\n\nReplace https://github.com/paritytech/polkadot-sdk/pull/9506\n\n---------\n\nCo-authored-by: Bastian Köcher <git@kchr.de>\nCo-authored-by: Bastian Köcher <info@kchr.de>",
-          "timestamp": "2025-09-02T16:31:43+02:00",
-          "tree_id": "8485bbe198b710fdce8c03ca9792b14f10af7cde",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/12b5b37b8cd1cef19d01679dc70b933d0d80ba68"
-        },
-        "date": 1756825512033,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.1577991907333333,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012940183773333336,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007508250779999972,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022642024113333336,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.009609837973333302,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "mertwole@gmail.com",
+            "name": "mertwole",
+            "username": "mertwole"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a0d4b392e1cc2dc0fe95ca95b461ed6fc580aa20",
+          "message": "[pallet-broker] introduce `Market` trait for a generic coretime market (#11563)\n\nThis PR is a part of #10916 containing only the `Market` trait\n\nPart of #10900",
+          "timestamp": "2026-04-16T14:44:09Z",
+          "tree_id": "335e81cb05948d157e190a8758a0d172fd136c7d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/a0d4b392e1cc2dc0fe95ca95b461ed6fc580aa20"
+        },
+        "date": 1776356076872,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14235644638666678,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.025437846220000004,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009067957033333318,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007021170539999999,
             "unit": "seconds"
           }
         ]

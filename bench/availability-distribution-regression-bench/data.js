@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776289083352,
+  "lastUpdate": 1776340238490,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "22591718+RomarQ@users.noreply.github.com",
-            "name": "Rodrigo Quelhas",
-            "username": "RomarQ"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "7753112a1b6aae323af71e8904fbab02fdc73c22",
-          "message": "Call SingleBlockMigrations from frame_system::Config on try_on_runtime_upgrade (#9451)\n\nRecently, when moving the single block migrations from\n`frame_executive::Executive` to `SingleBlockMigrations` in\n`frame_system::Config`, I noticed that `try_runtime_upgrade` was\nignoring the `SingleBlockMigrations` defined in frame_system. More\ncontext at https://github.com/polkadot-fellows/runtimes/pull/844\n\nBased on PR https://github.com/paritytech/polkadot-sdk/pull/1781 and\n[PRDoc](https://github.com/paritytech/polkadot-sdk/blob/beb9030b249cc078b3955232074a8495e7e0302a/prdoc/1.9.0/pr_1781.prdoc#L29),\nthe new way for providing the single block migrations should be through\n`SingleBlockMigrations` in `frame_system::Config`. Providing them from\n`frame_executive::Executive` is still supported, but from what I\nunderstood is or will be deprecated.\n\n> `SingleBlockMigrations` this is the new way of configuring migrations\nthat run in a single block. Previously they were defined as last generic\nargument of Executive. This shift is brings all central configuration\nabout migrations closer into view of the developer (migrations that are\nconfigured in Executive will still work for now but is deprecated).\n\n## Follow-up Changes\nWill try to open a pull request tomorrow for deprecating the use of\n`OnRuntimeUpgrade` in `frame_executive::Executive`.",
-          "timestamp": "2025-09-02T10:47:13Z",
-          "tree_id": "e461504342bb3fa2c0f5be604e7139194938f873",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/7753112a1b6aae323af71e8904fbab02fdc73c22"
-        },
-        "date": 1756814304846,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02240946046,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013174902433333333,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.1564146113,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007492650586666652,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "bitfield-distribution",
             "value": 0.02540842100666667,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d7bc514f0cc9029f614c9a28ce01f8944dd62693",
+          "message": "Bump spec_version WAH (#11792)\n\nBumps WAH spec_version after latest upgrade",
+          "timestamp": "2026-04-16T10:31:35Z",
+          "tree_id": "e07ebe9b0f15a155ef6f4e1e10170bc0e74608ae",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/d7bc514f0cc9029f614c9a28ce01f8944dd62693"
+        },
+        "date": 1776340216110,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.025522495639999997,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14205752521333326,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007180151673333332,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009609837973333302,
             "unit": "seconds"
           }
         ]

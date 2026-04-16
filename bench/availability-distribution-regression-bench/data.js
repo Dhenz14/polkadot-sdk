@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776356098981,
+  "lastUpdate": 1776360304077,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "1728078+michalkucharczyk@users.noreply.github.com",
-            "name": "Michal Kucharczyk",
-            "username": "michalkucharczyk"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "6f9236b9b6827150a366f5c7b1e4e9cd523594e0",
-          "message": "basic-authorship: end_reason improved (#9550)\n\nThe `end_reason` reported in block authoring can be\n[misleading](https://github.com/paritytech/polkadot-sdk/issues/9188#issuecomment-3070697415)\nwhen resource limits are hit. The basic authorship module tries\nadditional transactions after hitting limits, and if it runs out of\ntransactions or time during this extended trial phase, it reports the\ninaccurate reason.\n\nMisleading scenarios are:\n- Scenario 1: Resource limit masked by `NoMoreTransactions`\n1. Block hits weight/size limit -> should report\n`HitBlockWeightLimit`/`HitBlockSizeLimit`\n      2. Code tries up to `MAX_SKIPPED_TRANSACTIONS`,\n      3. If still before soft deadline, continues trying transactions,\n      4. Transaction pool runs out during this extended trial phase,\n5. Reason reported is: `NoMoreTransactions`, while the reality is that\nblock was _resource-constrained_, not _mp-transactions-constrained_.\n- Scenario 2: Resource limit masked by `HitDeadline`\n1. Block hits weight/size limit, (let's assume 100k fat transactions in\nthe pool)\n2. Code keeps trying transactions that can't fit due to weight\nconstraints\n      3. Deadline is reached while trying pool transactions\n4. Reason reported is: `HitDeadline`, while the reality is that block\nwas _resource-constrained_, not _time-constrained_.\n\nThis PR proposes to change the actual `end_reason` to be more accurate.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-02T19:28:10Z",
-          "tree_id": "0edd6bb34ea90352d1cd8ca0e8fcbd980aa2e476",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/6f9236b9b6827150a366f5c7b1e4e9cd523594e0"
-        },
-        "date": 1756846081502,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007411460400000026,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15659756909333342,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012619404280000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022634490006666667,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-distribution",
             "value": 0.007021170539999999,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "paolo@parity.io",
+            "name": "Paolo La Camera",
+            "username": "sigurpol"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "cd3eb6de88ebeec6483b10e368a2ec56b391523e",
+          "message": "[westend] Remove pallet_treasury from RC and clean up system parachains matchers (#11763)\n\n- Remove pallet_treasury entirely from Westend relay chain.\n- Drain residual balances from the legacy `py/trsry`-derived account\ninto the local DAP satellite buffer on the relay and on each Westend\nsystem parachain (bridge-hub, collectives, coretime, people).\n- Remove RelayTreasuryLocation matchers from all Westend system\nparachains.\n\nCloses #11705.\n\n**NOTE**: a followup PR will remove also all remaining OpenGov related\npallets from RC (issue #11775, stacked PR: #11796).\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-16T16:01:49Z",
+          "tree_id": "467857ff3b0324ad909c032a610e22ec83e0ebb4",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/cd3eb6de88ebeec6483b10e368a2ec56b391523e"
+        },
+        "date": 1776360281139,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007248647439999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14102836468666669,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.025532614340000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.00968729407999998,
             "unit": "seconds"
           }
         ]

@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776340207408,
+  "lastUpdate": 1776356068262,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "1728078+michalkucharczyk@users.noreply.github.com",
-            "name": "Michal Kucharczyk",
-            "username": "michalkucharczyk"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "6f9236b9b6827150a366f5c7b1e4e9cd523594e0",
-          "message": "basic-authorship: end_reason improved (#9550)\n\nThe `end_reason` reported in block authoring can be\n[misleading](https://github.com/paritytech/polkadot-sdk/issues/9188#issuecomment-3070697415)\nwhen resource limits are hit. The basic authorship module tries\nadditional transactions after hitting limits, and if it runs out of\ntransactions or time during this extended trial phase, it reports the\ninaccurate reason.\n\nMisleading scenarios are:\n- Scenario 1: Resource limit masked by `NoMoreTransactions`\n1. Block hits weight/size limit -> should report\n`HitBlockWeightLimit`/`HitBlockSizeLimit`\n      2. Code tries up to `MAX_SKIPPED_TRANSACTIONS`,\n      3. If still before soft deadline, continues trying transactions,\n      4. Transaction pool runs out during this extended trial phase,\n5. Reason reported is: `NoMoreTransactions`, while the reality is that\nblock was _resource-constrained_, not _mp-transactions-constrained_.\n- Scenario 2: Resource limit masked by `HitDeadline`\n1. Block hits weight/size limit, (let's assume 100k fat transactions in\nthe pool)\n2. Code keeps trying transactions that can't fit due to weight\nconstraints\n      3. Deadline is reached while trying pool transactions\n4. Reason reported is: `HitDeadline`, while the reality is that block\nwas _resource-constrained_, not _time-constrained_.\n\nThis PR proposes to change the actual `end_reason` to be more accurate.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-02T19:28:10Z",
-          "tree_id": "0edd6bb34ea90352d1cd8ca0e8fcbd980aa2e476",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/6f9236b9b6827150a366f5c7b1e4e9cd523594e0"
-        },
-        "date": 1756846053568,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.5692492381,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.20590326716666668,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 11.942539889799999,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "mertwole@gmail.com",
+            "name": "mertwole",
+            "username": "mertwole"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a0d4b392e1cc2dc0fe95ca95b461ed6fc580aa20",
+          "message": "[pallet-broker] introduce `Market` trait for a generic coretime market (#11563)\n\nThis PR is a part of #10916 containing only the `Market` trait\n\nPart of #10900",
+          "timestamp": "2026-04-16T14:44:09Z",
+          "tree_id": "335e81cb05948d157e190a8758a0d172fd136c7d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/a0d4b392e1cc2dc0fe95ca95b461ed6fc580aa20"
+        },
+        "date": 1776356045906,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.650773508366667,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1327863537,
             "unit": "seconds"
           }
         ]

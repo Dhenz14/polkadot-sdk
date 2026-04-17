@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776437531345,
+  "lastUpdate": 1776447030936,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "Sajjon@users.noreply.github.com",
-            "name": "Alexander Cyon",
-            "username": "Sajjon"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "63958c454643ddafdde8be17af5334aa95954550",
-          "message": "move released primitives and APIs out of staging (#9443)\n\nSolves https://github.com/paritytech/polkadot-sdk/issues/9400\n\nNo logic change, only moves types from\n`polkadot/primitives/src/vstaging` into `polkadot/primitives/src/v9`\n(renamed from `v8` to `v9`).\n\n---------\n\nCo-authored-by: Alexander Cyon <alex.cyon@parity.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Andrei Sandu <54316454+sandreim@users.noreply.github.com>\nCo-authored-by: Dmitry Sinyavin <dmitry.sinyavin@parity.io>\nCo-authored-by: s0me0ne-unkn0wn <48632512+s0me0ne-unkn0wn@users.noreply.github.com>",
-          "timestamp": "2025-09-03T20:30:44Z",
-          "tree_id": "e657de1eac98014fd24bc497703ad0c8e5c9d974",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/63958c454643ddafdde8be17af5334aa95954550"
-        },
-        "date": 1756936004459,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 127.94400000000002,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04490455293199996,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.034787838828,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.08213973564599991,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@kchr.de",
+            "name": "Bastian Köcher",
+            "username": "bkchr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6e8ca55095e6bdb540f193c560cdc0419637a6d1",
+          "message": "Block Bundling Node Side (#10477)\n\nThis implements Block bundling aka 500ms on the node side. Right now the\npull request also contains the runtime changes, but this is already its\n[own pull\nrequest](https://github.com/paritytech/polkadot-sdk/pull/10315).\n\nThe main changes are in the slot-based collator. Instead of building one\nblock per core, blocks will be build as requested and distributed over\nthe available cores.\n\nCloses: https://github.com/paritytech/polkadot-sdk/issues/9080\nCloses: https://github.com/paritytech/polkadot-sdk/issues/8963\nCloses: https://github.com/paritytech/polkadot-sdk/issues/6495\n\n---------\n\nCo-authored-by: Guillaume Thiolliere <gui.thiolliere@gmail.com>\nCo-authored-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Sebastian Kunert <skunert49@gmail.com>\nCo-authored-by: Sebastian Kunert <mail@skunert.dev>\nCo-authored-by: Michal Kucharczyk <1728078+michalkucharczyk@users.noreply.github.com>",
+          "timestamp": "2026-04-17T15:47:07Z",
+          "tree_id": "831317484632f091cde3f113120c8fe29339f1f5",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/6e8ca55095e6bdb540f193c560cdc0419637a6d1"
+        },
+        "date": 1776447009229,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.112,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.03817962393399999,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.07772410634199993,
             "unit": "seconds"
           }
         ]

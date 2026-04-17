@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776444279529,
+  "lastUpdate": 1776446181542,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -80783,6 +80783,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2636347940,
             "range": "± 49385651",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@kchr.de",
+            "name": "Bastian Köcher",
+            "username": "bkchr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6e8ca55095e6bdb540f193c560cdc0419637a6d1",
+          "message": "Block Bundling Node Side (#10477)\n\nThis implements Block bundling aka 500ms on the node side. Right now the\npull request also contains the runtime changes, but this is already its\n[own pull\nrequest](https://github.com/paritytech/polkadot-sdk/pull/10315).\n\nThe main changes are in the slot-based collator. Instead of building one\nblock per core, blocks will be build as requested and distributed over\nthe available cores.\n\nCloses: https://github.com/paritytech/polkadot-sdk/issues/9080\nCloses: https://github.com/paritytech/polkadot-sdk/issues/8963\nCloses: https://github.com/paritytech/polkadot-sdk/issues/6495\n\n---------\n\nCo-authored-by: Guillaume Thiolliere <gui.thiolliere@gmail.com>\nCo-authored-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Sebastian Kunert <skunert49@gmail.com>\nCo-authored-by: Sebastian Kunert <mail@skunert.dev>\nCo-authored-by: Michal Kucharczyk <1728078+michalkucharczyk@users.noreply.github.com>",
+          "timestamp": "2026-04-17T15:47:07Z",
+          "tree_id": "831317484632f091cde3f113120c8fe29339f1f5",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/6e8ca55095e6bdb540f193c560cdc0419637a6d1"
+        },
+        "date": 1776446159450,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18966651,
+            "range": "± 190091",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 19270316,
+            "range": "± 125112",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20988044,
+            "range": "± 225764",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 25750131,
+            "range": "± 204298",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 62888812,
+            "range": "± 1154835",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 344382514,
+            "range": "± 5782277",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2464832069,
+            "range": "± 213985589",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 16029169,
+            "range": "± 175995",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15990432,
+            "range": "± 299833",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16584109,
+            "range": "± 273828",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21248223,
+            "range": "± 426385",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 59950068,
+            "range": "± 1297744",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 355534111,
+            "range": "± 5019989",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2676589098,
+            "range": "± 76195034",
             "unit": "ns/iter"
           }
         ]

@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776377526525,
+  "lastUpdate": 1776414682708,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "1728078+michalkucharczyk@users.noreply.github.com",
-            "name": "Michal Kucharczyk",
-            "username": "michalkucharczyk"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "6f9236b9b6827150a366f5c7b1e4e9cd523594e0",
-          "message": "basic-authorship: end_reason improved (#9550)\n\nThe `end_reason` reported in block authoring can be\n[misleading](https://github.com/paritytech/polkadot-sdk/issues/9188#issuecomment-3070697415)\nwhen resource limits are hit. The basic authorship module tries\nadditional transactions after hitting limits, and if it runs out of\ntransactions or time during this extended trial phase, it reports the\ninaccurate reason.\n\nMisleading scenarios are:\n- Scenario 1: Resource limit masked by `NoMoreTransactions`\n1. Block hits weight/size limit -> should report\n`HitBlockWeightLimit`/`HitBlockSizeLimit`\n      2. Code tries up to `MAX_SKIPPED_TRANSACTIONS`,\n      3. If still before soft deadline, continues trying transactions,\n      4. Transaction pool runs out during this extended trial phase,\n5. Reason reported is: `NoMoreTransactions`, while the reality is that\nblock was _resource-constrained_, not _mp-transactions-constrained_.\n- Scenario 2: Resource limit masked by `HitDeadline`\n1. Block hits weight/size limit, (let's assume 100k fat transactions in\nthe pool)\n2. Code keeps trying transactions that can't fit due to weight\nconstraints\n      3. Deadline is reached while trying pool transactions\n4. Reason reported is: `HitDeadline`, while the reality is that block\nwas _resource-constrained_, not _time-constrained_.\n\nThis PR proposes to change the actual `end_reason` to be more accurate.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-02T19:28:10Z",
-          "tree_id": "0edd6bb34ea90352d1cd8ca0e8fcbd980aa2e476",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/6f9236b9b6827150a366f5c7b1e4e9cd523594e0"
-        },
-        "date": 1756846108384,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52944.59999999999,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63636.67,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.136525091079989,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.4533173826300008,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.00002357654,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.0062622649200000016,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.4144321620999993,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.00002262371,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.982518615409995,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4137420114,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.43606925424999543,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.00002357654,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.430183400369999,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.00002262371,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.6810008886808796,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 4.282415426812971,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "9842640+manuelmauro@users.noreply.github.com",
+            "name": "Manuel Mauro",
+            "username": "manuelmauro"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "2ba71927ba129107dda65a15563f19632f884fe2",
+          "message": "[xcm-emulator] Make block producer overridable for non-Aura chains (#11791)\n\n# Description\n\nMakes the slot/digest producer used by `xcm-emulator`'s\n`decl_test_parachains!` macro overridable so parachains that don't run\nAura (e.g. Nimbus-based chains like Moonbeam) can be wired into\nxcm-emulator-based integration tests.\n\nPreviously, `new_block()` was hard-coded to call\n`pallet_aura::Pallet::<Runtime>::slot_duration()` and to build an Aura\n`PreRuntime` digest. This forced every emulated parachain to implement\n`pallet_aura::Config`, which is not viable for Nimbus-based runtimes.\n\n  ## Integration\n\nFully backwards-compatible — existing `decl_test_parachains!`\ninvocations need no changes. Aura-based parachains keep the same\nbehaviour through a default `AuraBlockProducer<T>` impl.\n\nNon-Aura parachains can now plug in a custom producer via a new optional\n`BlockProducer:` field:\n\n  ```diff\n   decl_test_parachains! {\n       pub struct MyPara {\n           genesis = genesis(),\n           on_init = (),\n           runtime = my_runtime,\n           core = {\n               XcmpMessageHandler: my_runtime::XcmpQueue,\n               LocationToAccountId: my_runtime::LocationToAccountId,\n               ParachainInfo: my_runtime::ParachainInfo,\nMessageOrigin: cumulus_primitives_core::AggregateMessageOrigin,\n  +            BlockProducer: MyNimbusBlockProducer,\n           },\n           pallets = { /* ... */ }\n       }\n   }\n  ```\n\n  Where `MyNimbusBlockProducer` implements the new trait:\n\n  ```rust\n  pub trait BlockProducer {\n      fn slot_duration() -> u64;\n      fn pre_runtime_digest(relay_block_number: u32) -> Digest;\n  }\n  ```\n\nIf the field is omitted, `AuraBlockProducer<Runtime>` is used,\nreproducing the previous behaviour exactly.\n\n## Review Notes\n\n- Adds a public `BlockProducer` trait in\n`cumulus/xcm/xcm-emulator/src/lib.rs` with two methods (`slot_duration`,\n`pre_runtime_digest`) — the two call sites in `new_block()` that\npreviously depended on\n  `pallet_aura`.\n- Provides `AuraBlockProducer<T>` as the default impl, gated on `T:\npallet_aura::Config` with `u64: From<T::Moment>`. Its\n`pre_runtime_digest` reproduces the previous inline digest construction\nverbatim (same\n  slot derivation, same `AURA_ENGINE_ID`).\n- Adds `type BlockProducer: BlockProducer` to the `Parachain` trait.\n- Extends `decl_test_parachains!` with an optional `BlockProducer:`\nfield and an `@inner_block_producer` helper arm that falls back to\n`$crate::AuraBlockProducer<$runtime::Runtime>` when unspecified.\n- In `new_block()`, `slot_duration` and the pre-runtime digest are now\nobtained through `<Self as Parachain>::BlockProducer`; all other\ninherent/timestamp logic is unchanged.\n\nNo new tests. Behaviour for Aura-based parachains is unchanged and\nalready covered by existing emulator tests; the new extension point is\nexercised by downstream (Moonbeam) integration tests.",
+          "timestamp": "2026-04-17T07:10:17Z",
+          "tree_id": "3bb942d884110e607c76c7788c20044b3ff6b95d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/2ba71927ba129107dda65a15563f19632f884fe2"
+        },
+        "date": 1776414662103,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 52941.7,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 63623.21,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7737358279199439,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.0000251311,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.0000251311,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.00002503908,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.673565953659951,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.8555072767999983,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.0056689715699999995,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.868509498890001,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.220550696112612,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.00002503908,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.81935361902,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.88128495801,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.4695058014500084,
             "unit": "seconds"
           }
         ]

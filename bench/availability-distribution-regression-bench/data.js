@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776414656191,
+  "lastUpdate": 1776418052141,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "eresav@me.com",
-            "name": "Andrei Eres",
-            "username": "AndreiEres"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "01abd9e3bfccd74135115bf6ef972db52f9c7d84",
-          "message": "[pallet-revive] Add `Pallet::set_evm_balance` (#9617)\n\nPart of https://github.com/paritytech/polkadot-sdk/issues/9553\nSee https://github.com/paritytech/foundry-polkadot/issues/273\n\nAdds a balance setter in EVM. \n\n\n## Integration\n\nShould not affect downstream projects.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: PG Herveou <pgherveou@gmail.com>",
-          "timestamp": "2025-09-03T10:15:05Z",
-          "tree_id": "275de3392024245a6a80282960032b563c922104",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/01abd9e3bfccd74135115bf6ef972db52f9c7d84"
-        },
-        "date": 1756898923093,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.1575818643933334,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013204531373333335,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022550875606666673,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007668701213333307,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-distribution",
             "value": 0.007247945106666665,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "tsvetomir@parity.io",
+            "name": "Tsvetomir Dimitrov",
+            "username": "tdimitrov"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5b25a4922a6a95b570d41e2340f17c39551a42dd",
+          "message": "Bump collation `in_peers` to 300 for the experimental collator protocol (#11762)\n\nSync the values of `CONNECTED_PEERS_PARA_LIMIT` in experimental collator\nprotocol and `MAX_AUTHORITY_INCOMING_STREAMS` in peer_set.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-17T08:00:24Z",
+          "tree_id": "4eb2d5627e972cc4e2d29cbeb43b9f38a3cced4d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/5b25a4922a6a95b570d41e2340f17c39551a42dd"
+        },
+        "date": 1776418029910,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009490121386666646,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14382671966,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.006932577560000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.025539309160000002,
             "unit": "seconds"
           }
         ]

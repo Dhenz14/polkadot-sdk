@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776414708183,
+  "lastUpdate": 1776418116449,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "363911+pepoviola@users.noreply.github.com",
-            "name": "Javier Viola",
-            "username": "pepoviola"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "12b5b37b8cd1cef19d01679dc70b933d0d80ba68",
-          "message": "bump zombienet-sdk and subxt versions (#9587)\n\nReplace https://github.com/paritytech/polkadot-sdk/pull/9506\n\n---------\n\nCo-authored-by: Bastian Köcher <git@kchr.de>\nCo-authored-by: Bastian Köcher <info@kchr.de>",
-          "timestamp": "2025-09-02T16:31:43+02:00",
-          "tree_id": "8485bbe198b710fdce8c03ca9792b14f10af7cde",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/12b5b37b8cd1cef19d01679dc70b933d0d80ba68"
-        },
-        "date": 1756825566179,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.95199999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.034272730233999994,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04462251077399992,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.0790259529699999,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "tsvetomir@parity.io",
+            "name": "Tsvetomir Dimitrov",
+            "username": "tdimitrov"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5b25a4922a6a95b570d41e2340f17c39551a42dd",
+          "message": "Bump collation `in_peers` to 300 for the experimental collator protocol (#11762)\n\nSync the values of `CONNECTED_PEERS_PARA_LIMIT` in experimental collator\nprotocol and `MAX_AUTHORITY_INCOMING_STREAMS` in peer_set.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-17T08:00:24Z",
+          "tree_id": "4eb2d5627e972cc4e2d29cbeb43b9f38a3cced4d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/5b25a4922a6a95b570d41e2340f17c39551a42dd"
+        },
+        "date": 1776418094053,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.04999999999998,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.0847443380179999,
+            "unit": "seconds"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.03826157998199999,
             "unit": "seconds"
           }
         ]

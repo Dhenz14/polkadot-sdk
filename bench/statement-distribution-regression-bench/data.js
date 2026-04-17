@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776418116449,
+  "lastUpdate": 1776420883676,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "1728078+michalkucharczyk@users.noreply.github.com",
-            "name": "Michal Kucharczyk",
-            "username": "michalkucharczyk"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "6f9236b9b6827150a366f5c7b1e4e9cd523594e0",
-          "message": "basic-authorship: end_reason improved (#9550)\n\nThe `end_reason` reported in block authoring can be\n[misleading](https://github.com/paritytech/polkadot-sdk/issues/9188#issuecomment-3070697415)\nwhen resource limits are hit. The basic authorship module tries\nadditional transactions after hitting limits, and if it runs out of\ntransactions or time during this extended trial phase, it reports the\ninaccurate reason.\n\nMisleading scenarios are:\n- Scenario 1: Resource limit masked by `NoMoreTransactions`\n1. Block hits weight/size limit -> should report\n`HitBlockWeightLimit`/`HitBlockSizeLimit`\n      2. Code tries up to `MAX_SKIPPED_TRANSACTIONS`,\n      3. If still before soft deadline, continues trying transactions,\n      4. Transaction pool runs out during this extended trial phase,\n5. Reason reported is: `NoMoreTransactions`, while the reality is that\nblock was _resource-constrained_, not _mp-transactions-constrained_.\n- Scenario 2: Resource limit masked by `HitDeadline`\n1. Block hits weight/size limit, (let's assume 100k fat transactions in\nthe pool)\n2. Code keeps trying transactions that can't fit due to weight\nconstraints\n      3. Deadline is reached while trying pool transactions\n4. Reason reported is: `HitDeadline`, while the reality is that block\nwas _resource-constrained_, not _time-constrained_.\n\nThis PR proposes to change the actual `end_reason` to be more accurate.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-02T19:28:10Z",
-          "tree_id": "0edd6bb34ea90352d1cd8ca0e8fcbd980aa2e476",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/6f9236b9b6827150a366f5c7b1e4e9cd523594e0"
-        },
-        "date": 1756846135328,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.95399999999992,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03425612467999999,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04447576810599996,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.03826157998199999,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "142614787+andreitrand@users.noreply.github.com",
+            "name": "Andrei Trandafir",
+            "username": "andreitrand"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "a9ffa03ac6738da49622d81a64a1bb4809911464",
+          "message": "Add token transfers via XCM to DAP from the satellites (#11434)\n\nPR https://github.com/paritytech/polkadot-sdk/pull/10597 introduces the\nDAP satellite for gathering funds on every system parachain. This PR\nadds the periodic transfer of the gathered funds to the central DAP on\nAH. A minimum balance is expected for a transfer to take place. Both the\nperiod (in blocks) and the minimum balance are configurable.\n\nClose #10596.\n\nChanges:\n- Inside `pallet-dap-satellite`, on every `on_idle`, a transfer is\nattempted if (1) sufficient funds have been gathered in the satellite's\naccount and (2) a number of blocks have elapsed since the last transfer\nattempt\n- The transfer is an XCM teleport, which handles the burning of funds at\nthe source and the minting at the destination; if a transfer fails, the\nburnt funds are re-minted at the source to maintain consistency\n- The interval of the transfers is not affected by a single transfer's\nsuccess or failure\n- The DAP pallet gets a dedicated *staging* account, where all funds get\ndeposited (including those previously deposited into the main DAP\naccount); on every `on_idle`, all funds are taken from the staging\naccount, deposited into the main DAP account and deactivated. The\nstaging account is pre-funded (with the ED) in the same way as the main\nDAP account.\n\nThis is a continuation of PR\nhttps://github.com/paritytech/polkadot-sdk/pull/11294.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-17T08:51:43Z",
+          "tree_id": "e1f94e9ac49161cc4e1577dbea7e5255bafe0413",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/a9ffa03ac6738da49622d81a64a1bb4809911464"
+        },
+        "date": 1776420861502,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.03799999999995,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038331819184,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.07784146659599997,
             "unit": "seconds"
           }
         ]

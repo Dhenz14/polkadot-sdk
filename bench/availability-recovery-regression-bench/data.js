@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776433853344,
+  "lastUpdate": 1776437440483,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "paolo@parity.io",
-            "name": "Paolo La Camera",
-            "username": "sigurpol"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "5314442a060f53391c5d8d1ece4937332dfa9fc9",
-          "message": "staking-async: implement lazy era pruning extrinsic (#9632)\n\nMove era pruning from automatic unbounded deletions to a permissionless\nlazy pruning system.\n\nFix https://github.com/paritytech-secops/srlabs_findings/issues/528.\n\n\n## Changes:\n- Add `prune_era_step extrinsic` for permissionless era maintenance\n- Add `PruningStep` enum and `EraPruningState` storage for tracking\nprogress\n- Implement `do_prune_era_step()` with item/weight-based deletion limits\n- Remove automatic pruning to prevent DoS from unbounded operations\n- Add `MaxPruningItems` Runtime parameter for safe incremental deletions\n- Return `Pays::No` when work is done to incentivize regular maintenance\n- Add `EraNotPrunable` error for proper validation\n- Update benchmarking to test new extrinsic-based approach\n- Update tests to account for manual pruning instead of automatic\ncleanup\n\nThe new system processes era pruning across multiple blocks using a\nstate machine pattern, ensuring storage operations remain bounded and\npreventing potential DoS attacks from large era cleanup operations.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-05T08:29:51Z",
-          "tree_id": "54de2b3e6dd6844c873e56f81a6335492bd4fd3a",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/5314442a060f53391c5d8d1ece4937332dfa9fc9"
-        },
-        "date": 1757065460352,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.20080316443333332,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.397756682833332,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 11.765518614433333,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "02bbf3dc1676deed290a7017dae69f3cd8321547",
+          "message": "statement-store: add subscription reconnection tests (#11618)\n\n# Description\nImplement unit tests for \"Subscription reconnection: verify reconnecting\nsubscribers receive current state\" #11534\n\n## Summary\n- `subscription_reconnect_receives_current_state` — verifies\nreconnecting subscribers receive full current state including\nadditions/removals made while disconnected\n- `subscription_reconnect_with_topic_filter` — verifies topic filtering\nworks correctly on reconnect and filter can change between connections\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-17T13:15:55Z",
+          "tree_id": "c702e4f576a177146ac082a76ed94adf6b16d365",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/02bbf3dc1676deed290a7017dae69f3cd8321547"
+        },
+        "date": 1776437418738,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1297145397,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.758091947333336,
             "unit": "seconds"
           }
         ]

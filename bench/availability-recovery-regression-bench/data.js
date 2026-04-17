@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776377475297,
+  "lastUpdate": 1776414629923,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "eresav@me.com",
-            "name": "Andrei Eres",
-            "username": "AndreiEres"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "01abd9e3bfccd74135115bf6ef972db52f9c7d84",
-          "message": "[pallet-revive] Add `Pallet::set_evm_balance` (#9617)\n\nPart of https://github.com/paritytech/polkadot-sdk/issues/9553\nSee https://github.com/paritytech/foundry-polkadot/issues/273\n\nAdds a balance setter in EVM. \n\n\n## Integration\n\nShould not affect downstream projects.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: PG Herveou <pgherveou@gmail.com>",
-          "timestamp": "2025-09-03T10:15:05Z",
-          "tree_id": "275de3392024245a6a80282960032b563c922104",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/01abd9e3bfccd74135115bf6ef972db52f9c7d84"
-        },
-        "date": 1756898895737,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19782032776666666,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.518605601966666,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.12440300556666668,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "9842640+manuelmauro@users.noreply.github.com",
+            "name": "Manuel Mauro",
+            "username": "manuelmauro"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "2ba71927ba129107dda65a15563f19632f884fe2",
+          "message": "[xcm-emulator] Make block producer overridable for non-Aura chains (#11791)\n\n# Description\n\nMakes the slot/digest producer used by `xcm-emulator`'s\n`decl_test_parachains!` macro overridable so parachains that don't run\nAura (e.g. Nimbus-based chains like Moonbeam) can be wired into\nxcm-emulator-based integration tests.\n\nPreviously, `new_block()` was hard-coded to call\n`pallet_aura::Pallet::<Runtime>::slot_duration()` and to build an Aura\n`PreRuntime` digest. This forced every emulated parachain to implement\n`pallet_aura::Config`, which is not viable for Nimbus-based runtimes.\n\n  ## Integration\n\nFully backwards-compatible — existing `decl_test_parachains!`\ninvocations need no changes. Aura-based parachains keep the same\nbehaviour through a default `AuraBlockProducer<T>` impl.\n\nNon-Aura parachains can now plug in a custom producer via a new optional\n`BlockProducer:` field:\n\n  ```diff\n   decl_test_parachains! {\n       pub struct MyPara {\n           genesis = genesis(),\n           on_init = (),\n           runtime = my_runtime,\n           core = {\n               XcmpMessageHandler: my_runtime::XcmpQueue,\n               LocationToAccountId: my_runtime::LocationToAccountId,\n               ParachainInfo: my_runtime::ParachainInfo,\nMessageOrigin: cumulus_primitives_core::AggregateMessageOrigin,\n  +            BlockProducer: MyNimbusBlockProducer,\n           },\n           pallets = { /* ... */ }\n       }\n   }\n  ```\n\n  Where `MyNimbusBlockProducer` implements the new trait:\n\n  ```rust\n  pub trait BlockProducer {\n      fn slot_duration() -> u64;\n      fn pre_runtime_digest(relay_block_number: u32) -> Digest;\n  }\n  ```\n\nIf the field is omitted, `AuraBlockProducer<Runtime>` is used,\nreproducing the previous behaviour exactly.\n\n## Review Notes\n\n- Adds a public `BlockProducer` trait in\n`cumulus/xcm/xcm-emulator/src/lib.rs` with two methods (`slot_duration`,\n`pre_runtime_digest`) — the two call sites in `new_block()` that\npreviously depended on\n  `pallet_aura`.\n- Provides `AuraBlockProducer<T>` as the default impl, gated on `T:\npallet_aura::Config` with `u64: From<T::Moment>`. Its\n`pre_runtime_digest` reproduces the previous inline digest construction\nverbatim (same\n  slot derivation, same `AURA_ENGINE_ID`).\n- Adds `type BlockProducer: BlockProducer` to the `Parachain` trait.\n- Extends `decl_test_parachains!` with an optional `BlockProducer:`\nfield and an `@inner_block_producer` helper arm that falls back to\n`$crate::AuraBlockProducer<$runtime::Runtime>` when unspecified.\n- In `new_block()`, `slot_duration` and the pre-runtime digest are now\nobtained through `<Self as Parachain>::BlockProducer`; all other\ninherent/timestamp logic is unchanged.\n\nNo new tests. Behaviour for Aura-based parachains is unchanged and\nalready covered by existing emulator tests; the new extension point is\nexercised by downstream (Moonbeam) integration tests.",
+          "timestamp": "2026-04-17T07:10:17Z",
+          "tree_id": "3bb942d884110e607c76c7788c20044b3ff6b95d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/2ba71927ba129107dda65a15563f19632f884fe2"
+        },
+        "date": 1776414610083,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.68315302163333,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13181439923333338,
             "unit": "seconds"
           }
         ]

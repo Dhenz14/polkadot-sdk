@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776420883676,
+  "lastUpdate": 1776428122745,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "yrong1997@gmail.com",
-            "name": "Ron",
-            "username": "yrong"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "b8a05717efc3f1b730321554ba603c1bfe71a4cb",
-          "message": "Improve Penpal with async backing (#9293)",
-          "timestamp": "2025-09-02T21:35:13Z",
-          "tree_id": "02ce070e5eaea90e01fe60f36dc2b24a2a9f6b28",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/b8a05717efc3f1b730321554ba603c1bfe71a4cb"
-        },
-        "date": 1756853508950,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.94399999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03430029299,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04450423244399992,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.07784146659599997,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "robertvaneerdewijk@gmail.com",
+            "name": "0xRVE",
+            "username": "0xRVE"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "e4350132f00e54bc5605559b91496f99ff97ac75",
+          "message": "pallet-asset-conversion: distinguish `PoolEmpty` from `PoolNotFound` (#11798)\n\n## Summary\n\n- Adds a new `PoolEmpty` error variant to `pallet-asset-conversion`\n- `PoolNotFound` now only means the pool does not exist in storage\n- `PoolEmpty` is returned when the pool exists but has zero reserves\n\n## Motivation\n\nWhen a pool exists but has no liquidity, `get_reserves()` returned\n`PoolNotFound`. This is misleading — the pool is in storage, it just has\nempty reserves. Users and frontends cannot distinguish between \"you need\nto create a pool\" and \"you need to add liquidity.\"\n\n## Changes\n\n- `substrate/frame/asset-conversion/src/lib.rs`: Added `PoolEmpty` error\nvariant, changed the zero-reserves check in `get_reserves()` to use it\n- `substrate/frame/asset-conversion/src/tests.rs`: Updated\n`can_not_swap_in_pool_with_no_liquidity_added_yet` to expect `PoolEmpty`\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
+          "timestamp": "2026-04-17T09:44:46Z",
+          "tree_id": "3873485068066c85890568152464c0ef3c45060d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/e4350132f00e54bc5605559b91496f99ff97ac75"
+        },
+        "date": 1776428100043,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.06600000000003,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08514316201999989,
+            "unit": "seconds"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.03831129546200001,
             "unit": "seconds"
           }
         ]

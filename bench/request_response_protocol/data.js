@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776436452437,
+  "lastUpdate": 1776444279529,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -80675,6 +80675,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2541533279,
             "range": "± 47357441",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "11329616+Klapeyron@users.noreply.github.com",
+            "name": "Klapeyron",
+            "username": "Klapeyron"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "62f97dc2239db2dc5dc0381bf161726453692d1e",
+          "message": "chore: Updated wasmtime to 36.0.7 (#11793)\n\n# Description\n\nUpdated wasmtime to 36.0.7\n\n# Checklist\n\n* [ ] My PR includes a detailed description as outlined in the\n\"Description\" and its two subsections above.\n* [ ] My PR follows the [labeling requirements](\n\nhttps://github.com/paritytech/polkadot-sdk/blob/master/docs/contributor/CONTRIBUTING.md#Process\n) of this project (at minimum one label for `T` required)\n    * External contributors: Use `/cmd label <label-name>` to add labels\n    * Maintainers can also add labels manually\n* [ ] I have made corresponding changes to the documentation (if\napplicable)\n* [ ] I have added tests that prove my fix is effective or that my\nfeature works (if applicable)\n\n## Bot Commands\n\nYou can use the following bot commands in comments to help manage your\nPR:\n\n**Labeling (Self-service for contributors):**\n* `/cmd label T1-FRAME` - Add a single label\n* `/cmd label T1-FRAME R0-no-crate-publish-required` - Add multiple\nlabels\n* `/cmd label T6-XCM D2-substantial I5-enhancement` - Add multiple\nlabels at once\n* See [label\ndocumentation](https://paritytech.github.io/labels/doc_polkadot-sdk.html)\nfor all available labels\n\n**Other useful commands:**\n* `/cmd fmt` - Format code (cargo +nightly fmt and taplo)\n* `/cmd prdoc` - Generate PR documentation\n* `/cmd bench` - Run benchmarks\n* `/cmd update-ui` - Update UI tests\n* `/cmd --help` - Show help for all available commands\n\nYou can remove the \"Checklist\" section once all have been checked. Thank\nyou for your contribution!\n\n✄\n-----------------------------------------------------------------------------",
+          "timestamp": "2026-04-17T14:41:16Z",
+          "tree_id": "3f79edc902053443088485c1b99eba0e3c105038",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/62f97dc2239db2dc5dc0381bf161726453692d1e"
+        },
+        "date": 1776444257353,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18253579,
+            "range": "± 145541",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18526111,
+            "range": "± 126472",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20072378,
+            "range": "± 162656",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 25428136,
+            "range": "± 545980",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 57448812,
+            "range": "± 927473",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 341431010,
+            "range": "± 3518540",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2593590151,
+            "range": "± 103616452",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15109296,
+            "range": "± 289894",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15210552,
+            "range": "± 413419",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 15814269,
+            "range": "± 263012",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20488177,
+            "range": "± 453877",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 57364368,
+            "range": "± 1480197",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 333247028,
+            "range": "± 4581396",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2636347940,
+            "range": "± 49385651",
             "unit": "ns/iter"
           }
         ]

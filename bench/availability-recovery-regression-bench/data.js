@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776414629923,
+  "lastUpdate": 1776418021147,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "enntheprogrammer@gmail.com",
-            "name": "sistemd",
-            "username": "sistemd"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "75173f8c55e7f2d83c545397700576b58bcd92e5",
-          "message": "fix: parachain informant (#9581)\n\nCloses https://github.com/paritytech/polkadot-sdk/issues/9559.\n\nThe parachain informant was logging information for all parachains, not\njust ours. This PR fixes that by filtering the events by parachain ID.\n\nI tried adding a zombienet test for this but there isn't really a good\nway to do it. So I ended up only testing manually with zombienet, by\ncreating a network of two parachains and adding some extra logging to\nensure that the events are now being filtered out correctly.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
-          "timestamp": "2025-09-03T10:49:02Z",
-          "tree_id": "35a2d6e8bcf1927302d16a9fd799a492610fa67d",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/75173f8c55e7f2d83c545397700576b58bcd92e5"
-        },
-        "date": 1756900904321,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.1952044685,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.572932613066664,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.13181439923333338,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "tsvetomir@parity.io",
+            "name": "Tsvetomir Dimitrov",
+            "username": "tdimitrov"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5b25a4922a6a95b570d41e2340f17c39551a42dd",
+          "message": "Bump collation `in_peers` to 300 for the experimental collator protocol (#11762)\n\nSync the values of `CONNECTED_PEERS_PARA_LIMIT` in experimental collator\nprotocol and `MAX_AUTHORITY_INCOMING_STREAMS` in peer_set.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-17T08:00:24Z",
+          "tree_id": "4eb2d5627e972cc4e2d29cbeb43b9f38a3cced4d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/5b25a4922a6a95b570d41e2340f17c39551a42dd"
+        },
+        "date": 1776417998815,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.7018602926,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13703564386666667,
             "unit": "seconds"
           }
         ]

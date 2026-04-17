@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776428030102,
+  "lastUpdate": 1776433853344,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "serban@parity.io",
-            "name": "Serban Iorga",
-            "username": "serban300"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "fa417f9fde23634d6157b928ddfe9d0b19299d57",
-          "message": "Update `kvdb-rocksdb` to `v0.20.0` (#9644)\n\nRelated to https://github.com/paritytech/parity-common/issues/932\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-04T20:05:17Z",
-          "tree_id": "1cac64dbbcde0f916daa42d8cede3e716dae0a72",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/fa417f9fde23634d6157b928ddfe9d0b19299d57"
-        },
-        "date": 1757021129301,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19257726843333328,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.169542405300003,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.13191853356666666,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "10196091+Ank4n@users.noreply.github.com",
+            "name": "Ankan",
+            "username": "Ank4n"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "14ed925742ea797129c824531c24d4982a08d8d2",
+          "message": "[DAP] V2 Migration bootstraps drip (#11809)\n\n## Context\nThe DAP V2 migration seeded `LastIssuanceTimestamp` to a point in the\npast (active era start) so the next regular drip would credit elapsed\ntime back to that point. That elapsed is then clamped\nby`MaxElapsedPerDrip`, so only up to one cap's worth of inflation is\nactually credited on the first drip, and the rest is silently dropped.\n\n## Fix\nThis migration now performs a one-shot catch-up drip for the full\n`[last_inflation, now]` window and seeds `LastIssuanceTimestamp` to\n`now`, so regular drips start a fresh cadence from this point. The one\nshot inflation is also clamped by Max Era Length to avoid over\ninflation.",
+          "timestamp": "2026-04-17T11:41:42Z",
+          "tree_id": "9d7667fc16ca9573adbf260d571392cafc5ef5e3",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/14ed925742ea797129c824531c24d4982a08d8d2"
+        },
+        "date": 1776433831375,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13009305536666665,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.765518614433333,
             "unit": "seconds"
           }
         ]

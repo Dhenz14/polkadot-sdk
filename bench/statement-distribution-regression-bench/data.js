@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776433944081,
+  "lastUpdate": 1776437531345,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "enntheprogrammer@gmail.com",
-            "name": "sistemd",
-            "username": "sistemd"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "75173f8c55e7f2d83c545397700576b58bcd92e5",
-          "message": "fix: parachain informant (#9581)\n\nCloses https://github.com/paritytech/polkadot-sdk/issues/9559.\n\nThe parachain informant was logging information for all parachains, not\njust ours. This PR fixes that by filtering the events by parachain ID.\n\nI tried adding a zombienet test for this but there isn't really a good\nway to do it. So I ended up only testing manually with zombienet, by\ncreating a network of two parachains and adding some extra logging to\nensure that the events are now being filtered out correctly.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
-          "timestamp": "2025-09-03T10:49:02Z",
-          "tree_id": "35a2d6e8bcf1927302d16a9fd799a492610fa67d",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/75173f8c55e7f2d83c545397700576b58bcd92e5"
-        },
-        "date": 1756900986114,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 127.95999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04489399226999996,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.034591716534000005,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.08528747192999991,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "02bbf3dc1676deed290a7017dae69f3cd8321547",
+          "message": "statement-store: add subscription reconnection tests (#11618)\n\n# Description\nImplement unit tests for \"Subscription reconnection: verify reconnecting\nsubscribers receive current state\" #11534\n\n## Summary\n- `subscription_reconnect_receives_current_state` — verifies\nreconnecting subscribers receive full current state including\nadditions/removals made while disconnected\n- `subscription_reconnect_with_topic_filter` — verifies topic filtering\nworks correctly on reconnect and filter can change between connections\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-17T13:15:55Z",
+          "tree_id": "c702e4f576a177146ac082a76ed94adf6b16d365",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/02bbf3dc1676deed290a7017dae69f3cd8321547"
+        },
+        "date": 1776437509516,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.0579999999999,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038514534433999985,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08213973564599991,
             "unit": "seconds"
           }
         ]

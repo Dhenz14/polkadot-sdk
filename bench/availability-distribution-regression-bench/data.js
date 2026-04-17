@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776437470345,
+  "lastUpdate": 1776446971492,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "paolo@parity.io",
-            "name": "Paolo La Camera",
-            "username": "sigurpol"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "5314442a060f53391c5d8d1ece4937332dfa9fc9",
-          "message": "staking-async: implement lazy era pruning extrinsic (#9632)\n\nMove era pruning from automatic unbounded deletions to a permissionless\nlazy pruning system.\n\nFix https://github.com/paritytech-secops/srlabs_findings/issues/528.\n\n\n## Changes:\n- Add `prune_era_step extrinsic` for permissionless era maintenance\n- Add `PruningStep` enum and `EraPruningState` storage for tracking\nprogress\n- Implement `do_prune_era_step()` with item/weight-based deletion limits\n- Remove automatic pruning to prevent DoS from unbounded operations\n- Add `MaxPruningItems` Runtime parameter for safe incremental deletions\n- Return `Pays::No` when work is done to incentivize regular maintenance\n- Add `EraNotPrunable` error for proper validation\n- Update benchmarking to test new extrinsic-based approach\n- Update tests to account for manual pruning instead of automatic\ncleanup\n\nThe new system processes era pruning across multiple blocks using a\nstate machine pattern, ensuring storage operations remain bounded and\npreventing potential DoS attacks from large era cleanup operations.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-05T08:29:51Z",
-          "tree_id": "54de2b3e6dd6844c873e56f81a6335492bd4fd3a",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/5314442a060f53391c5d8d1ece4937332dfa9fc9"
-        },
-        "date": 1757065487636,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012678551893333334,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02241209982,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15635772067333337,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007386069813333317,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-distribution",
             "value": 0.007195714633333335,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@kchr.de",
+            "name": "Bastian Köcher",
+            "username": "bkchr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6e8ca55095e6bdb540f193c560cdc0419637a6d1",
+          "message": "Block Bundling Node Side (#10477)\n\nThis implements Block bundling aka 500ms on the node side. Right now the\npull request also contains the runtime changes, but this is already its\n[own pull\nrequest](https://github.com/paritytech/polkadot-sdk/pull/10315).\n\nThe main changes are in the slot-based collator. Instead of building one\nblock per core, blocks will be build as requested and distributed over\nthe available cores.\n\nCloses: https://github.com/paritytech/polkadot-sdk/issues/9080\nCloses: https://github.com/paritytech/polkadot-sdk/issues/8963\nCloses: https://github.com/paritytech/polkadot-sdk/issues/6495\n\n---------\n\nCo-authored-by: Guillaume Thiolliere <gui.thiolliere@gmail.com>\nCo-authored-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Sebastian Kunert <skunert49@gmail.com>\nCo-authored-by: Sebastian Kunert <mail@skunert.dev>\nCo-authored-by: Michal Kucharczyk <1728078+michalkucharczyk@users.noreply.github.com>",
+          "timestamp": "2026-04-17T15:47:07Z",
+          "tree_id": "831317484632f091cde3f113120c8fe29339f1f5",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/6e8ca55095e6bdb540f193c560cdc0419637a6d1"
+        },
+        "date": 1776446949452,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.006895268993333331,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.023965667366666676,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.00978916839999997,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14185919191999996,
             "unit": "seconds"
           }
         ]

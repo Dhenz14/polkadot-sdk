@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776428122745,
+  "lastUpdate": 1776433944081,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "41779041+alvicsam@users.noreply.github.com",
-            "name": "Alexander Samusev",
-            "username": "alvicsam"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "3f8534ee18967c1169176d29944b257537a7cbad",
-          "message": "ci: try experimental runners (#9618)\n\ncc https://github.com/paritytech/devops/issues/3875",
-          "timestamp": "2025-09-03T07:53:07Z",
-          "tree_id": "24fd87249822204aa03b8c70cca28ec71b1beff5",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/3f8534ee18967c1169176d29944b257537a7cbad"
-        },
-        "date": 1756891904327,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 127.94199999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04446257403199993,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03440587491800001,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.03831129546200001,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "10196091+Ank4n@users.noreply.github.com",
+            "name": "Ankan",
+            "username": "Ank4n"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "14ed925742ea797129c824531c24d4982a08d8d2",
+          "message": "[DAP] V2 Migration bootstraps drip (#11809)\n\n## Context\nThe DAP V2 migration seeded `LastIssuanceTimestamp` to a point in the\npast (active era start) so the next regular drip would credit elapsed\ntime back to that point. That elapsed is then clamped\nby`MaxElapsedPerDrip`, so only up to one cap's worth of inflation is\nactually credited on the first drip, and the rest is silently dropped.\n\n## Fix\nThis migration now performs a one-shot catch-up drip for the full\n`[last_inflation, now]` window and seeds `LastIssuanceTimestamp` to\n`now`, so regular drips start a fresh cadence from this point. The one\nshot inflation is also clamped by Max Era Length to avoid over\ninflation.",
+          "timestamp": "2026-04-17T11:41:42Z",
+          "tree_id": "9d7667fc16ca9573adbf260d571392cafc5ef5e3",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/14ed925742ea797129c824531c24d4982a08d8d2"
+        },
+        "date": 1776433922301,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.04399999999998,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.03891837853,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08528747192999991,
             "unit": "seconds"
           }
         ]

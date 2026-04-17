@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776420791266,
+  "lastUpdate": 1776428030102,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "serban@parity.io",
-            "name": "Serban Iorga",
-            "username": "serban300"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "f9efa67cf05d0a2404605c391ac3858c3c9bf6b8",
-          "message": "Account for PoV size when enqueing XCMP message (#9641)\n\nRelated to https://github.com/paritytech/polkadot-sdk/pull/9630 , but\nadjusting the benchmark\n\nUsing `#[benchmark(pov_mode = Measured)]` for the\n`enqueue_empty_xcmp_message_at` benchmark.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-04T13:04:52Z",
-          "tree_id": "2f6bde86497d3978a82f49bd9cd87396f44f6a05",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/f9efa67cf05d0a2404605c391ac3858c3c9bf6b8"
-        },
-        "date": 1756995526302,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.332575498366669,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.1960483769,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.12122981340000001,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "robertvaneerdewijk@gmail.com",
+            "name": "0xRVE",
+            "username": "0xRVE"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "e4350132f00e54bc5605559b91496f99ff97ac75",
+          "message": "pallet-asset-conversion: distinguish `PoolEmpty` from `PoolNotFound` (#11798)\n\n## Summary\n\n- Adds a new `PoolEmpty` error variant to `pallet-asset-conversion`\n- `PoolNotFound` now only means the pool does not exist in storage\n- `PoolEmpty` is returned when the pool exists but has zero reserves\n\n## Motivation\n\nWhen a pool exists but has no liquidity, `get_reserves()` returned\n`PoolNotFound`. This is misleading — the pool is in storage, it just has\nempty reserves. Users and frontends cannot distinguish between \"you need\nto create a pool\" and \"you need to add liquidity.\"\n\n## Changes\n\n- `substrate/frame/asset-conversion/src/lib.rs`: Added `PoolEmpty` error\nvariant, changed the zero-reserves check in `get_reserves()` to use it\n- `substrate/frame/asset-conversion/src/tests.rs`: Updated\n`can_not_swap_in_pool_with_no_liquidity_added_yet` to expect `PoolEmpty`\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
+          "timestamp": "2026-04-17T09:44:46Z",
+          "tree_id": "3873485068066c85890568152464c0ef3c45060d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/e4350132f00e54bc5605559b91496f99ff97ac75"
+        },
+        "date": 1776428007762,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.769667296599998,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13191853356666666,
             "unit": "seconds"
           }
         ]

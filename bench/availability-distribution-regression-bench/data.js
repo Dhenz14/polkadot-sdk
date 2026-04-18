@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776446971492,
+  "lastUpdate": 1776539173651,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "git@kchr.de",
-            "name": "Bastian Köcher",
-            "username": "bkchr"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "4acb964059a218be9bac954b4e3803b78b5526bf",
-          "message": "Forward `CoreInfo` via an digest to the runtime (#9002)\n\nBefore this pull request we had this rather inflexible `SelectCore` type\nin `parachain-system`. It was just taking the last byte of the block\nnumber as the core selector. This resulted in issues like #8893. While\nit was not totally static, it was very complicated to forward the needed\ninformation to the runtime. In the case of running with block bundling\n(500ms blocks), multiple blocks are actually validated on the same core.\nFinding out the selector and offset without having access to the claim\nqueue is rather hard. The claim queue could be forwarded to the runtime,\nbut it would waste POV size as we would need to include the entire claim\nqueue of all parachains.\n\nThis pull request solves the problem by moving the entire core selection\nto the collator side. From there the information is passed via a\n`PreRuntime` digest to the runtime. The `CoreInfo` contains the\n`selector`, `claim_queue_offset` and `number_of_cores`. Doing this on\nthe collator side is fine as long as we don't have slot durations that\nare lower than the relay chain slot duration. As we have agreed to\nalways have equal or bigger slot durations on parachains, there should\nbe no problem with this change.\n\nDownstream users need to remove the `SelectCore` type from the\n`parachain_system::Config`:\n```diff\n- type SelectCore = ...;\n+\n```\n\nCloses: https://github.com/paritytech/polkadot-sdk/issues/8893\nhttps://github.com/paritytech/polkadot-sdk/issues/8906\n\n---------\n\nSigned-off-by: Andrei Sandu <andrei-mihail@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Andrei Sandu <54316454+sandreim@users.noreply.github.com>\nCo-authored-by: Andrei Sandu <andrei-mihail@parity.io>\nCo-authored-by: Sebastian Kunert <skunert49@gmail.com>",
-          "timestamp": "2025-09-05T15:26:49Z",
-          "tree_id": "edd4ea3b225223f31c9ab6550f848bf6d9254b3e",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/4acb964059a218be9bac954b4e3803b78b5526bf"
-        },
-        "date": 1757090329098,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.16031057308666674,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.01325563701333333,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02265520304,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007405410346666666,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-store",
             "value": 0.14185919191999996,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "73715684+Szegoo@users.noreply.github.com",
+            "name": "Sergej Sakac",
+            "username": "Szegoo"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "878b1583b5031aa4ee936cb98ff45257778acafa",
+          "message": "PSM init: skip assets with mismatched decimals instead of panicking (#11807)\n\nAddresses issue @ggwpez raised in this comment:\nhttps://github.com/paritytech/polkadot-sdk/pull/11068#discussion_r3096189282\n\n## Summary\n\nReplaces the `assert!` in the PSM `InitializePsm` migration with a log +\nskip when an asset's decimals don't match the stable asset. Panicking in\na runtime upgrade bricks the chain. Migrations must be infallible.\n\n### Test\n\nAdds `initialize_psm_skips_assets_with_wrong_decimals` which verifies\nthat assets with mismatched decimals are skipped while\ncorrectly-configured assets in the same migration are still added.",
+          "timestamp": "2026-04-18T17:42:40Z",
+          "tree_id": "b4c9fffcc4588d1f361e7427b9439223e2d11602",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/878b1583b5031aa4ee936cb98ff45257778acafa"
+        },
+        "date": 1776539152159,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.023792789966666672,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.00688305729333333,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009374359659999977,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.1412634403466667,
             "unit": "seconds"
           }
         ]

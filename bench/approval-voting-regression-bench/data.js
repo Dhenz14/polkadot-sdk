@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776447000846,
+  "lastUpdate": 1776539202909,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "paolo@parity.io",
-            "name": "Paolo La Camera",
-            "username": "sigurpol"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "5314442a060f53391c5d8d1ece4937332dfa9fc9",
-          "message": "staking-async: implement lazy era pruning extrinsic (#9632)\n\nMove era pruning from automatic unbounded deletions to a permissionless\nlazy pruning system.\n\nFix https://github.com/paritytech-secops/srlabs_findings/issues/528.\n\n\n## Changes:\n- Add `prune_era_step extrinsic` for permissionless era maintenance\n- Add `PruningStep` enum and `EraPruningState` storage for tracking\nprogress\n- Implement `do_prune_era_step()` with item/weight-based deletion limits\n- Remove automatic pruning to prevent DoS from unbounded operations\n- Add `MaxPruningItems` Runtime parameter for safe incremental deletions\n- Return `Pays::No` when work is done to incentivize regular maintenance\n- Add `EraNotPrunable` error for proper validation\n- Update benchmarking to test new extrinsic-based approach\n- Update tests to account for manual pruning instead of automatic\ncleanup\n\nThe new system processes era pruning across multiple blocks using a\nstate machine pattern, ensuring storage operations remain bounded and\npreventing potential DoS attacks from large era cleanup operations.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-05T08:29:51Z",
-          "tree_id": "54de2b3e6dd6844c873e56f81a6335492bd4fd3a",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/5314442a060f53391c5d8d1ece4937332dfa9fc9"
-        },
-        "date": 1757065514626,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52933.5,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63622.500000000015,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.0058713673200000045,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4517895830300014,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.42606752189999864,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000019029209999999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.00002194848,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.00002194848,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9284020976300014,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000019029209999999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.602261377520931,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.4961491992999996,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.215470435369998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.45974376497,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.4474469012199984,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 4.294479420822716,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "73715684+Szegoo@users.noreply.github.com",
+            "name": "Sergej Sakac",
+            "username": "Szegoo"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "878b1583b5031aa4ee936cb98ff45257778acafa",
+          "message": "PSM init: skip assets with mismatched decimals instead of panicking (#11807)\n\nAddresses issue @ggwpez raised in this comment:\nhttps://github.com/paritytech/polkadot-sdk/pull/11068#discussion_r3096189282\n\n## Summary\n\nReplaces the `assert!` in the PSM `InitializePsm` migration with a log +\nskip when an asset's decimals don't match the stable asset. Panicking in\na runtime upgrade bricks the chain. Migrations must be infallible.\n\n### Test\n\nAdds `initialize_psm_skips_assets_with_wrong_decimals` which verifies\nthat assets with mismatched decimals are skipped while\ncorrectly-configured assets in the same migration are still added.",
+          "timestamp": "2026-04-18T17:42:40Z",
+          "tree_id": "b4c9fffcc4588d1f361e7427b9439223e2d11602",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/878b1583b5031aa4ee936cb98ff45257778acafa"
+        },
+        "date": 1776539181324,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 63628.5,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 52945.8,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005246147109999996,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.901372013360001,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.838103821740001,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.62966562931997,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7637747654199634,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.818443063740001,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.279871411772931,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.00002218863,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.000023037540000000004,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.00002218863,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.459814450690003,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.000023037540000000004,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.842911367259999,
             "unit": "seconds"
           }
         ]

@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776446941139,
+  "lastUpdate": 1776539144529,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "paolo@parity.io",
-            "name": "Paolo La Camera",
-            "username": "sigurpol"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "c8c7dba4030fba2d7504c47c40d654c9954fe3d7",
-          "message": "staking-async: prevent manual application of cancelled slashes (#9659)\n\nFix security vulnerability where the permissionless `apply_slash`\nextrinsic could be used to manually apply slashes that governance had\ncancelled via `cancel_deferred_slash`.\n\nRelated issue:\nhttps://github.com/paritytech-secops/srlabs_findings/issues/563\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-07T06:12:34Z",
-          "tree_id": "d8fe36db80cd2964ec9577b6d61bc29340fdc5fc",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/c8c7dba4030fba2d7504c47c40d654c9954fe3d7"
-        },
-        "date": 1757230271539,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.202952013566668,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.20031954619999995,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.13073418016666666,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "73715684+Szegoo@users.noreply.github.com",
+            "name": "Sergej Sakac",
+            "username": "Szegoo"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "878b1583b5031aa4ee936cb98ff45257778acafa",
+          "message": "PSM init: skip assets with mismatched decimals instead of panicking (#11807)\n\nAddresses issue @ggwpez raised in this comment:\nhttps://github.com/paritytech/polkadot-sdk/pull/11068#discussion_r3096189282\n\n## Summary\n\nReplaces the `assert!` in the PSM `InitializePsm` migration with a log +\nskip when an asset's decimals don't match the stable asset. Panicking in\na runtime upgrade bricks the chain. Migrations must be infallible.\n\n### Test\n\nAdds `initialize_psm_skips_assets_with_wrong_decimals` which verifies\nthat assets with mismatched decimals are skipped while\ncorrectly-configured assets in the same migration are still added.",
+          "timestamp": "2026-04-18T17:42:40Z",
+          "tree_id": "b4c9fffcc4588d1f361e7427b9439223e2d11602",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/878b1583b5031aa4ee936cb98ff45257778acafa"
+        },
+        "date": 1776539122922,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.591675139466668,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13211203496666665,
             "unit": "seconds"
           }
         ]

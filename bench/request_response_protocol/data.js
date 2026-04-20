@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776538223755,
+  "lastUpdate": 1776671930385,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -80999,6 +80999,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2558710552,
             "range": "± 44363698",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "10196091+Ank4n@users.noreply.github.com",
+            "name": "Ankan",
+            "username": "Ank4n"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "b80b5691f3d02f058f3d251a88aa2e1021dad26e",
+          "message": "[Staking] Refactor Staking Reward Mode Selection (#11806)\n\nRefactor of the payout mode selection in `pallet-staking-async`.\nPreviously the payout path was chosen by checking whether the era's\nreward pot account existed on-chain. Instead we now depend on the\nstorage `DisableMintingGuard` which is more reliable source of truth for\nwhether an era belongs to the DAP or legacy mint path",
+          "timestamp": "2026-04-20T06:51:43Z",
+          "tree_id": "d0427449a6552948b94206e59a1b6fefd37d36e8",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/b80b5691f3d02f058f3d251a88aa2e1021dad26e"
+        },
+        "date": 1776671908300,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18605918,
+            "range": "± 194629",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 19081346,
+            "range": "± 763283",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20244549,
+            "range": "± 153133",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 25032322,
+            "range": "± 184388",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 58453709,
+            "range": "± 992310",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 329194507,
+            "range": "± 9220944",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2411022518,
+            "range": "± 50266592",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15321164,
+            "range": "± 330373",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15263239,
+            "range": "± 161973",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 15930112,
+            "range": "± 107277",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20381315,
+            "range": "± 179194",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 57266033,
+            "range": "± 817441",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 335313291,
+            "range": "± 3602036",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2656982496,
+            "range": "± 55417623",
             "unit": "ns/iter"
           }
         ]

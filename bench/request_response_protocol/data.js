@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776671930385,
+  "lastUpdate": 1776718324600,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -81107,6 +81107,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2656982496,
             "range": "± 55417623",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "ismailov.m.h@gmail.com",
+            "name": "muharem",
+            "username": "muharem"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "bee56e790ca0709e5049e0781d9f4b535247a018",
+          "message": "Remove deprecated CurrencyAdapter from pallet-transaction-payment (#11822)\n\nRemoves the deprecated `CurrencyAdapter` from\n`pallet-transaction-payment`. This adapter was deprecated since March\n2024 in favor of `FungibleAdapter`. Runtimes still using\n`CurrencyAdapter` must migrate to `FungibleAdapter`.",
+          "timestamp": "2026-04-20T14:37:17Z",
+          "tree_id": "5f5ec88956bb87d8bfdb4f4ea51c94191b0fb325",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/bee56e790ca0709e5049e0781d9f4b535247a018"
+        },
+        "date": 1776718302523,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18494614,
+            "range": "± 97505",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18782696,
+            "range": "± 132562",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20246028,
+            "range": "± 149112",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24711548,
+            "range": "± 214762",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 60829711,
+            "range": "± 3067727",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 360481616,
+            "range": "± 4583905",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2632491294,
+            "range": "± 192196443",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15061497,
+            "range": "± 154632",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15322189,
+            "range": "± 154709",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 15827681,
+            "range": "± 121253",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20471759,
+            "range": "± 178635",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 58702906,
+            "range": "± 1763035",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 344470661,
+            "range": "± 4565180",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2746412509,
+            "range": "± 52131067",
             "unit": "ns/iter"
           }
         ]

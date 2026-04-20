@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776672935746,
+  "lastUpdate": 1776719261641,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "skunert49@gmail.com",
-            "name": "Sebastian Kunert",
-            "username": "skunert"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "a93a489a3c072eb010a700c4b5033ba4fda1e9cc",
-          "message": "basic-authorship: Improve inherent logging (#9664)\n\nThis PR aims to improve the inherent logging situation a bit. After the\nrecent incident it was unnecessary painful to figure out what exactly\nhappened. The logs should now be a bit more clear.\n\n- We get how many inherents where provided by the runtime\n- We get the names of the data items\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Rodrigo Quelhas <22591718+RomarQ@users.noreply.github.com>",
-          "timestamp": "2025-09-08T08:12:54Z",
-          "tree_id": "8095002d2ba128cb750293735dce9759a2d875ba",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/a93a489a3c072eb010a700c4b5033ba4fda1e9cc"
-        },
-        "date": 1757323774018,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007398181166666651,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.1589980233933333,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022324718620000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013187684420000002,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.010086360906666638,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "ismailov.m.h@gmail.com",
+            "name": "muharem",
+            "username": "muharem"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "bee56e790ca0709e5049e0781d9f4b535247a018",
+          "message": "Remove deprecated CurrencyAdapter from pallet-transaction-payment (#11822)\n\nRemoves the deprecated `CurrencyAdapter` from\n`pallet-transaction-payment`. This adapter was deprecated since March\n2024 in favor of `FungibleAdapter`. Runtimes still using\n`CurrencyAdapter` must migrate to `FungibleAdapter`.",
+          "timestamp": "2026-04-20T14:37:17Z",
+          "tree_id": "5f5ec88956bb87d8bfdb4f4ea51c94191b0fb325",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/bee56e790ca0709e5049e0781d9f4b535247a018"
+        },
+        "date": 1776719241210,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.006894404940000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.02386127500666666,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009560383926666647,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14255623274000004,
             "unit": "seconds"
           }
         ]

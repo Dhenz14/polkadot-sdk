@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776539262156,
+  "lastUpdate": 1776673015143,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "serban@parity.io",
-            "name": "Serban Iorga",
-            "username": "serban300"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "fa417f9fde23634d6157b928ddfe9d0b19299d57",
-          "message": "Update `kvdb-rocksdb` to `v0.20.0` (#9644)\n\nRelated to https://github.com/paritytech/parity-common/issues/932\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-04T20:05:17Z",
-          "tree_id": "1cac64dbbcde0f916daa42d8cede3e716dae0a72",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/fa417f9fde23634d6157b928ddfe9d0b19299d57"
-        },
-        "date": 1757021238569,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005195809549999994,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008629009099999987,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.002654404889999999,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.009599797290000005,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "10196091+Ank4n@users.noreply.github.com",
+            "name": "Ankan",
+            "username": "Ank4n"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "b80b5691f3d02f058f3d251a88aa2e1021dad26e",
+          "message": "[Staking] Refactor Staking Reward Mode Selection (#11806)\n\nRefactor of the payout mode selection in `pallet-staking-async`.\nPreviously the payout path was chosen by checking whether the era's\nreward pot account existed on-chain. Instead we now depend on the\nstorage `DisableMintingGuard` which is more reliable source of truth for\nwhether an era belongs to the DAP or legacy mint path",
+          "timestamp": "2026-04-20T06:51:43Z",
+          "tree_id": "d0427449a6552948b94206e59a1b6fefd37d36e8",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/b80b5691f3d02f058f3d251a88aa2e1021dad26e"
+        },
+        "date": 1776672994552,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.008938437760000004,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009245613889999981,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.00265896574,
             "unit": "seconds"
           }
         ]

@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776719234480,
+  "lastUpdate": 1776722664693,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "robertvaneerdewijk@gmail.com",
-            "name": "0xRVE",
-            "username": "0xRVE"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "acac0127168dac1d603e4d996cb210ceeddeb5de",
-          "message": "[pallet-revive] EVM backend: implement various missing opcodes (#9385)\n\n* [x] system (other PR, no tests)\n* [x] block_info (other PR)\n* [x] contract (other PR)\n* [x] tx_info (other PR)\n* [x] arithmetic\n* [x] bitwise\n* [x] i256 (these are not opcodes so will not test)\n* [x] host (except `log()`)\n* [x] memory\n* [x] control (except `pc()`)\n* [x] macros (these are not opcodes so will not test)\n* [x] utility (these are not opcodes so will not test)\n* [x] stack\n\n---------\n\nSigned-off-by: xermicus <cyrill@parity.io>\nSigned-off-by: Cyrill Leutwiler <bigcyrill@hotmail.com>\nCo-authored-by: pgherveou <pgherveou@gmail.com>\nCo-authored-by: Sebastian Miasojed <sebastian.miasojed@parity.io>\nCo-authored-by: Robert van Eerdewijk <robert@Roberts-MacBook-Pro.local>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Sebastian Miasojed <s.miasojed@gmail.com>\nCo-authored-by: xermicus <cyrill@parity.io>\nCo-authored-by: Cyrill Leutwiler <bigcyrill@hotmail.com>\nCo-authored-by: Alexander Theißen <alex.theissen@me.com>\nCo-authored-by: Alexander Cyon <Sajjon@users.noreply.github.com>\nCo-authored-by: Alexander Cyon <alex.cyon@parity.com>\nCo-authored-by: Andrei Sandu <54316454+sandreim@users.noreply.github.com>\nCo-authored-by: Dmitry Sinyavin <dmitry.sinyavin@parity.io>\nCo-authored-by: s0me0ne-unkn0wn <48632512+s0me0ne-unkn0wn@users.noreply.github.com>\nCo-authored-by: Serban Iorga <serban@parity.io>",
-          "timestamp": "2025-09-08T15:00:45Z",
-          "tree_id": "51fe767884f5f0db6533148e553a06efa236a772",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/acac0127168dac1d603e4d996cb210ceeddeb5de"
-        },
-        "date": 1757348073873,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.2069083299666667,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.234115098433335,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.12462813019999996,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@kchr.de",
+            "name": "Bastian Köcher",
+            "username": "bkchr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "71da30286be32e2368b4d948b5febd80c0b6a92d",
+          "message": "pallet-beefy: Allow unsigned execution of an unsigned method (#11816)\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-20T19:01:03Z",
+          "tree_id": "369fddca6948db7257d0963f64fb1ad24c4d04e9",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/71da30286be32e2368b4d948b5febd80c0b6a92d"
+        },
+        "date": 1776722642296,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12573044803333333,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.721936653333334,
             "unit": "seconds"
           }
         ]

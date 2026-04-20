@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776719341090,
+  "lastUpdate": 1776722789130,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "git@kchr.de",
-            "name": "Bastian Köcher",
-            "username": "bkchr"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "4acb964059a218be9bac954b4e3803b78b5526bf",
-          "message": "Forward `CoreInfo` via an digest to the runtime (#9002)\n\nBefore this pull request we had this rather inflexible `SelectCore` type\nin `parachain-system`. It was just taking the last byte of the block\nnumber as the core selector. This resulted in issues like #8893. While\nit was not totally static, it was very complicated to forward the needed\ninformation to the runtime. In the case of running with block bundling\n(500ms blocks), multiple blocks are actually validated on the same core.\nFinding out the selector and offset without having access to the claim\nqueue is rather hard. The claim queue could be forwarded to the runtime,\nbut it would waste POV size as we would need to include the entire claim\nqueue of all parachains.\n\nThis pull request solves the problem by moving the entire core selection\nto the collator side. From there the information is passed via a\n`PreRuntime` digest to the runtime. The `CoreInfo` contains the\n`selector`, `claim_queue_offset` and `number_of_cores`. Doing this on\nthe collator side is fine as long as we don't have slot durations that\nare lower than the relay chain slot duration. As we have agreed to\nalways have equal or bigger slot durations on parachains, there should\nbe no problem with this change.\n\nDownstream users need to remove the `SelectCore` type from the\n`parachain_system::Config`:\n```diff\n- type SelectCore = ...;\n+\n```\n\nCloses: https://github.com/paritytech/polkadot-sdk/issues/8893\nhttps://github.com/paritytech/polkadot-sdk/issues/8906\n\n---------\n\nSigned-off-by: Andrei Sandu <andrei-mihail@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Andrei Sandu <54316454+sandreim@users.noreply.github.com>\nCo-authored-by: Andrei Sandu <andrei-mihail@parity.io>\nCo-authored-by: Sebastian Kunert <skunert49@gmail.com>",
-          "timestamp": "2025-09-05T15:26:49Z",
-          "tree_id": "edd4ea3b225223f31c9ab6550f848bf6d9254b3e",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/4acb964059a218be9bac954b4e3803b78b5526bf"
-        },
-        "date": 1757090410140,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0026135060699999995,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005069274199999992,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008580861539999995,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-distribution",
             "value": 0.009715699989999986,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@kchr.de",
+            "name": "Bastian Köcher",
+            "username": "bkchr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "71da30286be32e2368b4d948b5febd80c0b6a92d",
+          "message": "pallet-beefy: Allow unsigned execution of an unsigned method (#11816)\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-20T19:01:03Z",
+          "tree_id": "369fddca6948db7257d0963f64fb1ad24c4d04e9",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/71da30286be32e2368b4d948b5febd80c0b6a92d"
+        },
+        "date": 1776722766798,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009993957770000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009418729259999984,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.0026571236399999983,
             "unit": "seconds"
           }
         ]

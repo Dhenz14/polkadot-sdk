@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776539202909,
+  "lastUpdate": 1776672961950,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "git@kchr.de",
-            "name": "Bastian Köcher",
-            "username": "bkchr"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "4acb964059a218be9bac954b4e3803b78b5526bf",
-          "message": "Forward `CoreInfo` via an digest to the runtime (#9002)\n\nBefore this pull request we had this rather inflexible `SelectCore` type\nin `parachain-system`. It was just taking the last byte of the block\nnumber as the core selector. This resulted in issues like #8893. While\nit was not totally static, it was very complicated to forward the needed\ninformation to the runtime. In the case of running with block bundling\n(500ms blocks), multiple blocks are actually validated on the same core.\nFinding out the selector and offset without having access to the claim\nqueue is rather hard. The claim queue could be forwarded to the runtime,\nbut it would waste POV size as we would need to include the entire claim\nqueue of all parachains.\n\nThis pull request solves the problem by moving the entire core selection\nto the collator side. From there the information is passed via a\n`PreRuntime` digest to the runtime. The `CoreInfo` contains the\n`selector`, `claim_queue_offset` and `number_of_cores`. Doing this on\nthe collator side is fine as long as we don't have slot durations that\nare lower than the relay chain slot duration. As we have agreed to\nalways have equal or bigger slot durations on parachains, there should\nbe no problem with this change.\n\nDownstream users need to remove the `SelectCore` type from the\n`parachain_system::Config`:\n```diff\n- type SelectCore = ...;\n+\n```\n\nCloses: https://github.com/paritytech/polkadot-sdk/issues/8893\nhttps://github.com/paritytech/polkadot-sdk/issues/8906\n\n---------\n\nSigned-off-by: Andrei Sandu <andrei-mihail@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Andrei Sandu <54316454+sandreim@users.noreply.github.com>\nCo-authored-by: Andrei Sandu <andrei-mihail@parity.io>\nCo-authored-by: Sebastian Kunert <skunert49@gmail.com>",
-          "timestamp": "2025-09-05T15:26:49Z",
-          "tree_id": "edd4ea3b225223f31c9ab6550f848bf6d9254b3e",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/4acb964059a218be9bac954b4e3803b78b5526bf"
-        },
-        "date": 1757090356011,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 63626,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 52938.40000000001,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.5046378483299985,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.00001987721,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000019240459999999997,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.5097533049900007,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000019240459999999997,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.45286471108,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.00001987721,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005495263840000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4896449989399985,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9681081652599963,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.757770941350887,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.5288152788100025,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.4464098509100028,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting-parallel/approval-voting-parallel-0",
             "value": 2.842911367259999,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "10196091+Ank4n@users.noreply.github.com",
+            "name": "Ankan",
+            "username": "Ank4n"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "b80b5691f3d02f058f3d251a88aa2e1021dad26e",
+          "message": "[Staking] Refactor Staking Reward Mode Selection (#11806)\n\nRefactor of the payout mode selection in `pallet-staking-async`.\nPreviously the payout path was chosen by checking whether the era's\nreward pot account existed on-chain. Instead we now depend on the\nstorage `DisableMintingGuard` which is more reliable source of truth for\nwhether an era belongs to the DAP or legacy mint path",
+          "timestamp": "2026-04-20T06:51:43Z",
+          "tree_id": "d0427449a6552948b94206e59a1b6fefd37d36e8",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/b80b5691f3d02f058f3d251a88aa2e1021dad26e"
+        },
+        "date": 1776672941549,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 63643.65,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 52941.09999999999,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.00002288209,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.8304405254900002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.756108303139991,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.278733137792844,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.9094184980899986,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.00002205366,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.00002288209,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.949838098229999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.5347305939000013,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.00002205366,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.8299297832199986,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.006441961410000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.816907763479993,
             "unit": "seconds"
           }
         ]

@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776673015143,
+  "lastUpdate": 1776719341090,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "paolo@parity.io",
-            "name": "Paolo La Camera",
-            "username": "sigurpol"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "5314442a060f53391c5d8d1ece4937332dfa9fc9",
-          "message": "staking-async: implement lazy era pruning extrinsic (#9632)\n\nMove era pruning from automatic unbounded deletions to a permissionless\nlazy pruning system.\n\nFix https://github.com/paritytech-secops/srlabs_findings/issues/528.\n\n\n## Changes:\n- Add `prune_era_step extrinsic` for permissionless era maintenance\n- Add `PruningStep` enum and `EraPruningState` storage for tracking\nprogress\n- Implement `do_prune_era_step()` with item/weight-based deletion limits\n- Remove automatic pruning to prevent DoS from unbounded operations\n- Add `MaxPruningItems` Runtime parameter for safe incremental deletions\n- Return `Pays::No` when work is done to incentivize regular maintenance\n- Add `EraNotPrunable` error for proper validation\n- Update benchmarking to test new extrinsic-based approach\n- Update tests to account for manual pruning instead of automatic\ncleanup\n\nThe new system processes era pruning across multiple blocks using a\nstate machine pattern, ensuring storage operations remain bounded and\npreventing potential DoS attacks from large era cleanup operations.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-05T08:29:51Z",
-          "tree_id": "54de2b3e6dd6844c873e56f81a6335492bd4fd3a",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/5314442a060f53391c5d8d1ece4937332dfa9fc9"
-        },
-        "date": 1757065568862,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005108399689999996,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008572927689999989,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.002649939860000001,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-coordinator",
             "value": 0.00265896574,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "ismailov.m.h@gmail.com",
+            "name": "muharem",
+            "username": "muharem"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "bee56e790ca0709e5049e0781d9f4b535247a018",
+          "message": "Remove deprecated CurrencyAdapter from pallet-transaction-payment (#11822)\n\nRemoves the deprecated `CurrencyAdapter` from\n`pallet-transaction-payment`. This adapter was deprecated since March\n2024 in favor of `FungibleAdapter`. Runtimes still using\n`CurrencyAdapter` must migrate to `FungibleAdapter`.",
+          "timestamp": "2026-04-20T14:37:17Z",
+          "tree_id": "5f5ec88956bb87d8bfdb4f4ea51c94191b0fb325",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/bee56e790ca0709e5049e0781d9f4b535247a018"
+        },
+        "date": 1776719320532,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.0101719495,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.00274168897,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009715699989999986,
             "unit": "seconds"
           }
         ]

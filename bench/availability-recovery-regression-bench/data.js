@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776539144529,
+  "lastUpdate": 1776672908446,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "skunert49@gmail.com",
-            "name": "Sebastian Kunert",
-            "username": "skunert"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "a93a489a3c072eb010a700c4b5033ba4fda1e9cc",
-          "message": "basic-authorship: Improve inherent logging (#9664)\n\nThis PR aims to improve the inherent logging situation a bit. After the\nrecent incident it was unnecessary painful to figure out what exactly\nhappened. The logs should now be a bit more clear.\n\n- We get how many inherents where provided by the runtime\n- We get the names of the data items\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Rodrigo Quelhas <22591718+RomarQ@users.noreply.github.com>",
-          "timestamp": "2025-09-08T08:12:54Z",
-          "tree_id": "8095002d2ba128cb750293735dce9759a2d875ba",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/a93a489a3c072eb010a700c4b5033ba4fda1e9cc"
-        },
-        "date": 1757323747047,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.20099871006666672,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.366595086299998,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.13211203496666665,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "10196091+Ank4n@users.noreply.github.com",
+            "name": "Ankan",
+            "username": "Ank4n"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "b80b5691f3d02f058f3d251a88aa2e1021dad26e",
+          "message": "[Staking] Refactor Staking Reward Mode Selection (#11806)\n\nRefactor of the payout mode selection in `pallet-staking-async`.\nPreviously the payout path was chosen by checking whether the era's\nreward pot account existed on-chain. Instead we now depend on the\nstorage `DisableMintingGuard` which is more reliable source of truth for\nwhether an era belongs to the DAP or legacy mint path",
+          "timestamp": "2026-04-20T06:51:43Z",
+          "tree_id": "d0427449a6552948b94206e59a1b6fefd37d36e8",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/b80b5691f3d02f058f3d251a88aa2e1021dad26e"
+        },
+        "date": 1776672887650,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.654415669500002,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1344514955,
             "unit": "seconds"
           }
         ]

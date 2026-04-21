@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776722664693,
+  "lastUpdate": 1776754289499,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "egor@parity.io",
-            "name": "Egor_P",
-            "username": "EgorPopelyaev"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "4231722827e525fc7c794f05f712bb158fa43efb",
-          "message": "[backport] Regular version bumps from the stable2506-2 (#9676)\n\nThis PR backport regular version bumps from the stable release branch\n`stabl2506` back to `master`",
-          "timestamp": "2025-09-09T05:50:49Z",
-          "tree_id": "12e66ffcd337a3e943322fb324c2fd1039b5cb13",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/4231722827e525fc7c794f05f712bb158fa43efb"
-        },
-        "date": 1757401780670,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.192435298366668,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.1970063286333334,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 11.721936653333334,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c319f547cae0c67204a18d9dd3daf98a2c152004",
+          "message": "Statement-store: defer statement protocol connections during major sync (#11487)\n\n# Description\nImplement #11411\n\nReconnect all statement protocol peers when major sync ends. Removing\nand re-adding peers to the reserved set closes and reopens the\nnotification substreams on both sides, triggering a fresh bidirectional\ninitial sync. This causes peers to re-deliver any statements that were\ndropped during the sync window.\n\n- On was_major_syncing → false transition, call\nreconnect_statement_peers which removes then re-adds all connected peers\nfrom the statement\nprotocol reserved set\n- Both sides receive NotificationStreamClosed then\nNotificationStreamOpened, restarting the 100ms initial sync burst\n \n# Changes\n- `reconnect_statement_peers`: fires when major sync ends, reconnects\nall statement peers to trigger fresh initial sync\n- New zombienet integration test:\nstatement_store_peer_disconnect_during_major_sync — verifies that\nstatements submitted before a late-joining nodeenters major sync are\nfully recovered after sync completes, confirmed via log assertion that\nreconnect_statement_peers fired\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-21T04:53:59Z",
+          "tree_id": "522d3584a40b602fc08588068b809aa44ce288eb",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/c319f547cae0c67204a18d9dd3daf98a2c152004"
+        },
+        "date": 1776754269514,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.262474071766666,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12425995226666668,
             "unit": "seconds"
           }
         ]

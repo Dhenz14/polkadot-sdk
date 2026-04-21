@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776774782080,
+  "lastUpdate": 1776783174268,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "pgherveou@gmail.com",
-            "name": "PG Herveou",
-            "username": "pgherveou"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "6060499f9a807406e13449561b0fc603d9aaeedc",
-          "message": "[pallet-revive] fix GAS_PRICE (#9679)\n\nCurrently submitting a transactio to the dev-node or kitchensink will\ntrigger an error when you try to submit a transaction trhough cast (or\nanything using alloy) as the block gas limit on these runtime is greater\nthan u64::max.\n\nThis bump the GAS_PRICE to fix this issue, this will eventually be\nsuperseeded by the new gas model\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: xermicus <cyrill@parity.io>",
-          "timestamp": "2025-09-10T10:22:50Z",
-          "tree_id": "829d84997fde6b92f6d6fc17397ba67c00137f08",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/6060499f9a807406e13449561b0fc603d9aaeedc"
-        },
-        "date": 1757504675940,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.191288004900002,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19555749966666666,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.13064382550000003,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "8bdf835e260de3f6a72a7e5a84b41b807771b7cd",
+          "message": "ci: use GH App token for zombienet artifact downloads (#11831)\n\n## Summary\n            \nZombienet matrix CI tests fail with `API rate limit exceeded for\ninstallation` because\nall matrix jobs download artifacts concurrently via `GITHUB_TOKEN`.\nThis PR uses the dedicated `ARTIFACTS_DOWNLOADER` GitHub App to generate\ninstallation\ntokens with a separate rate limit pool. For fork PRs (external\ncontributors),\norg secrets are unavailable so the action automatically falls back to\n`GITHUB_TOKEN`.\n\n## Changes\n- `zombienet-sdk` action: add optional `app-id`/`app-private-key`\ninputs, generate App\ntoken when provided, pass effective token to all downstream download\nactions\n- All 4 zombienet workflows (`substrate`, `polkadot`, `cumulus`,\n`parachain-template`):\ndeclare and pass `ARTIFACTS_DOWNLOADER` secrets to the zombienet-sdk\naction\n- `zombienet_cumulus.yml`: handle standalone `download-artifact-extract`\ncall with App token\n- `build-publish-images.yml`: explicit `secrets:` mapping (not `secrets:\ninherit`) in all 4 `trigger-zombienet-*` jobs\n\n## Security\n- No `secrets: inherit` only the two required secrets are explicitly\nmapped\n- App token generated as step output, never written to `$GITHUB_ENV`\n- Fork PRs: secrets are empty → automatic fallback to `GITHUB_TOKEN`",
+          "timestamp": "2026-04-21T13:26:57Z",
+          "tree_id": "ff769d35af5cdbd0d97fe08b98f14d1f10ccd83d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/8bdf835e260de3f6a72a7e5a84b41b807771b7cd"
+        },
+        "date": 1776783151982,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.14727041,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1342003248666667,
             "unit": "seconds"
           }
         ]

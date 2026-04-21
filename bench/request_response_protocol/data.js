@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776753400748,
+  "lastUpdate": 1776772389453,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -81431,6 +81431,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2879080652,
             "range": "± 46896678",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "marian@parity.io",
+            "name": "Marian Radu",
+            "username": "marian-radu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "1f705c2fe6505da8aa9ebab22c8e01d768aeb3c9",
+          "message": "eth-rpc: Bulk INSERT/DELETE and commit per-block writes atomically (#11726)\n\n### Summary\n\n- Query SQLite's max variable limit at startup and use it to chunk bulk\nINSERTs and DELETEs, avoiding bind-parameter overflows\n- Replace per-row individual inserts with batched bulk inserts\n- Commit transaction hashes, logs, and block mapping in a single SQLite\ntransaction per block, same for deletes\n- Use `INSERT OR REPLACE` for logs (previously plain INSERT) to match\ntransaction_hashes and prevent UNIQUE constraint failures if the EXISTS\ndedup guard is bypassed\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-21T09:42:37Z",
+          "tree_id": "4a66e89e5d744d17c7e6be0dd29e0999f2436304",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/1f705c2fe6505da8aa9ebab22c8e01d768aeb3c9"
+        },
+        "date": 1776772366878,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 19955148,
+            "range": "± 182480",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 20248871,
+            "range": "± 214287",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 21742989,
+            "range": "± 341729",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 26472211,
+            "range": "± 276273",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 64854541,
+            "range": "± 1175823",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 383742892,
+            "range": "± 13339231",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2785090692,
+            "range": "± 96959840",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 16430167,
+            "range": "± 178525",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 16501714,
+            "range": "± 383845",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 17050054,
+            "range": "± 125785",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21670219,
+            "range": "± 261457",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 62908823,
+            "range": "± 647985",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 383839711,
+            "range": "± 5255041",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2795873921,
+            "range": "± 84488820",
             "unit": "ns/iter"
           }
         ]

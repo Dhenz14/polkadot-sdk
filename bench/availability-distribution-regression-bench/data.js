@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776772507273,
+  "lastUpdate": 1776774814260,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "egor@parity.io",
-            "name": "Egor_P",
-            "username": "EgorPopelyaev"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "e6166154ef71ac37434515630e1a9e268eff43f2",
-          "message": "[Release|CI/CD] Fix macos build in release pipeline (#9682)\n\nCurrent release flow that prepares binaries for the RC fails on the\nbuild for the macos. Due to missing `llvm` library on the runner.\nThis PR fixes this issue\n\nCloses: https://github.com/paritytech/release-engineering/issues/271\n\n---------\n\nCo-authored-by: Bruno Devic <bruno.devic@parity.io>",
-          "timestamp": "2025-09-09T10:54:03Z",
-          "tree_id": "a19b489a02405c641f95f7846085ab5294c35c0d",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/e6166154ef71ac37434515630e1a9e268eff43f2"
-        },
-        "date": 1757419685074,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.1592506070533334,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.01317754609333333,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007499118166666685,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022356022220000007,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-store",
             "value": 0.14442815862000002,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "363911+pepoviola@users.noreply.github.com",
+            "name": "Javier Viola",
+            "username": "pepoviola"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "0cfb1d5b0f990f1e6b8d36ed156a7a0ca562c2eb",
+          "message": "make prepare-* jobs required to trigger zombienet workflows (#11835)\n\nMake `prepare-*` jobs required to prevent race conditions like\nhttps://github.com/paritytech/polkadot-sdk/actions/runs/24575289788/job/71864462979?pr=11815.\n\ncc: @alvicsam / @bkchr",
+          "timestamp": "2026-04-21T10:44:16Z",
+          "tree_id": "28c3613306b026a3cf94266be7e2ae44f495146f",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/0cfb1d5b0f990f1e6b8d36ed156a7a0ca562c2eb"
+        },
+        "date": 1776774792235,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007159491106666665,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14467584947333345,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.00950063959999997,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.023816419126666672,
             "unit": "seconds"
           }
         ]

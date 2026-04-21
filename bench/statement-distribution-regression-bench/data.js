@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776772567709,
+  "lastUpdate": 1776774876904,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "gui.thiolliere@gmail.com",
-            "name": "Guillaume Thiolliere",
-            "username": "gui1117"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "644f14fc86a4bd4ca2edec922c5e617103fcf387",
-          "message": "zombienet test with timeout (#9168)\n\nI added timeout for async operation in the statement store zombienet\ntest.\n\n@lrubasze\n\n---------\n\nCo-authored-by: Bastian Köcher <git@kchr.de>",
-          "timestamp": "2025-09-08T10:46:46Z",
-          "tree_id": "47a2773f5740a1cb9294a782df960cc139aa113a",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/644f14fc86a4bd4ca2edec922c5e617103fcf387"
-        },
-        "date": 1757332905575,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 127.978,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.045130736857999905,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.034174192726,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.08066830294199993,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "363911+pepoviola@users.noreply.github.com",
+            "name": "Javier Viola",
+            "username": "pepoviola"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "0cfb1d5b0f990f1e6b8d36ed156a7a0ca562c2eb",
+          "message": "make prepare-* jobs required to trigger zombienet workflows (#11835)\n\nMake `prepare-*` jobs required to prevent race conditions like\nhttps://github.com/paritytech/polkadot-sdk/actions/runs/24575289788/job/71864462979?pr=11815.\n\ncc: @alvicsam / @bkchr",
+          "timestamp": "2026-04-21T10:44:16Z",
+          "tree_id": "28c3613306b026a3cf94266be7e2ae44f495146f",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/0cfb1d5b0f990f1e6b8d36ed156a7a0ca562c2eb"
+        },
+        "date": 1776774854691,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.056,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038121253242,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.07781030009399986,
             "unit": "seconds"
           }
         ]

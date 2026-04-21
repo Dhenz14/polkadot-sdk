@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776722758436,
+  "lastUpdate": 1776754366884,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "paolo@parity.io",
-            "name": "Paolo La Camera",
-            "username": "sigurpol"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "c8c7dba4030fba2d7504c47c40d654c9954fe3d7",
-          "message": "staking-async: prevent manual application of cancelled slashes (#9659)\n\nFix security vulnerability where the permissionless `apply_slash`\nextrinsic could be used to manually apply slashes that governance had\ncancelled via `cancel_deferred_slash`.\n\nRelated issue:\nhttps://github.com/paritytech-secops/srlabs_findings/issues/563\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-07T06:12:34Z",
-          "tree_id": "d8fe36db80cd2964ec9577b6d61bc29340fdc5fc",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/c8c7dba4030fba2d7504c47c40d654c9954fe3d7"
-        },
-        "date": 1757230353235,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.95399999999994,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04441632043799993,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03445624034800002,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.03818593622199999,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c319f547cae0c67204a18d9dd3daf98a2c152004",
+          "message": "Statement-store: defer statement protocol connections during major sync (#11487)\n\n# Description\nImplement #11411\n\nReconnect all statement protocol peers when major sync ends. Removing\nand re-adding peers to the reserved set closes and reopens the\nnotification substreams on both sides, triggering a fresh bidirectional\ninitial sync. This causes peers to re-deliver any statements that were\ndropped during the sync window.\n\n- On was_major_syncing → false transition, call\nreconnect_statement_peers which removes then re-adds all connected peers\nfrom the statement\nprotocol reserved set\n- Both sides receive NotificationStreamClosed then\nNotificationStreamOpened, restarting the 100ms initial sync burst\n \n# Changes\n- `reconnect_statement_peers`: fires when major sync ends, reconnects\nall statement peers to trigger fresh initial sync\n- New zombienet integration test:\nstatement_store_peer_disconnect_during_major_sync — verifies that\nstatements submitted before a late-joining nodeenters major sync are\nfully recovered after sync completes, confirmed via log assertion that\nreconnect_statement_peers fired\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-21T04:53:59Z",
+          "tree_id": "522d3584a40b602fc08588068b809aa44ce288eb",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/c319f547cae0c67204a18d9dd3daf98a2c152004"
+        },
+        "date": 1776754346679,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.06799999999998,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038071094062,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.07695692035199991,
             "unit": "seconds"
           }
         ]

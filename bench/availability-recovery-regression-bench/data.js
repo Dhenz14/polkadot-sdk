@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776807294736,
+  "lastUpdate": 1776811924482,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "git@kchr.de",
-            "name": "Bastian Köcher",
-            "username": "bkchr"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "2b4fbe61c8609804c72157eaccd99ef440d1cde6",
-          "message": "DB: Ensure that when we revert blocks, we actually delete all their data (#9691)\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-10T20:41:42Z",
-          "tree_id": "60a6de7c99f92c999fbcdac0f37c9dad715b9778",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/2b4fbe61c8609804c72157eaccd99ef440d1cde6"
-        },
-        "date": 1757541146542,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.205561574366666,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19444447383333335,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.13014619076666667,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "eresav@me.com",
+            "name": "Andrei Eres",
+            "username": "AndreiEres"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "52bb5ba83b1fca4a9127ebda188cfcc53cf49773",
+          "message": "statement-store: Remove double peer state clean up on flooding and add zombienet tests (#11701)\n\n# Description\n\nCloses https://github.com/paritytech/polkadot-sdk/issues/11535: covers\nflooding detection.\n\nFixed a bug with double peer state cleanup. The initial purpose was to\nadd flooding e2e tests, but the tests revealed a bug in the rate-limit\nmechanics: the peer was attempted to be removed twice.\n\nAdded two zombienet integration tests that verify statement-store\nflooding detection:\n\n- Sustained-rate flooding — submits statements continuously against a\nrate-limited node. Verifies the\nnode accepts early batches (token bucket not yet exhausted) then\ntriggers flooding detection as tokens\ndrain.\n- Burst flooding — submits a large batch at once against a tightly\nrate-limited node. Verifies immediate\n flooding detection with zero statements accepted.\n\nAlso refactors common test helpers to allow spawning custom network\nconfigurations for the flooding\ntests.\n\n\n## Integration\n\nNo integration needed.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Javier Viola <363911+pepoviola@users.noreply.github.com>",
+          "timestamp": "2026-04-21T20:14:21Z",
+          "tree_id": "c62694fc30c295da247c3515559369a4ae688fe7",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/52bb5ba83b1fca4a9127ebda188cfcc53cf49773"
+        },
+        "date": 1776811902232,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 10.901849309966668,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13779499283333335,
             "unit": "seconds"
           }
         ]

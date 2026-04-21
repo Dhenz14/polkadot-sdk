@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776807355877,
+  "lastUpdate": 1776811986150,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "54316454+sandreim@users.noreply.github.com",
-            "name": "Andrei Sandu",
-            "username": "sandreim"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "7af791f7594c61a97c31841c681666461e300563",
-          "message": "Update elastic scaling documentation (#9677)\n\nCloses https://github.com/paritytech/polkadot-sdk/pull/9677 \n\nAdd docs and remove MVP.\n\n---------\n\nSigned-off-by: Andrei Sandu <andrei-mihail@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Alexander Cyon <Sajjon@users.noreply.github.com>\nCo-authored-by: Sebastian Kunert <skunert49@gmail.com>\nCo-authored-by: Alin Dima <alin@parity.io>",
-          "timestamp": "2025-09-10T16:53:52Z",
-          "tree_id": "2fab67ef4a232a7d5c9b37b1fc956511afee6064",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/7af791f7594c61a97c31841c681666461e300563"
-        },
-        "date": 1757527558308,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 63632.06000000001,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 52944.7,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.5222166235999994,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005953092990000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.46786436017,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.6880846830808958,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.350417365880002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000028992679999999996,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9628026407600074,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.000029663680000000004,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4658266777299995,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.000029663680000000004,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000028992679999999996,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.4813725758899996,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.4443813947399947,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
             "value": 0.7887738854399424,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "eresav@me.com",
+            "name": "Andrei Eres",
+            "username": "AndreiEres"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "52bb5ba83b1fca4a9127ebda188cfcc53cf49773",
+          "message": "statement-store: Remove double peer state clean up on flooding and add zombienet tests (#11701)\n\n# Description\n\nCloses https://github.com/paritytech/polkadot-sdk/issues/11535: covers\nflooding detection.\n\nFixed a bug with double peer state cleanup. The initial purpose was to\nadd flooding e2e tests, but the tests revealed a bug in the rate-limit\nmechanics: the peer was attempted to be removed twice.\n\nAdded two zombienet integration tests that verify statement-store\nflooding detection:\n\n- Sustained-rate flooding — submits statements continuously against a\nrate-limited node. Verifies the\nnode accepts early batches (token bucket not yet exhausted) then\ntriggers flooding detection as tokens\ndrain.\n- Burst flooding — submits a large batch at once against a tightly\nrate-limited node. Verifies immediate\n flooding detection with zero statements accepted.\n\nAlso refactors common test helpers to allow spawning custom network\nconfigurations for the flooding\ntests.\n\n\n## Integration\n\nNo integration needed.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Javier Viola <363911+pepoviola@users.noreply.github.com>",
+          "timestamp": "2026-04-21T20:14:21Z",
+          "tree_id": "c62694fc30c295da247c3515559369a4ae688fe7",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/52bb5ba83b1fca4a9127ebda188cfcc53cf49773"
+        },
+        "date": 1776811963910,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 52943.2,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 63626.71,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.0000273681,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.00002357495,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.0000273681,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.9538101073199994,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.440986409639985,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.815976755219999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005266548339999999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.872483316409999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.8319177863000005,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.2499155758728255,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7592554255699621,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.00002357495,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.679696348799945,
             "unit": "seconds"
           }
         ]

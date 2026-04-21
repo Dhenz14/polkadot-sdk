@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776783206068,
+  "lastUpdate": 1776794150983,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "pgherveou@gmail.com",
-            "name": "PG Herveou",
-            "username": "pgherveou"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "6060499f9a807406e13449561b0fc603d9aaeedc",
-          "message": "[pallet-revive] fix GAS_PRICE (#9679)\n\nCurrently submitting a transactio to the dev-node or kitchensink will\ntrigger an error when you try to submit a transaction trhough cast (or\nanything using alloy) as the block gas limit on these runtime is greater\nthan u64::max.\n\nThis bump the GAS_PRICE to fix this issue, this will eventually be\nsuperseeded by the new gas model\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: xermicus <cyrill@parity.io>",
-          "timestamp": "2025-09-10T10:22:50Z",
-          "tree_id": "829d84997fde6b92f6d6fc17397ba67c00137f08",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/6060499f9a807406e13449561b0fc603d9aaeedc"
-        },
-        "date": 1757504703611,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012981383726666663,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02237314048666667,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15806370254000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007706958786666658,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.009491089539999968,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "marian@parity.io",
+            "name": "Marian Radu",
+            "username": "marian-radu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "663c3f687e6d31d6fd094695ba334a8bce973203",
+          "message": "eth-rpc: single-pass event processing for receipt extraction (#11777)\n\n## Summary\n\n- Process block events in a single pass instead of re-scanning per\nextrinsic, reducing O(N×E) to O(E)\n- Merge two integration tests into one that validates revert and logs\nare correctly attributed within the same block\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-21T16:11:26Z",
+          "tree_id": "260159d8472b0034e3ff65ecee0d324991ffae87",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/663c3f687e6d31d6fd094695ba334a8bce973203"
+        },
+        "date": 1776794128825,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007159784906666664,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14610966707333334,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.02407439892666667,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009396950839999979,
             "unit": "seconds"
           }
         ]

@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776774845628,
+  "lastUpdate": 1776783236821,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "egor@parity.io",
-            "name": "Egor_P",
-            "username": "EgorPopelyaev"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "e6166154ef71ac37434515630e1a9e268eff43f2",
-          "message": "[Release|CI/CD] Fix macos build in release pipeline (#9682)\n\nCurrent release flow that prepares binaries for the RC fails on the\nbuild for the macos. Due to missing `llvm` library on the runner.\nThis PR fixes this issue\n\nCloses: https://github.com/paritytech/release-engineering/issues/271\n\n---------\n\nCo-authored-by: Bruno Devic <bruno.devic@parity.io>",
-          "timestamp": "2025-09-09T10:54:03Z",
-          "tree_id": "a19b489a02405c641f95f7846085ab5294c35c0d",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/e6166154ef71ac37434515630e1a9e268eff43f2"
-        },
-        "date": 1757419712850,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52941.5,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63628.11000000001,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.257091369809988,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.6682839137511563,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.44410967619,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.4694044322,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.945025104459988,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005738314330000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000021337529999999996,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.00002085268,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000021337529999999996,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.468364846099998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.49227342143,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.00002085268,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.4321755751000014,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting-parallel",
             "value": 14.632404973919966,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "8bdf835e260de3f6a72a7e5a84b41b807771b7cd",
+          "message": "ci: use GH App token for zombienet artifact downloads (#11831)\n\n## Summary\n            \nZombienet matrix CI tests fail with `API rate limit exceeded for\ninstallation` because\nall matrix jobs download artifacts concurrently via `GITHUB_TOKEN`.\nThis PR uses the dedicated `ARTIFACTS_DOWNLOADER` GitHub App to generate\ninstallation\ntokens with a separate rate limit pool. For fork PRs (external\ncontributors),\norg secrets are unavailable so the action automatically falls back to\n`GITHUB_TOKEN`.\n\n## Changes\n- `zombienet-sdk` action: add optional `app-id`/`app-private-key`\ninputs, generate App\ntoken when provided, pass effective token to all downstream download\nactions\n- All 4 zombienet workflows (`substrate`, `polkadot`, `cumulus`,\n`parachain-template`):\ndeclare and pass `ARTIFACTS_DOWNLOADER` secrets to the zombienet-sdk\naction\n- `zombienet_cumulus.yml`: handle standalone `download-artifact-extract`\ncall with App token\n- `build-publish-images.yml`: explicit `secrets:` mapping (not `secrets:\ninherit`) in all 4 `trigger-zombienet-*` jobs\n\n## Security\n- No `secrets: inherit` only the two required secrets are explicitly\nmapped\n- App token generated as step output, never written to `$GITHUB_ENV`\n- Fork PRs: secrets are empty → automatic fallback to `GITHUB_TOKEN`",
+          "timestamp": "2026-04-21T13:26:57Z",
+          "tree_id": "ff769d35af5cdbd0d97fe08b98f14d1f10ccd83d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/8bdf835e260de3f6a72a7e5a84b41b807771b7cd"
+        },
+        "date": 1776783214718,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 63626.579999999994,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 52942.40000000001,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.00002114547,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7474178364299516,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.72543740585995,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.8482192978500005,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.887546471879999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.000019697869999999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.00002114547,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.89224965073,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.0051611001,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.8665940702100015,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.000019697869999999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.4782489786599977,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.358952191342967,
             "unit": "seconds"
           }
         ]

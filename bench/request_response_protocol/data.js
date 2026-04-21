@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776800981357,
+  "lastUpdate": 1776805249631,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -81971,6 +81971,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2722129521,
             "range": "± 80424158",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "jfanatiker@gmx.at",
+            "name": "eskimor",
+            "username": "eskimor"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "6fcf365ae0e61c039bebfcb8cf7122222d483445",
+          "message": "Fix statement distribution pruning bug (#11820)\n\nWe should not repeatedly remove requests based on the same deactivated\nleaf, but based on pruned scheduling parents.",
+          "timestamp": "2026-04-21T19:52:45Z",
+          "tree_id": "ffefdcb312b0a344df8d6255d4e2e238579ad00c",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/6fcf365ae0e61c039bebfcb8cf7122222d483445"
+        },
+        "date": 1776805210260,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 19088738,
+            "range": "± 252550",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 19413418,
+            "range": "± 295343",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 21027094,
+            "range": "± 224229",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 25735514,
+            "range": "± 412347",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 61801691,
+            "range": "± 1268668",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 381940158,
+            "range": "± 9574368",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2500163857,
+            "range": "± 85621170",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15911971,
+            "range": "± 359823",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15822016,
+            "range": "± 201067",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16562903,
+            "range": "± 284712",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21217178,
+            "range": "± 309833",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 60679934,
+            "range": "± 485674",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 363118452,
+            "range": "± 7348961",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2777967916,
+            "range": "± 29580232",
             "unit": "ns/iter"
           }
         ]

@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776794181335,
+  "lastUpdate": 1776802269697,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "pgherveou@gmail.com",
-            "name": "PG Herveou",
-            "username": "pgherveou"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "6060499f9a807406e13449561b0fc603d9aaeedc",
-          "message": "[pallet-revive] fix GAS_PRICE (#9679)\n\nCurrently submitting a transactio to the dev-node or kitchensink will\ntrigger an error when you try to submit a transaction trhough cast (or\nanything using alloy) as the block gas limit on these runtime is greater\nthan u64::max.\n\nThis bump the GAS_PRICE to fix this issue, this will eventually be\nsuperseeded by the new gas model\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: xermicus <cyrill@parity.io>",
-          "timestamp": "2025-09-10T10:22:50Z",
-          "tree_id": "829d84997fde6b92f6d6fc17397ba67c00137f08",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/6060499f9a807406e13449561b0fc603d9aaeedc"
-        },
-        "date": 1757504731503,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 63644.69,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 52945.2,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4649327760200017,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.7072308423809877,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005841344980000001,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.514794574750002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9466689490599975,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.44664296258999814,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000019191860000000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.46181120195,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000019191860000000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.0000188941,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.31254285592,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.4718510465699977,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.0000188941,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting-parallel/approval-voting-parallel-db",
             "value": 2.4846770801900107,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "paolo@parity.io",
+            "name": "Paolo La Camera",
+            "username": "sigurpol"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1eea8c142f2ed5db6a8a281e35e1bf6b32f48988",
+          "message": "Remove DDayBodyId from Westend relay chain (#11843)\n\nPost-AHM cleanup following #11796. The DDay plurality origin in\n`AuthorizeCurrentCodeOrigin` is no longer needed since governance lives\non AssetHub. Simplified to `EnsureRoot`.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-21T18:36:59Z",
+          "tree_id": "40d254189b4c2b4208538cd037f86d25a672bd55",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/1eea8c142f2ed5db6a8a281e35e1bf6b32f48988"
+        },
+        "date": 1776802247470,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 52944.3,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 63629.159999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.799416348129998,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7478289953399703,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.8481785868900014,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.00002026232,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.00001994186,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.00001994186,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005415209400000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.00002026232,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.55863601247997,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.289832404862738,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.8786125048000017,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.4486438820499967,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.8305404858700016,
             "unit": "seconds"
           }
         ]

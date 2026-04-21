@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776794212226,
+  "lastUpdate": 1776802300887,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "egor@parity.io",
-            "name": "Egor_P",
-            "username": "EgorPopelyaev"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "e6166154ef71ac37434515630e1a9e268eff43f2",
-          "message": "[Release|CI/CD] Fix macos build in release pipeline (#9682)\n\nCurrent release flow that prepares binaries for the RC fails on the\nbuild for the macos. Due to missing `llvm` library on the runner.\nThis PR fixes this issue\n\nCloses: https://github.com/paritytech/release-engineering/issues/271\n\n---------\n\nCo-authored-by: Bruno Devic <bruno.devic@parity.io>",
-          "timestamp": "2025-09-09T10:54:03Z",
-          "tree_id": "a19b489a02405c641f95f7846085ab5294c35c0d",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/e6166154ef71ac37434515630e1a9e268eff43f2"
-        },
-        "date": 1757419740332,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 127.94799999999992,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03417467133999999,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.043816693437999946,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.07775480471399993,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "paolo@parity.io",
+            "name": "Paolo La Camera",
+            "username": "sigurpol"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1eea8c142f2ed5db6a8a281e35e1bf6b32f48988",
+          "message": "Remove DDayBodyId from Westend relay chain (#11843)\n\nPost-AHM cleanup following #11796. The DDay plurality origin in\n`AuthorizeCurrentCodeOrigin` is no longer needed since governance lives\non AssetHub. Simplified to `EnsureRoot`.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-21T18:36:59Z",
+          "tree_id": "40d254189b4c2b4208538cd037f86d25a672bd55",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/1eea8c142f2ed5db6a8a281e35e1bf6b32f48988"
+        },
+        "date": 1776802278475,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.07,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08629030943999988,
+            "unit": "seconds"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038296782884,
             "unit": "seconds"
           }
         ]

@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776772476651,
+  "lastUpdate": 1776774782080,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "41779041+alvicsam@users.noreply.github.com",
-            "name": "Alexander Samusev",
-            "username": "alvicsam"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "ae7177e0d2f99879cb0d91a589ac7f202d39e192",
-          "message": "ci: update forklift in ci image (#9684)\n\ncc https://github.com/paritytech/devops/issues/3875",
-          "timestamp": "2025-09-09T13:13:44Z",
-          "tree_id": "391c83adce9ac0a105cee4738b52dcd62c50acfa",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/ae7177e0d2f99879cb0d91a589ac7f202d39e192"
-        },
-        "date": 1757429011815,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.216619254933333,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.20021089346666665,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.1218694417,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "363911+pepoviola@users.noreply.github.com",
+            "name": "Javier Viola",
+            "username": "pepoviola"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "0cfb1d5b0f990f1e6b8d36ed156a7a0ca562c2eb",
+          "message": "make prepare-* jobs required to trigger zombienet workflows (#11835)\n\nMake `prepare-*` jobs required to prevent race conditions like\nhttps://github.com/paritytech/polkadot-sdk/actions/runs/24575289788/job/71864462979?pr=11815.\n\ncc: @alvicsam / @bkchr",
+          "timestamp": "2026-04-21T10:44:16Z",
+          "tree_id": "28c3613306b026a3cf94266be7e2ae44f495146f",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/0cfb1d5b0f990f1e6b8d36ed156a7a0ca562c2eb"
+        },
+        "date": 1776774760101,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.461928883166669,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13064382550000003,
             "unit": "seconds"
           }
         ]

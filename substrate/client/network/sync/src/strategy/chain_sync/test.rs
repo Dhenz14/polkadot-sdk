@@ -1390,13 +1390,18 @@ fn sync_gap_filled_regardless_of_blocks_origin() {
 }
 
 #[test]
-fn gap_sync_body_request_depends_on_pruning_mode() {
+fn gap_sync_body_request_depends_on_range_vs_body_start() {
 	sp_tracing::try_init_simple();
 
-	for archive_blocks in [true, false] {
-		// Bodies only needed for archive mode
-		let should_request_bodies = archive_blocks;
-		log::info!("Testing gap sync with archive_blocks: {}", archive_blocks);
+	let with_body =
+		BlockAttributes::HEADER | BlockAttributes::BODY | BlockAttributes::JUSTIFICATION;
+	let scenarios: Vec<(&str, Option<u32>, BlockAttributes)> = vec![
+		("archive_none_body_kept", None, with_body),
+		("pruning_zero_body_start_below_gap_body_kept", Some(0), with_body),
+	];
+
+	for (label, blocks_pruning, expected_fields) in scenarios {
+		log::info!("Testing gap sync: {label}");
 
 		let client = Arc::new(TestClientBuilder::new().build());
 		let blocks = (0..10).map(|_| build_block(&client, None, false)).collect::<Vec<_>>();
@@ -1408,7 +1413,7 @@ fn gap_sync_body_request_depends_on_pruning_mode() {
 			64,
 			ProtocolName::Static(""),
 			Arc::new(MockBlockDownloader::new()),
-			archive_blocks,
+			blocks_pruning,
 			None,
 			std::iter::empty(),
 		)
@@ -1416,7 +1421,6 @@ fn gap_sync_body_request_depends_on_pruning_mode() {
 
 		let peer_id = PeerId::random();
 
-		// Simulate gap: blocks 5-10 missing
 		sync.gap_sync = Some(GapSync {
 			best_queued_number: 5,
 			target: 10,
@@ -1427,23 +1431,12 @@ fn gap_sync_body_request_depends_on_pruning_mode() {
 		sync.add_peer(peer_id, blocks[9].hash(), 10);
 
 		let requests = sync.block_requests();
-		assert!(
-			!requests.is_empty(),
-			"[archive_blocks={archive_blocks}] Should generate gap sync request"
-		);
+		assert!(!requests.is_empty(), "[{label}] Should generate gap sync request");
 
 		let (_peer, request) = &requests[0];
-
-		// Verify the exact expected field combination
-		let expected_fields = if should_request_bodies {
-			BlockAttributes::HEADER | BlockAttributes::BODY | BlockAttributes::JUSTIFICATION
-		} else {
-			BlockAttributes::HEADER | BlockAttributes::JUSTIFICATION
-		};
-
 		assert_eq!(
 			request.fields, expected_fields,
-			"[archive_blocks={archive_blocks}] Gap sync fields mismatch: expected {expected_fields:?}, got {:?}",
+			"[{label}] Gap sync fields mismatch: expected {expected_fields:?}, got {:?}",
 			request.fields
 		);
 	}

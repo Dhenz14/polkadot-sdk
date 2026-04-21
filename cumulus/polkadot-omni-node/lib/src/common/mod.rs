@@ -21,10 +21,12 @@
 pub(crate) mod aura;
 pub mod chain_spec;
 pub mod command;
+pub(crate) mod indexed_transactions_api;
 pub mod rpc;
 pub mod runtime;
 pub mod spec;
 pub(crate) mod statement_store;
+pub(crate) mod storage_chain_indexing;
 pub mod types;
 
 use crate::cli::AuthoringPolicy;
@@ -41,6 +43,7 @@ use sp_runtime::{
 };
 use sp_session::SessionKeys;
 use sp_transaction_pool::runtime_api::TaggedTransactionQueue;
+use self::indexed_transactions_api::IndexedTransactionsApi;
 use sp_transaction_storage_proof::runtime_api::TransactionStorageApi;
 use std::{fmt::Debug, path::PathBuf, str::FromStr};
 
@@ -74,6 +77,7 @@ pub trait NodeRuntimeApi<Block: BlockT>:
 	+ CollectCollationInfo<Block>
 	+ GetParachainInfo<Block>
 	+ TransactionStorageApi<Block>
+	+ IndexedTransactionsApi<Block>
 	+ RelayParentOffsetApi<Block>
 	+ Sized
 {
@@ -90,6 +94,7 @@ impl<T, Block: BlockT> NodeRuntimeApi<Block> for T where
 		+ CollectCollationInfo<Block>
 		+ GetParachainInfo<Block>
 		+ TransactionStorageApi<Block>
+		+ IndexedTransactionsApi<Block>
 {
 }
 

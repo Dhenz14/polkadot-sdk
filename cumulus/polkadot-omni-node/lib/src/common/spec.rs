@@ -21,6 +21,7 @@ use crate::{
 		command::NodeCommandRunner,
 		rpc::BuildRpcExtensions,
 		statement_store::{build_statement_store, new_statement_handler_proto},
+		storage_chain_indexing,
 		types::{
 			ParachainBackend, ParachainBlockImport, ParachainClient, ParachainHostFunctions,
 			ParachainService,
@@ -333,6 +334,8 @@ pub(crate) trait NodeSpec: BaseNodeSpec {
 	) -> Pin<Box<dyn Future<Output = sc_service::error::Result<TaskManager>>>>
 	where
 		Net: NetworkBackend<Self::Block, Hash>,
+		sp_runtime::traits::NumberFor<Self::Block>:
+			sp_runtime::traits::UniqueSaturatedInto<u64>,
 	{
 		let fut = async move {
 			let mut parachain_config = prepare_node_config(parachain_config);
@@ -351,6 +354,13 @@ pub(crate) trait NodeSpec: BaseNodeSpec {
 			let parachain_public_addresses = parachain_config.network.public_addresses.clone();
 			let parachain_fork_id = parachain_config.chain_spec.fork_id().map(ToString::to_string);
 			let advertise_non_global_ips = parachain_config.network.allow_non_globals_in_dht;
+
+			let storage_chain_blocks_pruning = match parachain_config.blocks_pruning {
+				sc_client_db::BlocksPruning::Some(n) => Some(n),
+				sc_client_db::BlocksPruning::KeepAll
+				| sc_client_db::BlocksPruning::KeepFinalized => None,
+			};
+
 			let params = Self::new_partial(&parachain_config)?;
 			let (block_import, mut telemetry, telemetry_worker_handle, block_import_auxiliary_data) =
 				params.other;
@@ -551,7 +561,7 @@ pub(crate) trait NodeSpec: BaseNodeSpec {
 				import_queue: import_queue_service,
 				relay_chain_slot_duration,
 				recovery_handle: Box::new(overseer_handle.clone()),
-				sync_service,
+				sync_service: sync_service.clone(),
 				prometheus_registry: prometheus_registry.as_ref(),
 			})?;
 
@@ -564,7 +574,7 @@ pub(crate) trait NodeSpec: BaseNodeSpec {
 				relay_chain_fork_id,
 				relay_chain_network,
 				request_receiver: paranode_rx,
-				parachain_network: network,
+				parachain_network: network.clone(),
 				advertise_non_global_ips,
 				parachain_genesis_hash: client.chain_info().genesis_hash.encode(),
 				parachain_fork_id,
@@ -591,6 +601,30 @@ pub(crate) trait NodeSpec: BaseNodeSpec {
 					node_extra_args,
 					block_import_auxiliary_data,
 				)?;
+			}
+
+			if let Some(n) = storage_chain_blocks_pruning {
+				if storage_chain_indexing::runtime_supports_indexing::<Self::Block, _>(&*client) {
+					log::info!(
+						target: "storage-chain-indexer",
+						"blocks_pruning={n} + runtime implements IndexedTransactionsApi; \
+						 spawning indexer bootstrap task",
+					);
+					storage_chain_indexing::spawn::<Self::Block, _, _>(
+						client.clone(),
+						backend.clone(),
+						network.clone(),
+						sync_service.clone(),
+						&task_manager,
+						n,
+					);
+				} else {
+					log::debug!(
+						target: "storage-chain-indexer",
+						"blocks_pruning={n} but runtime does not implement \
+						 IndexedTransactionsApi; indexer not spawned",
+					);
+				}
 			}
 
 			Ok(task_manager)
@@ -629,6 +663,7 @@ pub(crate) trait DynNodeSpec: NodeCommandRunner {
 impl<T> DynNodeSpec for T
 where
 	T: NodeSpec + NodeCommandRunner,
+	sp_runtime::traits::NumberFor<T::Block>: sp_runtime::traits::UniqueSaturatedInto<u64>,
 {
 	fn start_dev_node(
 		self: Box<Self>,

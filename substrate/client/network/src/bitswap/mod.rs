@@ -42,7 +42,11 @@ use sp_runtime::traits::Block as BlockT;
 use std::{io, sync::Arc, time::Duration};
 use unsigned_varint::encode as varint_encode;
 
+/// Bitswap client.
+pub mod client;
 mod schema;
+
+pub use client::{BitswapClient, BitswapError};
 
 const LOG_TARGET: &str = "bitswap";
 
@@ -142,7 +146,7 @@ impl<B: BlockT> BitswapRequestHandler<B> {
 						Err(_) => debug!(
 							target: LOG_TARGET,
 							"Failed to handle light client request from {peer}: {}",
-							BitswapError::SendResponse,
+							RequestHandlerError::SendResponse,
 						),
 					}
 				},
@@ -161,7 +165,7 @@ impl<B: BlockT> BitswapRequestHandler<B> {
 						debug!(
 							target: LOG_TARGET,
 							"Failed to handle bitswap request from {peer}: {}",
-							BitswapError::SendResponse,
+							RequestHandlerError::SendResponse,
 						);
 					}
 				},
@@ -174,7 +178,7 @@ impl<B: BlockT> BitswapRequestHandler<B> {
 		&mut self,
 		peer: &PeerId,
 		payload: &Vec<u8>,
-	) -> Result<Vec<u8>, BitswapError> {
+	) -> Result<Vec<u8>, RequestHandlerError> {
 		let request = schema::bitswap::Message::decode(&payload[..])?;
 
 		trace!(target: LOG_TARGET, "Received request: {:?} from {}", request, peer);
@@ -185,13 +189,13 @@ impl<B: BlockT> BitswapRequestHandler<B> {
 			Some(wantlist) => wantlist,
 			None => {
 				debug!(target: LOG_TARGET, "Unexpected bitswap message from {}", peer);
-				return Err(BitswapError::InvalidWantList);
+				return Err(RequestHandlerError::InvalidWantList);
 			},
 		};
 
 		if wantlist.entries.len() > MAX_WANTED_BLOCKS {
 			trace!(target: LOG_TARGET, "Ignored request: too many entries");
-			return Err(BitswapError::TooManyEntries);
+			return Err(RequestHandlerError::TooManyEntries);
 		}
 
 		for entry in wantlist.entries {
@@ -258,7 +262,7 @@ impl<B: BlockT> BitswapRequestHandler<B> {
 
 /// Bitswap protocol error.
 #[derive(Debug, thiserror::Error)]
-pub enum BitswapError {
+enum RequestHandlerError {
 	/// Protobuf decoding error.
 	#[error("Failed to decode request: {0}.")]
 	DecodeProto(#[from] prost::DecodeError),

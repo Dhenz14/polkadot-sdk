@@ -2210,6 +2210,108 @@ impl<Block: BlockT> Backend<Block> {
 		let state = RefTrackingState::new(db_state, self.storage.clone(), None);
 		RecordStatsState::new(state, None, self.state_usage.clone())
 	}
+
+	/// Process a block's body using indexed transaction metadata from the runtime.
+	///
+	/// Reads the body from BODY column, splits indexed extrinsics into
+	/// BODY_INDEX + TRANSACTION entries, and removes the raw BODY entry.
+	/// Returns content_hashes of renew extrinsics whose data is missing.
+	pub fn apply_indexed_meta_for_block(
+		&self,
+		hash: Block::Hash,
+		number: NumberFor<Block>,
+		meta: Vec<IndexedTransactionMeta>,
+	) -> ClientResult<Vec<[u8; 32]>> {
+		let body: Vec<Block::Extrinsic> = self.blockchain.body(hash)?.ok_or_else(|| {
+			sp_blockchain::Error::Backend(format!(
+				"Cannot apply indexed meta: no body for block {hash:?}"
+			))
+		})?;
+
+		let lookup_key = utils::number_and_hash_to_lookup_key(number, hash)?;
+
+		let mut transaction = Transaction::new();
+		let (body_index_encoded, missing) =
+			apply_body_with_indexed_meta::<Block>(&mut transaction, &body, &meta);
+
+		transaction.set_from_vec(columns::BODY_INDEX, &lookup_key, body_index_encoded);
+		transaction.remove(columns::BODY, &lookup_key);
+
+		self.storage.db.commit(transaction)?;
+
+		debug!(
+			target: "db",
+			"Block #{number} ({hash:?}): applied indexed meta, {} missing renew hashes",
+			missing.len(),
+		);
+
+		Ok(missing)
+	}
+
+	/// Store a blob fetched via bitswap into the `TRANSACTION` column with the given target
+	/// reference count. The caller owns the count computation (typically the number of
+	/// `DbExtrinsic::Indexed { hash: content_hash, .. }` entries across `BODY_INDEX` entries that
+	/// reference this content hash).
+	///
+	/// Verifies `blake2_256(data) == content_hash`. Refuses to store when `target_ref_count == 0`.
+	pub fn store_fetched_transaction_with_count(
+		&self,
+		content_hash: [u8; 32],
+		data: Vec<u8>,
+		target_ref_count: u32,
+	) -> ClientResult<()> {
+		use sp_runtime::traits::BlakeTwo256;
+
+		if target_ref_count == 0 {
+			return Err(sp_blockchain::Error::Backend(
+				"refusing to store unreferenced indexed transaction".into(),
+			));
+		}
+
+		let computed = BlakeTwo256::hash(&data);
+		if computed.as_ref() != content_hash.as_ref() {
+			return Err(sp_blockchain::Error::Backend("bitswap data hash mismatch".into()));
+		}
+
+		let db_hash = DbHash::from_slice(&content_hash);
+		let mut transaction = Transaction::new();
+		transaction.store(columns::TRANSACTION, db_hash, data);
+		for _ in 1..target_ref_count {
+			transaction.reference(columns::TRANSACTION, db_hash);
+		}
+
+		self.storage.db.commit(transaction)?;
+
+		debug!(
+			target: "db",
+			"store_fetched_transaction_with_count: hash={:?} ref_count={}",
+			db_hash,
+			target_ref_count,
+		);
+		Ok(())
+	}
+
+	/// Bump the `TRANSACTION` column's reference counter for `content_hash` by `count`.
+	/// Silently no-ops on missing keys per kvdb semantics; use only when the entry is known
+	/// to exist (check via `has_indexed_transaction` first).
+	pub fn bump_transaction_ref(&self, content_hash: [u8; 32], count: u32) -> ClientResult<()> {
+		if count == 0 {
+			return Ok(());
+		}
+		let db_hash = DbHash::from_slice(&content_hash);
+		let mut transaction = Transaction::new();
+		for _ in 0..count {
+			transaction.reference(columns::TRANSACTION, db_hash);
+		}
+		self.storage.db.commit(transaction)?;
+		debug!(
+			target: "db",
+			"bump_transaction_ref: hash={:?} count={}",
+			db_hash,
+			count,
+		);
+		Ok(())
+	}
 }
 
 fn apply_state_commit(
@@ -2228,6 +2330,15 @@ fn apply_state_commit(
 	for key in commit.meta.deleted.into_iter() {
 		transaction.remove(columns::STATE_META, &key[..]);
 	}
+}
+
+/// Metadata about an indexed transaction provided by the runtime.
+#[derive(Clone, Debug)]
+pub struct IndexedTransactionMeta {
+	/// Content hash of the indexed data blob.
+	pub content_hash: [u8; 32],
+	/// Size of the indexed data blob in bytes.
+	pub size: u32,
 }
 
 fn apply_index_ops<Block: BlockT>(
@@ -2313,6 +2424,95 @@ fn apply_index_ops<Block: BlockT>(
 		n_full,
 	);
 	extrinsic_index.encode()
+}
+
+/// Build BODY_INDEX from a block body and runtime-provided indexed transaction metadata.
+///
+/// For each metadata entry, searches the body for a store extrinsic whose tail bytes hash to the
+/// declared `content_hash`. Matching store extrinsics are split and the indexed data is stored in
+/// `TRANSACTION`.
+///
+/// When no matching body data is found, the entry is treated as a renew extrinsic whose data must
+/// be fetched separately. In that case, the full encoded extrinsic is used as the indexed header.
+///
+/// Returns the encoded BODY_INDEX together with the content hashes whose data is still missing.
+pub fn apply_body_with_indexed_meta<Block: BlockT>(
+	transaction: &mut Transaction<DbHash>,
+	body: &[Block::Extrinsic],
+	indexed_meta: &[IndexedTransactionMeta],
+) -> (Vec<u8>, Vec<[u8; 32]>) {
+	use sp_runtime::traits::BlakeTwo256;
+
+	let mut missing = Vec::new();
+	let mut matched: HashMap<usize, (DbHash, usize)> = HashMap::new();
+
+	for meta in indexed_meta {
+		let db_hash = DbHash::from_slice(&meta.content_hash);
+		let size = meta.size as usize;
+		let mut found = false;
+
+		for (i, ext) in body.iter().enumerate() {
+			if matched.contains_key(&i) {
+				continue;
+			}
+
+			let encoded = ext.encode();
+			if encoded.len() >= size {
+				let tail = &encoded[encoded.len() - size..];
+				let hash = BlakeTwo256::hash(tail);
+				if hash.as_ref() == meta.content_hash.as_ref() {
+					let header_len = encoded.len() - size;
+					debug!(
+						target: "db",
+						"Indexed tx: STORE ext[{}] content_hash={:?} data_size={}",
+						i,
+						db_hash,
+						size,
+					);
+					transaction.store(columns::TRANSACTION, db_hash, tail.to_vec());
+					matched.insert(i, (db_hash, header_len));
+					found = true;
+					break;
+				}
+			}
+		}
+
+		if !found {
+			debug!(
+				target: "db",
+				"Indexed tx: RENEW content_hash={:?} data_size={} (needs bitswap)",
+				db_hash,
+				size,
+			);
+			missing.push(meta.content_hash);
+		}
+	}
+
+	let mut db_extrinsics: Vec<DbExtrinsic<Block>> = Vec::with_capacity(body.len());
+	let mut renew_hashes = missing.iter();
+	for (i, ext) in body.iter().enumerate() {
+		if let Some((hash, header_len)) = matched.get(&i) {
+			let encoded = ext.encode();
+			let header = encoded[..*header_len].to_vec();
+			db_extrinsics.push(DbExtrinsic::Indexed { hash: *hash, header });
+		} else if let Some(hash_bytes) = renew_hashes.next() {
+			let hash = DbHash::from_slice(hash_bytes);
+			let encoded = ext.encode();
+			db_extrinsics.push(DbExtrinsic::Indexed { hash, header: encoded });
+		} else {
+			db_extrinsics.push(DbExtrinsic::Full(ext.clone()));
+		}
+	}
+
+	debug!(
+		target: "db",
+		"apply_body_with_indexed_meta: {} extrinsics, {} stores, {} renews (missing data)",
+		body.len(),
+		matched.len(),
+		missing.len(),
+	);
+
+	(db_extrinsics.encode(), missing)
 }
 
 fn apply_indexed_body<Block: BlockT>(transaction: &mut Transaction<DbHash>, body: Vec<Vec<u8>>) {

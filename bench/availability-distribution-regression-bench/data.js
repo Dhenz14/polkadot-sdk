@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776802238232,
+  "lastUpdate": 1776807325519,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "54316454+sandreim@users.noreply.github.com",
-            "name": "Andrei Sandu",
-            "username": "sandreim"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "7af791f7594c61a97c31841c681666461e300563",
-          "message": "Update elastic scaling documentation (#9677)\n\nCloses https://github.com/paritytech/polkadot-sdk/pull/9677 \n\nAdd docs and remove MVP.\n\n---------\n\nSigned-off-by: Andrei Sandu <andrei-mihail@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Alexander Cyon <Sajjon@users.noreply.github.com>\nCo-authored-by: Sebastian Kunert <skunert49@gmail.com>\nCo-authored-by: Alin Dima <alin@parity.io>",
-          "timestamp": "2025-09-10T16:53:52Z",
-          "tree_id": "2fab67ef4a232a7d5c9b37b1fc956511afee6064",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/7af791f7594c61a97c31841c681666461e300563"
-        },
-        "date": 1757527530819,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02234300975333333,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15852755366000004,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.00787426524666668,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012832019059999998,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-store",
             "value": 0.14386841460000008,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "eresav@me.com",
+            "name": "Andrei Eres",
+            "username": "AndreiEres"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "d1ad712f881477a0991cb0003d4646b3da6817f4",
+          "message": "statement-store: fix metrics accuracy (#11838)\n\n# Description\n\nFixes accuracy gaps and clarify help text in statement store and network\nmetrics.\n\n## Integration\n\nNo integration needed.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-21T20:05:32Z",
+          "tree_id": "48b5bc5ad345f7ae8e73cc8409cdad067cbf23e0",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/d1ad712f881477a0991cb0003d4646b3da6817f4"
+        },
+        "date": 1776807303045,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009511752046666645,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.02360534129333334,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14382363244666674,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.006999777046666663,
             "unit": "seconds"
           }
         ]

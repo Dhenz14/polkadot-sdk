@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776783174268,
+  "lastUpdate": 1776794120652,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "egor@parity.io",
-            "name": "Egor_P",
-            "username": "EgorPopelyaev"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "05672500f639411e10a122d95baafec537603294",
-          "message": "[Release|CI/CD] Fix release flows (#9700)\n\nThis PR contains few fixes for the release flows:\n- delete debug lines\n- added installation of the `solc` and `resolc` for the`\npolkadot-omni-node` macos build\n- fixed destination repo for the release draft creation\n- notification about the draft release waits now till all the\npublication jobs are done",
-          "timestamp": "2025-09-10T13:36:41Z",
-          "tree_id": "1dd31d208ce072db1a9710124dd23dc8a4c180e6",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/05672500f639411e10a122d95baafec537603294"
-        },
-        "date": 1757515976516,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.193616443733333,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.20286461629999994,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.1342003248666667,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "marian@parity.io",
+            "name": "Marian Radu",
+            "username": "marian-radu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "663c3f687e6d31d6fd094695ba334a8bce973203",
+          "message": "eth-rpc: single-pass event processing for receipt extraction (#11777)\n\n## Summary\n\n- Process block events in a single pass instead of re-scanning per\nextrinsic, reducing O(N×E) to O(E)\n- Merge two integration tests into one that validates revert and logs\nare correctly attributed within the same block\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-21T16:11:26Z",
+          "tree_id": "260159d8472b0034e3ff65ecee0d324991ffae87",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/663c3f687e6d31d6fd094695ba334a8bce973203"
+        },
+        "date": 1776794098661,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12403429619999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.2178946146,
             "unit": "seconds"
           }
         ]

@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776802206825,
+  "lastUpdate": 1776807294736,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "54316454+sandreim@users.noreply.github.com",
-            "name": "Andrei Sandu",
-            "username": "sandreim"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "e99f93b24b1d8a568db46791463e03b46c2c0c7f",
-          "message": "Cumulus: adjust authorship duration (#9703)\n\nFor elastic scaling usecases with more than 3 cores we need to ensure\nblock authorship ends before the next block is supposed to be built.\n\n---------\n\nSigned-off-by: Andrei Sandu <andrei-mihail@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-10T19:17:22Z",
-          "tree_id": "b99a1653d67454022234437f908705f2c468d44a",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/e99f93b24b1d8a568db46791463e03b46c2c0c7f"
-        },
-        "date": 1757536074223,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.20807941979999994,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.174868267666664,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.13280995783333333,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "eresav@me.com",
+            "name": "Andrei Eres",
+            "username": "AndreiEres"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "d1ad712f881477a0991cb0003d4646b3da6817f4",
+          "message": "statement-store: fix metrics accuracy (#11838)\n\n# Description\n\nFixes accuracy gaps and clarify help text in statement store and network\nmetrics.\n\n## Integration\n\nNo integration needed.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-21T20:05:32Z",
+          "tree_id": "48b5bc5ad345f7ae8e73cc8409cdad067cbf23e0",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/d1ad712f881477a0991cb0003d4646b3da6817f4"
+        },
+        "date": 1776807272441,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 10.9333895089,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13014619076666667,
             "unit": "seconds"
           }
         ]

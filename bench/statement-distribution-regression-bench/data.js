@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776754366884,
+  "lastUpdate": 1776772567709,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "skunert49@gmail.com",
-            "name": "Sebastian Kunert",
-            "username": "skunert"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "a93a489a3c072eb010a700c4b5033ba4fda1e9cc",
-          "message": "basic-authorship: Improve inherent logging (#9664)\n\nThis PR aims to improve the inherent logging situation a bit. After the\nrecent incident it was unnecessary painful to figure out what exactly\nhappened. The logs should now be a bit more clear.\n\n- We get how many inherents where provided by the runtime\n- We get the names of the data items\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Rodrigo Quelhas <22591718+RomarQ@users.noreply.github.com>",
-          "timestamp": "2025-09-08T08:12:54Z",
-          "tree_id": "8095002d2ba128cb750293735dce9759a2d875ba",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/a93a489a3c072eb010a700c4b5033ba4fda1e9cc"
-        },
-        "date": 1757323827904,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 127.95999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04409611054399996,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.034347939204000005,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.07695692035199991,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "marian@parity.io",
+            "name": "Marian Radu",
+            "username": "marian-radu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "1f705c2fe6505da8aa9ebab22c8e01d768aeb3c9",
+          "message": "eth-rpc: Bulk INSERT/DELETE and commit per-block writes atomically (#11726)\n\n### Summary\n\n- Query SQLite's max variable limit at startup and use it to chunk bulk\nINSERTs and DELETEs, avoiding bind-parameter overflows\n- Replace per-row individual inserts with batched bulk inserts\n- Commit transaction hashes, logs, and block mapping in a single SQLite\ntransaction per block, same for deletes\n- Use `INSERT OR REPLACE` for logs (previously plain INSERT) to match\ntransaction_hashes and prevent UNIQUE constraint failures if the EXISTS\ndedup guard is bypassed\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-21T09:42:37Z",
+          "tree_id": "4a66e89e5d744d17c7e6be0dd29e0999f2436304",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/1f705c2fe6505da8aa9ebab22c8e01d768aeb3c9"
+        },
+        "date": 1776772546480,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.07400000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038088125135999996,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08066830294199993,
             "unit": "seconds"
           }
         ]

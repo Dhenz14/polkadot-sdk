@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776754315635,
+  "lastUpdate": 1776772507273,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "egor@parity.io",
-            "name": "Egor_P",
-            "username": "EgorPopelyaev"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "4231722827e525fc7c794f05f712bb158fa43efb",
-          "message": "[backport] Regular version bumps from the stable2506-2 (#9676)\n\nThis PR backport regular version bumps from the stable release branch\n`stabl2506` back to `master`",
-          "timestamp": "2025-09-09T05:50:49Z",
-          "tree_id": "12e66ffcd337a3e943322fb324c2fd1039b5cb13",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/4231722827e525fc7c794f05f712bb158fa43efb"
-        },
-        "date": 1757401807866,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022825414166666665,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007712350346666662,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013366720080000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.16022060669333335,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "bitfield-distribution",
             "value": 0.023910639899999996,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "marian@parity.io",
+            "name": "Marian Radu",
+            "username": "marian-radu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "1f705c2fe6505da8aa9ebab22c8e01d768aeb3c9",
+          "message": "eth-rpc: Bulk INSERT/DELETE and commit per-block writes atomically (#11726)\n\n### Summary\n\n- Query SQLite's max variable limit at startup and use it to chunk bulk\nINSERTs and DELETEs, avoiding bind-parameter overflows\n- Replace per-row individual inserts with batched bulk inserts\n- Commit transaction hashes, logs, and block mapping in a single SQLite\ntransaction per block, same for deletes\n- Use `INSERT OR REPLACE` for logs (previously plain INSERT) to match\ntransaction_hashes and prevent UNIQUE constraint failures if the EXISTS\ndedup guard is bypassed\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-21T09:42:37Z",
+          "tree_id": "4a66e89e5d744d17c7e6be0dd29e0999f2436304",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/1f705c2fe6505da8aa9ebab22c8e01d768aeb3c9"
+        },
+        "date": 1776772485611,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.006772272279999999,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.00966369838666664,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.023768423826666663,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14442815862000002,
             "unit": "seconds"
           }
         ]

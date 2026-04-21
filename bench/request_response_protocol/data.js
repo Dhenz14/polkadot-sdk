@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776793241895,
+  "lastUpdate": 1776800981357,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -81863,6 +81863,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2589610001,
             "range": "± 33590560",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "paolo@parity.io",
+            "name": "Paolo La Camera",
+            "username": "sigurpol"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1eea8c142f2ed5db6a8a281e35e1bf6b32f48988",
+          "message": "Remove DDayBodyId from Westend relay chain (#11843)\n\nPost-AHM cleanup following #11796. The DDay plurality origin in\n`AuthorizeCurrentCodeOrigin` is no longer needed since governance lives\non AssetHub. Simplified to `EnsureRoot`.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-21T18:36:59Z",
+          "tree_id": "40d254189b4c2b4208538cd037f86d25a672bd55",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/1eea8c142f2ed5db6a8a281e35e1bf6b32f48988"
+        },
+        "date": 1776800959725,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 19356641,
+            "range": "± 671366",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 19485269,
+            "range": "± 240260",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20866420,
+            "range": "± 186171",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 25654818,
+            "range": "± 244692",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 60793191,
+            "range": "± 1504160",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 371500525,
+            "range": "± 13767149",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2494273014,
+            "range": "± 95665004",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15465168,
+            "range": "± 288871",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15537531,
+            "range": "± 275491",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16070883,
+            "range": "± 211336",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20605757,
+            "range": "± 324869",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 57939832,
+            "range": "± 730923",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 342551388,
+            "range": "± 8325546",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2722129521,
+            "range": "± 80424158",
             "unit": "ns/iter"
           }
         ]

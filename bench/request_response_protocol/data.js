@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776773875458,
+  "lastUpdate": 1776782251400,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -81647,6 +81647,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2690166361,
             "range": "± 70853403",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "8bdf835e260de3f6a72a7e5a84b41b807771b7cd",
+          "message": "ci: use GH App token for zombienet artifact downloads (#11831)\n\n## Summary\n            \nZombienet matrix CI tests fail with `API rate limit exceeded for\ninstallation` because\nall matrix jobs download artifacts concurrently via `GITHUB_TOKEN`.\nThis PR uses the dedicated `ARTIFACTS_DOWNLOADER` GitHub App to generate\ninstallation\ntokens with a separate rate limit pool. For fork PRs (external\ncontributors),\norg secrets are unavailable so the action automatically falls back to\n`GITHUB_TOKEN`.\n\n## Changes\n- `zombienet-sdk` action: add optional `app-id`/`app-private-key`\ninputs, generate App\ntoken when provided, pass effective token to all downstream download\nactions\n- All 4 zombienet workflows (`substrate`, `polkadot`, `cumulus`,\n`parachain-template`):\ndeclare and pass `ARTIFACTS_DOWNLOADER` secrets to the zombienet-sdk\naction\n- `zombienet_cumulus.yml`: handle standalone `download-artifact-extract`\ncall with App token\n- `build-publish-images.yml`: explicit `secrets:` mapping (not `secrets:\ninherit`) in all 4 `trigger-zombienet-*` jobs\n\n## Security\n- No `secrets: inherit` only the two required secrets are explicitly\nmapped\n- App token generated as step output, never written to `$GITHUB_ENV`\n- Fork PRs: secrets are empty → automatic fallback to `GITHUB_TOKEN`",
+          "timestamp": "2026-04-21T13:26:57Z",
+          "tree_id": "ff769d35af5cdbd0d97fe08b98f14d1f10ccd83d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/8bdf835e260de3f6a72a7e5a84b41b807771b7cd"
+        },
+        "date": 1776782229627,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18343887,
+            "range": "± 180753",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18788709,
+            "range": "± 157407",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20210343,
+            "range": "± 147692",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24781148,
+            "range": "± 473296",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 58764861,
+            "range": "± 582862",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 336653351,
+            "range": "± 3931620",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2318920823,
+            "range": "± 36673928",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15071351,
+            "range": "± 111059",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15241031,
+            "range": "± 188900",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 15850938,
+            "range": "± 322756",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20210101,
+            "range": "± 215579",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 56215886,
+            "range": "± 548316",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 328186516,
+            "range": "± 11420580",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2567140372,
+            "range": "± 61388701",
             "unit": "ns/iter"
           }
         ]

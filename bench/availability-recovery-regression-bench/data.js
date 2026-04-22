@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776875756217,
+  "lastUpdate": 1776882317696,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "117115317+lrubasze@users.noreply.github.com",
-            "name": "Lukasz Rubaszewski",
-            "username": "lrubasze"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "32142045e09e9e0e822d47f064372acb35d14c84",
-          "message": "ci: reenable zombienet pov_recovery and rpc_collator_builds_block tests (#9695)\n\nSince https://github.com/paritytech/zombienet-sdk/issues/371 has been\nsolved\nReenable:\n- `zombienet-cumulus-0002-pov_recovery` -\nhttps://github.com/paritytech/polkadot-sdk/issues/8985\n- `zombienet-cumulus-0006-rpc_collator_builds_blocks` -\nhttps://github.com/paritytech/polkadot-sdk/issues/9154\n\nAdditionally allow to use regex patterns when dispatching zombienet\ntests manually:\neg. \n```\n.github/scripts/dispatch-zombienet-workflow.sh \\\n  -w zombienet_cumulus.yml \\\n  -b \"lrubasze/reenable-some-zombienet-ci-tests\" \\\n  -p \"0002-pov_recovery|0006-rpc_collator_builds_blocks\"\n```",
-          "timestamp": "2025-09-12T07:52:18Z",
-          "tree_id": "664d06488a8c42dcfbc2b6150ab44b0f4b960cc6",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/32142045e09e9e0e822d47f064372acb35d14c84"
-        },
-        "date": 1757668578538,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19977008613333333,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.231386212433334,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.1393942711,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "marios@parity.io",
+            "name": "Marios",
+            "username": "mchristou"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "e3f0d25d43da51712ebc669c354d555132adcf43",
+          "message": " Refactor: candidate-validation fetches executor_params itself (#11604)\n\n# Description\n\nRemove `executor_params` from\n`CandidateValidationMessage::ValidateFromExhaustive`\nand have `candidate-validation` derive the session index from the\ncandidate\n  descriptor and fetch `executor_params` via the runtime API internally.\n\nThis simplifies backing, approval-voting, and dispute-coordinator by\nremoving\nexecutor_params threading through `Action::LaunchApproval`,\n`RetryApprovalInfo`,\n`ParticipationRequest`, `BackgroundValidationParams`, and\n`PerSessionCache`.\n\nThis PR is a follow up of this\n[comment](https://github.com/paritytech/polkadot-sdk/pull/11566#discussion_r3015664660)\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-22T17:05:06Z",
+          "tree_id": "000bffc81737599bda0b6765983ea5a2bcda5537",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/e3f0d25d43da51712ebc669c354d555132adcf43"
+        },
+        "date": 1776882295583,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1364765168333333,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 10.883929599666665,
             "unit": "seconds"
           }
         ]

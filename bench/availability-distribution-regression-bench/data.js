@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776838464294,
+  "lastUpdate": 1776855448014,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "11329616+Klapeyron@users.noreply.github.com",
-            "name": "Klapeyron",
-            "username": "Klapeyron"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "1d4e9ec206ef417724c23c82ac94de5d24599173",
-          "message": "Extend AppSignature trait with Signature (#9645)\n\n[sp_application_crypto::AppPublic](https://docs.rs/sp-application-crypto/latest/sp_application_crypto/trait.AppPublic.html)\nrequires\n[sp_core::crypto::Public](https://paritytech.github.io/polkadot-sdk/master/sp_core/crypto/trait.Public.html):\n```rust\n/// Application-specific public key.\npub trait AppPublic: AppCrypto + Public + Debug + MaybeHash + Codec {\n\t/// The wrapped type which is just a plain instance of `Public`.\n\ttype Generic: IsWrappedBy<Self> + Public + Debug + MaybeHash + Codec;\n}\n```\n\nbut it looks like similar requirement is missing for\n[sp_application_crypto::AppSignature](https://docs.rs/sp-application-crypto/latest/sp_application_crypto/trait.AppSignature.html)\nand\n[sp_core::crypto::Signature](https://paritytech.github.io/polkadot-sdk/master/sp_core/crypto/trait.Signature.html):\n\n```rust\n/// Application-specific signature.\npub trait AppSignature: AppCrypto + Eq + PartialEq + Debug + Clone {\n\t/// The wrapped type which is just a plain instance of `Signature`.\n\ttype Generic: IsWrappedBy<Self> + Eq + PartialEq + Debug;\n}\n```\n\nThis PR extends\n[sp_application_crypto::AppSignature](https://docs.rs/sp-application-crypto/latest/sp_application_crypto/trait.AppSignature.html)\ntrait with\n[sp_core::crypto::Signature](https://paritytech.github.io/polkadot-sdk/master/sp_core/crypto/trait.Signature.html).",
-          "timestamp": "2025-09-11T09:45:57Z",
-          "tree_id": "fd7030168a8d877153d8839e5d5337e3001fdc16",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/1d4e9ec206ef417724c23c82ac94de5d24599173"
-        },
-        "date": 1757590789544,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.16115036990000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013393036880000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007955190706666709,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022826150946666658,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-distribution",
             "value": 0.007227425813333334,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "363911+pepoviola@users.noreply.github.com",
+            "name": "Javier Viola",
+            "username": "pepoviola"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "355926b3b4a7cc3fc37a48676bec59ee78a1221f",
+          "message": "[zombienet] fix flaky test `zombienet-polkadot-functional-0004-parachains-disputes-garbage-candidate` (#11834)\n\nuse a bigger rc block count.\n\nclose #11826",
+          "timestamp": "2026-04-22T09:28:11Z",
+          "tree_id": "3d251e88d069720dd9c55af9a9ae341b672ae863",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/355926b3b4a7cc3fc37a48676bec59ee78a1221f"
+        },
+        "date": 1776855427085,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007159722466666667,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009725868966666641,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.023878587740000005,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14481244475333338,
             "unit": "seconds"
           }
         ]

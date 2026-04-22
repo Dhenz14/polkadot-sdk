@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776811051709,
+  "lastUpdate": 1776837506676,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -82295,6 +82295,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2664886941,
             "range": "± 76774949",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "marian@parity.io",
+            "name": "Marian Radu",
+            "username": "marian-radu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "95ae463f8443cd479a1c997e66a43208e7aea47a",
+          "message": "eth-rpc: skip receipt extraction for finalized blocks already processed as best (#11801)\n\n### Motivation\nBoth the best and finalized block subscriptions extract receipts\nindependently, so every block is processed twice. This skips redundant\nextraction on the finalized path when the block was already handled by\nthe best block subscription.\n\n### Summary\n- Skip redundant receipt extraction on finalized blocks already\nprocessed by the best block subscription\n- Read logs from DB for skipped blocks only when log subscribers exist\n- Refactor: extract process_block helper, parse_log_row shared function,\nadvance_sync_head\n- Add unit tests for get_processed_eth_block_hash and\nlogs_by_block_number\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-22T04:54:04Z",
+          "tree_id": "7d5d5473cf691d29518871b5472bdcdecddd8467",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/95ae463f8443cd479a1c997e66a43208e7aea47a"
+        },
+        "date": 1776837484248,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18773279,
+            "range": "± 226897",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 19296917,
+            "range": "± 257409",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20579592,
+            "range": "± 152796",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 25558614,
+            "range": "± 326856",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 62737870,
+            "range": "± 871928",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 388956958,
+            "range": "± 6022799",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2551040256,
+            "range": "± 113303165",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15480510,
+            "range": "± 203892",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15713303,
+            "range": "± 697217",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16588317,
+            "range": "± 235170",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21145136,
+            "range": "± 169329",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 60914886,
+            "range": "± 1058060",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 358917257,
+            "range": "± 6383495",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2806218371,
+            "range": "± 72047770",
             "unit": "ns/iter"
           }
         ]

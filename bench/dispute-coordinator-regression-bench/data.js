@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776875875599,
+  "lastUpdate": 1776882441222,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "git@kchr.de",
-            "name": "Bastian Köcher",
-            "username": "bkchr"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "2b4fbe61c8609804c72157eaccd99ef440d1cde6",
-          "message": "DB: Ensure that when we revert blocks, we actually delete all their data (#9691)\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-10T20:41:42Z",
-          "tree_id": "60a6de7c99f92c999fbcdac0f37c9dad715b9778",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/2b4fbe61c8609804c72157eaccd99ef440d1cde6"
-        },
-        "date": 1757541254524,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008695687099999985,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0026387901499999996,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005246050329999991,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-coordinator",
             "value": 0.00270896782,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "marios@parity.io",
+            "name": "Marios",
+            "username": "mchristou"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "e3f0d25d43da51712ebc669c354d555132adcf43",
+          "message": " Refactor: candidate-validation fetches executor_params itself (#11604)\n\n# Description\n\nRemove `executor_params` from\n`CandidateValidationMessage::ValidateFromExhaustive`\nand have `candidate-validation` derive the session index from the\ncandidate\n  descriptor and fetch `executor_params` via the runtime API internally.\n\nThis simplifies backing, approval-voting, and dispute-coordinator by\nremoving\nexecutor_params threading through `Action::LaunchApproval`,\n`RetryApprovalInfo`,\n`ParticipationRequest`, `BackgroundValidationParams`, and\n`PerSessionCache`.\n\nThis PR is a follow up of this\n[comment](https://github.com/paritytech/polkadot-sdk/pull/11566#discussion_r3015664660)\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-22T17:05:06Z",
+          "tree_id": "000bffc81737599bda0b6765983ea5a2bcda5537",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/e3f0d25d43da51712ebc669c354d555132adcf43"
+        },
+        "date": 1776882418728,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009292722539999985,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009139344369999988,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.002714593089999999,
             "unit": "seconds"
           }
         ]

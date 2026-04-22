@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776838433848,
+  "lastUpdate": 1776855420280,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "serban@parity.io",
-            "name": "Serban Iorga",
-            "username": "serban300"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "32cc5d6163781a077c4bdb2cafdf1a538127ebd5",
-          "message": "[XCMP] Add support for receiving double encoded XCMs (#9588)\n\nRelated to https://github.com/paritytech/polkadot-sdk/issues/8308\n\nThis PR adds support for receiving double encoded XCMs via XCMP.\n\n## Description\n\nRight now parachains pass XCM messages between them through XCMP pages\nthat use the `XcmpMessageFormat::ConcatenatedVersionedXcm` format. These\npages contain concatenated encoded `VersionedXcm`s and on the receiving\nside, in order to split the page into individual messages, we need to\nfirst decode them and then re-encode and forward them to the\n`pallet-messages-queue`. This adds extra overhead ([about 2.5\nmicroseconds + some cost per\nbyte](https://github.com/paritytech/polkadot-sdk/blob/3dfbdf4a454f35238500779e503e1ec32ba7fc63/cumulus/parachains/runtimes/assets/asset-hub-rococo/src/weights/cumulus_pallet_xcmp_queue.rs#L199-L208)).\n\nThis PR adds a new (`XcmpMessageFormat::ConcatenatedOpaqueVersionedXcm`)\nformat that will be used for pages with double-encoded XCMs. This makes\nthe decoding much easier and almost free, improving the XCMP bandwidth.\n\n## Rollout\n\nAn easy approach here is to consider that all parachains that support\nXCMv6 also have this upgrade and to use\n`XcmpMessageFormat::ConcatenatedOpaqueVersionedXcm` when sending\nmessages to such a parachain.\n\nThere are other better approaches, but they would be harder to\nimplement. For example:\n- another approach would be for each parachain to expose a list of\nsupported features and to check if\n`XcmpMessageFormat::ConcatenatedOpaqueVersionedXcm` is supported when\nsending messages to a connected parachain.\n- or we could advertise this through signals somehow\n\nStill thinking of other simpler approaches. We could also probably do it\nmanually for each XCMP channel.\n\nFor the moment it's important to add the support for receiving\n`XcmpMessageFormat::ConcatenatedOpaqueVersionedXcm` and to let it\npropagate to as many parachains as possible as they update the runtime.\nAfter that we'll have to come out with a rollout strategy.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Branislav Kontur <bkontur@gmail.com>",
-          "timestamp": "2025-09-11T13:45:29Z",
-          "tree_id": "56843a82de8590620d8f9b9bbb9677c9651939f4",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/32cc5d6163781a077c4bdb2cafdf1a538127ebd5"
-        },
-        "date": 1757602643603,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19835885420000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.279006555433337,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 10.808945989100005,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "363911+pepoviola@users.noreply.github.com",
+            "name": "Javier Viola",
+            "username": "pepoviola"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "355926b3b4a7cc3fc37a48676bec59ee78a1221f",
+          "message": "[zombienet] fix flaky test `zombienet-polkadot-functional-0004-parachains-disputes-garbage-candidate` (#11834)\n\nuse a bigger rc block count.\n\nclose #11826",
+          "timestamp": "2026-04-22T09:28:11Z",
+          "tree_id": "3d251e88d069720dd9c55af9a9ae341b672ae863",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/355926b3b4a7cc3fc37a48676bec59ee78a1221f"
+        },
+        "date": 1776855400105,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.242919919400002,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13866239343333336,
             "unit": "seconds"
           }
         ]

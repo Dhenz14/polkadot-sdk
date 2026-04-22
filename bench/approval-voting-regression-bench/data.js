@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776875816504,
+  "lastUpdate": 1776882379179,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "serban@parity.io",
-            "name": "Serban Iorga",
-            "username": "serban300"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "32cc5d6163781a077c4bdb2cafdf1a538127ebd5",
-          "message": "[XCMP] Add support for receiving double encoded XCMs (#9588)\n\nRelated to https://github.com/paritytech/polkadot-sdk/issues/8308\n\nThis PR adds support for receiving double encoded XCMs via XCMP.\n\n## Description\n\nRight now parachains pass XCM messages between them through XCMP pages\nthat use the `XcmpMessageFormat::ConcatenatedVersionedXcm` format. These\npages contain concatenated encoded `VersionedXcm`s and on the receiving\nside, in order to split the page into individual messages, we need to\nfirst decode them and then re-encode and forward them to the\n`pallet-messages-queue`. This adds extra overhead ([about 2.5\nmicroseconds + some cost per\nbyte](https://github.com/paritytech/polkadot-sdk/blob/3dfbdf4a454f35238500779e503e1ec32ba7fc63/cumulus/parachains/runtimes/assets/asset-hub-rococo/src/weights/cumulus_pallet_xcmp_queue.rs#L199-L208)).\n\nThis PR adds a new (`XcmpMessageFormat::ConcatenatedOpaqueVersionedXcm`)\nformat that will be used for pages with double-encoded XCMs. This makes\nthe decoding much easier and almost free, improving the XCMP bandwidth.\n\n## Rollout\n\nAn easy approach here is to consider that all parachains that support\nXCMv6 also have this upgrade and to use\n`XcmpMessageFormat::ConcatenatedOpaqueVersionedXcm` when sending\nmessages to such a parachain.\n\nThere are other better approaches, but they would be harder to\nimplement. For example:\n- another approach would be for each parachain to expose a list of\nsupported features and to check if\n`XcmpMessageFormat::ConcatenatedOpaqueVersionedXcm` is supported when\nsending messages to a connected parachain.\n- or we could advertise this through signals somehow\n\nStill thinking of other simpler approaches. We could also probably do it\nmanually for each XCMP channel.\n\nFor the moment it's important to add the support for receiving\n`XcmpMessageFormat::ConcatenatedOpaqueVersionedXcm` and to let it\npropagate to as many parachains as possible as they update the runtime.\nAfter that we'll have to come out with a rollout strategy.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Branislav Kontur <bkontur@gmail.com>",
-          "timestamp": "2025-09-11T13:45:29Z",
-          "tree_id": "56843a82de8590620d8f9b9bbb9677c9651939f4",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/32cc5d6163781a077c4bdb2cafdf1a538127ebd5"
-        },
-        "date": 1757602697067,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52940.5,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63623.2,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.501390999699999,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9794912476300073,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000021411389999999996,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.000020239050000000004,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005864858420000004,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.000020239050000000004,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.50784422047001,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.44253063486000493,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.6784059412908863,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000021411389999999996,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.5202270885399973,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.547025675380002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.5113137159400005,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 4.337041358302817,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "marios@parity.io",
+            "name": "Marios",
+            "username": "mchristou"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "e3f0d25d43da51712ebc669c354d555132adcf43",
+          "message": " Refactor: candidate-validation fetches executor_params itself (#11604)\n\n# Description\n\nRemove `executor_params` from\n`CandidateValidationMessage::ValidateFromExhaustive`\nand have `candidate-validation` derive the session index from the\ncandidate\n  descriptor and fetch `executor_params` via the runtime API internally.\n\nThis simplifies backing, approval-voting, and dispute-coordinator by\nremoving\nexecutor_params threading through `Action::LaunchApproval`,\n`RetryApprovalInfo`,\n`ParticipationRequest`, `BackgroundValidationParams`, and\n`PerSessionCache`.\n\nThis PR is a follow up of this\n[comment](https://github.com/paritytech/polkadot-sdk/pull/11566#discussion_r3015664660)\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-22T17:05:06Z",
+          "tree_id": "000bffc81737599bda0b6765983ea5a2bcda5537",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/e3f0d25d43da51712ebc669c354d555132adcf43"
+        },
+        "date": 1776882356889,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 63619.219999999994,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 52939,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.41150800608995,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.000020598459999999997,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.000022369199999999996,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.006205446950000005,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.793216875420001,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7813274967199619,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.000022369199999999996,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.8345354528799986,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.000020598459999999997,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.7591862663599995,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.8057247470300015,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.387891949432929,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.431311720729988,
             "unit": "seconds"
           }
         ]

@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776855474868,
+  "lastUpdate": 1776875816504,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "11329616+Klapeyron@users.noreply.github.com",
-            "name": "Klapeyron",
-            "username": "Klapeyron"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "1d4e9ec206ef417724c23c82ac94de5d24599173",
-          "message": "Extend AppSignature trait with Signature (#9645)\n\n[sp_application_crypto::AppPublic](https://docs.rs/sp-application-crypto/latest/sp_application_crypto/trait.AppPublic.html)\nrequires\n[sp_core::crypto::Public](https://paritytech.github.io/polkadot-sdk/master/sp_core/crypto/trait.Public.html):\n```rust\n/// Application-specific public key.\npub trait AppPublic: AppCrypto + Public + Debug + MaybeHash + Codec {\n\t/// The wrapped type which is just a plain instance of `Public`.\n\ttype Generic: IsWrappedBy<Self> + Public + Debug + MaybeHash + Codec;\n}\n```\n\nbut it looks like similar requirement is missing for\n[sp_application_crypto::AppSignature](https://docs.rs/sp-application-crypto/latest/sp_application_crypto/trait.AppSignature.html)\nand\n[sp_core::crypto::Signature](https://paritytech.github.io/polkadot-sdk/master/sp_core/crypto/trait.Signature.html):\n\n```rust\n/// Application-specific signature.\npub trait AppSignature: AppCrypto + Eq + PartialEq + Debug + Clone {\n\t/// The wrapped type which is just a plain instance of `Signature`.\n\ttype Generic: IsWrappedBy<Self> + Eq + PartialEq + Debug;\n}\n```\n\nThis PR extends\n[sp_application_crypto::AppSignature](https://docs.rs/sp-application-crypto/latest/sp_application_crypto/trait.AppSignature.html)\ntrait with\n[sp_core::crypto::Signature](https://paritytech.github.io/polkadot-sdk/master/sp_core/crypto/trait.Signature.html).",
-          "timestamp": "2025-09-11T09:45:57Z",
-          "tree_id": "fd7030168a8d877153d8839e5d5337e3001fdc16",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/1d4e9ec206ef417724c23c82ac94de5d24599173"
-        },
-        "date": 1757590816943,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 63622.619999999995,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 52939.2,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.347309176209984,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.0000222846,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.5153480312100003,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.0000222846,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9481673755999858,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000021586100000000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.0058516393499999965,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.470729382630002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000021586100000000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.46905884763,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.4533226801699971,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.7533503763108254,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.484831219619999,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-distribution",
             "value": 0.00002347575,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "alin@parity.io",
+            "name": "Alin Dima",
+            "username": "alindima"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b2a12a6395dc9d6b900c360b5568ccc4c934e0f4",
+          "message": "allow older relay parents in prospective-parachains (#11772)\n\nImplements https://github.com/paritytech/polkadot-sdk/issues/11208 and\nhttps://github.com/paritytech/polkadot-sdk/issues/11335\n\nAlso fixes a bug in statement-distribution\n\n---------\n\nCo-authored-by: Bastian Köcher <git@kchr.de>",
+          "timestamp": "2026-04-22T14:35:39Z",
+          "tree_id": "deda5e2e7bd953610b5c555fca33d46d7252a7c8",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/b2a12a6395dc9d6b900c360b5568ccc4c934e0f4"
+        },
+        "date": 1776875794790,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 52939,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 63627.67999999999,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.000022927039999999995,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.4771926514800002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.892143073819999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.757996425029974,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.000022697500000000004,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.891853540979975,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.9363683361900006,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.000022697500000000004,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.8741769425400006,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.00545377693,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.948522334990002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.000022927039999999995,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.337041358302817,
             "unit": "seconds"
           }
         ]

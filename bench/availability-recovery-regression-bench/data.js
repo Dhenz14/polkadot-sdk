@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776811924482,
+  "lastUpdate": 1776838433848,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "11329616+Klapeyron@users.noreply.github.com",
-            "name": "Klapeyron",
-            "username": "Klapeyron"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "1d4e9ec206ef417724c23c82ac94de5d24599173",
-          "message": "Extend AppSignature trait with Signature (#9645)\n\n[sp_application_crypto::AppPublic](https://docs.rs/sp-application-crypto/latest/sp_application_crypto/trait.AppPublic.html)\nrequires\n[sp_core::crypto::Public](https://paritytech.github.io/polkadot-sdk/master/sp_core/crypto/trait.Public.html):\n```rust\n/// Application-specific public key.\npub trait AppPublic: AppCrypto + Public + Debug + MaybeHash + Codec {\n\t/// The wrapped type which is just a plain instance of `Public`.\n\ttype Generic: IsWrappedBy<Self> + Public + Debug + MaybeHash + Codec;\n}\n```\n\nbut it looks like similar requirement is missing for\n[sp_application_crypto::AppSignature](https://docs.rs/sp-application-crypto/latest/sp_application_crypto/trait.AppSignature.html)\nand\n[sp_core::crypto::Signature](https://paritytech.github.io/polkadot-sdk/master/sp_core/crypto/trait.Signature.html):\n\n```rust\n/// Application-specific signature.\npub trait AppSignature: AppCrypto + Eq + PartialEq + Debug + Clone {\n\t/// The wrapped type which is just a plain instance of `Signature`.\n\ttype Generic: IsWrappedBy<Self> + Eq + PartialEq + Debug;\n}\n```\n\nThis PR extends\n[sp_application_crypto::AppSignature](https://docs.rs/sp-application-crypto/latest/sp_application_crypto/trait.AppSignature.html)\ntrait with\n[sp_core::crypto::Signature](https://paritytech.github.io/polkadot-sdk/master/sp_core/crypto/trait.Signature.html).",
-          "timestamp": "2025-09-11T09:45:57Z",
-          "tree_id": "fd7030168a8d877153d8839e5d5337e3001fdc16",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/1d4e9ec206ef417724c23c82ac94de5d24599173"
-        },
-        "date": 1757590762294,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.2275656656,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.1974395789333334,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.13779499283333335,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "marian@parity.io",
+            "name": "Marian Radu",
+            "username": "marian-radu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "95ae463f8443cd479a1c997e66a43208e7aea47a",
+          "message": "eth-rpc: skip receipt extraction for finalized blocks already processed as best (#11801)\n\n### Motivation\nBoth the best and finalized block subscriptions extract receipts\nindependently, so every block is processed twice. This skips redundant\nextraction on the finalized path when the block was already handled by\nthe best block subscription.\n\n### Summary\n- Skip redundant receipt extraction on finalized blocks already\nprocessed by the best block subscription\n- Read logs from DB for skipped blocks only when log subscribers exist\n- Refactor: extract process_block helper, parse_log_row shared function,\nadvance_sync_head\n- Add unit tests for get_processed_eth_block_hash and\nlogs_by_block_number\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-22T04:54:04Z",
+          "tree_id": "7d5d5473cf691d29518871b5472bdcdecddd8467",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/95ae463f8443cd479a1c997e66a43208e7aea47a"
+        },
+        "date": 1776838411608,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12731508966666666,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 10.808945989100005,
             "unit": "seconds"
           }
         ]

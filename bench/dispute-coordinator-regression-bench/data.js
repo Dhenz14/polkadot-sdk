@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776838556501,
+  "lastUpdate": 1776855527810,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "54316454+sandreim@users.noreply.github.com",
-            "name": "Andrei Sandu",
-            "username": "sandreim"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "7af791f7594c61a97c31841c681666461e300563",
-          "message": "Update elastic scaling documentation (#9677)\n\nCloses https://github.com/paritytech/polkadot-sdk/pull/9677 \n\nAdd docs and remove MVP.\n\n---------\n\nSigned-off-by: Andrei Sandu <andrei-mihail@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Alexander Cyon <Sajjon@users.noreply.github.com>\nCo-authored-by: Sebastian Kunert <skunert49@gmail.com>\nCo-authored-by: Alin Dima <alin@parity.io>",
-          "timestamp": "2025-09-10T16:53:52Z",
-          "tree_id": "2fab67ef4a232a7d5c9b37b1fc956511afee6064",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/7af791f7594c61a97c31841c681666461e300563"
-        },
-        "date": 1757527612318,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008729502499999993,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005209065309999995,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0026479311600000007,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-distribution",
             "value": 0.009165343849999981,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "363911+pepoviola@users.noreply.github.com",
+            "name": "Javier Viola",
+            "username": "pepoviola"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "355926b3b4a7cc3fc37a48676bec59ee78a1221f",
+          "message": "[zombienet] fix flaky test `zombienet-polkadot-functional-0004-parachains-disputes-garbage-candidate` (#11834)\n\nuse a bigger rc block count.\n\nclose #11826",
+          "timestamp": "2026-04-22T09:28:11Z",
+          "tree_id": "3d251e88d069720dd9c55af9a9ae341b672ae863",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/355926b3b4a7cc3fc37a48676bec59ee78a1221f"
+        },
+        "date": 1776855507484,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009186807909999982,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.00875884221999999,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.0026660626099999996,
             "unit": "seconds"
           }
         ]

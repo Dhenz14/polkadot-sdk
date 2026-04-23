@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776970020329,
+  "lastUpdate": 1776980261286,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "35698397+drskalman@users.noreply.github.com",
-            "name": "drskalman",
-            "username": "drskalman"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "dae4b9cf572920848910b520d3cefe83d34692f3",
-          "message": "Proof of possession alongside signing on owner (#9471)\n\n# Description\n  \nWhen signing on a new session key the signer must also use the session\nkey to sign on the authority signer key to prove that it is not faking\nthe ownership of someone's else key to mount a front runner attack. On\nthe other hand for aggregatable crypto schemes, the signer should proof\nthe ownership of the private key by signing a specific statement in a\nseparate domain than one is used for usual signing to prevent rogue key\nattack. This means that those scheme needs to submit two signature as\nproof in contrast to non-aggregatble schemes. It is also possible that\nin future some crypto scheme requires the key submitter to prove other\nfact before accepting its submission.\n\nThis PR introduce a new customize type ProofOfPossession for Pairs (in\naddition to Public and Signature) to represent these proof. Currently\n`ProofOfPossession = Signature` for `ecdsa, ed25519 and sr25519` while\n`ProofOfPossession = Signature | Signature` for bls381 and\n`ProofOfPossession = ecdsa:Signature | bls381:Signature |\nbls381:Signature` for `ecdsa_bls381` paired_key scheme.\n\n---------\n\nCo-authored-by: Bastian Köcher <git@kchr.de>\nCo-authored-by: Davide Galassi <davxy@datawok.net>",
-          "timestamp": "2025-09-11T19:58:10Z",
-          "tree_id": "597cc7d36c3d338a58f4b577b6a2e2d78d7bdf1f",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/dae4b9cf572920848910b520d3cefe83d34692f3"
-        },
-        "date": 1757627442465,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0026904307199999995,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.00524138211999999,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008819237639999988,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.010186713229999995,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "marian@parity.io",
+            "name": "Marian Radu",
+            "username": "marian-radu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "9b3a4a9ec06179f2fac5d1d97ae82d9da05915ca",
+          "message": "pallet-revive: align eth_substrate_call origin check with other eth dispatchables (#11860)\n\n### Summary\nAdds `ensure_non_contract_if_signed` to `eth_substrate_call`, matching\n`eth_call` and `eth_instantiate_with_code`.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-23T20:13:29Z",
+          "tree_id": "908a9bd66f4c070968d094f8b54ff3bb6fb12dfc",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/9b3a4a9ec06179f2fac5d1d97ae82d9da05915ca"
+        },
+        "date": 1776980239353,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009402314609999985,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009967446740000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.0026734451799999997,
             "unit": "seconds"
           }
         ]

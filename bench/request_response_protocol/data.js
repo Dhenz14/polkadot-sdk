@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776962092100,
+  "lastUpdate": 1776969078704,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -82943,6 +82943,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2566790114,
             "range": "± 40209259",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "marian@parity.io",
+            "name": "Marian Radu",
+            "username": "marian-radu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "194c871e67eebfd8faa167ecd6ba770186e54313",
+          "message": "pallet-revive: reserve on_finalize per-tx weight for eth extrinsics (#11858)\n\n### Summary\nEth extrinsics using `with_ethereum_context` add per transaction work to\n`on_finalize` (closing out the Ethereum block). That cost should be\nreserved at dispatch via `on_finalize_block_per_tx`.\n\nThis PR adds the reservation to `eth_substrate_call` and\n`eth_instantiate_with_code`, matching `eth_call`.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-23T17:24:42Z",
+          "tree_id": "2cb21ab35be903652d94b7cbaa943f3c8eb32510",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/194c871e67eebfd8faa167ecd6ba770186e54313"
+        },
+        "date": 1776969038321,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18320725,
+            "range": "± 159315",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18904887,
+            "range": "± 189631",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20443342,
+            "range": "± 263408",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24817346,
+            "range": "± 207730",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 58004295,
+            "range": "± 737363",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 326019213,
+            "range": "± 8964987",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2549613034,
+            "range": "± 46454503",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15439681,
+            "range": "± 218484",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15421767,
+            "range": "± 276580",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 15907649,
+            "range": "± 209304",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20308036,
+            "range": "± 484054",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 58672196,
+            "range": "± 1695067",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 343948698,
+            "range": "± 4619618",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2668140523,
+            "range": "± 46734923",
             "unit": "ns/iter"
           }
         ]

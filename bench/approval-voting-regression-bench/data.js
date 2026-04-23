@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776944631192,
+  "lastUpdate": 1776969957133,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "117115317+lrubasze@users.noreply.github.com",
-            "name": "Lukasz Rubaszewski",
-            "username": "lrubasze"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "32142045e09e9e0e822d47f064372acb35d14c84",
-          "message": "ci: reenable zombienet pov_recovery and rpc_collator_builds_block tests (#9695)\n\nSince https://github.com/paritytech/zombienet-sdk/issues/371 has been\nsolved\nReenable:\n- `zombienet-cumulus-0002-pov_recovery` -\nhttps://github.com/paritytech/polkadot-sdk/issues/8985\n- `zombienet-cumulus-0006-rpc_collator_builds_blocks` -\nhttps://github.com/paritytech/polkadot-sdk/issues/9154\n\nAdditionally allow to use regex patterns when dispatching zombienet\ntests manually:\neg. \n```\n.github/scripts/dispatch-zombienet-workflow.sh \\\n  -w zombienet_cumulus.yml \\\n  -b \"lrubasze/reenable-some-zombienet-ci-tests\" \\\n  -p \"0002-pov_recovery|0006-rpc_collator_builds_blocks\"\n```",
-          "timestamp": "2025-09-12T07:52:18Z",
-          "tree_id": "664d06488a8c42dcfbc2b6150ab44b0f4b960cc6",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/32142045e09e9e0e822d47f064372acb35d14c84"
-        },
-        "date": 1757668632227,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 63634.729999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 52940.8,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.950219476639986,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000019754229999999997,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000019754229999999997,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.006042637120000009,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.44467712274,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.444060334440001,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.451409324500003,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.000019590100000000004,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.19371865589999,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.477632681770001,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.4196770786899999,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.6646463803709746,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.000019590100000000004,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting-parallel/approval-voting-gather-signatures",
             "value": 0.005143571090000003,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "marian@parity.io",
+            "name": "Marian Radu",
+            "username": "marian-radu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "194c871e67eebfd8faa167ecd6ba770186e54313",
+          "message": "pallet-revive: reserve on_finalize per-tx weight for eth extrinsics (#11858)\n\n### Summary\nEth extrinsics using `with_ethereum_context` add per transaction work to\n`on_finalize` (closing out the Ethereum block). That cost should be\nreserved at dispatch via `on_finalize_block_per_tx`.\n\nThis PR adds the reservation to `eth_substrate_call` and\n`eth_instantiate_with_code`, matching `eth_call`.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-23T17:24:42Z",
+          "tree_id": "2cb21ab35be903652d94b7cbaa943f3c8eb32510",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/194c871e67eebfd8faa167ecd6ba770186e54313"
+        },
+        "date": 1776969934726,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 63624.78999999999,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 52942.59999999999,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005249740609999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.8260060051700004,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7820798614299701,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.250370168112837,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.751009496369999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.452113257730011,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.8264724619600003,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.7423219427799985,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.00001949445,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.00001994265,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.00001994265,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.385252766049978,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.00001949445,
             "unit": "seconds"
           }
         ]

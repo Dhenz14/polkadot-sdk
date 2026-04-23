@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776882348172,
+  "lastUpdate": 1776944600589,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "117115317+lrubasze@users.noreply.github.com",
-            "name": "Lukasz Rubaszewski",
-            "username": "lrubasze"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "32142045e09e9e0e822d47f064372acb35d14c84",
-          "message": "ci: reenable zombienet pov_recovery and rpc_collator_builds_block tests (#9695)\n\nSince https://github.com/paritytech/zombienet-sdk/issues/371 has been\nsolved\nReenable:\n- `zombienet-cumulus-0002-pov_recovery` -\nhttps://github.com/paritytech/polkadot-sdk/issues/8985\n- `zombienet-cumulus-0006-rpc_collator_builds_blocks` -\nhttps://github.com/paritytech/polkadot-sdk/issues/9154\n\nAdditionally allow to use regex patterns when dispatching zombienet\ntests manually:\neg. \n```\n.github/scripts/dispatch-zombienet-workflow.sh \\\n  -w zombienet_cumulus.yml \\\n  -b \"lrubasze/reenable-some-zombienet-ci-tests\" \\\n  -p \"0002-pov_recovery|0006-rpc_collator_builds_blocks\"\n```",
-          "timestamp": "2025-09-12T07:52:18Z",
-          "tree_id": "664d06488a8c42dcfbc2b6150ab44b0f4b960cc6",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/32142045e09e9e0e822d47f064372acb35d14c84"
-        },
-        "date": 1757668605126,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012891987706666663,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15716569841333342,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02244395992666667,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007481348186666657,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "bitfield-distribution",
             "value": 0.024058503926666676,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "robertvaneerdewijk@gmail.com",
+            "name": "0xRVE",
+            "username": "0xRVE"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "429432898aa850850e12f313f4442cbd95f134c4",
+          "message": "asset-conversion precompile: expose getReserves (#11817)\n\n## Summary\n- Add `getReserves(bytes asset1, bytes asset2)` view function to the\nasset-conversion precompile, returning the reserve balances of both\ntokens in the pool\n- This exposes `pallet_asset_conversion::Pallet::get_reserves()` to\nEVM/PVM contracts and frontends via the precompile interface\n\n## Motivation\nThe precompile already exposes `quoteExactTokensForTokens` and\n`quoteTokensForExactTokens`, which allow contracts to estimate swap\noutputs. However, there is no way to query the raw pool reserves\ndirectly. This forces frontends and contracts to probe with arbitrary\namounts to infer pool state. Exposing `getReserves` gives direct access\nto pool balances, enabling:\n- DEX UIs to display pool composition and depth\n- Contracts to make routing decisions based on actual liquidity\n- Parity with Uniswap V2's `getReserves` interface that Solidity\ndevelopers expect\n\n## Test plan\n- [x] `get_reserves_works` — verifies correct reserve values for an\nexisting pool\n- [x] `get_reserves_fails_for_nonexistent_pool` — verifies revert for\nmissing pool\n- [x] All 23 existing tests continue to pass\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-23T10:20:24Z",
+          "tree_id": "1c7080e3b20a8c09d50a59cfd6b96594321d37c9",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/429432898aa850850e12f313f4442cbd95f134c4"
+        },
+        "date": 1776944578461,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.02387282160666666,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14509586013999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009562810653333316,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007084717126666663,
             "unit": "seconds"
           }
         ]

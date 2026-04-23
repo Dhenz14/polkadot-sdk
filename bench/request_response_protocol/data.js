@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776943633091,
+  "lastUpdate": 1776962092100,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -82835,6 +82835,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2585327060,
             "range": "± 44291588",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "eresav@me.com",
+            "name": "Andrei Eres",
+            "username": "AndreiEres"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "82c7aafb22f205e9945ddd0e606da68a26b47d86",
+          "message": "statement-store: Fix flaky flooding tests (#11857)\n\nFixes https://github.com/paritytech/polkadot-sdk/issues/11854",
+          "timestamp": "2026-04-23T15:17:33Z",
+          "tree_id": "ba85ccdb4f942c6a5bc58a1616e976a03b5e44a8",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/82c7aafb22f205e9945ddd0e606da68a26b47d86"
+        },
+        "date": 1776962067166,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18542452,
+            "range": "± 183878",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18985040,
+            "range": "± 209024",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20308341,
+            "range": "± 192058",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 25159246,
+            "range": "± 954843",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 59344435,
+            "range": "± 431518",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 326150379,
+            "range": "± 8023562",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2414428033,
+            "range": "± 182548615",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15434571,
+            "range": "± 107241",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15452187,
+            "range": "± 231572",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 15972241,
+            "range": "± 146862",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20357916,
+            "range": "± 238683",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 56251039,
+            "range": "± 646914",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 327703557,
+            "range": "± 7040926",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2566790114,
+            "range": "± 40209259",
             "unit": "ns/iter"
           }
         ]

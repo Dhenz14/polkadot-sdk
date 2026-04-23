@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776944600589,
+  "lastUpdate": 1776969925941,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "paolo@parity.io",
-            "name": "Paolo La Camera",
-            "username": "sigurpol"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "f82d684c4a4a4430316c6d892213ba6aff91cf7b",
-          "message": "staking-async: handle uninitialized state in try-runtime checks (#9721)\n\nHandle the case where `ActiveEra` is `None` (uninitialized staking\nstate) in the try-state checks.\nThis fixes `try-runtime` failures when deploying `staking-async` for the\nfirst time on chains without existing staking.",
-          "timestamp": "2025-09-12T09:02:38Z",
-          "tree_id": "f5eeab765f487db20d09d878cb03fbb7ce9ad7be",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/f82d684c4a4a4430316c6d892213ba6aff91cf7b"
-        },
-        "date": 1757672415933,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022427646293333332,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012758188326666664,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.1571756628866667,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007474022406666654,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-distribution",
             "value": 0.007084717126666663,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "marian@parity.io",
+            "name": "Marian Radu",
+            "username": "marian-radu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "194c871e67eebfd8faa167ecd6ba770186e54313",
+          "message": "pallet-revive: reserve on_finalize per-tx weight for eth extrinsics (#11858)\n\n### Summary\nEth extrinsics using `with_ethereum_context` add per transaction work to\n`on_finalize` (closing out the Ethereum block). That cost should be\nreserved at dispatch via `on_finalize_block_per_tx`.\n\nThis PR adds the reservation to `eth_substrate_call` and\n`eth_instantiate_with_code`, matching `eth_call`.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-23T17:24:42Z",
+          "tree_id": "2cb21ab35be903652d94b7cbaa943f3c8eb32510",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/194c871e67eebfd8faa167ecd6ba770186e54313"
+        },
+        "date": 1776969903148,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14512338339333333,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.00708900426666667,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.023902473953333326,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009559180113333308,
             "unit": "seconds"
           }
         ]

@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776969894058,
+  "lastUpdate": 1776980136189,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "22591718+RomarQ@users.noreply.github.com",
-            "name": "Rodrigo Quelhas",
-            "username": "RomarQ"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "136b4cb5f52515ec8086ab4466226d48e8ba220b",
-          "message": "Remove deprecated collator-related code in cumulus (#9662)\n\nRemoves collator-related code in cumulus, which has been deprecated for\na long time.\n\nRemoves an old test, which was adapted in\nhttps://github.com/paritytech/cumulus/pull/480 and duplicated by\nhttps://github.com/paritytech/polkadot-sdk/blob/acac0127168dac1d603e4d996cb210ceeddeb5de/substrate/client/block-builder/src/lib.rs#L389-L415\n\n## PoV Recovery Test Updates\n\nUpdates the PoV recovery test\n(`cumulus/zombienet/zombienet-sdk/tests/zombie_ci/pov_recovery.rs`) to\nuse a more realistic consensus mechanism:\n\n### Changes Made\n- **Removed**: `--use-null-consensus` flag from test configuration\n\n### Rationale\n\n**Previous behavior** (with null consensus):\n- Nodes operated without real block production\n- PoV recovery mechanisms triggered more frequently\n- Created artificial test conditions that don't reflect production\nscenarios\n\n**New behavior** (with actual consensus):\n- Nodes produce blocks normally but don't announce them to peers\n- PoV recovery occurs at a more realistic frequency\n- Better simulates real-world network conditions where blocks may be\nmissed\n\n### Impact\n\nThis change makes the test **more representative** of actual network\nconditions while maintaining the core functionality being tested.\n\n## Follow-up\nRemove the following lines:\n\nhttps://github.com/paritytech/polkadot-sdk/blob/4acb964059a218be9bac954b4e3803b78b5526bf/cumulus/pallets/parachain-system/src/lib.rs#L993-L994\n\n## Review notes\n\nI recommend enabling `Hide whitespace` option when reviewing the\nchanges:\n\n<img width=\"300\" alt=\"image\"\nsrc=\"https://github.com/user-attachments/assets/41f137af-c0b9-435e-af1e-84e51cbdfa23\"\n/>",
-          "timestamp": "2025-09-12T19:11:41Z",
-          "tree_id": "c16dce985562719e48e322f8393011c361d8572d",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/136b4cb5f52515ec8086ab4466226d48e8ba220b"
-        },
-        "date": 1757708686169,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.279273277133335,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19673885626666668,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 11.016364060366666,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "marian@parity.io",
+            "name": "Marian Radu",
+            "username": "marian-radu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "9b3a4a9ec06179f2fac5d1d97ae82d9da05915ca",
+          "message": "pallet-revive: align eth_substrate_call origin check with other eth dispatchables (#11860)\n\n### Summary\nAdds `ensure_non_contract_if_signed` to `eth_substrate_call`, matching\n`eth_call` and `eth_instantiate_with_code`.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-23T20:13:29Z",
+          "tree_id": "908a9bd66f4c070968d094f8b54ff3bb6fb12dfc",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/9b3a4a9ec06179f2fac5d1d97ae82d9da05915ca"
+        },
+        "date": 1776980113973,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.000198193066666,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1368766573333333,
             "unit": "seconds"
           }
         ]

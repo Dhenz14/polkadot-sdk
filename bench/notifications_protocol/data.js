@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777032989034,
+  "lastUpdate": 1777041782355,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "notifications_protocol": [
@@ -149567,6 +149567,198 @@ window.BENCHMARK_DATA = {
             "name": "notifications_protocol/litep2p/with_backpressure/16MB",
             "value": 2263981189,
             "range": "± 32559044",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "ismailov.m.h@gmail.com",
+            "name": "muharem",
+            "username": "muharem"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "7d7b62a5d6fb6723c1f1e3ad22f89cfa28f8aeea",
+          "message": "pallet-psm: support external assets with different decimal precision (#11819)\n\nNormalize internally to pUSD units so the PSM can approve stable-coins\nwhose decimals differ from pUSD. Prior behavior rejected any asset with\nnon-matching decimals.\n\nCore changes:\n- New storage: per-asset `AssetDecimals` snapshot and pallet-wide\n`StableDecimals` snapshot.\n- Conversion helpers (`external_to_pusd` / `pusd_to_external`) with\nchecked arithmetic and a `MAX_DECIMALS_DIFF` = 24 guard to prevent\noverflow.\n- `mint` and `redeem` use round-trip rounding: truncation dust stays in\nthe caller's wallet on both paths - symmetric behavior.\n- `PsmDebt` now denominates in pUSD units so aggregate checks and\nceilings are meaningful across mixed-decimal assets.\n- Runtime drift guard: `mint`/`redeem` return `DecimalsMismatch` if live\nmetadata diverges from the registration snapshot; that asset halts until\ngovernance intervenes.\n- New errors: `DecimalsRangeExceeded`, `ConversionOverflow`,\n`AmountTooSmallAfterConversion`.\n- Storage version bumped to 2.\n\nMigrations:\n- `InitializePsm` now also seeds `StableDecimals` from live metadata on\nfirst run, and snapshots `AssetDecimals` for any new assets it adds.\n- New `PopulateDecimals` migration backfills `StableDecimals` and\n`AssetDecimals` for chains that approved external assets before this\nupgrade. Out-of-range assets are auto-disabled.\n\n---------\n\nCo-authored-by: Sergej Sakac <73715684+Szegoo@users.noreply.github.com>",
+          "timestamp": "2026-04-24T12:45:28Z",
+          "tree_id": "738648ca9862cad3e6aca994da773f146efd0a72",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/7d7b62a5d6fb6723c1f1e3ad22f89cfa28f8aeea"
+        },
+        "date": 1777041760442,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "notifications_protocol/libp2p/serially/64B",
+            "value": 3920356,
+            "range": "± 219285",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64B",
+            "value": 300339,
+            "range": "± 8395",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/512B",
+            "value": 3974435,
+            "range": "± 79795",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/512B",
+            "value": 374886,
+            "range": "± 3274",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/4KB",
+            "value": 4704859,
+            "range": "± 60315",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/4KB",
+            "value": 896957,
+            "range": "± 16127",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/64KB",
+            "value": 10003476,
+            "range": "± 49091",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64KB",
+            "value": 4846957,
+            "range": "± 91449",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/256KB",
+            "value": 43273380,
+            "range": "± 1847096",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/256KB",
+            "value": 36452989,
+            "range": "± 441142",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/2MB",
+            "value": 328883604,
+            "range": "± 3064244",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/2MB",
+            "value": 275987237,
+            "range": "± 2194347",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/16MB",
+            "value": 2469291562,
+            "range": "± 19956983",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/16MB",
+            "value": 2682188166,
+            "range": "± 65710058",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64B",
+            "value": 2990329,
+            "range": "± 19498",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64B",
+            "value": 1542735,
+            "range": "± 10386",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/512B",
+            "value": 3077476,
+            "range": "± 11478",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/512B",
+            "value": 1612663,
+            "range": "± 13544",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/4KB",
+            "value": 3673456,
+            "range": "± 23658",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/4KB",
+            "value": 1938761,
+            "range": "± 15750",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64KB",
+            "value": 7562412,
+            "range": "± 53008",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64KB",
+            "value": 4870273,
+            "range": "± 78877",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/256KB",
+            "value": 34166570,
+            "range": "± 487058",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/256KB",
+            "value": 32625020,
+            "range": "± 417478",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/2MB",
+            "value": 299955866,
+            "range": "± 4313334",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/2MB",
+            "value": 259325538,
+            "range": "± 2183393",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/16MB",
+            "value": 2306119258,
+            "range": "± 86513718",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/16MB",
+            "value": 2287321300,
+            "range": "± 56914902",
             "unit": "ns/iter"
           }
         ]

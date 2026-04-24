@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776980261286,
+  "lastUpdate": 1777023563473,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "117115317+lrubasze@users.noreply.github.com",
-            "name": "Lukasz Rubaszewski",
-            "username": "lrubasze"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "32142045e09e9e0e822d47f064372acb35d14c84",
-          "message": "ci: reenable zombienet pov_recovery and rpc_collator_builds_block tests (#9695)\n\nSince https://github.com/paritytech/zombienet-sdk/issues/371 has been\nsolved\nReenable:\n- `zombienet-cumulus-0002-pov_recovery` -\nhttps://github.com/paritytech/polkadot-sdk/issues/8985\n- `zombienet-cumulus-0006-rpc_collator_builds_blocks` -\nhttps://github.com/paritytech/polkadot-sdk/issues/9154\n\nAdditionally allow to use regex patterns when dispatching zombienet\ntests manually:\neg. \n```\n.github/scripts/dispatch-zombienet-workflow.sh \\\n  -w zombienet_cumulus.yml \\\n  -b \"lrubasze/reenable-some-zombienet-ci-tests\" \\\n  -p \"0002-pov_recovery|0006-rpc_collator_builds_blocks\"\n```",
-          "timestamp": "2025-09-12T07:52:18Z",
-          "tree_id": "664d06488a8c42dcfbc2b6150ab44b0f4b960cc6",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/32142045e09e9e0e822d47f064372acb35d14c84"
-        },
-        "date": 1757668685919,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.00880422321999999,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.00266232205,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005242644959999996,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-coordinator",
             "value": 0.0026734451799999997,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "363911+pepoviola@users.noreply.github.com",
+            "name": "Javier Viola",
+            "username": "pepoviola"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "bbb457dcb76c9146a4ba5e3e1d62e368dd3a9baf",
+          "message": "Fix flaky zombienet test `zombienet-cumulus-0022-block_bundling_three_cores_glutton` (#11852)\n\nChange runner type to large.\nclose #11825",
+          "timestamp": "2026-04-24T08:01:36Z",
+          "tree_id": "16c5e9957971c2442b26c5d3e6416bc1b7752288",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/bbb457dcb76c9146a4ba5e3e1d62e368dd3a9baf"
+        },
+        "date": 1777023541129,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009152198389999977,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.00929465331000001,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.0026517482700000004,
             "unit": "seconds"
           }
         ]

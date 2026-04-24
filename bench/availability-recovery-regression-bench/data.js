@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777033821687,
+  "lastUpdate": 1777044283797,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "paolo@parity.io",
-            "name": "Paolo La Camera",
-            "username": "sigurpol"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "6e4111b005fb53bc94b419c36d295274fffade97",
-          "message": "staking-async: handle uninitialized state in try-state checks (#9747)\n\n- Add early return in do_try_state when pallet is uninitialized\n- Add test for empty state validation\n\nFollowup of #9721 .\nOnce backported to `2507` and crate is published, should unlock\nhttps://github.com/polkadot-fellows/runtimes/pull/904\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-16T12:04:24Z",
-          "tree_id": "50384005abaa1c513d8e5e350cdf4d3eb7d9c9d3",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/6e4111b005fb53bc94b419c36d295274fffade97"
-        },
-        "date": 1758028607266,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.269319749933334,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19785022893333334,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 10.899014804133339,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "363911+pepoviola@users.noreply.github.com",
+            "name": "Javier Viola",
+            "username": "pepoviola"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1dc3f352af493eb6eeef7ed67b217d93f9282039",
+          "message": "[zombienet] fix flaky zombienet tests (#11872)\n\nAdd `authoring` flag to test using _glutton_",
+          "timestamp": "2026-04-24T14:01:29Z",
+          "tree_id": "dfcad914162aa1f106a42d2668f88e05b2745751",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/1dc3f352af493eb6eeef7ed67b217d93f9282039"
+        },
+        "date": 1777044261095,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13236047673333334,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 10.924055913133335,
             "unit": "seconds"
           }
         ]

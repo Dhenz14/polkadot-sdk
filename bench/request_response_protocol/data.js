@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777033040404,
+  "lastUpdate": 1777041813605,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -83483,6 +83483,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2759998658,
             "range": "± 39493674",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "ismailov.m.h@gmail.com",
+            "name": "muharem",
+            "username": "muharem"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "7d7b62a5d6fb6723c1f1e3ad22f89cfa28f8aeea",
+          "message": "pallet-psm: support external assets with different decimal precision (#11819)\n\nNormalize internally to pUSD units so the PSM can approve stable-coins\nwhose decimals differ from pUSD. Prior behavior rejected any asset with\nnon-matching decimals.\n\nCore changes:\n- New storage: per-asset `AssetDecimals` snapshot and pallet-wide\n`StableDecimals` snapshot.\n- Conversion helpers (`external_to_pusd` / `pusd_to_external`) with\nchecked arithmetic and a `MAX_DECIMALS_DIFF` = 24 guard to prevent\noverflow.\n- `mint` and `redeem` use round-trip rounding: truncation dust stays in\nthe caller's wallet on both paths - symmetric behavior.\n- `PsmDebt` now denominates in pUSD units so aggregate checks and\nceilings are meaningful across mixed-decimal assets.\n- Runtime drift guard: `mint`/`redeem` return `DecimalsMismatch` if live\nmetadata diverges from the registration snapshot; that asset halts until\ngovernance intervenes.\n- New errors: `DecimalsRangeExceeded`, `ConversionOverflow`,\n`AmountTooSmallAfterConversion`.\n- Storage version bumped to 2.\n\nMigrations:\n- `InitializePsm` now also seeds `StableDecimals` from live metadata on\nfirst run, and snapshots `AssetDecimals` for any new assets it adds.\n- New `PopulateDecimals` migration backfills `StableDecimals` and\n`AssetDecimals` for chains that approved external assets before this\nupgrade. Out-of-range assets are auto-disabled.\n\n---------\n\nCo-authored-by: Sergej Sakac <73715684+Szegoo@users.noreply.github.com>",
+          "timestamp": "2026-04-24T12:45:28Z",
+          "tree_id": "738648ca9862cad3e6aca994da773f146efd0a72",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/7d7b62a5d6fb6723c1f1e3ad22f89cfa28f8aeea"
+        },
+        "date": 1777041791751,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 20367768,
+            "range": "± 247685",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 20670806,
+            "range": "± 405169",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 22158537,
+            "range": "± 309991",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 27585918,
+            "range": "± 718606",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 66798913,
+            "range": "± 1730783",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 422370672,
+            "range": "± 13449913",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2655854901,
+            "range": "± 164360901",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 16396335,
+            "range": "± 213067",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 16415897,
+            "range": "± 306885",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16998565,
+            "range": "± 390643",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21848503,
+            "range": "± 416519",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 65546473,
+            "range": "± 1490540",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 399388312,
+            "range": "± 8231384",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2991985911,
+            "range": "± 142590922",
             "unit": "ns/iter"
           }
         ]

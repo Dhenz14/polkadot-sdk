@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776980136189,
+  "lastUpdate": 1777023440228,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "jesse.chejieh@gmail.com",
-            "name": "Doordashcon",
-            "username": "Doordashcon"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "1cbf4eed97a87ae4c1aef6176c80761c49f60e6f",
-          "message": "Simulate `rank_to_votes` in `pallet-ranked-collective` benchmark. (#9731)\n\nresolves #9730\n\n---------\n\nCo-authored-by: Bastian Köcher <info@kchr.de>\nCo-authored-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>",
-          "timestamp": "2025-09-15T08:33:06Z",
-          "tree_id": "730280b04c0fddba8c040d6fb5df823addb18688",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/1cbf4eed97a87ae4c1aef6176c80761c49f60e6f"
-        },
-        "date": 1757929493453,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19925399086666667,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.206362867299998,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.1368766573333333,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "363911+pepoviola@users.noreply.github.com",
+            "name": "Javier Viola",
+            "username": "pepoviola"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "bbb457dcb76c9146a4ba5e3e1d62e368dd3a9baf",
+          "message": "Fix flaky zombienet test `zombienet-cumulus-0022-block_bundling_three_cores_glutton` (#11852)\n\nChange runner type to large.\nclose #11825",
+          "timestamp": "2026-04-24T08:01:36Z",
+          "tree_id": "16c5e9957971c2442b26c5d3e6416bc1b7752288",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/bbb457dcb76c9146a4ba5e3e1d62e368dd3a9baf"
+        },
+        "date": 1777023418447,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1303060566,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 10.945488355600002,
             "unit": "seconds"
           }
         ]

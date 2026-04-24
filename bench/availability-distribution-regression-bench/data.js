@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776980167377,
+  "lastUpdate": 1777023470777,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "22591718+RomarQ@users.noreply.github.com",
-            "name": "Rodrigo Quelhas",
-            "username": "RomarQ"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "136b4cb5f52515ec8086ab4466226d48e8ba220b",
-          "message": "Remove deprecated collator-related code in cumulus (#9662)\n\nRemoves collator-related code in cumulus, which has been deprecated for\na long time.\n\nRemoves an old test, which was adapted in\nhttps://github.com/paritytech/cumulus/pull/480 and duplicated by\nhttps://github.com/paritytech/polkadot-sdk/blob/acac0127168dac1d603e4d996cb210ceeddeb5de/substrate/client/block-builder/src/lib.rs#L389-L415\n\n## PoV Recovery Test Updates\n\nUpdates the PoV recovery test\n(`cumulus/zombienet/zombienet-sdk/tests/zombie_ci/pov_recovery.rs`) to\nuse a more realistic consensus mechanism:\n\n### Changes Made\n- **Removed**: `--use-null-consensus` flag from test configuration\n\n### Rationale\n\n**Previous behavior** (with null consensus):\n- Nodes operated without real block production\n- PoV recovery mechanisms triggered more frequently\n- Created artificial test conditions that don't reflect production\nscenarios\n\n**New behavior** (with actual consensus):\n- Nodes produce blocks normally but don't announce them to peers\n- PoV recovery occurs at a more realistic frequency\n- Better simulates real-world network conditions where blocks may be\nmissed\n\n### Impact\n\nThis change makes the test **more representative** of actual network\nconditions while maintaining the core functionality being tested.\n\n## Follow-up\nRemove the following lines:\n\nhttps://github.com/paritytech/polkadot-sdk/blob/4acb964059a218be9bac954b4e3803b78b5526bf/cumulus/pallets/parachain-system/src/lib.rs#L993-L994\n\n## Review notes\n\nI recommend enabling `Hide whitespace` option when reviewing the\nchanges:\n\n<img width=\"300\" alt=\"image\"\nsrc=\"https://github.com/user-attachments/assets/41f137af-c0b9-435e-af1e-84e51cbdfa23\"\n/>",
-          "timestamp": "2025-09-12T19:11:41Z",
-          "tree_id": "c16dce985562719e48e322f8393011c361d8572d",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/136b4cb5f52515ec8086ab4466226d48e8ba220b"
-        },
-        "date": 1757708713421,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022421220853333333,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007552582180000012,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.1575071998733333,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013016846779999997,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.009427505753333306,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "363911+pepoviola@users.noreply.github.com",
+            "name": "Javier Viola",
+            "username": "pepoviola"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "bbb457dcb76c9146a4ba5e3e1d62e368dd3a9baf",
+          "message": "Fix flaky zombienet test `zombienet-cumulus-0022-block_bundling_three_cores_glutton` (#11852)\n\nChange runner type to large.\nclose #11825",
+          "timestamp": "2026-04-24T08:01:36Z",
+          "tree_id": "16c5e9957971c2442b26c5d3e6416bc1b7752288",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/bbb457dcb76c9146a4ba5e3e1d62e368dd3a9baf"
+        },
+        "date": 1777023449204,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14547491035333343,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009626688453333324,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.0241842253,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.0072805681866666685,
             "unit": "seconds"
           }
         ]

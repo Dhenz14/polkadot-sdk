@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777027247153,
+  "lastUpdate": 1777033944938,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "22591718+RomarQ@users.noreply.github.com",
-            "name": "Rodrigo Quelhas",
-            "username": "RomarQ"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "6c06057ae819724f89ff1ef9f060592b6c96e5d3",
-          "message": "Deprecate `OnRuntimeUpgrade` parameter in `frame_executive::Executive` (#9638)\n\nFollow-up of https://github.com/paritytech/polkadot-sdk/pull/9451\n\nBased on PR https://github.com/paritytech/polkadot-sdk/pull/1781 and\n[PRDoc](https://github.com/paritytech/polkadot-sdk/blob/beb9030b249cc078b3955232074a8495e7e0302a/prdoc/1.9.0/pr_1781.prdoc#L29),\nthe new way for providing the single block migrations should be through\n`SingleBlockMigrations` in `frame_system::Config`. Providing them from\n`frame_executive::Executive` is still supported, but is deprecated.\n\n> `SingleBlockMigrations` this is the new way of configuring migrations\nthat run in a single block. Previously they were defined as last generic\nargument of Executive. This shift is brings all central configuration\nabout migrations closer into view of the developer (migrations that are\nconfigured in Executive will still work for now but is deprecated).\n\n`Executive` docs will look like:\n\n<img width=\"800\" alt=\"image\"\nsrc=\"https://github.com/user-attachments/assets/6f285c26-5c61-4350-a41b-aebc6b856601\"\n/>\n\nCompanion PR in https://github.com/polkadot-fellows/runtimes/pull/844",
-          "timestamp": "2025-09-12T09:42:24Z",
-          "tree_id": "59e562a5cf13de084e691cb12c3ea92120a99189",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/6c06057ae819724f89ff1ef9f060592b6c96e5d3"
-        },
-        "date": 1757675724713,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0026529542099999995,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008644015489999993,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005146801829999996,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.010548908480000004,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "363911+pepoviola@users.noreply.github.com",
+            "name": "Javier Viola",
+            "username": "pepoviola"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0d9b5afd8535d72a436fe6ffdffac82dcca771cf",
+          "message": "[zombienet] allow more time to check new blocks (#11866)\n\nClose #11865 \n\nAllow more time since the node was still syncing.",
+          "timestamp": "2026-04-24T10:37:14Z",
+          "tree_id": "669168daba9e247ed07c6b7ce3309b2bcc5d22a7",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/0d9b5afd8535d72a436fe6ffdffac82dcca771cf"
+        },
+        "date": 1777033922600,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.0026084942100000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009140083080000005,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.00917628908999998,
             "unit": "seconds"
           }
         ]

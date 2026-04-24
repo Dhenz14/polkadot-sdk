@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777023501132,
+  "lastUpdate": 1777027186714,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "22591718+RomarQ@users.noreply.github.com",
-            "name": "Rodrigo Quelhas",
-            "username": "RomarQ"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "136b4cb5f52515ec8086ab4466226d48e8ba220b",
-          "message": "Remove deprecated collator-related code in cumulus (#9662)\n\nRemoves collator-related code in cumulus, which has been deprecated for\na long time.\n\nRemoves an old test, which was adapted in\nhttps://github.com/paritytech/cumulus/pull/480 and duplicated by\nhttps://github.com/paritytech/polkadot-sdk/blob/acac0127168dac1d603e4d996cb210ceeddeb5de/substrate/client/block-builder/src/lib.rs#L389-L415\n\n## PoV Recovery Test Updates\n\nUpdates the PoV recovery test\n(`cumulus/zombienet/zombienet-sdk/tests/zombie_ci/pov_recovery.rs`) to\nuse a more realistic consensus mechanism:\n\n### Changes Made\n- **Removed**: `--use-null-consensus` flag from test configuration\n\n### Rationale\n\n**Previous behavior** (with null consensus):\n- Nodes operated without real block production\n- PoV recovery mechanisms triggered more frequently\n- Created artificial test conditions that don't reflect production\nscenarios\n\n**New behavior** (with actual consensus):\n- Nodes produce blocks normally but don't announce them to peers\n- PoV recovery occurs at a more realistic frequency\n- Better simulates real-world network conditions where blocks may be\nmissed\n\n### Impact\n\nThis change makes the test **more representative** of actual network\nconditions while maintaining the core functionality being tested.\n\n## Follow-up\nRemove the following lines:\n\nhttps://github.com/paritytech/polkadot-sdk/blob/4acb964059a218be9bac954b4e3803b78b5526bf/cumulus/pallets/parachain-system/src/lib.rs#L993-L994\n\n## Review notes\n\nI recommend enabling `Hide whitespace` option when reviewing the\nchanges:\n\n<img width=\"300\" alt=\"image\"\nsrc=\"https://github.com/user-attachments/assets/41f137af-c0b9-435e-af1e-84e51cbdfa23\"\n/>",
-          "timestamp": "2025-09-12T19:11:41Z",
-          "tree_id": "c16dce985562719e48e322f8393011c361d8572d",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/136b4cb5f52515ec8086ab4466226d48e8ba220b"
-        },
-        "date": 1757708739992,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 63635.93000000001,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 52939,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4505616047499994,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.26724646721,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.4616830156699985,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.00002131545,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.4679122710999986,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.938513251120003,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000021383220000000004,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005738892460000004,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.00002131545,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.5062106795900014,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.4366267525200002,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.6537858965810956,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000021383220000000004,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting-parallel/approval-voting-parallel-0",
             "value": 2.8617130390699987,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "robertvaneerdewijk@gmail.com",
+            "name": "0xRVE",
+            "username": "0xRVE"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4104feeeb1c940addf6e2527b52352fdf2545e23",
+          "message": "[pallet-revive] Add vestedTransfer to vesting precompile (#11630)\n\n## Summary\n\nAdd `vestedTransfer(address, uint256, uint256, uint256)` to the vesting\nprecompile, allowing Solidity contracts to create vesting schedules for\ntarget accounts via `pallet_vesting::vested_transfer`. Updates the\n`IVesting.sol` interface with the new function signature and NatSpec\ndocs. Includes tests covering success, below-minimum revert,\ninsufficient balance revert, and read-only/delegate-call guards.\n\nAlso fixes weight charging order across all precompile methods — weight\nis now charged upfront (right after the `ensure_mutable` check) before\nany account derivation, type conversions, or schedule construction.\nPreviously, `caller_account_id`, `to_account_id`, `T::Lookup::unlookup`,\nand U256 conversions all happened before the weight charge.\n\n## Test plan\n\n- [x] `vested_transfer_succeeds` — verifies schedule creation on target\n- [x] `vested_transfer_reverts_below_min` — reverts when locked <\n`MinVestedTransfer`\n- [x] `vested_transfer_reverts_insufficient_balance` — reverts when\ncaller lacks funds\n- [x] Guard test cases — rejects in read-only and delegate-call contexts\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-24T09:02:04Z",
+          "tree_id": "f2aa5d8a56f5d4f1e043b2331cb02b8bfefee249",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/4104feeeb1c940addf6e2527b52352fdf2545e23"
+        },
+        "date": 1777027165157,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 63618.18000000001,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 52942.40000000001,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.000022912259999999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.281498434149961,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.7622365066500008,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.749125823519999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005196197299999999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.7998685292700003,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7509399930899623,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.4315860720600035,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.385675068513103,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.000022912259999999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.782545312259999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.000019715699999999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.000019715699999999998,
             "unit": "seconds"
           }
         ]

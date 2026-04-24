@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777027125944,
+  "lastUpdate": 1777033821687,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "pgherveou@gmail.com",
-            "name": "PG Herveou",
-            "username": "pgherveou"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "9075dee80e78810c6de1b94afcb147c55a4546a2",
-          "message": "[pallet-revive] fix CodeInfo owner (#9744)\n\nFix CodeInfo owner, it should always be set to the origin of the\ntransaction\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-16T08:46:08Z",
-          "tree_id": "3b78613dc97191bc7b1080dc44d38685bfdb6a1f",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/9075dee80e78810c6de1b94afcb147c55a4546a2"
-        },
-        "date": 1758017020802,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19853742113333334,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.220969552033335,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 11.073920951033335,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "363911+pepoviola@users.noreply.github.com",
+            "name": "Javier Viola",
+            "username": "pepoviola"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0d9b5afd8535d72a436fe6ffdffac82dcca771cf",
+          "message": "[zombienet] allow more time to check new blocks (#11866)\n\nClose #11865 \n\nAllow more time since the node was still syncing.",
+          "timestamp": "2026-04-24T10:37:14Z",
+          "tree_id": "669168daba9e247ed07c6b7ce3309b2bcc5d22a7",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/0d9b5afd8535d72a436fe6ffdffac82dcca771cf"
+        },
+        "date": 1777033799369,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1280864986666667,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 10.899014804133339,
             "unit": "seconds"
           }
         ]

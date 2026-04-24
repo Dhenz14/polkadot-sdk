@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777023440228,
+  "lastUpdate": 1777027125944,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "robertvaneerdewijk@gmail.com",
-            "name": "0xRVE",
-            "username": "0xRVE"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "61b566ac14054aff4859b38094716aa2b5e63caf",
-          "message": "added trace logging in EVM interpreter loop (#9561)\n\nAdded trace logging for each instruction to evm::run function.\nsolves https://github.com/paritytech/polkadot-sdk/issues/9575\n\n---------\n\nSigned-off-by: xermicus <cyrill@parity.io>\nSigned-off-by: Cyrill Leutwiler <bigcyrill@hotmail.com>\nCo-authored-by: pgherveou <pgherveou@gmail.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Robert van Eerdewijk <robert@Roberts-MacBook-Pro.local>\nCo-authored-by: xermicus <cyrill@parity.io>\nCo-authored-by: Alexander Theißen <alex.theissen@me.com>\nCo-authored-by: Cyrill Leutwiler <bigcyrill@hotmail.com>",
-          "timestamp": "2025-09-15T09:02:43Z",
-          "tree_id": "0cf02dce839110cd1525b28ad8c7a6a63abbe8b4",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/61b566ac14054aff4859b38094716aa2b5e63caf"
-        },
-        "date": 1757931772815,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.279488224033333,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.2000656283333333,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 10.945488355600002,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "robertvaneerdewijk@gmail.com",
+            "name": "0xRVE",
+            "username": "0xRVE"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4104feeeb1c940addf6e2527b52352fdf2545e23",
+          "message": "[pallet-revive] Add vestedTransfer to vesting precompile (#11630)\n\n## Summary\n\nAdd `vestedTransfer(address, uint256, uint256, uint256)` to the vesting\nprecompile, allowing Solidity contracts to create vesting schedules for\ntarget accounts via `pallet_vesting::vested_transfer`. Updates the\n`IVesting.sol` interface with the new function signature and NatSpec\ndocs. Includes tests covering success, below-minimum revert,\ninsufficient balance revert, and read-only/delegate-call guards.\n\nAlso fixes weight charging order across all precompile methods — weight\nis now charged upfront (right after the `ensure_mutable` check) before\nany account derivation, type conversions, or schedule construction.\nPreviously, `caller_account_id`, `to_account_id`, `T::Lookup::unlookup`,\nand U256 conversions all happened before the weight charge.\n\n## Test plan\n\n- [x] `vested_transfer_succeeds` — verifies schedule creation on target\n- [x] `vested_transfer_reverts_below_min` — reverts when locked <\n`MinVestedTransfer`\n- [x] `vested_transfer_reverts_insufficient_balance` — reverts when\ncaller lacks funds\n- [x] Guard test cases — rejects in read-only and delegate-call contexts\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-24T09:02:04Z",
+          "tree_id": "f2aa5d8a56f5d4f1e043b2331cb02b8bfefee249",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/4104feeeb1c940addf6e2527b52352fdf2545e23"
+        },
+        "date": 1777027104286,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13337887646666668,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.073920951033335,
             "unit": "seconds"
           }
         ]

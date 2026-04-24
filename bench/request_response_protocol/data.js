@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777022658013,
+  "lastUpdate": 1777026223941,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -83267,6 +83267,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2787103684,
             "range": "± 42545531",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "robertvaneerdewijk@gmail.com",
+            "name": "0xRVE",
+            "username": "0xRVE"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4104feeeb1c940addf6e2527b52352fdf2545e23",
+          "message": "[pallet-revive] Add vestedTransfer to vesting precompile (#11630)\n\n## Summary\n\nAdd `vestedTransfer(address, uint256, uint256, uint256)` to the vesting\nprecompile, allowing Solidity contracts to create vesting schedules for\ntarget accounts via `pallet_vesting::vested_transfer`. Updates the\n`IVesting.sol` interface with the new function signature and NatSpec\ndocs. Includes tests covering success, below-minimum revert,\ninsufficient balance revert, and read-only/delegate-call guards.\n\nAlso fixes weight charging order across all precompile methods — weight\nis now charged upfront (right after the `ensure_mutable` check) before\nany account derivation, type conversions, or schedule construction.\nPreviously, `caller_account_id`, `to_account_id`, `T::Lookup::unlookup`,\nand U256 conversions all happened before the weight charge.\n\n## Test plan\n\n- [x] `vested_transfer_succeeds` — verifies schedule creation on target\n- [x] `vested_transfer_reverts_below_min` — reverts when locked <\n`MinVestedTransfer`\n- [x] `vested_transfer_reverts_insufficient_balance` — reverts when\ncaller lacks funds\n- [x] Guard test cases — rejects in read-only and delegate-call contexts\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-24T09:02:04Z",
+          "tree_id": "f2aa5d8a56f5d4f1e043b2331cb02b8bfefee249",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/4104feeeb1c940addf6e2527b52352fdf2545e23"
+        },
+        "date": 1777026201031,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 21908261,
+            "range": "± 607027",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 22345710,
+            "range": "± 611640",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 23467760,
+            "range": "± 781736",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 29658562,
+            "range": "± 982736",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 68173230,
+            "range": "± 1922048",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 419534420,
+            "range": "± 6453210",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 3106844174,
+            "range": "± 279371098",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 16967383,
+            "range": "± 452024",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 17470458,
+            "range": "± 460665",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 18216344,
+            "range": "± 229442",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 23065416,
+            "range": "± 440326",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 65024540,
+            "range": "± 1299137",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 407530347,
+            "range": "± 11967571",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2916553313,
+            "range": "± 59485845",
             "unit": "ns/iter"
           }
         ]

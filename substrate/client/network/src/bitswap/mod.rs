@@ -44,9 +44,11 @@ use unsigned_varint::encode as varint_encode;
 
 /// Bitswap client.
 pub mod client;
-mod schema;
+pub(crate) mod schema;
 
 pub use client::{BitswapClient, BitswapError};
+
+pub(crate) use schema::bitswap::Message as BitswapProtoMessage;
 
 const LOG_TARGET: &str = "bitswap";
 
@@ -63,7 +65,7 @@ const MAX_REQUEST_QUEUE: usize = 20;
 const MAX_WANTED_BLOCKS: usize = 16;
 
 /// Bitswap protocol name
-const PROTOCOL_NAME: &'static str = "/ipfs/bitswap/1.2.0";
+pub(crate) const PROTOCOL_NAME: &'static str = "/ipfs/bitswap/1.2.0";
 
 /// Check if a CID is supported by the bitswap protocol.
 pub fn is_cid_supported(cid: &Cid) -> bool {
@@ -72,7 +74,7 @@ pub fn is_cid_supported(cid: &Cid) -> bool {
 
 /// Prefix represents all metadata of a CID, without the actual content.
 #[derive(PartialEq, Eq, Clone, Debug)]
-struct Prefix {
+pub(crate) struct Prefix {
 	/// The version of CID.
 	pub version: CidVersion,
 	/// The codec of CID.
@@ -85,7 +87,7 @@ struct Prefix {
 
 impl Prefix {
 	/// Convert the prefix to encoded bytes.
-	pub fn to_bytes(&self) -> Vec<u8> {
+	pub(crate) fn to_bytes(&self) -> Vec<u8> {
 		let mut res = Vec::with_capacity(4);
 		let mut buf = varint_encode::u64_buffer();
 		let version = varint_encode::u64(self.version.into(), &mut buf);

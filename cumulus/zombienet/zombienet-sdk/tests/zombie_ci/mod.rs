@@ -12,4 +12,6 @@ mod pov_recovery;
 mod rpc_collator_build_blocks;
 mod runtime_upgrade;
 mod statement_store;
+#[cfg(feature = "storage-chain")]
+mod storage_chain;
 mod sync_blocks;

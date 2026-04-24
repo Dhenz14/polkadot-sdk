@@ -556,6 +556,7 @@ members = [
 	"substrate/primitives/weights",
 	"substrate/scripts/ci/node-template-release",
 	"substrate/test-utils",
+	"substrate/utils/db-inspector",
 	"substrate/test-utils/cli",
 	"substrate/test-utils/client",
 	"substrate/test-utils/runtime",

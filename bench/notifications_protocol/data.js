@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777022627354,
+  "lastUpdate": 1777026192477,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "notifications_protocol": [
@@ -149183,6 +149183,198 @@ window.BENCHMARK_DATA = {
             "name": "notifications_protocol/litep2p/with_backpressure/16MB",
             "value": 2317842603,
             "range": "± 64442795",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "robertvaneerdewijk@gmail.com",
+            "name": "0xRVE",
+            "username": "0xRVE"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4104feeeb1c940addf6e2527b52352fdf2545e23",
+          "message": "[pallet-revive] Add vestedTransfer to vesting precompile (#11630)\n\n## Summary\n\nAdd `vestedTransfer(address, uint256, uint256, uint256)` to the vesting\nprecompile, allowing Solidity contracts to create vesting schedules for\ntarget accounts via `pallet_vesting::vested_transfer`. Updates the\n`IVesting.sol` interface with the new function signature and NatSpec\ndocs. Includes tests covering success, below-minimum revert,\ninsufficient balance revert, and read-only/delegate-call guards.\n\nAlso fixes weight charging order across all precompile methods — weight\nis now charged upfront (right after the `ensure_mutable` check) before\nany account derivation, type conversions, or schedule construction.\nPreviously, `caller_account_id`, `to_account_id`, `T::Lookup::unlookup`,\nand U256 conversions all happened before the weight charge.\n\n## Test plan\n\n- [x] `vested_transfer_succeeds` — verifies schedule creation on target\n- [x] `vested_transfer_reverts_below_min` — reverts when locked <\n`MinVestedTransfer`\n- [x] `vested_transfer_reverts_insufficient_balance` — reverts when\ncaller lacks funds\n- [x] Guard test cases — rejects in read-only and delegate-call contexts\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-24T09:02:04Z",
+          "tree_id": "f2aa5d8a56f5d4f1e043b2331cb02b8bfefee249",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/4104feeeb1c940addf6e2527b52352fdf2545e23"
+        },
+        "date": 1777026169844,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "notifications_protocol/libp2p/serially/64B",
+            "value": 3894911,
+            "range": "± 38917",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64B",
+            "value": 310428,
+            "range": "± 17918",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/512B",
+            "value": 3978890,
+            "range": "± 33422",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/512B",
+            "value": 374421,
+            "range": "± 3583",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/4KB",
+            "value": 4713345,
+            "range": "± 47944",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/4KB",
+            "value": 915095,
+            "range": "± 32924",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/64KB",
+            "value": 9991681,
+            "range": "± 85819",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64KB",
+            "value": 4926533,
+            "range": "± 75449",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/256KB",
+            "value": 43889767,
+            "range": "± 736046",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/256KB",
+            "value": 37108098,
+            "range": "± 315284",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/2MB",
+            "value": 334376391,
+            "range": "± 5145418",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/2MB",
+            "value": 281902007,
+            "range": "± 1615211",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/16MB",
+            "value": 2445924373,
+            "range": "± 10086231",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/16MB",
+            "value": 2582817173,
+            "range": "± 85496165",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64B",
+            "value": 3012925,
+            "range": "± 17203",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64B",
+            "value": 1547993,
+            "range": "± 7466",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/512B",
+            "value": 3146667,
+            "range": "± 16814",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/512B",
+            "value": 1629976,
+            "range": "± 9100",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/4KB",
+            "value": 3746647,
+            "range": "± 33318",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/4KB",
+            "value": 1975424,
+            "range": "± 38654",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64KB",
+            "value": 7635372,
+            "range": "± 43397",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64KB",
+            "value": 4922242,
+            "range": "± 63713",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/256KB",
+            "value": 34246003,
+            "range": "± 436528",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/256KB",
+            "value": 33431269,
+            "range": "± 747393",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/2MB",
+            "value": 306208216,
+            "range": "± 4904947",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/2MB",
+            "value": 259378546,
+            "range": "± 1380675",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/16MB",
+            "value": 2321163416,
+            "range": "± 16354499",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/16MB",
+            "value": 2221750665,
+            "range": "± 49391679",
             "unit": "ns/iter"
           }
         ]

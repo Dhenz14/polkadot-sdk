@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777033944938,
+  "lastUpdate": 1777044413473,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "22591718+RomarQ@users.noreply.github.com",
-            "name": "Rodrigo Quelhas",
-            "username": "RomarQ"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "136b4cb5f52515ec8086ab4466226d48e8ba220b",
-          "message": "Remove deprecated collator-related code in cumulus (#9662)\n\nRemoves collator-related code in cumulus, which has been deprecated for\na long time.\n\nRemoves an old test, which was adapted in\nhttps://github.com/paritytech/cumulus/pull/480 and duplicated by\nhttps://github.com/paritytech/polkadot-sdk/blob/acac0127168dac1d603e4d996cb210ceeddeb5de/substrate/client/block-builder/src/lib.rs#L389-L415\n\n## PoV Recovery Test Updates\n\nUpdates the PoV recovery test\n(`cumulus/zombienet/zombienet-sdk/tests/zombie_ci/pov_recovery.rs`) to\nuse a more realistic consensus mechanism:\n\n### Changes Made\n- **Removed**: `--use-null-consensus` flag from test configuration\n\n### Rationale\n\n**Previous behavior** (with null consensus):\n- Nodes operated without real block production\n- PoV recovery mechanisms triggered more frequently\n- Created artificial test conditions that don't reflect production\nscenarios\n\n**New behavior** (with actual consensus):\n- Nodes produce blocks normally but don't announce them to peers\n- PoV recovery occurs at a more realistic frequency\n- Better simulates real-world network conditions where blocks may be\nmissed\n\n### Impact\n\nThis change makes the test **more representative** of actual network\nconditions while maintaining the core functionality being tested.\n\n## Follow-up\nRemove the following lines:\n\nhttps://github.com/paritytech/polkadot-sdk/blob/4acb964059a218be9bac954b4e3803b78b5526bf/cumulus/pallets/parachain-system/src/lib.rs#L993-L994\n\n## Review notes\n\nI recommend enabling `Hide whitespace` option when reviewing the\nchanges:\n\n<img width=\"300\" alt=\"image\"\nsrc=\"https://github.com/user-attachments/assets/41f137af-c0b9-435e-af1e-84e51cbdfa23\"\n/>",
-          "timestamp": "2025-09-12T19:11:41Z",
-          "tree_id": "c16dce985562719e48e322f8393011c361d8572d",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/136b4cb5f52515ec8086ab4466226d48e8ba220b"
-        },
-        "date": 1757708794770,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008539138149999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005053543979999989,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0025977184999999986,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-distribution",
             "value": 0.00917628908999998,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "363911+pepoviola@users.noreply.github.com",
+            "name": "Javier Viola",
+            "username": "pepoviola"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1dc3f352af493eb6eeef7ed67b217d93f9282039",
+          "message": "[zombienet] fix flaky zombienet tests (#11872)\n\nAdd `authoring` flag to test using _glutton_",
+          "timestamp": "2026-04-24T14:01:29Z",
+          "tree_id": "dfcad914162aa1f106a42d2668f88e05b2745751",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/1dc3f352af493eb6eeef7ed67b217d93f9282039"
+        },
+        "date": 1777044390803,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.00264675515,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009584665399999996,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009253881189999988,
             "unit": "seconds"
           }
         ]

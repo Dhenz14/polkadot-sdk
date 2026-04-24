@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777027156258,
+  "lastUpdate": 1777033852341,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "robertvaneerdewijk@gmail.com",
-            "name": "0xRVE",
-            "username": "0xRVE"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "61b566ac14054aff4859b38094716aa2b5e63caf",
-          "message": "added trace logging in EVM interpreter loop (#9561)\n\nAdded trace logging for each instruction to evm::run function.\nsolves https://github.com/paritytech/polkadot-sdk/issues/9575\n\n---------\n\nSigned-off-by: xermicus <cyrill@parity.io>\nSigned-off-by: Cyrill Leutwiler <bigcyrill@hotmail.com>\nCo-authored-by: pgherveou <pgherveou@gmail.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Robert van Eerdewijk <robert@Roberts-MacBook-Pro.local>\nCo-authored-by: xermicus <cyrill@parity.io>\nCo-authored-by: Alexander Theißen <alex.theissen@me.com>\nCo-authored-by: Cyrill Leutwiler <bigcyrill@hotmail.com>",
-          "timestamp": "2025-09-15T09:02:43Z",
-          "tree_id": "0cf02dce839110cd1525b28ad8c7a6a63abbe8b4",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/61b566ac14054aff4859b38094716aa2b5e63caf"
-        },
-        "date": 1757931800117,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15732555499333342,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007396051733333346,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02244153202,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012928732399999998,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-store",
             "value": 0.14501698720000003,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "363911+pepoviola@users.noreply.github.com",
+            "name": "Javier Viola",
+            "username": "pepoviola"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0d9b5afd8535d72a436fe6ffdffac82dcca771cf",
+          "message": "[zombienet] allow more time to check new blocks (#11866)\n\nClose #11865 \n\nAllow more time since the node was still syncing.",
+          "timestamp": "2026-04-24T10:37:14Z",
+          "tree_id": "669168daba9e247ed07c6b7ce3309b2bcc5d22a7",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/0d9b5afd8535d72a436fe6ffdffac82dcca771cf"
+        },
+        "date": 1777033829999,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007234420853333333,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.02400179016666667,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009757370166666647,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.1458816107333333,
             "unit": "seconds"
           }
         ]

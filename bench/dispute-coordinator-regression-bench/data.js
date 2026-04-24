@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777044413473,
+  "lastUpdate": 1777049721715,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "jesse.chejieh@gmail.com",
-            "name": "Doordashcon",
-            "username": "Doordashcon"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "1cbf4eed97a87ae4c1aef6176c80761c49f60e6f",
-          "message": "Simulate `rank_to_votes` in `pallet-ranked-collective` benchmark. (#9731)\n\nresolves #9730\n\n---------\n\nCo-authored-by: Bastian Köcher <info@kchr.de>\nCo-authored-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>",
-          "timestamp": "2025-09-15T08:33:06Z",
-          "tree_id": "730280b04c0fddba8c040d6fb5df823addb18688",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/1cbf4eed97a87ae4c1aef6176c80761c49f60e6f"
-        },
-        "date": 1757929600785,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008525519599999991,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.0050322243099999945,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0025930019799999997,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-distribution",
             "value": 0.009253881189999988,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "10196091+Ank4n@users.noreply.github.com",
+            "name": "Ankan",
+            "username": "Ank4n"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e2480cb9209b6e27b237e2c069d3cb20efb5b419",
+          "message": "View functions to support DAP debug UI (#11877)\n\nNeeded by the DAP debug UI (pjs app) currently being cooked\n\n<img width=\"1409\" height=\"851\" alt=\"image\"\nsrc=\"https://github.com/user-attachments/assets/bed18a6a-d4e1-4d46-b474-0db421b12864\"\n/>",
+          "timestamp": "2026-04-24T14:54:47Z",
+          "tree_id": "4f139617c75f14d082a50889a9ad144738653eff",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/e2480cb9209b6e27b237e2c069d3cb20efb5b419"
+        },
+        "date": 1777049699804,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009507433399999985,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.0027473534299999993,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.00993340731,
             "unit": "seconds"
           }
         ]

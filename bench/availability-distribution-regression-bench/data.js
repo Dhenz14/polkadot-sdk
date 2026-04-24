@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777033852341,
+  "lastUpdate": 1777044316073,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "pgherveou@gmail.com",
-            "name": "PG Herveou",
-            "username": "pgherveou"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "9075dee80e78810c6de1b94afcb147c55a4546a2",
-          "message": "[pallet-revive] fix CodeInfo owner (#9744)\n\nFix CodeInfo owner, it should always be set to the origin of the\ntransaction\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-16T08:46:08Z",
-          "tree_id": "3b78613dc97191bc7b1080dc44d38685bfdb6a1f",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/9075dee80e78810c6de1b94afcb147c55a4546a2"
-        },
-        "date": 1758017047441,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15840451406666678,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.00760605235333332,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012838597633333332,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022618092173333337,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-store",
             "value": 0.1458816107333333,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "363911+pepoviola@users.noreply.github.com",
+            "name": "Javier Viola",
+            "username": "pepoviola"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1dc3f352af493eb6eeef7ed67b217d93f9282039",
+          "message": "[zombienet] fix flaky zombienet tests (#11872)\n\nAdd `authoring` flag to test using _glutton_",
+          "timestamp": "2026-04-24T14:01:29Z",
+          "tree_id": "dfcad914162aa1f106a42d2668f88e05b2745751",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/1dc3f352af493eb6eeef7ed67b217d93f9282039"
+        },
+        "date": 1777044293699,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009377287193333307,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.023793977333333338,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.1449243877533334,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.00689521906,
             "unit": "seconds"
           }
         ]

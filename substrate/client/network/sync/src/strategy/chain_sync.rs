@@ -97,16 +97,6 @@ const STATE_SYNC_FINALITY_THRESHOLD: u32 = 8;
 /// so far behind.
 const MAJOR_SYNC_BLOCKS: u8 = 5;
 
-/// Margin between the body window's lower bound and the pruning frontier.
-///
-/// Gap sync only fetches bodies for blocks at or above
-/// `finalized - (blocks_pruning - BODY_WINDOW_BUFFER)`. This keeps the body
-/// window comfortably inside the pruning window so a fresh-imported gap-sync
-/// body is not at risk of being pruned by the next finalization tick. Pruning
-/// will catch up to the body window as finalization advances by `BODY_WINDOW_BUFFER`
-/// blocks.
-const BODY_WINDOW_BUFFER: u32 = 32;
-
 mod rep {
 	use sc_network::ReputationChange as Rep;
 	/// Reputation change when a peer sent us a message that led to a
@@ -2002,18 +1992,15 @@ where
 		.collect()
 	}
 
-	/// Compute the lowest block number for which we want bodies during gap sync.
+	/// Lower bound of the body window for gap sync — equal to the pruning frontier.
 	///
-	/// Returns `None` for archive nodes (no `blocks_pruning`); otherwise returns the
-	/// lower bound of the body window:
-	/// `min(best_queued, finalized) - max(blocks_pruning - BODY_WINDOW_BUFFER, 1) + 1`.
+	/// Returns `None` for archive nodes (no `blocks_pruning`); otherwise:
+	/// `min(best_queued, finalized) - blocks_pruning + 1`.
 	fn body_start_number(&self) -> Option<NumberFor<B>> {
 		self.blocks_pruning.map(|n| {
-			let effective_pruning =
-				if n > BODY_WINDOW_BUFFER { n - BODY_WINDOW_BUFFER } else { 1 };
 			let last_finalized =
 				std::cmp::min(self.best_queued_number, self.client.info().finalized_number);
-			last_finalized.saturating_sub(effective_pruning.saturated_into()) + One::one()
+			last_finalized.saturating_sub(n.saturated_into()) + One::one()
 		})
 	}
 
@@ -2036,8 +2023,8 @@ where
 		if let (Some(body_start), Some(n)) = (body_start_number, self.blocks_pruning) {
 			debug!(
 				target: LOG_TARGET,
-				"Gap sync body boundary: blocks >= {:?} get bodies (blocks_pruning={}, buffer={})",
-				body_start, n, BODY_WINDOW_BUFFER,
+				"Gap sync body boundary: blocks >= {:?} get bodies (blocks_pruning={})",
+				body_start, n,
 			);
 		}
 		let blocks = &mut self.blocks;

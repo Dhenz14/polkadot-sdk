@@ -97,6 +97,16 @@ const STATE_SYNC_FINALITY_THRESHOLD: u32 = 8;
 /// so far behind.
 const MAJOR_SYNC_BLOCKS: u8 = 5;
 
+/// Margin between the body window's lower bound and the pruning frontier.
+///
+/// Gap sync only fetches bodies for blocks at or above
+/// `finalized - (blocks_pruning - BODY_WINDOW_BUFFER)`. This keeps the body
+/// window comfortably inside the pruning window so a fresh-imported gap-sync
+/// body is not at risk of being pruned by the next finalization tick. Pruning
+/// will catch up to the body window as finalization advances by `BODY_WINDOW_BUFFER`
+/// blocks.
+const BODY_WINDOW_BUFFER: u32 = 32;
+
 mod rep {
 	use sc_network::ReputationChange as Rep;
 	/// Reputation change when a peer sent us a message that led to a
@@ -1300,6 +1310,7 @@ where
 	) -> Result<(), BadPeer> {
 		self.downloaded_blocks += response.blocks.len();
 		let mut gap = false;
+		let body_start_for_drop = self.body_start_number();
 		let new_blocks: Vec<IncomingBlock<B>> = if let Some(peer) = self.peers.get_mut(peer_id) {
 			let mut blocks = response.blocks;
 			if request.as_ref().map_or(false, |r| r.direction == Direction::Descending) {
@@ -1341,6 +1352,23 @@ where
 												block_data.block.justification,
 											)
 										});
+									let below_body_start = match (
+										body_start_for_drop,
+										block_data.block.header.as_ref(),
+									) {
+										(Some(start), Some(h)) => *h.number() < start,
+										_ => false,
+									};
+									let body = if below_body_start {
+										None
+									} else {
+										block_data.block.body
+									};
+									let indexed_body = if below_body_start {
+										None
+									} else {
+										block_data.block.indexed_body
+									};
 									let gap_sync_stats = GapSyncStats {
 										header_bytes: block_data
 											.block
@@ -1348,9 +1376,7 @@ where
 											.as_ref()
 											.map(|h| h.encoded_size())
 											.unwrap_or(0),
-										body_bytes: block_data
-											.block
-											.body
+										body_bytes: body
 											.as_ref()
 											.map(|b| b.encoded_size())
 											.unwrap_or(0),
@@ -1364,13 +1390,11 @@ where
 									IncomingBlock {
 										hash: block_data.block.hash,
 										header: block_data.block.header,
-										body: block_data.block.body,
-										indexed_body: block_data.block.indexed_body,
+										body,
+										indexed_body,
 										justifications,
 										origin: block_data.origin,
 										allow_missing_state: true,
-										// Warp-synced blocks are header-only. Allow re-import to
-										// store bodies if gap sync requested them.
 										import_existing: true,
 										skip_execution: true,
 										state: None,
@@ -1978,6 +2002,21 @@ where
 		.collect()
 	}
 
+	/// Compute the lowest block number for which we want bodies during gap sync.
+	///
+	/// Returns `None` for archive nodes (no `blocks_pruning`); otherwise returns the
+	/// lower bound of the body window:
+	/// `min(best_queued, finalized) - max(blocks_pruning - BODY_WINDOW_BUFFER, 1) + 1`.
+	fn body_start_number(&self) -> Option<NumberFor<B>> {
+		self.blocks_pruning.map(|n| {
+			let effective_pruning =
+				if n > BODY_WINDOW_BUFFER { n - BODY_WINDOW_BUFFER } else { 1 };
+			let last_finalized =
+				std::cmp::min(self.best_queued_number, self.client.info().finalized_number);
+			last_finalized.saturating_sub(effective_pruning.saturated_into()) + One::one()
+		})
+	}
+
 	/// Get block requests scheduled by sync to be sent out.
 	fn block_requests(&mut self) -> Vec<(PeerId, BlockRequest<B>)> {
 		if self.allowed_requests.is_empty() || self.state_sync.is_some() {
@@ -1991,22 +2030,18 @@ where
 		let is_major_syncing = self.status().state.is_major_syncing();
 		let mode = self.mode;
 		let is_archive = self.blocks_pruning.is_none();
-		let blocks = &mut self.blocks;
-		let fork_targets = &mut self.fork_targets;
 		let last_finalized =
 			std::cmp::min(self.best_queued_number, self.client.info().finalized_number);
-		let body_start_number = match self.blocks_pruning {
-			Some(n) => {
-				let body_start = last_finalized.saturating_sub(n.saturated_into()) + One::one();
-				debug!(
-					target: LOG_TARGET,
-					"Gap sync body boundary: blocks >= {:?} get bodies",
-					body_start,
-				);
-				Some(body_start)
-			},
-			None => None,
-		};
+		let body_start_number = self.body_start_number();
+		if let (Some(body_start), Some(n)) = (body_start_number, self.blocks_pruning) {
+			debug!(
+				target: LOG_TARGET,
+				"Gap sync body boundary: blocks >= {:?} get bodies (blocks_pruning={}, buffer={})",
+				body_start, n, BODY_WINDOW_BUFFER,
+			);
+		}
+		let blocks = &mut self.blocks;
+		let fork_targets = &mut self.fork_targets;
 		let best_queued = self.best_queued_number;
 		let client = &self.client;
 		let queue_blocks = &self.queue_blocks;

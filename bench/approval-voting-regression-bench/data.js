@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777049661530,
+  "lastUpdate": 1777195389952,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "paolo@parity.io",
-            "name": "Paolo La Camera",
-            "username": "sigurpol"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "6e4111b005fb53bc94b419c36d295274fffade97",
-          "message": "staking-async: handle uninitialized state in try-state checks (#9747)\n\n- Add early return in do_try_state when pallet is uninitialized\n- Add test for empty state validation\n\nFollowup of #9721 .\nOnce backported to `2507` and crate is published, should unlock\nhttps://github.com/polkadot-fellows/runtimes/pull/904\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-16T12:04:24Z",
-          "tree_id": "50384005abaa1c513d8e5e350cdf4d3eb7d9c9d3",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/6e4111b005fb53bc94b419c36d295274fffade97"
-        },
-        "date": 1758028661015,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52941.7,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63642.479999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.503808679659999,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005792399160000005,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.312343235990003,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9480788427900038,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.4881463613199992,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000020178129999999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.4443528174899972,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.7136156095710424,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4536201057300016,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000020178129999999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.000021473999999999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.4685440298400017,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.000021473999999999998,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-distribution",
             "value": 0.000026238689999999996,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a3b6767b09b4d825ea3a1a9ce3b1a1f02b445afe",
+          "message": "statement-store: increase timeout major sync test (#11851)\n\n## Summary\n\nImplement #11842 \n\nAdjusts the `statement_store_recovery_after_major_sync` zombienet\nintegration test to be more resilient in slow CI environments:\n- Doubles the timeout for Charlie to reach block 10 from 180s to 360s,\nreducing\n  flakiness on resource-constrained runners.\n\n## Testing \nManually triggered the **[Zombienet\nCumulus](https://github.com/paritytech/polkadot-sdk/actions?query=actor%3ADenzelPenzel+workflow%3A%22Zombienet+Cumulus%22+branch%3Adenzelpenzel%2Fstatement-store-major-sync-test)**\nworkflow ~30 times on this branch – all\npassed with no issues",
+          "timestamp": "2026-04-26T07:11:34Z",
+          "tree_id": "c9a87c374c5234fff0689d68babad9fbf9f5141d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/a3b6767b09b4d825ea3a1a9ce3b1a1f02b445afe"
+        },
+        "date": 1777195367429,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 52940,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 63625.98999999999,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.86659837459,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.3168826795428235,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.54488727691997,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.7788719527400008,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7682827891899626,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.00002513568,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.8516397498900017,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.7925300670600004,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.000021810370000000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.00002513568,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.000021810370000000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.4814246441100076,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.0055396993400000025,
             "unit": "seconds"
           }
         ]

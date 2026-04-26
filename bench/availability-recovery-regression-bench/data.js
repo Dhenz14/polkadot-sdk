@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777049600138,
+  "lastUpdate": 1777195327188,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "git@kchr.de",
-            "name": "Bastian Köcher",
-            "username": "bkchr"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "631eb8b90f7756a68391eceaf6d3d63b7c697a23",
-          "message": "`frame-support`: Move all macros from `lib.rs` to a new file (#9742)\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-16T15:04:54Z",
-          "tree_id": "8a7fe15e0953ca39cb8d256a16d9ea9b9ddbfdaa",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/631eb8b90f7756a68391eceaf6d3d63b7c697a23"
-        },
-        "date": 1758039773344,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.2000706451333333,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.336006803833332,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 11.110445645833337,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a3b6767b09b4d825ea3a1a9ce3b1a1f02b445afe",
+          "message": "statement-store: increase timeout major sync test (#11851)\n\n## Summary\n\nImplement #11842 \n\nAdjusts the `statement_store_recovery_after_major_sync` zombienet\nintegration test to be more resilient in slow CI environments:\n- Doubles the timeout for Charlie to reach block 10 from 180s to 360s,\nreducing\n  flakiness on resource-constrained runners.\n\n## Testing \nManually triggered the **[Zombienet\nCumulus](https://github.com/paritytech/polkadot-sdk/actions?query=actor%3ADenzelPenzel+workflow%3A%22Zombienet+Cumulus%22+branch%3Adenzelpenzel%2Fstatement-store-major-sync-test)**\nworkflow ~30 times on this branch – all\npassed with no issues",
+          "timestamp": "2026-04-26T07:11:34Z",
+          "tree_id": "c9a87c374c5234fff0689d68babad9fbf9f5141d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/a3b6767b09b4d825ea3a1a9ce3b1a1f02b445afe"
+        },
+        "date": 1777195304270,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.100289497066669,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1367719807,
             "unit": "seconds"
           }
         ]

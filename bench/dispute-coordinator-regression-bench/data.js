@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777049721715,
+  "lastUpdate": 1777195452597,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "robertvaneerdewijk@gmail.com",
-            "name": "0xRVE",
-            "username": "0xRVE"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "61b566ac14054aff4859b38094716aa2b5e63caf",
-          "message": "added trace logging in EVM interpreter loop (#9561)\n\nAdded trace logging for each instruction to evm::run function.\nsolves https://github.com/paritytech/polkadot-sdk/issues/9575\n\n---------\n\nSigned-off-by: xermicus <cyrill@parity.io>\nSigned-off-by: Cyrill Leutwiler <bigcyrill@hotmail.com>\nCo-authored-by: pgherveou <pgherveou@gmail.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Robert van Eerdewijk <robert@Roberts-MacBook-Pro.local>\nCo-authored-by: xermicus <cyrill@parity.io>\nCo-authored-by: Alexander Theißen <alex.theissen@me.com>\nCo-authored-by: Cyrill Leutwiler <bigcyrill@hotmail.com>",
-          "timestamp": "2025-09-15T09:02:43Z",
-          "tree_id": "0cf02dce839110cd1525b28ad8c7a6a63abbe8b4",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/61b566ac14054aff4859b38094716aa2b5e63caf"
-        },
-        "date": 1757931880823,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.004982684209999993,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.002612795469999999,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008504438039999996,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.00993340731,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a3b6767b09b4d825ea3a1a9ce3b1a1f02b445afe",
+          "message": "statement-store: increase timeout major sync test (#11851)\n\n## Summary\n\nImplement #11842 \n\nAdjusts the `statement_store_recovery_after_major_sync` zombienet\nintegration test to be more resilient in slow CI environments:\n- Doubles the timeout for Charlie to reach block 10 from 180s to 360s,\nreducing\n  flakiness on resource-constrained runners.\n\n## Testing \nManually triggered the **[Zombienet\nCumulus](https://github.com/paritytech/polkadot-sdk/actions?query=actor%3ADenzelPenzel+workflow%3A%22Zombienet+Cumulus%22+branch%3Adenzelpenzel%2Fstatement-store-major-sync-test)**\nworkflow ~30 times on this branch – all\npassed with no issues",
+          "timestamp": "2026-04-26T07:11:34Z",
+          "tree_id": "c9a87c374c5234fff0689d68babad9fbf9f5141d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/a3b6767b09b4d825ea3a1a9ce3b1a1f02b445afe"
+        },
+        "date": 1777195430268,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.002739362949999999,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.00964017509999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.010794570290000003,
             "unit": "seconds"
           }
         ]

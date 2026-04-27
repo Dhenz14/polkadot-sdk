@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777305892356,
+  "lastUpdate": 1777316080392,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "serban@parity.io",
-            "name": "Serban Iorga",
-            "username": "serban300"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "3d29a17bdc53aa7dcd75376cb01b3ef524271f99",
-          "message": "Avoid double counting PoV size when enqueing XCMP message (#9745)\n\nRelated to #9641\n\nAvoid double counting PoV size when enqueing XCMP message\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Andrii <ndk@parity.io>",
-          "timestamp": "2025-09-16T14:10:36Z",
-          "tree_id": "29a8a2c3ef43fff18a7dbd1d2a64141c4640c4ad",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/3d29a17bdc53aa7dcd75376cb01b3ef524271f99"
-        },
-        "date": 1758036202098,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 127.93599999999994,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.034434699438000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.044144874613999956,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.03825373079199999,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@kchr.de",
+            "name": "Bastian Köcher",
+            "username": "bkchr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ecdc3a28de64c3014e12354c12191dc4fc24d051",
+          "message": "Polkadot: Increase block size limit on the node side (#11900)\n\nThis pull request increases the block size limit allowed while building\na block. This block size limit is checked on the node side. The ultimate\nauthority about the actual block size limit is the runtime.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Andrei Sandu <54316454+sandreim@users.noreply.github.com>",
+          "timestamp": "2026-04-27T17:33:01Z",
+          "tree_id": "3efed41be4a945617946fd785c6ae1e0504df49a",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/ecdc3a28de64c3014e12354c12191dc4fc24d051"
+        },
+        "date": 1777316057516,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.056,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08012602773399995,
+            "unit": "seconds"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038403681608,
             "unit": "seconds"
           }
         ]

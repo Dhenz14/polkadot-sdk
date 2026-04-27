@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777289603593,
+  "lastUpdate": 1777301845478,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -84023,6 +84023,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2678578961,
             "range": "± 38944498",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "52418509+georgepisaltu@users.noreply.github.com",
+            "name": "georgepisaltu",
+            "username": "georgepisaltu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "a177757241f1607a465ab68363d540d8c7f70075",
+          "message": "Refactor `VerifySignature` transaction extension for signer compatibility (#11897)\n\nSwap the order of the `Disabled` and `Signed { .. }` variants in\n`pallet_verify_signature::VerifySignature` so that `Disabled` is now the\nfirst variant and encodes as the SCALE byte `0x00`, while `Signed { ..\n}` is the second variant and encodes with tag `0x01`.\n\nThe motivation is signer compatibility. Generic signers can default an\nextension to its passthrough state when that state encodes to a single\nzero byte — the same convention used by other simple, defaultable\ntransaction extensions (`CheckMetadataHash`'s `Mode::Disabled`,\n`Option::None`, `bool::false`). Under the previous variant order, the\ndisabled state of `VerifySignature` encoded as `0x01`, which a signer\ncannot produce without knowing the enum's specific variant layout.\n\n**On-chain encoding change.** This is a breaking change to the SCALE\nencoding of the extension: the variant tags for `Disabled` and `Signed`\nare flipped. To my knowledge there is no production runtime using this\nextension right now, but the breaking change is reflected in the major\nbump of the pallet.\n\n---------\n\nSigned-off-by: georgepisaltu <george.pisaltu@parity.io>",
+          "timestamp": "2026-04-27T13:46:40Z",
+          "tree_id": "afd1b8938f7d3ba8289038a9ed0062212de3333e",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/a177757241f1607a465ab68363d540d8c7f70075"
+        },
+        "date": 1777301823381,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18953967,
+            "range": "± 215801",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 19598837,
+            "range": "± 190508",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 21081065,
+            "range": "± 90307",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 26314511,
+            "range": "± 313667",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 65115682,
+            "range": "± 1124977",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 391488330,
+            "range": "± 8262048",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2859784503,
+            "range": "± 183784045",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15839345,
+            "range": "± 822735",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15456107,
+            "range": "± 256714",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16184184,
+            "range": "± 216882",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21026284,
+            "range": "± 426097",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 59891025,
+            "range": "± 1419761",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 372431105,
+            "range": "± 9604740",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2646850893,
+            "range": "± 47979871",
             "unit": "ns/iter"
           }
         ]

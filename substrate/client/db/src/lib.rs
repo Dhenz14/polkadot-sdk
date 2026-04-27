@@ -2270,17 +2270,20 @@ impl<Block: BlockT> Backend<Block> {
 
 		let computed = BlakeTwo256::hash(&data);
 		if computed.as_ref() != content_hash.as_ref() {
-			return Err(sp_blockchain::Error::Backend("bitswap data hash mismatch".into()));
+			return Err(sp_blockchain::Error::Backend("Transaction data hash mismatch".into()));
 		}
 
 		let db_hash = DbHash::from_slice(&content_hash);
-		let mut transaction = Transaction::new();
-		transaction.store(columns::TRANSACTION, db_hash, data);
-		for _ in 1..target_ref_count {
-			transaction.reference(columns::TRANSACTION, db_hash);
-		}
 
-		self.storage.db.commit(transaction)?;
+		let mut store_tx = Transaction::new();
+		store_tx.store(columns::TRANSACTION, db_hash, data);
+		self.storage.db.commit(store_tx)?;
+
+		if target_ref_count > 1 {
+			let mut bump_tx = Transaction::new();
+			bump_tx.reference_count(columns::TRANSACTION, db_hash, target_ref_count - 1);
+			self.storage.db.commit(bump_tx)?;
+		}
 
 		debug!(
 			target: "db",
@@ -2292,17 +2295,15 @@ impl<Block: BlockT> Backend<Block> {
 	}
 
 	/// Bump the `TRANSACTION` column's reference counter for `content_hash` by `count`.
-	/// Silently no-ops on missing keys per kvdb semantics; use only when the entry is known
-	/// to exist (check via `has_indexed_transaction` first).
+	/// Silent no-op on missing keys; use only when the entry is known to exist (check via
+	/// `has_indexed_transaction` first).
 	pub fn bump_transaction_ref(&self, content_hash: [u8; 32], count: u32) -> ClientResult<()> {
 		if count == 0 {
 			return Ok(());
 		}
 		let db_hash = DbHash::from_slice(&content_hash);
 		let mut transaction = Transaction::new();
-		for _ in 0..count {
-			transaction.reference(columns::TRANSACTION, db_hash);
-		}
+		transaction.reference_count(columns::TRANSACTION, db_hash, count);
 		self.storage.db.commit(transaction)?;
 		debug!(
 			target: "db",
@@ -2446,6 +2447,7 @@ pub fn apply_body_with_indexed_meta<Block: BlockT>(
 	let mut missing = Vec::new();
 	let mut matched: HashMap<usize, (DbHash, usize)> = HashMap::new();
 
+	// @review does this need to be a nested loop. One invariant should be that the data returned by runtime is in the same order as the body transactions
 	for meta in indexed_meta {
 		let db_hash = DbHash::from_slice(&meta.content_hash);
 		let size = meta.size as usize;
@@ -6642,4 +6644,5 @@ pub(crate) mod tests {
 		assert_eq!(gap.start, 1);
 		assert_eq!(gap.end, 2);
 	}
+
 }

@@ -93,53 +93,56 @@ fn ref_counted_column(col: u32) -> bool {
 impl<H: Clone + AsRef<[u8]>> Database<H> for DbAdapter {
 	fn commit(&self, transaction: Transaction<H>) -> Result<(), DatabaseError> {
 		let mut not_ref_counted_column = Vec::new();
-		let result = self.0.commit(transaction.0.into_iter().filter_map(|change| {
-			Some(match change {
-				Change::Set(col, key, value) => (col as u8, key, Some(value)),
-				Change::Remove(col, key) => (col as u8, key, None),
+		let mut tuples: Vec<(u8, Vec<u8>, Option<Vec<u8>>)> = Vec::new();
+		for change in transaction.0.into_iter() {
+			match change {
+				Change::Set(col, key, value) => tuples.push((col as u8, key, Some(value))),
+				Change::Remove(col, key) => tuples.push((col as u8, key, None)),
 				Change::Store(col, key, value) => {
 					if ref_counted_column(col) {
-						(col as u8, key.as_ref().to_vec(), Some(value))
-					} else {
-						if !not_ref_counted_column.contains(&col) {
-							not_ref_counted_column.push(col);
-						}
-						return None;
+						tuples.push((col as u8, key.as_ref().to_vec(), Some(value)));
+					} else if !not_ref_counted_column.contains(&col) {
+						not_ref_counted_column.push(col);
 					}
 				},
 				Change::Reference(col, key) => {
 					if ref_counted_column(col) {
-						// FIXME accessing value is not strictly needed, optimize this in parity-db.
 						let value = <Self as Database<H>>::get(self, col, key.as_ref());
-						(col as u8, key.as_ref().to_vec(), value)
-					} else {
-						if !not_ref_counted_column.contains(&col) {
-							not_ref_counted_column.push(col);
+						tuples.push((col as u8, key.as_ref().to_vec(), value));
+					} else if !not_ref_counted_column.contains(&col) {
+						not_ref_counted_column.push(col);
+					}
+				},
+				Change::ReferenceCount(col, key, n) => {
+					if ref_counted_column(col) {
+						let value = <Self as Database<H>>::get(self, col, key.as_ref());
+						let key_bytes = key.as_ref().to_vec();
+						tuples.reserve(n as usize);
+						for _ in 0..n {
+							tuples.push((col as u8, key_bytes.clone(), value.clone()));
 						}
-						return None;
+					} else if !not_ref_counted_column.contains(&col) {
+						not_ref_counted_column.push(col);
 					}
 				},
 				Change::Release(col, key) => {
 					if ref_counted_column(col) {
-						(col as u8, key.as_ref().to_vec(), None)
-					} else {
-						if !not_ref_counted_column.contains(&col) {
-							not_ref_counted_column.push(col);
-						}
-						return None;
+						tuples.push((col as u8, key.as_ref().to_vec(), None));
+					} else if !not_ref_counted_column.contains(&col) {
+						not_ref_counted_column.push(col);
 					}
 				},
-			})
-		}));
+			}
+		}
 
-		if not_ref_counted_column.len() > 0 {
+		if !not_ref_counted_column.is_empty() {
 			return Err(DatabaseError(Box::new(parity_db::Error::InvalidInput(format!(
 				"Ref counted operation on non ref counted columns {:?}",
 				not_ref_counted_column
 			)))));
 		}
 
-		result.map_err(|e| DatabaseError(Box::new(e)))
+		self.0.commit(tuples.into_iter()).map_err(|e| DatabaseError(Box::new(e)))
 	}
 
 	fn get(&self, col: ColumnId, key: &[u8]) -> Option<Vec<u8>> {

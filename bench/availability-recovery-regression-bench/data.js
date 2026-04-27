@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777290907460,
+  "lastUpdate": 1777305717687,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "mich@elmueller.net",
-            "name": "Michael Müller",
-            "username": "cmichi"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "4331b282ecc6b6e911eadb322c600cbea2c4541a",
-          "message": "[pallet-revive] Migrate various getters to `System` pre-compile (#9517)\n\nPart of closing https://github.com/paritytech/polkadot-sdk/issues/8572.\n\nMigrates:\n* `own_code_hash`\n* `caller_is_origin`\n* `caller_is_root`\n* `weight_left`\n* `minimum_balance`\n\nThere are some minor other fixes in there (removing leftovers from\ndeprecating chain extensions, stabilizing `block_hash` in overlooked\ncrates, etc.).\n\ncc @athei @pgherveou\n\n---------\n\nCo-authored-by: Alexander Theißen <alex.theissen@me.com>",
-          "timestamp": "2025-09-17T00:09:01Z",
-          "tree_id": "a6c0491b75fecea82e7ea14bf44adc568502f847",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/4331b282ecc6b6e911eadb322c600cbea2c4541a"
-        },
-        "date": 1758072380190,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.288046840000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19904206253333337,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.1233123229666667,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "319976c3a73784ddd8d0d892b3b470168c620dfd",
+          "message": "statement-store: zombienet initial sync (#11861)\n\nImplement #11534 for initial sync \n\n# Description\n- Add `statement_store_initial_sync_multiple_peers` integration test\n- Spawns a 2-node network, populates 20 statements from 4 keypairs\nacross 2 topics, then adds 3 new collators\n- Verifies each new peer receives all 20 statements via\n`schedule_initial_sync_for_peer`\n- Asserts `initial_sync_statements_sent` metric reflects both senders\ndelivering to all 3 new peers (2×3×20 = 120)\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Andrei Eres <eresav@me.com>",
+          "timestamp": "2026-04-27T14:08:14Z",
+          "tree_id": "cbd2536665933f44f3ac752f96d67482b94216bf",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/319976c3a73784ddd8d0d892b3b470168c620dfd"
+        },
+        "date": 1777305674608,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.088543730533333,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12634489153333334,
             "unit": "seconds"
           }
         ]

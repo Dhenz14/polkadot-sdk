@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777316048335,
+  "lastUpdate": 1777324937501,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "mich@elmueller.net",
-            "name": "Michael Müller",
-            "username": "cmichi"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "4331b282ecc6b6e911eadb322c600cbea2c4541a",
-          "message": "[pallet-revive] Migrate various getters to `System` pre-compile (#9517)\n\nPart of closing https://github.com/paritytech/polkadot-sdk/issues/8572.\n\nMigrates:\n* `own_code_hash`\n* `caller_is_origin`\n* `caller_is_root`\n* `weight_left`\n* `minimum_balance`\n\nThere are some minor other fixes in there (removing leftovers from\ndeprecating chain extensions, stabilizing `block_hash` in overlooked\ncrates, etc.).\n\ncc @athei @pgherveou\n\n---------\n\nCo-authored-by: Alexander Theißen <alex.theissen@me.com>",
-          "timestamp": "2025-09-17T00:09:01Z",
-          "tree_id": "a6c0491b75fecea82e7ea14bf44adc568502f847",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/4331b282ecc6b6e911eadb322c600cbea2c4541a"
-        },
-        "date": 1758072433768,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52946,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63630.42,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.00001847193,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.000020453500000000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9457179491500014,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.00001847193,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.7215366860007824,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.000020453500000000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.5094720597899984,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.293376162419996,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.4277193385999962,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.4552314718900012,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4772674681599995,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005680689640000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.47228718519,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 4.308641339352802,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "54316454+sandreim@users.noreply.github.com",
+            "name": "Andrei Sandu",
+            "username": "sandreim"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e7b610aa594b9fb5304563b17c9a145ee8f9a5a0",
+          "message": "Test RCs: Enable max block len up to 10MiB + node support for larger code size (#11893)\n\nPart of fix for: https://github.com/paritytech/polkadot-sdk/issues/11880\n\nThis PR does the following changes:\n- decouples the node from the `MAX_CODE_SIZE` constant. We bump\n`ATTESTED_CANDIDATE_RESPONSE_SIZE` to 8MiB which gives enough room for\noverhead and further increases if needed.\n- enables 10MiB blocks on all test RC runtimes\n- test for 10MiB blocks\n\nProd runtimes: https://github.com/polkadot-fellows/runtimes/pull/1157 .\n\nTODO:\n- [x] finish test\n\n---------\n\nSigned-off-by: Andrei Sandu <andrei-mihail@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-27T19:58:04Z",
+          "tree_id": "08a4b58a3d1e5ac9c19d980376af07647fda578e",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/e7b610aa594b9fb5304563b17c9a145ee8f9a5a0"
+        },
+        "date": 1777324914675,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 63634.33,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 52942.40000000001,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.4333045591199927,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7895022611499531,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.304076202672888,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.802419245970002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.0060165913399999995,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.00002047538,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.000023474290000000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.805268839830001,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.00002047538,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.7780004377899994,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.40667106750995,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.000023474290000000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.792159132310001,
             "unit": "seconds"
           }
         ]

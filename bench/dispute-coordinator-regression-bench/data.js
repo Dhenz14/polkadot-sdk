@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777291031522,
+  "lastUpdate": 1777305943964,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "paolo@parity.io",
-            "name": "Paolo La Camera",
-            "username": "sigurpol"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "6e4111b005fb53bc94b419c36d295274fffade97",
-          "message": "staking-async: handle uninitialized state in try-state checks (#9747)\n\n- Add early return in do_try_state when pallet is uninitialized\n- Add test for empty state validation\n\nFollowup of #9721 .\nOnce backported to `2507` and crate is published, should unlock\nhttps://github.com/polkadot-fellows/runtimes/pull/904\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-16T12:04:24Z",
-          "tree_id": "50384005abaa1c513d8e5e350cdf4d3eb7d9c9d3",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/6e4111b005fb53bc94b419c36d295274fffade97"
-        },
-        "date": 1758028714749,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008663889539999994,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005168952489999993,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0026731529700000003,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-coordinator",
             "value": 0.00270073824,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "319976c3a73784ddd8d0d892b3b470168c620dfd",
+          "message": "statement-store: zombienet initial sync (#11861)\n\nImplement #11534 for initial sync \n\n# Description\n- Add `statement_store_initial_sync_multiple_peers` integration test\n- Spawns a 2-node network, populates 20 statements from 4 keypairs\nacross 2 topics, then adds 3 new collators\n- Verifies each new peer receives all 20 statements via\n`schedule_initial_sync_for_peer`\n- Asserts `initial_sync_statements_sent` metric reflects both senders\ndelivering to all 3 new peers (2×3×20 = 120)\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Andrei Eres <eresav@me.com>",
+          "timestamp": "2026-04-27T14:08:14Z",
+          "tree_id": "cbd2536665933f44f3ac752f96d67482b94216bf",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/319976c3a73784ddd8d0d892b3b470168c620dfd"
+        },
+        "date": 1777305901787,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.010122692130000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.0026889922599999997,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009500347059999983,
             "unit": "seconds"
           }
         ]

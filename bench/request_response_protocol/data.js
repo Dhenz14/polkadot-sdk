@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777315084889,
+  "lastUpdate": 1777323858281,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -84347,6 +84347,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2762210732,
             "range": "± 21258455",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "54316454+sandreim@users.noreply.github.com",
+            "name": "Andrei Sandu",
+            "username": "sandreim"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e7b610aa594b9fb5304563b17c9a145ee8f9a5a0",
+          "message": "Test RCs: Enable max block len up to 10MiB + node support for larger code size (#11893)\n\nPart of fix for: https://github.com/paritytech/polkadot-sdk/issues/11880\n\nThis PR does the following changes:\n- decouples the node from the `MAX_CODE_SIZE` constant. We bump\n`ATTESTED_CANDIDATE_RESPONSE_SIZE` to 8MiB which gives enough room for\noverhead and further increases if needed.\n- enables 10MiB blocks on all test RC runtimes\n- test for 10MiB blocks\n\nProd runtimes: https://github.com/polkadot-fellows/runtimes/pull/1157 .\n\nTODO:\n- [x] finish test\n\n---------\n\nSigned-off-by: Andrei Sandu <andrei-mihail@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-27T19:58:04Z",
+          "tree_id": "08a4b58a3d1e5ac9c19d980376af07647fda578e",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/e7b610aa594b9fb5304563b17c9a145ee8f9a5a0"
+        },
+        "date": 1777323836509,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18404934,
+            "range": "± 197216",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18857484,
+            "range": "± 122390",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20242029,
+            "range": "± 50599",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24831377,
+            "range": "± 215319",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 58128750,
+            "range": "± 1095409",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 335606828,
+            "range": "± 2374041",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2675448764,
+            "range": "± 120776859",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15347054,
+            "range": "± 232323",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15379149,
+            "range": "± 229804",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 15920943,
+            "range": "± 403786",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20301873,
+            "range": "± 137332",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 56265654,
+            "range": "± 398902",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 326249415,
+            "range": "± 5482534",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2644672384,
+            "range": "± 30794964",
             "unit": "ns/iter"
           }
         ]

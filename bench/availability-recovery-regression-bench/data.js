@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777305717687,
+  "lastUpdate": 1777315985699,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "48632512+s0me0ne-unkn0wn@users.noreply.github.com",
-            "name": "s0me0ne-unkn0wn",
-            "username": "s0me0ne-unkn0wn"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "127c0780e180ab9bdbc8c6f85fe2b20d64b5c094",
-          "message": "Fix Aura authorities tracker bug (#9753)\n\nCurrently, the Aura authorities tracker uses the block pre-hash to\nimport the authorities, but the post-hash to fetch them. That results in\nblock verification failures. A scenario to reproduce the bug is as\nfollows:\n\n* Start a parachain with a single-collator fixed-authority Aura;\n* Upgrade the parachain runtime to include `session` and\n`collator-selection` pallets;\n* Register the collator keys as session keys, then add the collator to\ninvulnerables;\n* Start a second collator, rotate its keys, register them as session\nkeys, and add the second collator to invulnerables;\n* When the second collator is trying to import the block where it's\nenacted as the second Aura authority, it fails the block verification\nand does not import or produce any blocks anymore.\n\nThis PR changes the behavior to importing the authorities using the\nblock post-hash, which fixes the bug.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-17T10:49:04Z",
-          "tree_id": "f6c91c1ca8237f7ad1b92cacd579d0c117d2576b",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/127c0780e180ab9bdbc8c6f85fe2b20d64b5c094"
-        },
-        "date": 1758110374688,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19892373163333338,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.187033898300001,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.12634489153333334,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@kchr.de",
+            "name": "Bastian Köcher",
+            "username": "bkchr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ecdc3a28de64c3014e12354c12191dc4fc24d051",
+          "message": "Polkadot: Increase block size limit on the node side (#11900)\n\nThis pull request increases the block size limit allowed while building\na block. This block size limit is checked on the node side. The ultimate\nauthority about the actual block size limit is the runtime.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Andrei Sandu <54316454+sandreim@users.noreply.github.com>",
+          "timestamp": "2026-04-27T17:33:01Z",
+          "tree_id": "3efed41be4a945617946fd785c6ae1e0504df49a",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/ecdc3a28de64c3014e12354c12191dc4fc24d051"
+        },
+        "date": 1777315962810,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1283968061,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.092112517100002,
             "unit": "seconds"
           }
         ]

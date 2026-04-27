@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777195327188,
+  "lastUpdate": 1777290907460,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "alin@parity.io",
-            "name": "Alin Dima",
-            "username": "alindima"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "a554c92f4aeb908b95c71051cd98e7ba55f2297c",
-          "message": "revive-rpc: use generic RpcClient instead of ReconnectingRpcClient (#9701)\n\nThis will enable more flexible usage of the revive RPC as a library.\n\nNeeded so that we can reuse it with an in-memory RPC client for\nanvil-polkadot:\nhttps://github.com/paritytech/foundry-polkadot/issues/238",
-          "timestamp": "2025-09-16T17:47:47Z",
-          "tree_id": "2c97b0a83c916dba480734b06543f33434c05272",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/a554c92f4aeb908b95c71051cd98e7ba55f2297c"
-        },
-        "date": 1758049368177,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19708401320000005,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.192537464499997,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.1367719807,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "365f8bf834036591a91efae749c72ad40567db94",
+          "message": "statement-store: zombienet integration test for subscription reconnection (#11864)\n\n## Summary\n\nImplement #11534 \"Subscription reconnection\"\n\n- Add `statement_store_subscription_reconnect` Zombienet test that\nverifies reconnecting RPC subscribers receive the full current\nstatement-store state\n- Add `assert_statements_match` helper to `common.rs` for\norder-independent content comparison\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Andrei Eres <eresav@me.com>",
+          "timestamp": "2026-04-27T10:28:30Z",
+          "tree_id": "e475859fcc4db1fff021f4f63e75bb900c5dacde",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/365f8bf834036591a91efae749c72ad40567db94"
+        },
+        "date": 1777290885668,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.025457381966666,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1233123229666667,
             "unit": "seconds"
           }
         ]

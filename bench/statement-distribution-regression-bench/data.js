@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777195421188,
+  "lastUpdate": 1777290999122,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "pgherveou@gmail.com",
-            "name": "PG Herveou",
-            "username": "pgherveou"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "9075dee80e78810c6de1b94afcb147c55a4546a2",
-          "message": "[pallet-revive] fix CodeInfo owner (#9744)\n\nFix CodeInfo owner, it should always be set to the origin of the\ntransaction\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-16T08:46:08Z",
-          "tree_id": "3b78613dc97191bc7b1080dc44d38685bfdb6a1f",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/9075dee80e78810c6de1b94afcb147c55a4546a2"
-        },
-        "date": 1758017101390,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.96599999999995,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04415524503999993,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03428092532,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.03819450552799999,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "365f8bf834036591a91efae749c72ad40567db94",
+          "message": "statement-store: zombienet integration test for subscription reconnection (#11864)\n\n## Summary\n\nImplement #11534 \"Subscription reconnection\"\n\n- Add `statement_store_subscription_reconnect` Zombienet test that\nverifies reconnecting RPC subscribers receive the full current\nstatement-store state\n- Add `assert_statements_match` helper to `common.rs` for\norder-independent content comparison\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Andrei Eres <eresav@me.com>",
+          "timestamp": "2026-04-27T10:28:30Z",
+          "tree_id": "e475859fcc4db1fff021f4f63e75bb900c5dacde",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/365f8bf834036591a91efae749c72ad40567db94"
+        },
+        "date": 1777290976980,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.05200000000002,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08347093265799987,
+            "unit": "seconds"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038310482285999994,
             "unit": "seconds"
           }
         ]

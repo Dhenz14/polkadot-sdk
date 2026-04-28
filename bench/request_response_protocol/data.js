@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777394501664,
+  "lastUpdate": 1777396598635,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -84995,6 +84995,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2525195132,
             "range": "± 81645150",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "73715684+Szegoo@users.noreply.github.com",
+            "name": "Sergej Sakac",
+            "username": "Szegoo"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "94876278e60a2dfca8ae764eb322db0df4ed9cff",
+          "message": "UnionOf: implement metadata traits (#11901)\n\n## Summary\n\n`UnionOf` already implements most fungibles traits, but is missing the\ntwo metadata traits.\n\nThis PR adds `fungibles::metadata::Inspect` and\n`fungibles::metadata::Mutate` impls to both `fungibles::UnionOf` and\n`fungible::UnionOf`. Each dispatches to the `Left` or `Right` backend\nvia the existing `Criterion`.\n\n### Why\n\nPallets that need a unified fungibles surface across two pallet\ninstances (e.g., local `Assets` + `ForeignAssets`) AND metadata access\n(decimals/name/symbol) currently can't use `UnionOf`.\n\nConcrete example: `pallet-psm` requires `T::Fungibles:\nfungibles::metadata::Inspect` for its decimals snapshot logic. Wiring\n`T::Fungibles = UnionOf<Assets, ForeignAssets, ...>` is impossible until\n`UnionOf` itself implements `metadata::Inspect`.\n\nAfter this PR, any pallet that needs metadata-aware fungibles can be\nwired to a `UnionOf` of two pallet-assets instances.\n\n### Implementation\n\nBoth impls follow the same pattern as the existing `Inspect`/`Mutate`\nimpls. Match on `Criterion::convert(asset)` and dispatch to `Left` or\n`Right`.\n\n`metadata::MetadataDeposit` is intentionally left out. Its only method\nhas no `AssetId` parameter, so it can't be dispatched via `Criterion`.\nDoesn't fit the union pattern.\n\n---------\n\nCo-authored-by: muharem <ismailov.m.h@gmail.com>",
+          "timestamp": "2026-04-28T15:56:28Z",
+          "tree_id": "40d1b119507913ed16ffc44af981e144907d7798",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/94876278e60a2dfca8ae764eb322db0df4ed9cff"
+        },
+        "date": 1777396577281,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18393772,
+            "range": "± 147630",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18857646,
+            "range": "± 168168",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20180902,
+            "range": "± 140834",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 25129192,
+            "range": "± 316255",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 61307849,
+            "range": "± 905140",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 368779322,
+            "range": "± 2337488",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2480012837,
+            "range": "± 125178876",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15342632,
+            "range": "± 191921",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15502112,
+            "range": "± 651618",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16222742,
+            "range": "± 259637",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21104753,
+            "range": "± 121684",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 60505071,
+            "range": "± 1354347",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 362934512,
+            "range": "± 5639591",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2752893150,
+            "range": "± 58034304",
             "unit": "ns/iter"
           }
         ]

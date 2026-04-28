@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777372732492,
+  "lastUpdate": 1777380158519,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "mich@elmueller.net",
-            "name": "Michael Müller",
-            "username": "cmichi"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "4331b282ecc6b6e911eadb322c600cbea2c4541a",
-          "message": "[pallet-revive] Migrate various getters to `System` pre-compile (#9517)\n\nPart of closing https://github.com/paritytech/polkadot-sdk/issues/8572.\n\nMigrates:\n* `own_code_hash`\n* `caller_is_origin`\n* `caller_is_root`\n* `weight_left`\n* `minimum_balance`\n\nThere are some minor other fixes in there (removing leftovers from\ndeprecating chain extensions, stabilizing `block_hash` in overlooked\ncrates, etc.).\n\ncc @athei @pgherveou\n\n---------\n\nCo-authored-by: Alexander Theißen <alex.theissen@me.com>",
-          "timestamp": "2025-09-17T00:09:01Z",
-          "tree_id": "a6c0491b75fecea82e7ea14bf44adc568502f847",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/4331b282ecc6b6e911eadb322c600cbea2c4541a"
-        },
-        "date": 1758072487490,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005161172709999991,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.00261264704,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008676851539999988,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.009721022709999997,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c5baad90313e671998e402797370d3b76105b88b",
+          "message": "statement-store: add mass expiration zombienet integration test (#11663)\n\n## Summary\n\nImplement #11534 for Mass expiration.\n\nAdd `statement_store_mass_expiration` zombienet test that verifies the\nstore\ndoes not lose concurrently-arriving submits while `enforce_limits`\ncleans up a\nlarge batch of expired statements. \n\n## What the test covers\n**Fill** – 10 000 ephemeral statements (20 accounts × 500) with a short\nTTL\nare submitted and indexed locally.\n**Verify** – after a grace period, a fresh subscription returns exactly\nthe\n500 persistent statements, proving:\n- all concurrent submits returning `New` are present (no losses under\ncleanup),\n- all 10 000 expired entries were removed from index and DB,\n- no duplicates or stragglers leak through\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-28T10:38:57Z",
+          "tree_id": "69032a02b8ae59f900db077aafd3e6e470543ae2",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/c5baad90313e671998e402797370d3b76105b88b"
+        },
+        "date": 1777380136692,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.00264881205,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.010258746900000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009298423279999985,
             "unit": "seconds"
           }
         ]

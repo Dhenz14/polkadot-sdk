@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777380035298,
+  "lastUpdate": 1777385000234,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "alin@parity.io",
-            "name": "Alin Dima",
-            "username": "alindima"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "ac4a011580bbba60a99afd618f645330380f0fa9",
-          "message": "pallet_revive: add account_id and new_balance_with_dust runtime APIs  (#9683)\n\nNeeded for https://github.com/paritytech/foundry-polkadot/issues/240",
-          "timestamp": "2025-09-18T13:51:57Z",
-          "tree_id": "4729b50f039e96fc95229c9f24579d15bbe80b31",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/ac4a011580bbba60a99afd618f645330380f0fa9"
-        },
-        "date": 1758209512586,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.274176468766663,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19916897633333333,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 11.010021940266668,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "60601340+lexnv@users.noreply.github.com",
+            "name": "Alexandru Vasile",
+            "username": "lexnv"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "77a735ba012ff2de30923ce209cc1ea4e0ace243",
+          "message": "cli: Update list of AH Polkadot relay chain side peers (#11906)\n\nThis PR updates the list of relay chain side peer IDs corresponding to\nthe AH Polkadot collators.\n\nPreviously, the list contained the parachain side peer IDs. This\nbehavior resulted in all collations being held off for 300 ms.\n\nThe peer IDs have been confirmed with their respective node operators.\n\n---------\n\nSigned-off-by: Alexandru Vasile <alexandru.vasile@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-28T12:01:58Z",
+          "tree_id": "6003abc7b636695a7ba55e276cb6d34f55496bbb",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/77a735ba012ff2de30923ce209cc1ea4e0ace243"
+        },
+        "date": 1777384978462,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.185704960533332,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12875208063333332,
             "unit": "seconds"
           }
         ]

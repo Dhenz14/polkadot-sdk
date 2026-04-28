@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777385120804,
+  "lastUpdate": 1777400166462,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "41779041+alvicsam@users.noreply.github.com",
-            "name": "Alexander Samusev",
-            "username": "alvicsam"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "d5bc25b57c300d0477ceb2d53cbbc2e6734da933",
-          "message": "ci: switch tests to new runners (#9757)\n\nPR switches test-linux-stable to new runners.\n\ncc https://github.com/paritytech/devops/issues/3875",
-          "timestamp": "2025-09-17T15:16:53Z",
-          "tree_id": "998eff5e49918d1ba88285293224c20087010e72",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/d5bc25b57c300d0477ceb2d53cbbc2e6734da933"
-        },
-        "date": 1758126355573,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.00264359641,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008675804009999987,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.00517213885999999,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-coordinator",
             "value": 0.00266045919,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "eresav@me.com",
+            "name": "Andrei Eres",
+            "username": "AndreiEres"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "82e8ce499e8e0e55f052e72377f38416f5e2b6d6",
+          "message": "statement-latency-bench: harden failure handling and drop unused sync wait (#10915)\n\nReworks `statement-latency-bench`'s failure handling so a single hung\npeer no longer wedges the whole run, and removes the wall-clock sync\nwait that we no longer need.",
+          "timestamp": "2026-04-28T16:42:54Z",
+          "tree_id": "1f44b12e9c07352a3c43ed3447255addde6df497",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/82e8ce499e8e0e55f052e72377f38416f5e2b6d6"
+        },
+        "date": 1777400144075,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009284869689999987,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.00264463373,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.010071471949999997,
             "unit": "seconds"
           }
         ]

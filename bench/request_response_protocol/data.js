@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777370226605,
+  "lastUpdate": 1777374858635,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -84563,6 +84563,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 3106633924,
             "range": "± 63772877",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "73715684+Szegoo@users.noreply.github.com",
+            "name": "Sergej Sakac",
+            "username": "Szegoo"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "2d3272e36e9883199c5eabaafa54f4e33dc71e4b",
+          "message": "pallet-psm: relax `AssetId` from `Copy` to `Clone` (#11905)\n\n## Summary\n\nRelax the `T::AssetId` bound on `pallet-psm`'s `Config` from `Copy` to\n`Clone`.\n\n### Why\n\n`pallet-psm` currently can't be wired with an `AssetId` that isn't\n`Copy`. The most relevant example is using XCM `Location` as `AssetId`.\n\n### Implementation\n\nNo semantic changes. Only the `Config` bound and ownership at use sites.\n\nFor `AssetId`s that are `Copy` (e.g., `u32`), the `.clone()` calls are\nfree. `Copy` types implement `Clone` trivially. No runtime cost.",
+          "timestamp": "2026-04-28T09:57:47Z",
+          "tree_id": "39363ec565041f4beeb1d32f0e8d20c5476205a1",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/2d3272e36e9883199c5eabaafa54f4e33dc71e4b"
+        },
+        "date": 1777374836441,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18281777,
+            "range": "± 63176",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18601830,
+            "range": "± 219023",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20050034,
+            "range": "± 124138",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24340372,
+            "range": "± 298767",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 58229338,
+            "range": "± 1178907",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 331843305,
+            "range": "± 8912341",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2371891797,
+            "range": "± 58047299",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15287262,
+            "range": "± 199259",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15335907,
+            "range": "± 178207",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 15860745,
+            "range": "± 783500",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20315018,
+            "range": "± 166392",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 55546377,
+            "range": "± 591162",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 316825054,
+            "range": "± 3578474",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2570186461,
+            "range": "± 67741578",
             "unit": "ns/iter"
           }
         ]

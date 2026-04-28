@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777394470089,
+  "lastUpdate": 1777396568725,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "notifications_protocol": [
@@ -152255,6 +152255,198 @@ window.BENCHMARK_DATA = {
             "name": "notifications_protocol/litep2p/with_backpressure/16MB",
             "value": 2293516726,
             "range": "± 24084183",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "73715684+Szegoo@users.noreply.github.com",
+            "name": "Sergej Sakac",
+            "username": "Szegoo"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "94876278e60a2dfca8ae764eb322db0df4ed9cff",
+          "message": "UnionOf: implement metadata traits (#11901)\n\n## Summary\n\n`UnionOf` already implements most fungibles traits, but is missing the\ntwo metadata traits.\n\nThis PR adds `fungibles::metadata::Inspect` and\n`fungibles::metadata::Mutate` impls to both `fungibles::UnionOf` and\n`fungible::UnionOf`. Each dispatches to the `Left` or `Right` backend\nvia the existing `Criterion`.\n\n### Why\n\nPallets that need a unified fungibles surface across two pallet\ninstances (e.g., local `Assets` + `ForeignAssets`) AND metadata access\n(decimals/name/symbol) currently can't use `UnionOf`.\n\nConcrete example: `pallet-psm` requires `T::Fungibles:\nfungibles::metadata::Inspect` for its decimals snapshot logic. Wiring\n`T::Fungibles = UnionOf<Assets, ForeignAssets, ...>` is impossible until\n`UnionOf` itself implements `metadata::Inspect`.\n\nAfter this PR, any pallet that needs metadata-aware fungibles can be\nwired to a `UnionOf` of two pallet-assets instances.\n\n### Implementation\n\nBoth impls follow the same pattern as the existing `Inspect`/`Mutate`\nimpls. Match on `Criterion::convert(asset)` and dispatch to `Left` or\n`Right`.\n\n`metadata::MetadataDeposit` is intentionally left out. Its only method\nhas no `AssetId` parameter, so it can't be dispatched via `Criterion`.\nDoesn't fit the union pattern.\n\n---------\n\nCo-authored-by: muharem <ismailov.m.h@gmail.com>",
+          "timestamp": "2026-04-28T15:56:28Z",
+          "tree_id": "40d1b119507913ed16ffc44af981e144907d7798",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/94876278e60a2dfca8ae764eb322db0df4ed9cff"
+        },
+        "date": 1777396547063,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "notifications_protocol/libp2p/serially/64B",
+            "value": 3896046,
+            "range": "± 43672",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64B",
+            "value": 289053,
+            "range": "± 8061",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/512B",
+            "value": 4033292,
+            "range": "± 106899",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/512B",
+            "value": 371898,
+            "range": "± 6866",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/4KB",
+            "value": 4694536,
+            "range": "± 28961",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/4KB",
+            "value": 886539,
+            "range": "± 10307",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/64KB",
+            "value": 9860711,
+            "range": "± 63438",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64KB",
+            "value": 4787658,
+            "range": "± 116280",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/256KB",
+            "value": 41659157,
+            "range": "± 423464",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/256KB",
+            "value": 35993099,
+            "range": "± 563056",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/2MB",
+            "value": 322094248,
+            "range": "± 2371663",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/2MB",
+            "value": 278592156,
+            "range": "± 2850911",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/16MB",
+            "value": 2448754344,
+            "range": "± 13402539",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/16MB",
+            "value": 2572880095,
+            "range": "± 166426950",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64B",
+            "value": 2979905,
+            "range": "± 17135",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64B",
+            "value": 1523948,
+            "range": "± 42245",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/512B",
+            "value": 3068694,
+            "range": "± 8209",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/512B",
+            "value": 1580617,
+            "range": "± 5281",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/4KB",
+            "value": 3635668,
+            "range": "± 17474",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/4KB",
+            "value": 1913028,
+            "range": "± 15349",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64KB",
+            "value": 7564731,
+            "range": "± 57599",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64KB",
+            "value": 4820355,
+            "range": "± 70615",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/256KB",
+            "value": 33720202,
+            "range": "± 251839",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/256KB",
+            "value": 32836926,
+            "range": "± 274295",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/2MB",
+            "value": 300080204,
+            "range": "± 1621072",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/2MB",
+            "value": 257352267,
+            "range": "± 2436834",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/16MB",
+            "value": 2286778433,
+            "range": "± 17895264",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/16MB",
+            "value": 2162373892,
+            "range": "± 38545814",
             "unit": "ns/iter"
           }
         ]

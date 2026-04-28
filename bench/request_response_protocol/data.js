@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777374858635,
+  "lastUpdate": 1777377947826,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -84671,6 +84671,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2570186461,
             "range": "± 67741578",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c5baad90313e671998e402797370d3b76105b88b",
+          "message": "statement-store: add mass expiration zombienet integration test (#11663)\n\n## Summary\n\nImplement #11534 for Mass expiration.\n\nAdd `statement_store_mass_expiration` zombienet test that verifies the\nstore\ndoes not lose concurrently-arriving submits while `enforce_limits`\ncleans up a\nlarge batch of expired statements. \n\n## What the test covers\n**Fill** – 10 000 ephemeral statements (20 accounts × 500) with a short\nTTL\nare submitted and indexed locally.\n**Verify** – after a grace period, a fresh subscription returns exactly\nthe\n500 persistent statements, proving:\n- all concurrent submits returning `New` are present (no losses under\ncleanup),\n- all 10 000 expired entries were removed from index and DB,\n- no duplicates or stragglers leak through\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-28T10:38:57Z",
+          "tree_id": "69032a02b8ae59f900db077aafd3e6e470543ae2",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/c5baad90313e671998e402797370d3b76105b88b"
+        },
+        "date": 1777377925176,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18110729,
+            "range": "± 64640",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18427819,
+            "range": "± 88202",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 19958261,
+            "range": "± 136006",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24510404,
+            "range": "± 152380",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 57028794,
+            "range": "± 970618",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 336399870,
+            "range": "± 5157503",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2496112865,
+            "range": "± 84888315",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15124000,
+            "range": "± 225846",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15374832,
+            "range": "± 239576",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 15867692,
+            "range": "± 137476",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20216999,
+            "range": "± 202749",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 56267392,
+            "range": "± 818143",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 329184410,
+            "range": "± 4863831",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2733901438,
+            "range": "± 55233319",
             "unit": "ns/iter"
           }
         ]

@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777380158519,
+  "lastUpdate": 1777385120804,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "48632512+s0me0ne-unkn0wn@users.noreply.github.com",
-            "name": "s0me0ne-unkn0wn",
-            "username": "s0me0ne-unkn0wn"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "127c0780e180ab9bdbc8c6f85fe2b20d64b5c094",
-          "message": "Fix Aura authorities tracker bug (#9753)\n\nCurrently, the Aura authorities tracker uses the block pre-hash to\nimport the authorities, but the post-hash to fetch them. That results in\nblock verification failures. A scenario to reproduce the bug is as\nfollows:\n\n* Start a parachain with a single-collator fixed-authority Aura;\n* Upgrade the parachain runtime to include `session` and\n`collator-selection` pallets;\n* Register the collator keys as session keys, then add the collator to\ninvulnerables;\n* Start a second collator, rotate its keys, register them as session\nkeys, and add the second collator to invulnerables;\n* When the second collator is trying to import the block where it's\nenacted as the second Aura authority, it fails the block verification\nand does not import or produce any blocks anymore.\n\nThis PR changes the behavior to importing the authorities using the\nblock post-hash, which fixes the bug.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-17T10:49:04Z",
-          "tree_id": "f6c91c1ca8237f7ad1b92cacd579d0c117d2576b",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/127c0780e180ab9bdbc8c6f85fe2b20d64b5c094"
-        },
-        "date": 1758110484979,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.00892506277999999,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005496750639999994,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0027340042499999994,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-distribution",
             "value": 0.009298423279999985,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "60601340+lexnv@users.noreply.github.com",
+            "name": "Alexandru Vasile",
+            "username": "lexnv"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "77a735ba012ff2de30923ce209cc1ea4e0ace243",
+          "message": "cli: Update list of AH Polkadot relay chain side peers (#11906)\n\nThis PR updates the list of relay chain side peer IDs corresponding to\nthe AH Polkadot collators.\n\nPreviously, the list contained the parachain side peer IDs. This\nbehavior resulted in all collations being held off for 300 ms.\n\nThe peer IDs have been confirmed with their respective node operators.\n\n---------\n\nSigned-off-by: Alexandru Vasile <alexandru.vasile@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-28T12:01:58Z",
+          "tree_id": "6003abc7b636695a7ba55e276cb6d34f55496bbb",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/77a735ba012ff2de30923ce209cc1ea4e0ace243"
+        },
+        "date": 1777385099241,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.00933466793,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009194310619999983,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.00266045919,
             "unit": "seconds"
           }
         ]

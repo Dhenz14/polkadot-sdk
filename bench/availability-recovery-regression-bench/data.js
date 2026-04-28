@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777372614882,
+  "lastUpdate": 1777380035298,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "pgherveou@gmail.com",
-            "name": "PG Herveou",
-            "username": "pgherveou"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "e7f36ab82934a7142f3ebd7f8b5566f12f85339b",
-          "message": "[pallet-revive] fix salt endianness  (#9771)\n\nfix <https://github.com/paritytech/polkadot-sdk/issues/9769>\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-18T13:17:02Z",
-          "tree_id": "06cdab641c5e7d06aab25b71ec5c2053c03f2622",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/e7f36ab82934a7142f3ebd7f8b5566f12f85339b"
-        },
-        "date": 1758205434318,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.20027495426666664,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.436709247400001,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 10.934460692100002,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c5baad90313e671998e402797370d3b76105b88b",
+          "message": "statement-store: add mass expiration zombienet integration test (#11663)\n\n## Summary\n\nImplement #11534 for Mass expiration.\n\nAdd `statement_store_mass_expiration` zombienet test that verifies the\nstore\ndoes not lose concurrently-arriving submits while `enforce_limits`\ncleans up a\nlarge batch of expired statements. \n\n## What the test covers\n**Fill** – 10 000 ephemeral statements (20 accounts × 500) with a short\nTTL\nare submitted and indexed locally.\n**Verify** – after a grace period, a fresh subscription returns exactly\nthe\n500 persistent statements, proving:\n- all concurrent submits returning `New` are present (no losses under\ncleanup),\n- all 10 000 expired entries were removed from index and DB,\n- no duplicates or stragglers leak through\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-28T10:38:57Z",
+          "tree_id": "69032a02b8ae59f900db077aafd3e6e470543ae2",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/c5baad90313e671998e402797370d3b76105b88b"
+        },
+        "date": 1777380013218,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1317543693,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.010021940266668,
             "unit": "seconds"
           }
         ]

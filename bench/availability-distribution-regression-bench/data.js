@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777380066274,
+  "lastUpdate": 1777385030449,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "pgherveou@gmail.com",
-            "name": "PG Herveou",
-            "username": "pgherveou"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "e7f36ab82934a7142f3ebd7f8b5566f12f85339b",
-          "message": "[pallet-revive] fix salt endianness  (#9771)\n\nfix <https://github.com/paritytech/polkadot-sdk/issues/9769>\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-18T13:17:02Z",
-          "tree_id": "06cdab641c5e7d06aab25b71ec5c2053c03f2622",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/e7f36ab82934a7142f3ebd7f8b5566f12f85339b"
-        },
-        "date": 1758205461919,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013225176280000004,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022681100393333334,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007933602939999982,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15805276215333336,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-store",
             "value": 0.14360694610000008,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "60601340+lexnv@users.noreply.github.com",
+            "name": "Alexandru Vasile",
+            "username": "lexnv"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "77a735ba012ff2de30923ce209cc1ea4e0ace243",
+          "message": "cli: Update list of AH Polkadot relay chain side peers (#11906)\n\nThis PR updates the list of relay chain side peer IDs corresponding to\nthe AH Polkadot collators.\n\nPreviously, the list contained the parachain side peer IDs. This\nbehavior resulted in all collations being held off for 300 ms.\n\nThe peer IDs have been confirmed with their respective node operators.\n\n---------\n\nSigned-off-by: Alexandru Vasile <alexandru.vasile@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-28T12:01:58Z",
+          "tree_id": "6003abc7b636695a7ba55e276cb6d34f55496bbb",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/77a735ba012ff2de30923ce209cc1ea4e0ace243"
+        },
+        "date": 1777385009260,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.00965591175333331,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.1457898102866667,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007456311953333333,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.024133076953333336,
             "unit": "seconds"
           }
         ]

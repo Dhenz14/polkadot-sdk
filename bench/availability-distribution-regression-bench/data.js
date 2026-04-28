@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777385030449,
+  "lastUpdate": 1777400073011,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "alin@parity.io",
-            "name": "Alin Dima",
-            "username": "alindima"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "ac4a011580bbba60a99afd618f645330380f0fa9",
-          "message": "pallet_revive: add account_id and new_balance_with_dust runtime APIs  (#9683)\n\nNeeded for https://github.com/paritytech/foundry-polkadot/issues/240",
-          "timestamp": "2025-09-18T13:51:57Z",
-          "tree_id": "4729b50f039e96fc95229c9f24579d15bbe80b31",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/ac4a011580bbba60a99afd618f645330380f0fa9"
-        },
-        "date": 1758209539271,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012973421233333332,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15708480050000004,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022452411513333326,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007575643753333323,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "bitfield-distribution",
             "value": 0.024133076953333336,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "eresav@me.com",
+            "name": "Andrei Eres",
+            "username": "AndreiEres"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "82e8ce499e8e0e55f052e72377f38416f5e2b6d6",
+          "message": "statement-latency-bench: harden failure handling and drop unused sync wait (#10915)\n\nReworks `statement-latency-bench`'s failure handling so a single hung\npeer no longer wedges the whole run, and removes the wall-clock sync\nwait that we no longer need.",
+          "timestamp": "2026-04-28T16:42:54Z",
+          "tree_id": "1f44b12e9c07352a3c43ed3447255addde6df497",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/82e8ce499e8e0e55f052e72377f38416f5e2b6d6"
+        },
+        "date": 1777400050958,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14624520418,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.023994185453333334,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009697743399999985,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007305550793333332,
             "unit": "seconds"
           }
         ]

@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777324873825,
+  "lastUpdate": 1777372614882,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "178801527+raymondkfcheung@users.noreply.github.com",
-            "name": "Raymond Cheung",
-            "username": "raymondkfcheung"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "978b35ebdcb5b02acce935a55a0dd5ef5798220e",
-          "message": "Improve README files (#9760)\n\nThis PR makes it easier for first-time builders to just copy-and-paste\nand fix typos.\n\nRelates to\nhttps://github.com/paritytech/polkadot-sdk-minimal-template/pull/25",
-          "timestamp": "2025-09-17T20:01:25Z",
-          "tree_id": "6ca78419a38b39ac40fdfb0f81044dafdc22f977",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/978b35ebdcb5b02acce935a55a0dd5ef5798220e"
-        },
-        "date": 1758143628227,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.243425712966665,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.1996821662333333,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 11.230489378666666,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "pgherveou@gmail.com",
+            "name": "PG Herveou",
+            "username": "pgherveou"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "7333c29c30e9c95dc0f061712c626db03b067d10",
+          "message": "Add pallet-gas-allowance with ChargePGAS transaction extension (#11818)\n\n## Summary\n\n- Introduces `pallet-pgas-allowance` providing a new `ChargePGAS<T, S>`\ntransaction extension that wraps an inner fee extension `S`.\n- When a signed transaction dispatches a call matching\n`Config::CallFilter` and the signer holds enough PGAS (a trusted asset\non Asset Hub), the fee is withdrawn as a `fungibles::Credit`. In\n`post_dispatch` the `actual_fee` portion is dropped and burned and the\nunused remainder refunded to the payer.\n- A `PGASFeePaid { who, actual_fee }` event is emitted when the fee is\npaid in PGAS.\n- Wires the extension into `asset-hub-westend`.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Alexander Theißen <alex.theissen@me.com>",
+          "timestamp": "2026-04-28T08:45:05Z",
+          "tree_id": "11dd2b4f354287f389088fade03698eabd920b6d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/7333c29c30e9c95dc0f061712c626db03b067d10"
+        },
+        "date": 1777372593758,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13407030763333336,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 10.934460692100002,
             "unit": "seconds"
           }
         ]

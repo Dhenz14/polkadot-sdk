@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777383886360,
+  "lastUpdate": 1777394501664,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -84887,6 +84887,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2517593872,
             "range": "± 25509938",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "ismailov.m.h@gmail.com",
+            "name": "muharem",
+            "username": "muharem"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "c175510a6b4e15ee35a147b5039262135de2d297",
+          "message": "pallet-psm: rename pUSD/stable to internal (#11902)\n\nRenames pallet-psm's \"pUSD\" / \"stable\" vocabulary to a generic\n\"internal\" role, paired with the existing \"external\" terminology, so the\npallet reads as a generic peg stability module rather than one tied to a\nspecific stablecoin.\n\nPublic API changes:\n- `Config::StableAsset` -> `Config::InternalAsset`\n- `StableDecimals` storage -> `InternalDecimals` (not yet released)\n- `AssetDecimals` storage -> `ExternalDecimals` (not yet released)\n- `Event::Minted.pusd_received` -> `received`\n- `Event::Redeemed.pusd_paid` -> `paid`\n- `redeem(.., pusd_amount)` parameter -> `amount`\n\nRuntime impls of `pallet_psm::Config` need to update the associated type\nname; the storage rename is reflected directly in the v1→v2\n`PopulateDecimals` migration (no separate migration needed).\n\nAll internal helpers, locals, comments, mock fixtures and prose are also\nupdated. The module docs and README gain a Terminology section\nexplaining \"Internal\" vs \"External\".",
+          "timestamp": "2026-04-28T14:59:14Z",
+          "tree_id": "0de0665b3e6558674f43dd9374a73d9c4b2bf097",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/c175510a6b4e15ee35a147b5039262135de2d297"
+        },
+        "date": 1777394479667,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18167659,
+            "range": "± 47570",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18473690,
+            "range": "± 88433",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20043723,
+            "range": "± 84735",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24403627,
+            "range": "± 130854",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 57246260,
+            "range": "± 442482",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 335837823,
+            "range": "± 2025790",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2463934039,
+            "range": "± 95750536",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15139111,
+            "range": "± 372361",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15182988,
+            "range": "± 196156",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 15806181,
+            "range": "± 126008",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20246307,
+            "range": "± 148803",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 55748729,
+            "range": "± 437892",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 324604667,
+            "range": "± 2924829",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2525195132,
+            "range": "± 81645150",
             "unit": "ns/iter"
           }
         ]

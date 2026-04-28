@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777385000234,
+  "lastUpdate": 1777400041741,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "paolo@parity.io",
-            "name": "Paolo La Camera",
-            "username": "sigurpol"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "fea33a9dd5e7133c95c5e0496b8e9fd9e215c855",
-          "message": "EPMB: ensure to have enough funds for benchmarking (#9772)\n\nFix `pallet_election_provider_multi_block_signed::register_eject`\nbenchmark failing on KAHM due to `funded_account()` function not\nproviding enough balance to cover the required deposits. See for example\n[here](https://github.com/polkadot-fellows/runtimes/actions/runs/17765363309/job/50487393309?pr=856).\n\nThe fix ensures that benchmark accounts have sufficient funds to cover\nthe worst-case deposit scenario (registration + all pages submission)\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-18T15:59:16Z",
-          "tree_id": "6635fdd80d0b5b15555c2153da6a9decc5e101d5",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/fea33a9dd5e7133c95c5e0496b8e9fd9e215c855"
-        },
-        "date": 1758215608050,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19888236160000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.215010636466666,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.12875208063333332,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "eresav@me.com",
+            "name": "Andrei Eres",
+            "username": "AndreiEres"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "82e8ce499e8e0e55f052e72377f38416f5e2b6d6",
+          "message": "statement-latency-bench: harden failure handling and drop unused sync wait (#10915)\n\nReworks `statement-latency-bench`'s failure handling so a single hung\npeer no longer wedges the whole run, and removes the wall-clock sync\nwait that we no longer need.",
+          "timestamp": "2026-04-28T16:42:54Z",
+          "tree_id": "1f44b12e9c07352a3c43ed3447255addde6df497",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/82e8ce499e8e0e55f052e72377f38416f5e2b6d6"
+        },
+        "date": 1777400019559,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.0231723198,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1293305417666667,
             "unit": "seconds"
           }
         ]

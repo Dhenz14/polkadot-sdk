@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777492740318,
+  "lastUpdate": 1777496023525,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "paolo@parity.io",
-            "name": "Paolo La Camera",
-            "username": "sigurpol"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "f8fc34052efe427fbfbfc835d8b7fedc6cfca567",
-          "message": "Added pallet-root-offences to Westend RC runtime (#9799)\n\nNeeded to let us test a manual slash on Westend relay-chain and see what\nhappens in terms of UI, indexers etc on the revamped [PJS's staking\nasync\npage](https://polkadot.js.org/apps/?rpc=wss%3A%2F%2Fwestend-asset-hub-rpc.polkadot.io#/staking-async)\n🍿\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-22T12:20:09Z",
-          "tree_id": "f6bca1982f09a29e480775565a4b295e9834c5b8",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/f8fc34052efe427fbfbfc835d8b7fedc6cfca567"
-        },
-        "date": 1758547751488,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013100090353333338,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007687996526666668,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022446134533333332,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15806349360666677,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-store",
             "value": 0.14458024696000002,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "bf159da7637c65927c3cf41e3c041e4bee4c5957",
+          "message": "statement-store: add --seed flag for single-account latency probe (#11931)\n\n## Summary \n\nAdds an opt-in `--seed <SURI>` flag to `statement-latency-bench` so the\nbench can run as a latency probe against networks where: \n- statement allowances can't be provisioned through Sudo, and\n- only a single, externally pre-allowanced account is available\n\n## Motivation\nGoal is a daily latency telemetry signal on Paseo People against a real\naccount with a fixed 50-statement / 50 KiB allowance, scheduled hourly\n(1 statement × 1 KiB per run, 24 datapoints/day)\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-29T19:14:14Z",
+          "tree_id": "c8a90d9296c210a0eac523e1ad2e295f880a7e24",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/bf159da7637c65927c3cf41e3c041e4bee4c5957"
+        },
+        "date": 1777496001396,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14422942140000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009698328453333306,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.0069712878400000015,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.023784057339999994,
             "unit": "seconds"
           }
         ]

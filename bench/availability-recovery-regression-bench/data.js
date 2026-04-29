@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777467881639,
+  "lastUpdate": 1777492708248,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "paolo@parity.io",
-            "name": "Paolo La Camera",
-            "username": "sigurpol"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "f8fc34052efe427fbfbfc835d8b7fedc6cfca567",
-          "message": "Added pallet-root-offences to Westend RC runtime (#9799)\n\nNeeded to let us test a manual slash on Westend relay-chain and see what\nhappens in terms of UI, indexers etc on the revamped [PJS's staking\nasync\npage](https://polkadot.js.org/apps/?rpc=wss%3A%2F%2Fwestend-asset-hub-rpc.polkadot.io#/staking-async)\n🍿\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-22T12:20:09Z",
-          "tree_id": "f6bca1982f09a29e480775565a4b295e9834c5b8",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/f8fc34052efe427fbfbfc835d8b7fedc6cfca567"
-        },
-        "date": 1758547725191,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.2562543165,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19597555256666668,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.13829114386666666,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "48632512+s0me0ne-unkn0wn@users.noreply.github.com",
+            "name": "s0me0ne-unkn0wn",
+            "username": "s0me0ne-unkn0wn"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "9af960b35810a3bcdaa220d69431533995dd88a7",
+          "message": "Fix overlay storage root cache bleed (#11918)\n\nCloses #11833\n\n---------\n\nCo-authored-by: Bastian Köcher <git@kchr.de>",
+          "timestamp": "2026-04-29T18:35:22Z",
+          "tree_id": "7f6bbd045bb81ee1f9ef615ce9945efea207a9fa",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/9af960b35810a3bcdaa220d69431533995dd88a7"
+        },
+        "date": 1777492685893,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13074234356666664,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.450438376100003,
             "unit": "seconds"
           }
         ]

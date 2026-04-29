@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777427602798,
+  "lastUpdate": 1777449187746,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "41779041+alvicsam@users.noreply.github.com",
-            "name": "Alexander Samusev",
-            "username": "alvicsam"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "8dd73c42799119a877aa1ad150da372ef209295f",
-          "message": "ci: disable cache for parity-publish actions (#9788)\n\nActions that use parity-publish don't need cache in PR since they only\ninstall the crate. PR disables saving caches for those actions in PR,\nthey'll only consume it from master.\n\ncc https://github.com/paritytech/devops/issues/4317",
-          "timestamp": "2025-09-19T14:30:57Z",
-          "tree_id": "a11ff1a5fb3b24288a9059d4ae2b24e6756493f4",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/8dd73c42799119a877aa1ad150da372ef209295f"
-        },
-        "date": 1758296305358,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.199616682233334,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.202108592,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.1302191669,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "alex.theissen@me.com",
+            "name": "Alexander Theißen",
+            "username": "athei"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "11fc5f040aedeec686e92c301eee75714f9f09a6",
+          "message": "pallet_revive:  Fix dispatch_as_fallback_account (#11839)\n\nWithout this fix we stripped any call filters existing on the origin.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-29T06:30:47Z",
+          "tree_id": "6934922e1dd0b72620fe1d5f0a068419ac491bd7",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/11fc5f040aedeec686e92c301eee75714f9f09a6"
+        },
+        "date": 1777449165501,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 10.950719656400004,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12949375673333335,
             "unit": "seconds"
           }
         ]

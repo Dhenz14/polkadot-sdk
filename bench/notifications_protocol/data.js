@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777491832315,
+  "lastUpdate": 1777493938152,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "notifications_protocol": [
@@ -154175,6 +154175,198 @@ window.BENCHMARK_DATA = {
             "name": "notifications_protocol/litep2p/with_backpressure/16MB",
             "value": 2481361678,
             "range": "± 63346638",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "robertvaneerdewijk@gmail.com",
+            "name": "0xRVE",
+            "username": "0xRVE"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "a47093d5ce7702988d2428722be0b67a1506858a",
+          "message": "[pallet-assets-precompiles] Charge DepositEvent by data length, not topic count (#11912)\n\n## Summary\n\n`deposit_event` in the assets ERC-20 precompile passed `topics.len()`\nfor both the `num_topic` and `len` fields of\n`RuntimeCosts::DepositEvent`. The `len` field is the byte length of the\nevent data payload, so the per-byte data cost was charged against the\ntopic count (always 3 for the ERC-20 events emitted here) instead of the\nactual payload size — undercharging every `Transfer` and `Approval`\nemitted via this precompile by 7,640,746 ref_time and making its\nmetering inconsistent with the EVM `LOG_n` path in `pallet-revive`,\nwhich correctly passes the data byte length.\n\n## Changes\n\n- `substrate/frame/assets/precompiles/src/lib.rs`: pass `data.len()` to\n`RuntimeCosts::DepositEvent { len }`.\n- `substrate/frame/assets/precompiles/src/tests.rs`: add\n`deposit_event_charges_data_byte_length` regression test that asserts a\nprecompile `transfer`'s `weight_consumed` equals `WeightInfo::transfer()\n+ DepositEvent{num_topic: 3, len: 32}.weight()`. Verified to pass with\nthe fix and fail without it (off by exactly the per-byte event-charge\ndelta).\n\n## Test plan\n- [x] Verified the new regression test fails when the bug is\nreintroduced and passes when the fix is in place\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-29T19:12:35Z",
+          "tree_id": "3c9867c0bee17eac6ee506c6da13806710c017ec",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/a47093d5ce7702988d2428722be0b67a1506858a"
+        },
+        "date": 1777493915343,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "notifications_protocol/libp2p/serially/64B",
+            "value": 3988360,
+            "range": "± 35947",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64B",
+            "value": 301209,
+            "range": "± 8920",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/512B",
+            "value": 4080758,
+            "range": "± 32022",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/512B",
+            "value": 377272,
+            "range": "± 3510",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/4KB",
+            "value": 4797770,
+            "range": "± 41734",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/4KB",
+            "value": 910489,
+            "range": "± 41241",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/64KB",
+            "value": 10035473,
+            "range": "± 46376",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64KB",
+            "value": 4828448,
+            "range": "± 152995",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/256KB",
+            "value": 42546631,
+            "range": "± 546403",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/256KB",
+            "value": 35911573,
+            "range": "± 293364",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/2MB",
+            "value": 318851062,
+            "range": "± 3240714",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/2MB",
+            "value": 276030982,
+            "range": "± 1909876",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/16MB",
+            "value": 2487495655,
+            "range": "± 14028962",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/16MB",
+            "value": 2511543442,
+            "range": "± 57869645",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64B",
+            "value": 3036401,
+            "range": "± 33429",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64B",
+            "value": 1588999,
+            "range": "± 8425",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/512B",
+            "value": 3144585,
+            "range": "± 16464",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/512B",
+            "value": 1637523,
+            "range": "± 10569",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/4KB",
+            "value": 3721117,
+            "range": "± 12153",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/4KB",
+            "value": 1961717,
+            "range": "± 55608",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64KB",
+            "value": 7628564,
+            "range": "± 211542",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64KB",
+            "value": 4916117,
+            "range": "± 75322",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/256KB",
+            "value": 34559315,
+            "range": "± 466579",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/256KB",
+            "value": 33367591,
+            "range": "± 202405",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/2MB",
+            "value": 305021871,
+            "range": "± 4587556",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/2MB",
+            "value": 261515169,
+            "range": "± 1761937",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/16MB",
+            "value": 2364948541,
+            "range": "± 38800643",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/16MB",
+            "value": 2173988163,
+            "range": "± 77778176",
             "unit": "ns/iter"
           }
         ]

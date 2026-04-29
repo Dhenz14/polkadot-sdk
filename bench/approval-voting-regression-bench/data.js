@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777421468443,
+  "lastUpdate": 1777427664471,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "paolo@parity.io",
-            "name": "Paolo La Camera",
-            "username": "sigurpol"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "fea33a9dd5e7133c95c5e0496b8e9fd9e215c855",
-          "message": "EPMB: ensure to have enough funds for benchmarking (#9772)\n\nFix `pallet_election_provider_multi_block_signed::register_eject`\nbenchmark failing on KAHM due to `funded_account()` function not\nproviding enough balance to cover the required deposits. See for example\n[here](https://github.com/polkadot-fellows/runtimes/actions/runs/17765363309/job/50487393309?pr=856).\n\nThe fix ensures that benchmark accounts have sufficient funds to cover\nthe worst-case deposit scenario (registration + all pages submission)\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-18T15:59:16Z",
-          "tree_id": "6635fdd80d0b5b15555c2153da6a9decc5e101d5",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/fea33a9dd5e7133c95c5e0496b8e9fd9e215c855"
-        },
-        "date": 1758215662710,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52941.90000000001,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63624.530000000006,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.44231910428999477,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.00002461939,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000025726449999999995,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.00002461939,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.6640146700710305,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.4519282317799975,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000025726449999999995,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4317531779999983,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.4862581535400006,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.194075618959998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005382462770000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.4429797301799985,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9334547584000075,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-distribution/test-environment",
             "value": 0.000022524290000000003,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "ismailov.m.h@gmail.com",
+            "name": "muharem",
+            "username": "muharem"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "29b07cd379f927f0194f721148c403f63d0674d3",
+          "message": "Refactor asset-conversion tx payment fee correction (#11823)\n\nFixes a bug where the `AssetTxFeePaid` event reported an incorrect\n`actual_fee` when paying in the native asset via the asset-conversion\nextension (`asset_id == A::get()`). The returned fee amount was\ndouble-subtracting the refund, under-reporting the fee in the event.\n\nRefactors `SwapAssetAdapter::correct_and_deposit_fee` in\n`pallet-asset-conversion-tx-payment` to handle all edge cases gracefully\nduring post-dispatch fee correction. Adds test coverage for fee\ncorrection paths including account killed, account blocked, pool\ndrained, and native account with no free balance scenarios.",
+          "timestamp": "2026-04-29T00:30:45Z",
+          "tree_id": "ecb619753a8991b7d22a84bffa4e1f9eebde53aa",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/29b07cd379f927f0194f721148c403f63d0674d3"
+        },
+        "date": 1777427642097,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 52943.8,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 63625.27,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.7809828227299986,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.4885573886299963,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.786386521709999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.00002442638,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.8759069246899993,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7738294479499783,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.326354450412792,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.000021423980000000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.56981530603997,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.00002442638,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.8586057904199995,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005546409910000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.000021423980000000002,
             "unit": "seconds"
           }
         ]

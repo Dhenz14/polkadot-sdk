@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777490345905,
+  "lastUpdate": 1777491864000,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -85967,6 +85967,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2730375852,
             "range": "± 34113251",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "48632512+s0me0ne-unkn0wn@users.noreply.github.com",
+            "name": "s0me0ne-unkn0wn",
+            "username": "s0me0ne-unkn0wn"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "9af960b35810a3bcdaa220d69431533995dd88a7",
+          "message": "Fix overlay storage root cache bleed (#11918)\n\nCloses #11833\n\n---------\n\nCo-authored-by: Bastian Köcher <git@kchr.de>",
+          "timestamp": "2026-04-29T18:35:22Z",
+          "tree_id": "7f6bbd045bb81ee1f9ef615ce9945efea207a9fa",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/9af960b35810a3bcdaa220d69431533995dd88a7"
+        },
+        "date": 1777491841674,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 21010078,
+            "range": "± 459987",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 21293894,
+            "range": "± 627373",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 24286531,
+            "range": "± 905187",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 30732288,
+            "range": "± 724562",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 72798454,
+            "range": "± 2019515",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 423148989,
+            "range": "± 16044574",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2908856687,
+            "range": "± 213071652",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 16536854,
+            "range": "± 377741",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 16209584,
+            "range": "± 391104",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 17408083,
+            "range": "± 313716",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 22231253,
+            "range": "± 379289",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 67337358,
+            "range": "± 1132286",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 400379483,
+            "range": "± 6947766",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 3157631088,
+            "range": "± 48931647",
             "unit": "ns/iter"
           }
         ]

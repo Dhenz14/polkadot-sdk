@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777449218335,
+  "lastUpdate": 1777457963914,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "41779041+alvicsam@users.noreply.github.com",
-            "name": "Alexander Samusev",
-            "username": "alvicsam"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "8dd73c42799119a877aa1ad150da372ef209295f",
-          "message": "ci: disable cache for parity-publish actions (#9788)\n\nActions that use parity-publish don't need cache in PR since they only\ninstall the crate. PR disables saving caches for those actions in PR,\nthey'll only consume it from master.\n\ncc https://github.com/paritytech/devops/issues/4317",
-          "timestamp": "2025-09-19T14:30:57Z",
-          "tree_id": "a11ff1a5fb3b24288a9059d4ae2b24e6756493f4",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/8dd73c42799119a877aa1ad150da372ef209295f"
-        },
-        "date": 1758296333117,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.01293905958666667,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022567842186666662,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15736526109333332,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007749444713333316,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-store",
             "value": 0.14433236328666665,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49718502+alexggh@users.noreply.github.com",
+            "name": "Alexandru Gheorghe",
+            "username": "alexggh"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "604a8e8c2f9b0df285eec01b307d0e9ddfc28575",
+          "message": "statement-store: reduce sync burst interval (#11892)\n\n... with a lot of light clients connected the sync interval impacts how\nfast a light client syncs and see the statements of interest, so let's\nreduce the period we check to 10 ms, this shouldn't be affecting other\nflows because the polling is already in a select biased at the end.\n\n---------\n\nSigned-off-by: Alexandru Gheorghe <alexandru.gheorghe@parity.io>",
+          "timestamp": "2026-04-29T08:55:48Z",
+          "tree_id": "e78237f2e0955ea3ba1411db5c1b924cf2ab5d4b",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/604a8e8c2f9b0df285eec01b307d0e9ddfc28575"
+        },
+        "date": 1777457941974,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.00968383045333331,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.1452426899666666,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.023825448613333335,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.006983276653333332,
             "unit": "seconds"
           }
         ]

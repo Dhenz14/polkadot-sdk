@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777427695779,
+  "lastUpdate": 1777449279938,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "alin@parity.io",
-            "name": "Alin Dima",
-            "username": "alindima"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "ac4a011580bbba60a99afd618f645330380f0fa9",
-          "message": "pallet_revive: add account_id and new_balance_with_dust runtime APIs  (#9683)\n\nNeeded for https://github.com/paritytech/foundry-polkadot/issues/240",
-          "timestamp": "2025-09-18T13:51:57Z",
-          "tree_id": "4729b50f039e96fc95229c9f24579d15bbe80b31",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/ac4a011580bbba60a99afd618f645330380f0fa9"
-        },
-        "date": 1758209592148,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 127.95399999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04428545708399996,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.034069993458,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.03831053184600002,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "alex.theissen@me.com",
+            "name": "Alexander Theißen",
+            "username": "athei"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "11fc5f040aedeec686e92c301eee75714f9f09a6",
+          "message": "pallet_revive:  Fix dispatch_as_fallback_account (#11839)\n\nWithout this fix we stripped any call filters existing on the origin.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-29T06:30:47Z",
+          "tree_id": "6934922e1dd0b72620fe1d5f0a068419ac491bd7",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/11fc5f040aedeec686e92c301eee75714f9f09a6"
+        },
+        "date": 1777449257619,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.10999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.03925491366599997,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08042943840199984,
             "unit": "seconds"
           }
         ]

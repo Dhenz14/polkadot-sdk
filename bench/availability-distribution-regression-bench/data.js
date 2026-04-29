@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777421438034,
+  "lastUpdate": 1777427633215,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "41779041+alvicsam@users.noreply.github.com",
-            "name": "Alexander Samusev",
-            "username": "alvicsam"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "83c744990c5fdffb4e24464a4e569b190ebc41d6",
-          "message": "ci: pin all actions version (#9776)\n\nPR pins hash versions for all actions\n\ncc https://github.com/paritytech/devops/issues/4319",
-          "timestamp": "2025-09-19T08:34:57Z",
-          "tree_id": "4df334d77589310708b9afb520197faa98699fbe",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/83c744990c5fdffb4e24464a4e569b190ebc41d6"
-        },
-        "date": 1758275091985,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013176048820000001,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007577302000000001,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15759330942666674,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02240562231333333,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-distribution",
             "value": 0.006940250446666667,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "ismailov.m.h@gmail.com",
+            "name": "muharem",
+            "username": "muharem"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "29b07cd379f927f0194f721148c403f63d0674d3",
+          "message": "Refactor asset-conversion tx payment fee correction (#11823)\n\nFixes a bug where the `AssetTxFeePaid` event reported an incorrect\n`actual_fee` when paying in the native asset via the asset-conversion\nextension (`asset_id == A::get()`). The returned fee amount was\ndouble-subtracting the refund, under-reporting the fee in the event.\n\nRefactors `SwapAssetAdapter::correct_and_deposit_fee` in\n`pallet-asset-conversion-tx-payment` to handle all edge cases gracefully\nduring post-dispatch fee correction. Adds test coverage for fee\ncorrection paths including account killed, account blocked, pool\ndrained, and native account with no free balance scenarios.",
+          "timestamp": "2026-04-29T00:30:45Z",
+          "tree_id": "ecb619753a8991b7d22a84bffa4e1f9eebde53aa",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/29b07cd379f927f0194f721148c403f63d0674d3"
+        },
+        "date": 1777427611218,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.023807267299999994,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14326637822666677,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009564519299999977,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007183119573333333,
             "unit": "seconds"
           }
         ]

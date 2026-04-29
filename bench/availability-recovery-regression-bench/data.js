@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777449187746,
+  "lastUpdate": 1777457933628,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "git@kchr.de",
-            "name": "Bastian Köcher",
-            "username": "bkchr"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "277a26585b3d7e38668d5068d2f10ef39051f5d6",
-          "message": "revive-fixtures: Provide an env variable to disable compilation (#9791)\n\nRight now `pallet-revive-fixtures` is always trying to build the\nfixtures. It requires `solc` and other stuff for compilation. If you are\nnot requiring the fixtures, because you for example only run `cargo\ncheck`, this pull request introduces `SKIP_PALLET_REVIVE_FIXTURES`. When\nthe environment variable is set, the compilation of the fixtures is\nskipped. It will set the fixtures to `None` and they will panic at\nruntime.",
-          "timestamp": "2025-09-21T20:14:43Z",
-          "tree_id": "e407f4c6511f33e46c069dda76a27764fb319064",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/277a26585b3d7e38668d5068d2f10ef39051f5d6"
-        },
-        "date": 1758490035252,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.225369534,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19392319933333335,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.12949375673333335,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49718502+alexggh@users.noreply.github.com",
+            "name": "Alexandru Gheorghe",
+            "username": "alexggh"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "604a8e8c2f9b0df285eec01b307d0e9ddfc28575",
+          "message": "statement-store: reduce sync burst interval (#11892)\n\n... with a lot of light clients connected the sync interval impacts how\nfast a light client syncs and see the statements of interest, so let's\nreduce the period we check to 10 ms, this shouldn't be affecting other\nflows because the polling is already in a select biased at the end.\n\n---------\n\nSigned-off-by: Alexandru Gheorghe <alexandru.gheorghe@parity.io>",
+          "timestamp": "2026-04-29T08:55:48Z",
+          "tree_id": "e78237f2e0955ea3ba1411db5c1b924cf2ab5d4b",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/604a8e8c2f9b0df285eec01b307d0e9ddfc28575"
+        },
+        "date": 1777457911779,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.14392822789999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 10.945206753833336,
             "unit": "seconds"
           }
         ]

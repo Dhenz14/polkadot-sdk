@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777492708248,
+  "lastUpdate": 1777495992745,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "diego2737@gmail.com",
-            "name": "Diego",
-            "username": "dimartiro"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "ef10d5e743475cc8dab36520d4e19c2e924be40a",
-          "message": "Improve inbound_queue::BenchmarkHelper to add more flexibility (#9627)\n\n# Description\n\nImprove the usage of the `inbound_queue::BenchmarkHelper` to decouple\nthe mocks from the benchmark.\nThis change will enable any user to benchmark custom messages since now\nit's harcoded to the register_token_message only\n\n---------\n\nCo-authored-by: Branislav Kontur <bkontur@gmail.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-22T13:56:42Z",
-          "tree_id": "03eaa43c58461bc4a3314b431c7f3dd03366335b",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/ef10d5e743475cc8dab36520d4e19c2e924be40a"
-        },
-        "date": 1758553913169,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.188864569100001,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.1975326533333333,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 11.450438376100003,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "bf159da7637c65927c3cf41e3c041e4bee4c5957",
+          "message": "statement-store: add --seed flag for single-account latency probe (#11931)\n\n## Summary \n\nAdds an opt-in `--seed <SURI>` flag to `statement-latency-bench` so the\nbench can run as a latency probe against networks where: \n- statement allowances can't be provisioned through Sudo, and\n- only a single, externally pre-allowanced account is available\n\n## Motivation\nGoal is a daily latency telemetry signal on Paseo People against a real\naccount with a fixed 50-statement / 50 KiB allowance, scheduled hourly\n(1 statement × 1 KiB per run, 24 datapoints/day)\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-29T19:14:14Z",
+          "tree_id": "c8a90d9296c210a0eac523e1ad2e295f880a7e24",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/bf159da7637c65927c3cf41e3c041e4bee4c5957"
+        },
+        "date": 1777495970352,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13557292456666664,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 10.903903899666664,
             "unit": "seconds"
           }
         ]

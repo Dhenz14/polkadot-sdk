@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777400073011,
+  "lastUpdate": 1777421438034,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "paolo@parity.io",
-            "name": "Paolo La Camera",
-            "username": "sigurpol"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "fea33a9dd5e7133c95c5e0496b8e9fd9e215c855",
-          "message": "EPMB: ensure to have enough funds for benchmarking (#9772)\n\nFix `pallet_election_provider_multi_block_signed::register_eject`\nbenchmark failing on KAHM due to `funded_account()` function not\nproviding enough balance to cover the required deposits. See for example\n[here](https://github.com/polkadot-fellows/runtimes/actions/runs/17765363309/job/50487393309?pr=856).\n\nThe fix ensures that benchmark accounts have sufficient funds to cover\nthe worst-case deposit scenario (registration + all pages submission)\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-18T15:59:16Z",
-          "tree_id": "6635fdd80d0b5b15555c2153da6a9decc5e101d5",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/fea33a9dd5e7133c95c5e0496b8e9fd9e215c855"
-        },
-        "date": 1758215635120,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007253134573333336,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022452385640000013,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15703343543333337,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013110244226666668,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-distribution",
             "value": 0.007305550793333332,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "oliver.tale-yazdi@parity.io",
+            "name": "Oliver Tale-Yazdi",
+            "username": "ggwpez"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "8af5df001111104be59a9f9ec146657a55e9d223",
+          "message": "Small fixes (#11804)\n\n## `pallet-asset-conversion`\n- Changes `Config::LPFee` from `Get<u32>` (tenths-of-a-percent encoding)\nto `Get<Permill>`.\n\n## `frame-system`\n- Extends `Event::CodeUpdated` to include the updated runtime code hash:\n`CodeUpdated { hash }`.\n\n## `pallet-psm`\n- Adds a `try-runtime` `pre_upgrade` guard that checks configured asset\ndecimals before initialization.\n\n## `pallet-balances`\n- Removes a tautological internal assertion in account mutation flow.\n\n## `pallet-tips`\n- Hardens tip payout by returning `NoActiveTippers` when all recorded\ntippers become inactive instead of indexing an empty tip set.\n- Adds a regression test for the `NoActiveTippers` close-path.\n\n---------\n\nSigned-off-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>",
+          "timestamp": "2026-04-28T22:47:42Z",
+          "tree_id": "177d8b612ca22dd4fb7d44fc08009f6de991b372",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/8af5df001111104be59a9f9ec146657a55e9d223"
+        },
+        "date": 1777421416425,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14472958023333338,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009594771353333318,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.02372094499333334,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.006940250446666667,
             "unit": "seconds"
           }
         ]

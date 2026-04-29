@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777457933628,
+  "lastUpdate": 1777465060637,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "robertvaneerdewijk@gmail.com",
-            "name": "0xRVE",
-            "username": "0xRVE"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "36680e6d4e2eea9d552930b247c67d817c48045a",
-          "message": "EIP-3607 added check to make sure a contract account cannot transfer funds as an EOA account (#9717)\n\nfixes https://github.com/paritytech/polkadot-sdk/issues/9570\n\n---------\n\nCo-authored-by: Robert van Eerdewijk <robert@Roberts-MacBook-Pro.local>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Alexander Theißen <alex.theissen@me.com>",
-          "timestamp": "2025-09-22T10:41:37Z",
-          "tree_id": "330a8ca3062285a07970f0d17271f2b69790a7f6",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/36680e6d4e2eea9d552930b247c67d817c48045a"
-        },
-        "date": 1758542154490,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19719044379999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.301010586933337,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 10.945206753833336,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "yrong1997@gmail.com",
+            "name": "Ron",
+            "username": "yrong"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "17140f35f6a598b6ed175f6b1159deddb7474e2e",
+          "message": "Snowbridge: API to Check Inbound Nonce Consumption (#11354)\n\n### Context\n\nAdds a runtime API so off-chain callers can check whether an inbound\nmessage from Ethereum (by nonce) has already been relayed/consumed on\nBridge Hub.",
+          "timestamp": "2026-04-29T10:57:57Z",
+          "tree_id": "f3068a90a05c49352d7091fcef626bcb8feb4a6e",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/17140f35f6a598b6ed175f6b1159deddb7474e2e"
+        },
+        "date": 1777465040121,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12973407316666666,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.0541239412,
             "unit": "seconds"
           }
         ]

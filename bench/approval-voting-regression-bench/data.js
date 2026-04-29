@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777467944929,
+  "lastUpdate": 1777492771328,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "robertvaneerdewijk@gmail.com",
-            "name": "0xRVE",
-            "username": "0xRVE"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "36680e6d4e2eea9d552930b247c67d817c48045a",
-          "message": "EIP-3607 added check to make sure a contract account cannot transfer funds as an EOA account (#9717)\n\nfixes https://github.com/paritytech/polkadot-sdk/issues/9570\n\n---------\n\nCo-authored-by: Robert van Eerdewijk <robert@Roberts-MacBook-Pro.local>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Alexander Theißen <alex.theissen@me.com>",
-          "timestamp": "2025-09-22T10:41:37Z",
-          "tree_id": "330a8ca3062285a07970f0d17271f2b69790a7f6",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/36680e6d4e2eea9d552930b247c67d817c48045a"
-        },
-        "date": 1758542208567,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52942.3,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63634.659999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.000021307980000000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000019927940000000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.4362450878099997,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.43141161198999944,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000019927940000000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.634148004310916,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.000021307980000000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.179807010970004,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.4879149147100006,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.925948812250001,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4405960459099996,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005862792220000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.451827746080002,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting-parallel/approval-voting-parallel-1",
             "value": 2.8172005941999982,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "48632512+s0me0ne-unkn0wn@users.noreply.github.com",
+            "name": "s0me0ne-unkn0wn",
+            "username": "s0me0ne-unkn0wn"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "9af960b35810a3bcdaa220d69431533995dd88a7",
+          "message": "Fix overlay storage root cache bleed (#11918)\n\nCloses #11833\n\n---------\n\nCo-authored-by: Bastian Köcher <git@kchr.de>",
+          "timestamp": "2026-04-29T18:35:22Z",
+          "tree_id": "7f6bbd045bb81ee1f9ef615ce9945efea207a9fa",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/9af960b35810a3bcdaa220d69431533995dd88a7"
+        },
+        "date": 1777492749334,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 52938.7,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 63625.48,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.435895175449975,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.754211016289971,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.477333463620003,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.7665432755700006,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.00002293831,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005532699739999996,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.00002293831,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.76842643966,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.8224327736500014,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.356981706732959,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.00002641103,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.00002641103,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.84141550692,
             "unit": "seconds"
           }
         ]

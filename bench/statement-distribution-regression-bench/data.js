@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777465139642,
+  "lastUpdate": 1777467975624,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "22591718+RomarQ@users.noreply.github.com",
-            "name": "Rodrigo Quelhas",
-            "username": "RomarQ"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "7c2642df6079b4e73d51fc62c41269cb5c288af2",
-          "message": "Use `total balance (free + reserved)` when performing liquidity checks for a new reserve (#8108)\n\n# Description\n\nSolves: https://github.com/paritytech/polkadot-sdk/issues/8099\n\nBased on the documentation and existing code, the usable balance is\ncomputed with the following formula:\n\n```rs\n// If Fortitude == Polite \nlet usable_balance = free - max(frozen - reserved, existential balance)\n```\n\n### The problem:\n\nIf an account's `free balance` is lower than `frozen balance`, no\nreserves will be allowed even though the `usable balance` is enough to\ncover the reserve, resulting in a `LiquidityRestrictions` error, which\nshould not happen.\n\n### Visual example of how `usable/spendable` balance works:  \n```bash\n|__total__________________________________|\n|__on_hold__|_____________free____________|\n|__________frozen___________|\n|__on_hold__|__ed__|\n            |__untouchable__|__spendable__|\n```\n\n## Integration\n\nNo action is required, the changes only change existing code, it does\nnot add or change any API.\n\n## Review Notes\n\nFrom my understanding, the function `ensure_can_withdraw` is incorrect,\nand instead of checking that the new `free` balance is higher or equal\nto the `frozen` balance, it should make sure the `new free` balance is\nhigher or equal to the `usable` balance.\n\n---------\n\nCo-authored-by: Kian Paimani <5588131+kianenigma@users.noreply.github.com>",
-          "timestamp": "2025-09-19T12:17:42Z",
-          "tree_id": "9a637c36dc231e47e6541f3451b8ecc64eefb79f",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/7c2642df6079b4e73d51fc62c41269cb5c288af2"
-        },
-        "date": 1758288985591,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 127.93599999999995,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.034262514376,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04415105762199992,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.03926807137399999,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@kchr.de",
+            "name": "Bastian Köcher",
+            "username": "bkchr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "173b52cc0f84f2926a015ae9ac75af6c12a53a7f",
+          "message": "Update merkle mountain lib (#11922)\n\nUpdates the merkle mountain crate to its latest version.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-29T11:39:17Z",
+          "tree_id": "4af8466aa41db0fe0a6a4424bcbbcb8a77678af8",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/173b52cc0f84f2926a015ae9ac75af6c12a53a7f"
+        },
+        "date": 1777467953504,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.174,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08007788604199996,
+            "unit": "seconds"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.03824016650600001,
             "unit": "seconds"
           }
         ]

@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777421408438,
+  "lastUpdate": 1777427602798,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "22591718+RomarQ@users.noreply.github.com",
-            "name": "Rodrigo Quelhas",
-            "username": "RomarQ"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "7c2642df6079b4e73d51fc62c41269cb5c288af2",
-          "message": "Use `total balance (free + reserved)` when performing liquidity checks for a new reserve (#8108)\n\n# Description\n\nSolves: https://github.com/paritytech/polkadot-sdk/issues/8099\n\nBased on the documentation and existing code, the usable balance is\ncomputed with the following formula:\n\n```rs\n// If Fortitude == Polite \nlet usable_balance = free - max(frozen - reserved, existential balance)\n```\n\n### The problem:\n\nIf an account's `free balance` is lower than `frozen balance`, no\nreserves will be allowed even though the `usable balance` is enough to\ncover the reserve, resulting in a `LiquidityRestrictions` error, which\nshould not happen.\n\n### Visual example of how `usable/spendable` balance works:  \n```bash\n|__total__________________________________|\n|__on_hold__|_____________free____________|\n|__________frozen___________|\n|__on_hold__|__ed__|\n            |__untouchable__|__spendable__|\n```\n\n## Integration\n\nNo action is required, the changes only change existing code, it does\nnot add or change any API.\n\n## Review Notes\n\nFrom my understanding, the function `ensure_can_withdraw` is incorrect,\nand instead of checking that the new `free` balance is higher or equal\nto the `frozen` balance, it should make sure the `new free` balance is\nhigher or equal to the `usable` balance.\n\n---------\n\nCo-authored-by: Kian Paimani <5588131+kianenigma@users.noreply.github.com>",
-          "timestamp": "2025-09-19T12:17:42Z",
-          "tree_id": "9a637c36dc231e47e6541f3451b8ecc64eefb79f",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/7c2642df6079b4e73d51fc62c41269cb5c288af2"
-        },
-        "date": 1758288904155,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.223383789500001,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.20976259633333333,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 11.201291213566668,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "ismailov.m.h@gmail.com",
+            "name": "muharem",
+            "username": "muharem"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "29b07cd379f927f0194f721148c403f63d0674d3",
+          "message": "Refactor asset-conversion tx payment fee correction (#11823)\n\nFixes a bug where the `AssetTxFeePaid` event reported an incorrect\n`actual_fee` when paying in the native asset via the asset-conversion\nextension (`asset_id == A::get()`). The returned fee amount was\ndouble-subtracting the refund, under-reporting the fee in the event.\n\nRefactors `SwapAssetAdapter::correct_and_deposit_fee` in\n`pallet-asset-conversion-tx-payment` to handle all edge cases gracefully\nduring post-dispatch fee correction. Adds test coverage for fee\ncorrection paths including account killed, account blocked, pool\ndrained, and native account with no free balance scenarios.",
+          "timestamp": "2026-04-29T00:30:45Z",
+          "tree_id": "ecb619753a8991b7d22a84bffa4e1f9eebde53aa",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/29b07cd379f927f0194f721148c403f63d0674d3"
+        },
+        "date": 1777427580943,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 10.865729425533333,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1302191669,
             "unit": "seconds"
           }
         ]

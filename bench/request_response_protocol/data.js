@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777457121248,
+  "lastUpdate": 1777464243820,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -85643,6 +85643,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2746427364,
             "range": "± 70011375",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "yrong1997@gmail.com",
+            "name": "Ron",
+            "username": "yrong"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "17140f35f6a598b6ed175f6b1159deddb7474e2e",
+          "message": "Snowbridge: API to Check Inbound Nonce Consumption (#11354)\n\n### Context\n\nAdds a runtime API so off-chain callers can check whether an inbound\nmessage from Ethereum (by nonce) has already been relayed/consumed on\nBridge Hub.",
+          "timestamp": "2026-04-29T10:57:57Z",
+          "tree_id": "f3068a90a05c49352d7091fcef626bcb8feb4a6e",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/17140f35f6a598b6ed175f6b1159deddb7474e2e"
+        },
+        "date": 1777464221315,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18768934,
+            "range": "± 160015",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 19034719,
+            "range": "± 226881",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20403948,
+            "range": "± 156557",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 25199528,
+            "range": "± 264935",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 59443062,
+            "range": "± 1658549",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 345149594,
+            "range": "± 3885531",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2671456182,
+            "range": "± 168266188",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15330473,
+            "range": "± 212245",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15268705,
+            "range": "± 219147",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 15813691,
+            "range": "± 154649",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20541695,
+            "range": "± 186153",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 56275158,
+            "range": "± 397390",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 328675640,
+            "range": "± 3443645",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2669997837,
+            "range": "± 41567996",
             "unit": "ns/iter"
           }
         ]

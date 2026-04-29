@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777492802314,
+  "lastUpdate": 1777496087175,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "git@kchr.de",
-            "name": "Bastian Köcher",
-            "username": "bkchr"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "277a26585b3d7e38668d5068d2f10ef39051f5d6",
-          "message": "revive-fixtures: Provide an env variable to disable compilation (#9791)\n\nRight now `pallet-revive-fixtures` is always trying to build the\nfixtures. It requires `solc` and other stuff for compilation. If you are\nnot requiring the fixtures, because you for example only run `cargo\ncheck`, this pull request introduces `SKIP_PALLET_REVIVE_FIXTURES`. When\nthe environment variable is set, the compilation of the fixtures is\nskipped. It will set the fixtures to `None` and they will panic at\nruntime.",
-          "timestamp": "2025-09-21T20:14:43Z",
-          "tree_id": "e407f4c6511f33e46c069dda76a27764fb319064",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/277a26585b3d7e38668d5068d2f10ef39051f5d6"
-        },
-        "date": 1758490118489,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.96399999999998,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.044340936783999946,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.034310745785999984,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.03871021710999999,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "bf159da7637c65927c3cf41e3c041e4bee4c5957",
+          "message": "statement-store: add --seed flag for single-account latency probe (#11931)\n\n## Summary \n\nAdds an opt-in `--seed <SURI>` flag to `statement-latency-bench` so the\nbench can run as a latency probe against networks where: \n- statement allowances can't be provisioned through Sudo, and\n- only a single, externally pre-allowanced account is available\n\n## Motivation\nGoal is a daily latency telemetry signal on Paseo People against a real\naccount with a fixed 50-statement / 50 KiB allowance, scheduled hourly\n(1 statement × 1 KiB per run, 24 datapoints/day)\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-29T19:14:14Z",
+          "tree_id": "c8a90d9296c210a0eac523e1ad2e295f880a7e24",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/bf159da7637c65927c3cf41e3c041e4bee4c5957"
+        },
+        "date": 1777496064608,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.054,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038272940732,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.07712937158199992,
             "unit": "seconds"
           }
         ]

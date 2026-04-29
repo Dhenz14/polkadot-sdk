@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777466802639,
+  "lastUpdate": 1777490345905,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -85859,6 +85859,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2670841430,
             "range": "± 78325971",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "10196091+Ank4n@users.noreply.github.com",
+            "name": "Ankan",
+            "username": "Ank4n"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "eb8daca9e5a377ed0863262096485ac35d95f405",
+          "message": "[Staking] Rotate era reward pots through a fixed-size pool (#11930)\n\nEra reward pot accounts are now drawn from a fixed pool of\n`POT_POOL_SIZE = 200` accounts, indexed by `era % POT_POOL_SIZE`,\ninstead of one fresh account per era.\n\nThis ensure we only use a fixed size of pot accounts for the lifetime of\nthe chain rather than growing per era.\n\n---------\n\nCo-authored-by: Kian Paimani <5588131+kianenigma@users.noreply.github.com>",
+          "timestamp": "2026-04-29T18:11:17Z",
+          "tree_id": "a32921d2c53bf9394edbcb90a97d46f11b635c41",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/eb8daca9e5a377ed0863262096485ac35d95f405"
+        },
+        "date": 1777490323733,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18533454,
+            "range": "± 120479",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18853751,
+            "range": "± 117446",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20537306,
+            "range": "± 204815",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24861423,
+            "range": "± 406951",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 60951769,
+            "range": "± 2503042",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 366124161,
+            "range": "± 4260972",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2561943179,
+            "range": "± 157735270",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15139734,
+            "range": "± 815046",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15346341,
+            "range": "± 189374",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 15891648,
+            "range": "± 260907",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20427695,
+            "range": "± 271364",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 58622187,
+            "range": "± 753178",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 333385431,
+            "range": "± 4331002",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2730375852,
+            "range": "± 34113251",
             "unit": "ns/iter"
           }
         ]

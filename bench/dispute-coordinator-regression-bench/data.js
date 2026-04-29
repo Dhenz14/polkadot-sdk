@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777468006228,
+  "lastUpdate": 1777492833567,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "41779041+alvicsam@users.noreply.github.com",
-            "name": "Alexander Samusev",
-            "username": "alvicsam"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "8dd73c42799119a877aa1ad150da372ef209295f",
-          "message": "ci: disable cache for parity-publish actions (#9788)\n\nActions that use parity-publish don't need cache in PR since they only\ninstall the crate. PR disables saving caches for those actions in PR,\nthey'll only consume it from master.\n\ncc https://github.com/paritytech/devops/issues/4317",
-          "timestamp": "2025-09-19T14:30:57Z",
-          "tree_id": "a11ff1a5fb3b24288a9059d4ae2b24e6756493f4",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/8dd73c42799119a877aa1ad150da372ef209295f"
-        },
-        "date": 1758296416331,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005225591859999992,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.00260026609,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008628767689999985,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-coordinator",
             "value": 0.002707852619999999,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "48632512+s0me0ne-unkn0wn@users.noreply.github.com",
+            "name": "s0me0ne-unkn0wn",
+            "username": "s0me0ne-unkn0wn"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "9af960b35810a3bcdaa220d69431533995dd88a7",
+          "message": "Fix overlay storage root cache bleed (#11918)\n\nCloses #11833\n\n---------\n\nCo-authored-by: Bastian Köcher <git@kchr.de>",
+          "timestamp": "2026-04-29T18:35:22Z",
+          "tree_id": "7f6bbd045bb81ee1f9ef615ce9945efea207a9fa",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/9af960b35810a3bcdaa220d69431533995dd88a7"
+        },
+        "date": 1777492811111,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009019933309999994,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.00265949475,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009120320459999979,
             "unit": "seconds"
           }
         ]

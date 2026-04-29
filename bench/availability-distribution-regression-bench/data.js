@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777465086489,
+  "lastUpdate": 1777467913168,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "robertvaneerdewijk@gmail.com",
-            "name": "0xRVE",
-            "username": "0xRVE"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "36680e6d4e2eea9d552930b247c67d817c48045a",
-          "message": "EIP-3607 added check to make sure a contract account cannot transfer funds as an EOA account (#9717)\n\nfixes https://github.com/paritytech/polkadot-sdk/issues/9570\n\n---------\n\nCo-authored-by: Robert van Eerdewijk <robert@Roberts-MacBook-Pro.local>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Alexander Theißen <alex.theissen@me.com>",
-          "timestamp": "2025-09-22T10:41:37Z",
-          "tree_id": "330a8ca3062285a07970f0d17271f2b69790a7f6",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/36680e6d4e2eea9d552930b247c67d817c48045a"
-        },
-        "date": 1758542181467,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15809364568000006,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007697056406666689,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013262221006666672,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022685037579999998,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "bitfield-distribution",
             "value": 0.02377011681333334,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@kchr.de",
+            "name": "Bastian Köcher",
+            "username": "bkchr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "173b52cc0f84f2926a015ae9ac75af6c12a53a7f",
+          "message": "Update merkle mountain lib (#11922)\n\nUpdates the merkle mountain crate to its latest version.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-29T11:39:17Z",
+          "tree_id": "4af8466aa41db0fe0a6a4424bcbbcb8a77678af8",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/173b52cc0f84f2926a015ae9ac75af6c12a53a7f"
+        },
+        "date": 1777467890758,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.023859786119999997,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.1454506756266668,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007038562100000001,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.00982552935999998,
             "unit": "seconds"
           }
         ]

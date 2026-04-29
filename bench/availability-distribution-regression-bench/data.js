@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777457963914,
+  "lastUpdate": 1777465086489,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "git@kchr.de",
-            "name": "Bastian Köcher",
-            "username": "bkchr"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "277a26585b3d7e38668d5068d2f10ef39051f5d6",
-          "message": "revive-fixtures: Provide an env variable to disable compilation (#9791)\n\nRight now `pallet-revive-fixtures` is always trying to build the\nfixtures. It requires `solc` and other stuff for compilation. If you are\nnot requiring the fixtures, because you for example only run `cargo\ncheck`, this pull request introduces `SKIP_PALLET_REVIVE_FIXTURES`. When\nthe environment variable is set, the compilation of the fixtures is\nskipped. It will set the fixtures to `None` and they will panic at\nruntime.",
-          "timestamp": "2025-09-21T20:14:43Z",
-          "tree_id": "e407f4c6511f33e46c069dda76a27764fb319064",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/277a26585b3d7e38668d5068d2f10ef39051f5d6"
-        },
-        "date": 1758490063261,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15731286569333336,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022449175659999994,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007459774040000001,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012970043393333332,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-distribution",
             "value": 0.006983276653333332,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "yrong1997@gmail.com",
+            "name": "Ron",
+            "username": "yrong"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "17140f35f6a598b6ed175f6b1159deddb7474e2e",
+          "message": "Snowbridge: API to Check Inbound Nonce Consumption (#11354)\n\n### Context\n\nAdds a runtime API so off-chain callers can check whether an inbound\nmessage from Ethereum (by nonce) has already been relayed/consumed on\nBridge Hub.",
+          "timestamp": "2026-04-29T10:57:57Z",
+          "tree_id": "f3068a90a05c49352d7091fcef626bcb8feb4a6e",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/17140f35f6a598b6ed175f6b1159deddb7474e2e"
+        },
+        "date": 1777465066285,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007164422200000001,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14424435812000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009828939613333308,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.02377011681333334,
             "unit": "seconds"
           }
         ]

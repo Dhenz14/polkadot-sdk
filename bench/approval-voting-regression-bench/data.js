@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777449249487,
+  "lastUpdate": 1777457994359,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "22591718+RomarQ@users.noreply.github.com",
-            "name": "Rodrigo Quelhas",
-            "username": "RomarQ"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "7c2642df6079b4e73d51fc62c41269cb5c288af2",
-          "message": "Use `total balance (free + reserved)` when performing liquidity checks for a new reserve (#8108)\n\n# Description\n\nSolves: https://github.com/paritytech/polkadot-sdk/issues/8099\n\nBased on the documentation and existing code, the usable balance is\ncomputed with the following formula:\n\n```rs\n// If Fortitude == Polite \nlet usable_balance = free - max(frozen - reserved, existential balance)\n```\n\n### The problem:\n\nIf an account's `free balance` is lower than `frozen balance`, no\nreserves will be allowed even though the `usable balance` is enough to\ncover the reserve, resulting in a `LiquidityRestrictions` error, which\nshould not happen.\n\n### Visual example of how `usable/spendable` balance works:  \n```bash\n|__total__________________________________|\n|__on_hold__|_____________free____________|\n|__________frozen___________|\n|__on_hold__|__ed__|\n            |__untouchable__|__spendable__|\n```\n\n## Integration\n\nNo action is required, the changes only change existing code, it does\nnot add or change any API.\n\n## Review Notes\n\nFrom my understanding, the function `ensure_can_withdraw` is incorrect,\nand instead of checking that the new `free` balance is higher or equal\nto the `frozen` balance, it should make sure the `new free` balance is\nhigher or equal to the `usable` balance.\n\n---------\n\nCo-authored-by: Kian Paimani <5588131+kianenigma@users.noreply.github.com>",
-          "timestamp": "2025-09-19T12:17:42Z",
-          "tree_id": "9a637c36dc231e47e6541f3451b8ecc64eefb79f",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/7c2642df6079b4e73d51fc62c41269cb5c288af2"
-        },
-        "date": 1758288958080,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52941.59999999999,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63641.63999999999,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9479377747499833,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.44926499747999804,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.47872945097,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.00002294757,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.00002294757,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.438682110520001,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.7054523511810205,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000020123849999999995,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000020123849999999995,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.448609927410001,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005578957900000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.264283187979986,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.495479968950001,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting-parallel/approval-voting-parallel-2",
             "value": 2.847479383819999,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49718502+alexggh@users.noreply.github.com",
+            "name": "Alexandru Gheorghe",
+            "username": "alexggh"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "604a8e8c2f9b0df285eec01b307d0e9ddfc28575",
+          "message": "statement-store: reduce sync burst interval (#11892)\n\n... with a lot of light clients connected the sync interval impacts how\nfast a light client syncs and see the statements of interest, so let's\nreduce the period we check to 10 ms, this shouldn't be affecting other\nflows because the polling is already in a select biased at the end.\n\n---------\n\nSigned-off-by: Alexandru Gheorghe <alexandru.gheorghe@parity.io>",
+          "timestamp": "2026-04-29T08:55:48Z",
+          "tree_id": "e78237f2e0955ea3ba1411db5c1b924cf2ab5d4b",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/604a8e8c2f9b0df285eec01b307d0e9ddfc28575"
+        },
+        "date": 1777457972598,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 52942.8,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 63644.490000000005,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.772674244949962,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.4745310712899986,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.8243399852399995,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.7873481796900004,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.00001806885,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.50536531221996,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005316192140000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.831128287769999,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.39618961880297,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.00001806885,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.00002006847,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.8100273511399996,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.00002006847,
             "unit": "seconds"
           }
         ]

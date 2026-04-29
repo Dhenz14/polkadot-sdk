@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777427633215,
+  "lastUpdate": 1777449218335,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "22591718+RomarQ@users.noreply.github.com",
-            "name": "Rodrigo Quelhas",
-            "username": "RomarQ"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "7c2642df6079b4e73d51fc62c41269cb5c288af2",
-          "message": "Use `total balance (free + reserved)` when performing liquidity checks for a new reserve (#8108)\n\n# Description\n\nSolves: https://github.com/paritytech/polkadot-sdk/issues/8099\n\nBased on the documentation and existing code, the usable balance is\ncomputed with the following formula:\n\n```rs\n// If Fortitude == Polite \nlet usable_balance = free - max(frozen - reserved, existential balance)\n```\n\n### The problem:\n\nIf an account's `free balance` is lower than `frozen balance`, no\nreserves will be allowed even though the `usable balance` is enough to\ncover the reserve, resulting in a `LiquidityRestrictions` error, which\nshould not happen.\n\n### Visual example of how `usable/spendable` balance works:  \n```bash\n|__total__________________________________|\n|__on_hold__|_____________free____________|\n|__________frozen___________|\n|__on_hold__|__ed__|\n            |__untouchable__|__spendable__|\n```\n\n## Integration\n\nNo action is required, the changes only change existing code, it does\nnot add or change any API.\n\n## Review Notes\n\nFrom my understanding, the function `ensure_can_withdraw` is incorrect,\nand instead of checking that the new `free` balance is higher or equal\nto the `frozen` balance, it should make sure the `new free` balance is\nhigher or equal to the `usable` balance.\n\n---------\n\nCo-authored-by: Kian Paimani <5588131+kianenigma@users.noreply.github.com>",
-          "timestamp": "2025-09-19T12:17:42Z",
-          "tree_id": "9a637c36dc231e47e6541f3451b8ecc64eefb79f",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/7c2642df6079b4e73d51fc62c41269cb5c288af2"
-        },
-        "date": 1758288930707,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022597712693333338,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.16002257729333336,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.00781089361333333,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013170173833333337,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-distribution",
             "value": 0.007183119573333333,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "alex.theissen@me.com",
+            "name": "Alexander Theißen",
+            "username": "athei"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "11fc5f040aedeec686e92c301eee75714f9f09a6",
+          "message": "pallet_revive:  Fix dispatch_as_fallback_account (#11839)\n\nWithout this fix we stripped any call filters existing on the origin.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-29T06:30:47Z",
+          "tree_id": "6934922e1dd0b72620fe1d5f0a068419ac491bd7",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/11fc5f040aedeec686e92c301eee75714f9f09a6"
+        },
+        "date": 1777449196207,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.0071104877400000035,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.023717338913333327,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.00938422675333331,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14433236328666665,
             "unit": "seconds"
           }
         ]

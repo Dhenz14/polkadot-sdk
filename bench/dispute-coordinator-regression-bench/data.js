@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777558676034,
+  "lastUpdate": 1777562043849,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "diego2737@gmail.com",
-            "name": "Diego",
-            "username": "dimartiro"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "ef10d5e743475cc8dab36520d4e19c2e924be40a",
-          "message": "Improve inbound_queue::BenchmarkHelper to add more flexibility (#9627)\n\n# Description\n\nImprove the usage of the `inbound_queue::BenchmarkHelper` to decouple\nthe mocks from the benchmark.\nThis change will enable any user to benchmark custom messages since now\nit's harcoded to the register_token_message only\n\n---------\n\nCo-authored-by: Branislav Kontur <bkontur@gmail.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-22T13:56:42Z",
-          "tree_id": "03eaa43c58461bc4a3314b431c7f3dd03366335b",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/ef10d5e743475cc8dab36520d4e19c2e924be40a"
-        },
-        "date": 1758554022429,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008667895779999994,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005216792989999991,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.00267111725,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.008843857309999998,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4b0b3deed77a6a773262a8af9705c4420a503856",
+          "message": "statement-store: multi-seed mode and per-client channel (#11947)\n\n## Summary  \n\nTwo small changes to `statement-latency-bench` that together unlock\nsingle-account propagation measurement (one allowanced SURI, two\nclients, two RPC endpoints)\n\n- `--seed` is now a comma-separated `Vec<String>`\n- Statement `channel` is now derived from `(client_id, sent_count)` \ninstead of `sent_count` alone, so multi-client runs that share an\non-chain author no longer collide on `(author, channel)` and evict\n     each other's statements before propagation completes",
+          "timestamp": "2026-04-30T13:36:47Z",
+          "tree_id": "f18413dc91ecb159cad59b99017eda184b7cc69b",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/4b0b3deed77a6a773262a8af9705c4420a503856"
+        },
+        "date": 1777562021520,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009419477199999981,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.010467625240000007,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.0026936907800000002,
             "unit": "seconds"
           }
         ]

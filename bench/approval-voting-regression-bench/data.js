@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777558622043,
+  "lastUpdate": 1777561981595,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "paolo@parity.io",
-            "name": "Paolo La Camera",
-            "username": "sigurpol"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "4431e51b0dc638f6bd185c5664dfe49c69d9a8bb",
-          "message": "EPMB: fix benchmark funding for exponential deposit growth (#9787)\n\nFixes funding issues in benchmarks that were failing on Asset Hub Kusama\nwith \"Funds are unavailable\" errors.\n\n\n\nTwo root causes exist:  \n- The `funded_account()` function calculated deposits based on the\ncurrent queue state, but `GeometricDepositBase` leads to exponential\ngrowth: `deposit = base * (1 + increase_factor)^{queue_len}`.\n-  We did not account for transaction fees.  \n\nSolution:  \n- Calculate deposits using the worst-case scenario with the maximum\nqueue size (`T::MaxSubmissions::get()`) to ensure sufficient funding,\nregardless of changes in queue state during benchmark execution.\n- Estimate total transaction fees as 1% of the minimum balance\nmultiplied by the number of operations.\n\n\nThis should provide a more robust fix than\nhttps://github.com/paritytech/polkadot-sdk/pull/9772 and allow to fix\nEPMB on KAHM (see https://github.com/polkadot-fellows/runtimes/pull/916\n- once/if we merge the current PR, we need to backport to `2507`, bump\nEPMB crate and update 916 accordingly)\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-22T18:35:50Z",
-          "tree_id": "684a0dbea8fa9b1df3b27599220bf8ae8083c05d",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/4431e51b0dc638f6bd185c5664dfe49c69d9a8bb"
-        },
-        "date": 1758570380854,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52939.8,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63629.16000000001,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.6600704555606733,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4626230529700015,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.000022316339999999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.00001923658,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9494240828399991,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.497500516,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005889934230000001,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.000022316339999999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.344924357870005,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.44205319151000105,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.00001923658,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.512213967910002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.475219612410002,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-distribution",
             "value": 0.000022143969999999998,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4b0b3deed77a6a773262a8af9705c4420a503856",
+          "message": "statement-store: multi-seed mode and per-client channel (#11947)\n\n## Summary  \n\nTwo small changes to `statement-latency-bench` that together unlock\nsingle-account propagation measurement (one allowanced SURI, two\nclients, two RPC endpoints)\n\n- `--seed` is now a comma-separated `Vec<String>`\n- Statement `channel` is now derived from `(client_id, sent_count)` \ninstead of `sent_count` alone, so multi-client runs that share an\non-chain author no longer collide on `(author, channel)` and evict\n     each other's statements before propagation completes",
+          "timestamp": "2026-04-30T13:36:47Z",
+          "tree_id": "f18413dc91ecb159cad59b99017eda184b7cc69b",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/4b0b3deed77a6a773262a8af9705c4420a503856"
+        },
+        "date": 1777561958944,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 52941.8,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 63634,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.000018733390000000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.4848416636499984,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.000018733390000000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.846477374390002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.9268214026800004,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.628759819239965,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.788239972940001,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.000020063480000000004,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.8188608312700003,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.287694361942739,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7584606108499652,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005057963460000004,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.000020063480000000004,
             "unit": "seconds"
           }
         ]

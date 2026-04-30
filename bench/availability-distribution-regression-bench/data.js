@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777558595688,
+  "lastUpdate": 1777561949504,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "agusrodriguez2456@gmail.com",
-            "name": "Agustín Rodriguez",
-            "username": "Agusrodri"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "a0a3b84738fdaef7f72be79d388f5b87565b2cb4",
-          "message": "Snowbridge V2: Add `OnNewCommitment` hook to outbound-queue pallet (#8053)\n\n## Description\n\nThis PR adds a simple hook to `snowbridge-pallet-outbound-queue-v2`\nwhich allows to perform actions whenever there is a new commitment in\nthis pallet.\n\n---------\n\nCo-authored-by: Adrian Catangiu <adrian@parity.io>",
-          "timestamp": "2025-09-23T09:15:18Z",
-          "tree_id": "fa90e616c701e51e8f667ffa9602104b6fe6f4d7",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/a0a3b84738fdaef7f72be79d388f5b87565b2cb4"
-        },
-        "date": 1758623012521,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02248445766666666,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007425865453333318,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15711051644000007,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.01311669504,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "bitfield-distribution",
             "value": 0.023723237780000007,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4b0b3deed77a6a773262a8af9705c4420a503856",
+          "message": "statement-store: multi-seed mode and per-client channel (#11947)\n\n## Summary  \n\nTwo small changes to `statement-latency-bench` that together unlock\nsingle-account propagation measurement (one allowanced SURI, two\nclients, two RPC endpoints)\n\n- `--seed` is now a comma-separated `Vec<String>`\n- Statement `channel` is now derived from `(client_id, sent_count)` \ninstead of `sent_count` alone, so multi-client runs that share an\non-chain author no longer collide on `(author, channel)` and evict\n     each other's statements before propagation completes",
+          "timestamp": "2026-04-30T13:36:47Z",
+          "tree_id": "f18413dc91ecb159cad59b99017eda184b7cc69b",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/4b0b3deed77a6a773262a8af9705c4420a503856"
+        },
+        "date": 1777561926981,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.1419900962800001,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.023858820226666667,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009750302693333318,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.00708099138,
             "unit": "seconds"
           }
         ]

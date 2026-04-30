@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777553883194,
+  "lastUpdate": 1777557485662,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -86615,6 +86615,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2817103698,
             "range": "± 92517328",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@kchr.de",
+            "name": "Bastian Köcher",
+            "username": "bkchr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "d323e41aeb295d7528b0d89e277359380ed5e8eb",
+          "message": "UncheckedExtrinsic: Improve memory usage (#11908)\n\nImproves the memory usage of the unchecked extrinsic by pre-allocating\nsome buffers and preventing e.g. printing huge calls.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-30T12:49:34Z",
+          "tree_id": "f3c456da97206c9ef25d5b8bed0845e01a849b0e",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/d323e41aeb295d7528b0d89e277359380ed5e8eb"
+        },
+        "date": 1777557463550,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 21097731,
+            "range": "± 449626",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 21664858,
+            "range": "± 354583",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 22404374,
+            "range": "± 257269",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 27132836,
+            "range": "± 517080",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 65844653,
+            "range": "± 865843",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 412366407,
+            "range": "± 8495421",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2729660071,
+            "range": "± 134689135",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 17638935,
+            "range": "± 855019",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 18288340,
+            "range": "± 692952",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 18516885,
+            "range": "± 554865",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 23854563,
+            "range": "± 277903",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 66800748,
+            "range": "± 2005771",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 370180325,
+            "range": "± 23650219",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2672162080,
+            "range": "± 44103923",
             "unit": "ns/iter"
           }
         ]

@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777554870255,
+  "lastUpdate": 1777558595688,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "paolo@parity.io",
-            "name": "Paolo La Camera",
-            "username": "sigurpol"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "4431e51b0dc638f6bd185c5664dfe49c69d9a8bb",
-          "message": "EPMB: fix benchmark funding for exponential deposit growth (#9787)\n\nFixes funding issues in benchmarks that were failing on Asset Hub Kusama\nwith \"Funds are unavailable\" errors.\n\n\n\nTwo root causes exist:  \n- The `funded_account()` function calculated deposits based on the\ncurrent queue state, but `GeometricDepositBase` leads to exponential\ngrowth: `deposit = base * (1 + increase_factor)^{queue_len}`.\n-  We did not account for transaction fees.  \n\nSolution:  \n- Calculate deposits using the worst-case scenario with the maximum\nqueue size (`T::MaxSubmissions::get()`) to ensure sufficient funding,\nregardless of changes in queue state during benchmark execution.\n- Estimate total transaction fees as 1% of the minimum balance\nmultiplied by the number of operations.\n\n\nThis should provide a more robust fix than\nhttps://github.com/paritytech/polkadot-sdk/pull/9772 and allow to fix\nEPMB on KAHM (see https://github.com/polkadot-fellows/runtimes/pull/916\n- once/if we merge the current PR, we need to backport to `2507`, bump\nEPMB crate and update 916 accordingly)\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-22T18:35:50Z",
-          "tree_id": "684a0dbea8fa9b1df3b27599220bf8ae8083c05d",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/4431e51b0dc638f6bd185c5664dfe49c69d9a8bb"
-        },
-        "date": 1758570353578,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02251137385333333,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15719044156000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.01319837171333333,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.00782731567999999,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-store",
             "value": 0.14118379258666675,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@kchr.de",
+            "name": "Bastian Köcher",
+            "username": "bkchr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "d323e41aeb295d7528b0d89e277359380ed5e8eb",
+          "message": "UncheckedExtrinsic: Improve memory usage (#11908)\n\nImproves the memory usage of the unchecked extrinsic by pre-allocating\nsome buffers and preventing e.g. printing huge calls.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-30T12:49:34Z",
+          "tree_id": "f3c456da97206c9ef25d5b8bed0845e01a849b0e",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/d323e41aeb295d7528b0d89e277359380ed5e8eb"
+        },
+        "date": 1777558575136,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.006735758893333335,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009631764159999983,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14140017878000008,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.023723237780000007,
             "unit": "seconds"
           }
         ]

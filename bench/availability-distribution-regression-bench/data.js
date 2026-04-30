@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777496023525,
+  "lastUpdate": 1777548047009,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "diego2737@gmail.com",
-            "name": "Diego",
-            "username": "dimartiro"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "ef10d5e743475cc8dab36520d4e19c2e924be40a",
-          "message": "Improve inbound_queue::BenchmarkHelper to add more flexibility (#9627)\n\n# Description\n\nImprove the usage of the `inbound_queue::BenchmarkHelper` to decouple\nthe mocks from the benchmark.\nThis change will enable any user to benchmark custom messages since now\nit's harcoded to the register_token_message only\n\n---------\n\nCo-authored-by: Branislav Kontur <bkontur@gmail.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-22T13:56:42Z",
-          "tree_id": "03eaa43c58461bc4a3314b431c7f3dd03366335b",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/ef10d5e743475cc8dab36520d4e19c2e924be40a"
-        },
-        "date": 1758553940696,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012861957599999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.1579579353133333,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02240832454666668,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007695606826666676,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "bitfield-distribution",
             "value": 0.023784057339999994,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "ismailov.m.h@gmail.com",
+            "name": "muharem",
+            "username": "muharem"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d41dd688074605dcc0e104f2250473324ab59ec3",
+          "message": "pallet-psm: switch Westend Asset Hub to Location AssetId backed by LocalAndForeignAssets (#11921)\n\nOn Asset Hub Westend, `pallet-psm` is switched from `u32` (trust-backed\nasset id) to `xcm::v5::Location` as its `AssetId`, and from `Assets` to\n`LocalAndForeignAssets` as its `Fungibles`. PSM can now mint and redeem\nagainst both trust-backed and foreign-registered external stablecoins,\naddressed uniformly by `Location`.\n\nStorage migration: every `AssetId`-keyed PSM storage item is encoded\nunder the old `u32` key. The runtime wipes the existing PSM storage with\n`frame_support::migrations::RemovePallet` and re-seeds the pallet from\n`PsmInitialConfig` via `InitializePsm`. USDT (trust-backed asset `1984`)\nis reseeded under its `Location` representation as the first external\nasset.\n\n`pallet-psm`'s `BenchmarkHelper` trait gains a `get_asset_id(index:\nu32)` method so benchmark scenarios can derive a runtime-specific\n`AssetId` (e.g. a `Location`) from a `u32` index. Existing impls need to\nadd this method.",
+          "timestamp": "2026-04-30T09:51:00Z",
+          "tree_id": "eb4a04010530c93b8ba1d6a85bd134c3e8c49815",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/d41dd688074605dcc0e104f2250473324ab59ec3"
+        },
+        "date": 1777548025526,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.006885127146666667,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009960149866666648,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.02411989636,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14612200474666673,
             "unit": "seconds"
           }
         ]

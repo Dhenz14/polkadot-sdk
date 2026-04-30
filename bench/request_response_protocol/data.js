@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777546854732,
+  "lastUpdate": 1777551899482,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -86399,6 +86399,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2714061953,
             "range": "± 50354703",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "mail@skunert.dev",
+            "name": "Sebastian Kunert",
+            "username": "skunert"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "66f66dcb5a77cd940bea7dbaf7045ea5a627fbcf",
+          "message": "Add TransactionStorageApi v2 with `indexed_transactions` function (#11939)\n\nAs discussed yesterday, this bumps TransactionStorageApi to v2 and\noffers the option to query data referenced in the blocks.\n\nIn an ideal world we would have extrinsic index to return per item too,\nbut this is currently not stored in the runtime and I think we can get\naway without it.\n\ncc @bkontur @karolk91\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Branislav Kontur <bkontur@gmail.com>",
+          "timestamp": "2026-04-30T11:15:36Z",
+          "tree_id": "1c61b9e562f1601aee10f8e6166016eaecf830d9",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/66f66dcb5a77cd940bea7dbaf7045ea5a627fbcf"
+        },
+        "date": 1777551876935,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18472637,
+            "range": "± 129137",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18774704,
+            "range": "± 237769",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20205674,
+            "range": "± 85632",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 25124386,
+            "range": "± 517399",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 59321544,
+            "range": "± 1043966",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 346018254,
+            "range": "± 2801808",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2587617162,
+            "range": "± 159470680",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15274040,
+            "range": "± 208712",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15171950,
+            "range": "± 249489",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16132209,
+            "range": "± 205381",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20451430,
+            "range": "± 230870",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 57638903,
+            "range": "± 704129",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 337729043,
+            "range": "± 9855867",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2615031530,
+            "range": "± 47305056",
             "unit": "ns/iter"
           }
         ]

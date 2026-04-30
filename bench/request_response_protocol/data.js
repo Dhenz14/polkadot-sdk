@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777551899482,
+  "lastUpdate": 1777553883194,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -86507,6 +86507,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2615031530,
             "range": "± 47305056",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "142614787+andreitrand@users.noreply.github.com",
+            "name": "Andrei Trandafir",
+            "username": "andreitrand"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "ec9ff80edece3739207e80c41754f532e95cc5bb",
+          "message": "Make the DAP satellite pallet more generic (#11881)\n\nPer [this\ndiscussion](https://www.google.com/url?q=https://github.com/paritytech/polkadot-sdk/pull/11434/changes%23r3073210002&sa=D&source=calendar&ust=1776670486954723&usg=AOvVaw0bpag_qImZt2GCIH1KNcSx)\nwe make the DAP satellite pallet more generic by refactoring it into the\n*Accumulate-and-Forward* pallet.\n\nBecause it is now a general-purpose pallet that pools funds of a\nspecified type into an accumulation account and periodically forwards\nthe contents of the account to a specified destination, it remains under\n`substrate/frame`.\n\nThis is a follow-up to\nhttps://github.com/paritytech/polkadot-sdk/pull/11434)](https://github.com/paritytech/polkadot-sdk/pull/11434.\n\n---------\n\nCo-authored-by: Ankan <10196091+Ank4n@users.noreply.github.com>",
+          "timestamp": "2026-04-30T11:49:41Z",
+          "tree_id": "df7ee4fdc38cd12c3b1eb085ebb168a64574cb56",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/ec9ff80edece3739207e80c41754f532e95cc5bb"
+        },
+        "date": 1777553861674,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 19331862,
+            "range": "± 356726",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 19334363,
+            "range": "± 234233",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20932772,
+            "range": "± 277231",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 25185033,
+            "range": "± 285878",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 62986201,
+            "range": "± 1383028",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 380865597,
+            "range": "± 11839757",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2824618004,
+            "range": "± 252933590",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15497678,
+            "range": "± 246149",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15679735,
+            "range": "± 236500",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16407480,
+            "range": "± 233190",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20756460,
+            "range": "± 165368",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 61252703,
+            "range": "± 970658",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 358713996,
+            "range": "± 6219091",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2817103698,
+            "range": "± 92517328",
             "unit": "ns/iter"
           }
         ]

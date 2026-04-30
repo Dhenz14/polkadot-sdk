@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777554933613,
+  "lastUpdate": 1777558648937,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "paolo@parity.io",
-            "name": "Paolo La Camera",
-            "username": "sigurpol"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "f8fc34052efe427fbfbfc835d8b7fedc6cfca567",
-          "message": "Added pallet-root-offences to Westend RC runtime (#9799)\n\nNeeded to let us test a manual slash on Westend relay-chain and see what\nhappens in terms of UI, indexers etc on the revamped [PJS's staking\nasync\npage](https://polkadot.js.org/apps/?rpc=wss%3A%2F%2Fwestend-asset-hub-rpc.polkadot.io#/staking-async)\n🍿\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-22T12:20:09Z",
-          "tree_id": "f6bca1982f09a29e480775565a4b295e9834c5b8",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/f8fc34052efe427fbfbfc835d8b7fedc6cfca567"
-        },
-        "date": 1758547804648,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.93999999999993,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.044442514787999945,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03420872741799999,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.08061464900999994,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@kchr.de",
+            "name": "Bastian Köcher",
+            "username": "bkchr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "d323e41aeb295d7528b0d89e277359380ed5e8eb",
+          "message": "UncheckedExtrinsic: Improve memory usage (#11908)\n\nImproves the memory usage of the unchecked extrinsic by pre-allocating\nsome buffers and preventing e.g. printing huge calls.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-30T12:49:34Z",
+          "tree_id": "f3c456da97206c9ef25d5b8bed0845e01a849b0e",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/d323e41aeb295d7528b0d89e277359380ed5e8eb"
+        },
+        "date": 1777558628328,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.136,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08375213326199991,
+            "unit": "seconds"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.03825334825,
             "unit": "seconds"
           }
         ]

@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777548106915,
+  "lastUpdate": 1777554933613,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "serban@parity.io",
-            "name": "Serban Iorga",
-            "username": "serban300"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "d97bed091052726f6d1930031ccde53b82ed3c00",
-          "message": "Limit the number of signals per XCMP page (#9781)\n\nRight now we have only 2 XCMP signals: `SuspendChannel` and\n`ResumeChannel` and we can write at most 1 per page.\n\nLet's also add a limit when reading the signals in a page. Even if now 1\nis enough, since in the future we might add more signals, let's have a\nlimit of 3 per page.\n\n---------\n\nCo-authored-by: Branislav Kontur <bkontur@gmail.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-22T11:33:39Z",
-          "tree_id": "c27568598af0505447235dd267fede5622faaa1d",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/d97bed091052726f6d1930031ccde53b82ed3c00"
-        },
-        "date": 1758544986430,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.95199999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03477619267999999,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.044883462153999944,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.08008919236799991,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "142614787+andreitrand@users.noreply.github.com",
+            "name": "Andrei Trandafir",
+            "username": "andreitrand"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "ec9ff80edece3739207e80c41754f532e95cc5bb",
+          "message": "Make the DAP satellite pallet more generic (#11881)\n\nPer [this\ndiscussion](https://www.google.com/url?q=https://github.com/paritytech/polkadot-sdk/pull/11434/changes%23r3073210002&sa=D&source=calendar&ust=1776670486954723&usg=AOvVaw0bpag_qImZt2GCIH1KNcSx)\nwe make the DAP satellite pallet more generic by refactoring it into the\n*Accumulate-and-Forward* pallet.\n\nBecause it is now a general-purpose pallet that pools funds of a\nspecified type into an accumulation account and periodically forwards\nthe contents of the account to a specified destination, it remains under\n`substrate/frame`.\n\nThis is a follow-up to\nhttps://github.com/paritytech/polkadot-sdk/pull/11434)](https://github.com/paritytech/polkadot-sdk/pull/11434.\n\n---------\n\nCo-authored-by: Ankan <10196091+Ank4n@users.noreply.github.com>",
+          "timestamp": "2026-04-30T11:49:41Z",
+          "tree_id": "df7ee4fdc38cd12c3b1eb085ebb168a64574cb56",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/ec9ff80edece3739207e80c41754f532e95cc5bb"
+        },
+        "date": 1777554911589,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.10000000000002,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038706170518,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08061464900999994,
             "unit": "seconds"
           }
         ]

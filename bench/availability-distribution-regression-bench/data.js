@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777548047009,
+  "lastUpdate": 1777554870255,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "evgeny@parity.io",
-            "name": "Evgeny Snitko",
-            "username": "AndWeHaveAPlan"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "7a776bf70efb9f04c6784969dc079476c279656a",
-          "message": "ci-unified image update (#9800)\n\nci-unified v202509220255, updated forklift to 0.14.3\npossible [AWS Deadlock\n#23](https://github.com/paritytech/forklift/issues/23) fix",
-          "timestamp": "2025-09-22T17:40:53Z",
-          "tree_id": "9f775cb83f3cd14a3dbac9424632da185610b445",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/7a776bf70efb9f04c6784969dc079476c279656a"
-        },
-        "date": 1758566713679,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.1572474921733333,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02244152951999999,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013219147100000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.00759393795333332,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-store",
             "value": 0.14612200474666673,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "142614787+andreitrand@users.noreply.github.com",
+            "name": "Andrei Trandafir",
+            "username": "andreitrand"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "ec9ff80edece3739207e80c41754f532e95cc5bb",
+          "message": "Make the DAP satellite pallet more generic (#11881)\n\nPer [this\ndiscussion](https://www.google.com/url?q=https://github.com/paritytech/polkadot-sdk/pull/11434/changes%23r3073210002&sa=D&source=calendar&ust=1776670486954723&usg=AOvVaw0bpag_qImZt2GCIH1KNcSx)\nwe make the DAP satellite pallet more generic by refactoring it into the\n*Accumulate-and-Forward* pallet.\n\nBecause it is now a general-purpose pallet that pools funds of a\nspecified type into an accumulation account and periodically forwards\nthe contents of the account to a specified destination, it remains under\n`substrate/frame`.\n\nThis is a follow-up to\nhttps://github.com/paritytech/polkadot-sdk/pull/11434)](https://github.com/paritytech/polkadot-sdk/pull/11434.\n\n---------\n\nCo-authored-by: Ankan <10196091+Ank4n@users.noreply.github.com>",
+          "timestamp": "2026-04-30T11:49:41Z",
+          "tree_id": "df7ee4fdc38cd12c3b1eb085ebb168a64574cb56",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/ec9ff80edece3739207e80c41754f532e95cc5bb"
+        },
+        "date": 1777554847822,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007235533013333333,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.023671649786666662,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009457126559999968,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14118379258666675,
             "unit": "seconds"
           }
         ]

@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777554837921,
+  "lastUpdate": 1777558568419,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "agusrodriguez2456@gmail.com",
-            "name": "Agustín Rodriguez",
-            "username": "Agusrodri"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "a0a3b84738fdaef7f72be79d388f5b87565b2cb4",
-          "message": "Snowbridge V2: Add `OnNewCommitment` hook to outbound-queue pallet (#8053)\n\n## Description\n\nThis PR adds a simple hook to `snowbridge-pallet-outbound-queue-v2`\nwhich allows to perform actions whenever there is a new commitment in\nthis pallet.\n\n---------\n\nCo-authored-by: Adrian Catangiu <adrian@parity.io>",
-          "timestamp": "2025-09-23T09:15:18Z",
-          "tree_id": "fa90e616c701e51e8f667ffa9602104b6fe6f4d7",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/a0a3b84738fdaef7f72be79d388f5b87565b2cb4"
-        },
-        "date": 1758622985293,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.184118157166669,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19724397109999997,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 11.012414539933332,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@kchr.de",
+            "name": "Bastian Köcher",
+            "username": "bkchr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "d323e41aeb295d7528b0d89e277359380ed5e8eb",
+          "message": "UncheckedExtrinsic: Improve memory usage (#11908)\n\nImproves the memory usage of the unchecked extrinsic by pre-allocating\nsome buffers and preventing e.g. printing huge calls.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-30T12:49:34Z",
+          "tree_id": "f3c456da97206c9ef25d5b8bed0845e01a849b0e",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/d323e41aeb295d7528b0d89e277359380ed5e8eb"
+        },
+        "date": 1777558547924,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13096233293333337,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.143514551333332,
             "unit": "seconds"
           }
         ]

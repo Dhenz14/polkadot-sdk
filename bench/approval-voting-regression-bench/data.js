@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777637689028,
+  "lastUpdate": 1777642000531,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "claravanstaden64@gmail.com",
-            "name": "Clara van Staden",
-            "username": "claravanstaden"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "6875cc0cccbc418f229927baa1490110430f6275",
-          "message": "Snowbridge Inbound Queue V2 relayer tip payout fix (#9746)\n\n# Description\n\nFixes a bug where Snowbridge Inbound V2 tips were not paid out to the\nrelayer.\n\n## Review Notes\n\nAny tips added to a message in the Inbound Queue v2 (Ethereum to\nPolkadot direction), were burned and added to storage, but never paid\nout to the relayer. This PR fixes this bug by adding the tip to the\nrelayer fee.\n\n---------\n\nCo-authored-by: Branislav Kontur <bkontur@gmail.com>",
-          "timestamp": "2025-09-23T13:20:12Z",
-          "tree_id": "ab6a21866ce69b2f099f3ee8b986dc90460d6644",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/6875cc0cccbc418f229927baa1490110430f6275"
-        },
-        "date": 1758637864557,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52942.59999999999,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63632.56999999999,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.45858107455,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.44623344932,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.000021096880000000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.6580583818409877,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.000021096880000000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000019665540000000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000019665540000000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.49259954015,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.947854542149998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.236863657059999,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005547642730000006,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.43212688174999786,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4539205264100015,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
             "value": 0.7948215882599767,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "rohit.sarpotdar@parity.io",
+            "name": "Rohit Sarpotdar",
+            "username": "rosarp"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "98e0271c667a0a32ea4aabd5e4f811f2a1f6171e",
+          "message": "Support multiple `IndexOperation::Renew` calls within a single extrinsic index in `sc-client-db` (#11474)\n\n# Description\n\nCurrently, `apply_index_ops` uses `renewed_map: HashMap<u32, DbHash>`\nwhich means if multiple `Renew` operations target the same extrinsic\nindex, only the last hash survives — earlier ones are silently\noverwritten. This blocks batch-renewal use cases where a single\nmandatory inherent renews multiple previously-stored data items (e.g.\nthe Bulletin chain's `process_auto_renewals` inherent which calls\n`sp_io::transaction_index::renew()` N times within one extrinsic).\n\nThis PR changes `renewed_map` to `HashMap<u32, Vec<DbHash>>` and\nintroduces a new `DbExtrinsic::MultiRenew` variant to correctly store,\nreconstruct, retrieve, and prune blocks containing multi-renewal\nextrinsics.\n\n\n## Integration\n\nDownstream projects using `sc-client-db` that read `BODY_INDEX` data\ndirectly (rather than through the `BlockchainDb` API) will need to\nhandle the new `DbExtrinsic::MultiRenew` variant. Projects using the\nstandard `blockchain.body()`, `blockchain.block_indexed_body()`, or\n`blockchain.indexed_transaction()` APIs require no changes.\n\nSingle-renewal extrinsics continue to produce `DbExtrinsic::Indexed`\n(backwards-compatible). The `MultiRenew` variant is only emitted when 2+\n`Renew` operations share the same extrinsic index.\n\n\n## Review Notes\n\nAll changes are in `substrate/client/db/src/lib.rs`. There are five\nlogical changes:\n\n### 1. New `DbExtrinsic::MultiRenew` variant\n\n```rust\nMultiRenew {\n    hashes: Vec<DbHash>,  // all renewed data hashes\n    header: Vec<u8>,       // full encoded extrinsic for body reconstruction\n}\n```\n\n### 2. `apply_index_ops` — core fix\n\n```diff\n- let mut renewed_map = HashMap::new();\n+ let mut renewed_map: HashMap<u32, Vec<DbHash>> = HashMap::new();\n\n  IndexOperation::Renew { extrinsic, hash } => {\n-     renewed_map.insert(extrinsic, DbHash::from_slice(hash.as_ref()));\n+     renewed_map.entry(extrinsic).or_default().push(DbHash::from_slice(hash.as_ref()));\n  }\n```\n\nWhen building extrinsic entries:\n- **1 hash** → `DbExtrinsic::Indexed` (backwards-compatible, same as\nbefore)\n- **2+ hashes** → `DbExtrinsic::MultiRenew` with ref count bumped for\neach hash\n\n### 3. `body_uncached` — body reconstruction\n\n`MultiRenew`'s `header` contains the full encoded extrinsic (unlike\n`Indexed` where header is partial and joined with indexed data). Decoded\ndirectly via `Block::Extrinsic::decode(&mut &header[..])`.\n\n### 4. `block_indexed_body` — indexed data retrieval\n\nReturns transaction data for **all** hashes in `MultiRenew`, not just a\nsingle hash.\n\n### 5. `prune_block` — ref count release\n\nReleases all hashes in `MultiRenew` when pruning, instead of just the\nsingle hash from `Indexed`.\n\n---------\n\nCo-authored-by: Karol Kokoszka <karol@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Francisco Aguirre <franciscoaguirreperez@gmail.com>\nCo-authored-by: Sebastian Kunert <mail@skunert.dev>",
+          "timestamp": "2026-05-01T12:03:05Z",
+          "tree_id": "10813189ad759aab5ffa2505c8ad3fea131d445e",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/98e0271c667a0a32ea4aabd5e4f811f2a1f6171e"
+        },
+        "date": 1777641978398,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 63623.55,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 52937.3,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.797928883249999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.000021487040000000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.000021487040000000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.00001813398,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.00001813398,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.247804355562767,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.8562736824399995,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.610501968519966,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.8893525545799985,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.813742787349999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7856626096599639,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005078713449999999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.4624627377900055,
             "unit": "seconds"
           }
         ]

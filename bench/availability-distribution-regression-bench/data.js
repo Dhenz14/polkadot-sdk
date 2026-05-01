@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777637657711,
+  "lastUpdate": 1777641968441,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "git@kchr.de",
-            "name": "Bastian Köcher",
-            "username": "bkchr"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "19320f104fc4b5cb6663cffc41f340b6b5239be8",
-          "message": "FRAME: Register `on_initialize` after each pallet (#9756)\n\nBefore this pull request, FRAME was executing all pallets\n`on_initialize` and then register the weight, including the weight of\n`on_runtime_upgrade`. Thus, other pallets were not aware on how much\nweight was already used when they were executing their `on_initialize`\ncode. As some pallets are doing some work in `on_initialize`, they need\nto be aware of how much weight is still left.\nTo register the weight after each `on_initialize` call, a new trait is\nadded. This new trait is implemented for tuples of types that implement\n`OnInitialize` and then it registers the weight after each call to\n`on_initialize`.\n\n`pallet-scheduler` is changed to take the remaining weight into account\nand to not just assume that its configured weight is always available.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-23T17:26:05Z",
-          "tree_id": "329e7d671c7b6beb98933de95fc234552598c017",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/19320f104fc4b5cb6663cffc41f340b6b5239be8"
-        },
-        "date": 1758652573628,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013191487373333333,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15717297593333343,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007693434359999986,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02258196866,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "bitfield-distribution",
             "value": 0.02427216750666666,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "rohit.sarpotdar@parity.io",
+            "name": "Rohit Sarpotdar",
+            "username": "rosarp"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "98e0271c667a0a32ea4aabd5e4f811f2a1f6171e",
+          "message": "Support multiple `IndexOperation::Renew` calls within a single extrinsic index in `sc-client-db` (#11474)\n\n# Description\n\nCurrently, `apply_index_ops` uses `renewed_map: HashMap<u32, DbHash>`\nwhich means if multiple `Renew` operations target the same extrinsic\nindex, only the last hash survives — earlier ones are silently\noverwritten. This blocks batch-renewal use cases where a single\nmandatory inherent renews multiple previously-stored data items (e.g.\nthe Bulletin chain's `process_auto_renewals` inherent which calls\n`sp_io::transaction_index::renew()` N times within one extrinsic).\n\nThis PR changes `renewed_map` to `HashMap<u32, Vec<DbHash>>` and\nintroduces a new `DbExtrinsic::MultiRenew` variant to correctly store,\nreconstruct, retrieve, and prune blocks containing multi-renewal\nextrinsics.\n\n\n## Integration\n\nDownstream projects using `sc-client-db` that read `BODY_INDEX` data\ndirectly (rather than through the `BlockchainDb` API) will need to\nhandle the new `DbExtrinsic::MultiRenew` variant. Projects using the\nstandard `blockchain.body()`, `blockchain.block_indexed_body()`, or\n`blockchain.indexed_transaction()` APIs require no changes.\n\nSingle-renewal extrinsics continue to produce `DbExtrinsic::Indexed`\n(backwards-compatible). The `MultiRenew` variant is only emitted when 2+\n`Renew` operations share the same extrinsic index.\n\n\n## Review Notes\n\nAll changes are in `substrate/client/db/src/lib.rs`. There are five\nlogical changes:\n\n### 1. New `DbExtrinsic::MultiRenew` variant\n\n```rust\nMultiRenew {\n    hashes: Vec<DbHash>,  // all renewed data hashes\n    header: Vec<u8>,       // full encoded extrinsic for body reconstruction\n}\n```\n\n### 2. `apply_index_ops` — core fix\n\n```diff\n- let mut renewed_map = HashMap::new();\n+ let mut renewed_map: HashMap<u32, Vec<DbHash>> = HashMap::new();\n\n  IndexOperation::Renew { extrinsic, hash } => {\n-     renewed_map.insert(extrinsic, DbHash::from_slice(hash.as_ref()));\n+     renewed_map.entry(extrinsic).or_default().push(DbHash::from_slice(hash.as_ref()));\n  }\n```\n\nWhen building extrinsic entries:\n- **1 hash** → `DbExtrinsic::Indexed` (backwards-compatible, same as\nbefore)\n- **2+ hashes** → `DbExtrinsic::MultiRenew` with ref count bumped for\neach hash\n\n### 3. `body_uncached` — body reconstruction\n\n`MultiRenew`'s `header` contains the full encoded extrinsic (unlike\n`Indexed` where header is partial and joined with indexed data). Decoded\ndirectly via `Block::Extrinsic::decode(&mut &header[..])`.\n\n### 4. `block_indexed_body` — indexed data retrieval\n\nReturns transaction data for **all** hashes in `MultiRenew`, not just a\nsingle hash.\n\n### 5. `prune_block` — ref count release\n\nReleases all hashes in `MultiRenew` when pruning, instead of just the\nsingle hash from `Indexed`.\n\n---------\n\nCo-authored-by: Karol Kokoszka <karol@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Francisco Aguirre <franciscoaguirreperez@gmail.com>\nCo-authored-by: Sebastian Kunert <mail@skunert.dev>",
+          "timestamp": "2026-05-01T12:03:05Z",
+          "tree_id": "10813189ad759aab5ffa2505c8ad3fea131d445e",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/98e0271c667a0a32ea4aabd5e4f811f2a1f6171e"
+        },
+        "date": 1777641946517,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.023937467086666667,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14231238042666672,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.0070655553133333335,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.00952963315333331,
             "unit": "seconds"
           }
         ]

@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777595504882,
+  "lastUpdate": 1777635162639,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "paolo@parity.io",
-            "name": "Paolo La Camera",
-            "username": "sigurpol"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "4431e51b0dc638f6bd185c5664dfe49c69d9a8bb",
-          "message": "EPMB: fix benchmark funding for exponential deposit growth (#9787)\n\nFixes funding issues in benchmarks that were failing on Asset Hub Kusama\nwith \"Funds are unavailable\" errors.\n\n\n\nTwo root causes exist:  \n- The `funded_account()` function calculated deposits based on the\ncurrent queue state, but `GeometricDepositBase` leads to exponential\ngrowth: `deposit = base * (1 + increase_factor)^{queue_len}`.\n-  We did not account for transaction fees.  \n\nSolution:  \n- Calculate deposits using the worst-case scenario with the maximum\nqueue size (`T::MaxSubmissions::get()`) to ensure sufficient funding,\nregardless of changes in queue state during benchmark execution.\n- Estimate total transaction fees as 1% of the minimum balance\nmultiplied by the number of operations.\n\n\nThis should provide a more robust fix than\nhttps://github.com/paritytech/polkadot-sdk/pull/9772 and allow to fix\nEPMB on KAHM (see https://github.com/polkadot-fellows/runtimes/pull/916\n- once/if we merge the current PR, we need to backport to `2507`, bump\nEPMB crate and update 916 accordingly)\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-22T18:35:50Z",
-          "tree_id": "684a0dbea8fa9b1df3b27599220bf8ae8083c05d",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/4431e51b0dc638f6bd185c5664dfe49c69d9a8bb"
-        },
-        "date": 1758570435226,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.00879242799999999,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0027157637100000006,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005442487329999998,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-coordinator",
             "value": 0.00267426247,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "pgherveou@gmail.com",
+            "name": "PG Herveou",
+            "username": "pgherveou"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "154e0f5560b5f3dc1a60569aca9e1a232e702fbc",
+          "message": "[revive] pgas as storage deposit (#11847)\n\n## Storage deposits backed by PGAS\n\n> PGAS is a protocol-level gas token or gas allowance mechanism for\nusers verified through Polkadot's Proof of Personhood ecosystem.\n\nThis PR adds a second payment backend for pallet-revive storage\ndeposits: instead of always charging the user in native currency (DOT),\na runtime can opt in to having deposits denominated in **PGAS**.\n\n### What happens to existing storage deposits\n\nOn Asset Hub, the v4 migration swaps each existing DOT storage-deposit\nhold for an equivalent PGAS hold. These historical deposits will be\nrefunded in PGAS, not DOT — pre-PR contributions weren't tracked\nper-contributor, so refunding them as DOT would let users harvest free\nDOT against deposits they never paid. Only `PGasRefundPercent` (a\nruntime constant) is returned to the user; the rest is burned.\n\n**Code-upload deposits are unaffected** — they stay in DOT and are still\nrefunded in DOT when the code is removed.\n\nFor scale: at time of writing, total storage deposits across the 176\nlive contracts on Polkadot Asset Hub are roughly **85 DOT**:\n\n| Bucket | Total (Plancks) | Total (DOT) |\n|---|---|---|\n| `storage_byte_deposit`  | 10,404,800,027   | 1.04 |\n| `storage_item_deposit`  | 225,202,500,027  | 22.52 |\n| `storage_base_deposit`  | 617,172,620,000  | 61.72 |\n| **TOTAL** | **852,779,920,054** | **85.28** |\n\n### New trait: `Deposit`\n\n`substrate/frame/revive/src/deposit_payment.rs`\n\nA new sealed `Deposit<T: Config>` trait abstracts over how storage\ndeposits are charged, held, refunded. It has two implementations\nin-crate:\n\n- **`()`**: the default, charges and refunds the native currency.\nIdentical to the existing pre-PR behavior.\n- **`PGasDeposit<Mutator, Holder, Freezer, Id, RefundPercent>`**: the\nPGAS-backed backend.\n\nThe trait is wired into `Config::Deposit` and called from\n`charge_deposit` / `refund_deposit` in place of the direct `T::Currency`\ncalls that used to live there.\n\n### Account lifecycle: `init_account` / `deinit_account`\n\nThe trait includes `init_account(to)` and `deinit_account(contract)`\nmethods. Rather than transferring the ED from the origin at contract\ncreation (and back to origin on destruction), the EDs are **minted** on\ninit and **burned** on deinit:\n\n### New storage: `NativeDepositOf`\n\n`substrate/frame/revive/src/lib.rs`\n\n```rust\npub(crate) type NativeDepositOf<T: Config> = StorageDoubleMap<\n    _, Identity, T::AccountId,\n    Blake2_128Concat, T::AccountId,\n    BalanceOf<T>, ValueQuery,\n>;\n```\n\nKeyed `(holder_account, user) -> native_amount`. It records how much\n**native currency** a user has contributed to a given account's hold.\nThe holder is either a contract (for storage deposits on contract\naccounts) or the pallet account (for code-upload deposits).\n\nIt exists because in the mixed PGAS/DOT world, a user's refund cap needs\nto be tracked explicitly. The map caps how much of a refund can come\nback as DOT ; anything beyond that is settled in PGAS.\n\n### `PGasDeposit<Mutator, Holder, Freezer, Id, RefundPercent>`\n\n`substrate/frame/revive/src/deposit_payment.rs`\n\nParameterized by five type parameters that the runtime wires up:\n\n- `Mutator: fungibles::Mutate` — the fungibles impl backing PGAS (e.g.\n`pallet-assets`).\n- `Holder: fungibles::MutateHold` — the holds backend (e.g.\n`pallet-assets-holder`).\n- `Freezer: fungibles::freeze::Mutate` — the freezes backend (e.g.\n`pallet-assets-freezer`), used to pin each contract's PGAS ED.\n- `Id: Get<AssetId>` — the PGAS asset id on that fungibles instance.\n- `RefundPercent: Get<Perbill>` — the fraction of PGAS returned on\nrefund/collect; the rest is burned.\n\nCharge semantics:\n- If the user has enough reducible PGAS, the full amount is paid in PGAS\nvia `fungibles::MutateHold::transfer_and_hold`, which emits the\n`TransferOnHold` event. No DOT is touched.\n- Otherwise the charge falls through to DOT, and the contribution is\nrecorded in `NativeDepositOf` so it can be refunded as DOT later.\n\nRefund / collect semantics:\n- DOT is returned first, capped by `NativeDepositOf[holder][user]` (and\nby `Precision::BestEffort` on the actual DOT hold).\n- Any shortfall is taken from the PGAS hold. `RefundPercent` of that\nPGAS is transferred to the user's free balance; the remainder is burned.\n- **Sub-ED refunds**: if the `RefundPercent` portion would land below\nPGAS's ED on the user's account (e.g. the user has no PGAS account and\nthe refund is too small to create one), that portion is folded into the\nburn rather than aborting the whole refund.\n\nThe `RefundPercent` burn is what prevents free-PGAS harvesting: a user\ncan't deposit storage, release it, and walk away with an allowance they\ncan spend on execution.\n\n### Migration (v4)\n\n`substrate/frame/revive/src/migrations/v4.rs`\n\nA three-phase multi-block migration brings live chains over:\n\n- **Phase 1**: record each existing code-upload deposit under\n`NativeDepositOf[pallet_account][owner]` so it can still be refunded in\nDOT.\n- **Phase 2**: flip each contract's storage deposit from DOT to PGAS via\n`Deposit::migrate_native_to_pgas` — mint + freeze the PGAS ED under\n`FreezeReason::PGasMinBalance`, burn the native `StorageDepositReserve`\nhold, re-hold the same amount in PGAS. Needed because pre-PR DOT\ndeposits weren't tracked per-contributor.\n- **Phase 3**: rewrite `DeletionQueue` from `TrieId` to\n`DeletionQueueItem { trie_id, account_id }` so the on-idle sweep can\nalso clear the contract's `NativeDepositOf` rows. Runs on every runtime.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Alexander Theißen <alex.theissen@me.com>\nCo-authored-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>",
+          "timestamp": "2026-05-01T10:01:02Z",
+          "tree_id": "272e8b37989e0e908eec1806b7ece9c68e4b1537",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/154e0f5560b5f3dc1a60569aca9e1a232e702fbc"
+        },
+        "date": 1777635140141,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009718791159999999,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.00268494347,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.00946937727999999,
             "unit": "seconds"
           }
         ]

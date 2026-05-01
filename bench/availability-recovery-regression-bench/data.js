@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777637626290,
+  "lastUpdate": 1777641937417,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "60601340+lexnv@users.noreply.github.com",
-            "name": "Alexandru Vasile",
-            "username": "lexnv"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "7dc67319065b18d4c02b4275e6b071ee59d40635",
-          "message": "network/tests: Increase test timeout to fix flaky CI (#9810)\n\nThis PR bumps the `libp2p_disconnects_litep2p_substream` test timeout\nfrom 5 seconds to 1 minute.\n\nUnder load, the test may not have sufficient time to establish\nconnectivity and complete the test within the allotted time.\n\ncc @paritytech/networking\n\nSigned-off-by: Alexandru Vasile <alexandru.vasile@parity.io>",
-          "timestamp": "2025-09-24T08:25:10Z",
-          "tree_id": "29118a00bcb8d88cbb396a592265e3ebc32d5246",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/7dc67319065b18d4c02b4275e6b071ee59d40635"
-        },
-        "date": 1758707783930,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.193264579733334,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19672370290000002,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.13175198673333333,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "rohit.sarpotdar@parity.io",
+            "name": "Rohit Sarpotdar",
+            "username": "rosarp"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "98e0271c667a0a32ea4aabd5e4f811f2a1f6171e",
+          "message": "Support multiple `IndexOperation::Renew` calls within a single extrinsic index in `sc-client-db` (#11474)\n\n# Description\n\nCurrently, `apply_index_ops` uses `renewed_map: HashMap<u32, DbHash>`\nwhich means if multiple `Renew` operations target the same extrinsic\nindex, only the last hash survives — earlier ones are silently\noverwritten. This blocks batch-renewal use cases where a single\nmandatory inherent renews multiple previously-stored data items (e.g.\nthe Bulletin chain's `process_auto_renewals` inherent which calls\n`sp_io::transaction_index::renew()` N times within one extrinsic).\n\nThis PR changes `renewed_map` to `HashMap<u32, Vec<DbHash>>` and\nintroduces a new `DbExtrinsic::MultiRenew` variant to correctly store,\nreconstruct, retrieve, and prune blocks containing multi-renewal\nextrinsics.\n\n\n## Integration\n\nDownstream projects using `sc-client-db` that read `BODY_INDEX` data\ndirectly (rather than through the `BlockchainDb` API) will need to\nhandle the new `DbExtrinsic::MultiRenew` variant. Projects using the\nstandard `blockchain.body()`, `blockchain.block_indexed_body()`, or\n`blockchain.indexed_transaction()` APIs require no changes.\n\nSingle-renewal extrinsics continue to produce `DbExtrinsic::Indexed`\n(backwards-compatible). The `MultiRenew` variant is only emitted when 2+\n`Renew` operations share the same extrinsic index.\n\n\n## Review Notes\n\nAll changes are in `substrate/client/db/src/lib.rs`. There are five\nlogical changes:\n\n### 1. New `DbExtrinsic::MultiRenew` variant\n\n```rust\nMultiRenew {\n    hashes: Vec<DbHash>,  // all renewed data hashes\n    header: Vec<u8>,       // full encoded extrinsic for body reconstruction\n}\n```\n\n### 2. `apply_index_ops` — core fix\n\n```diff\n- let mut renewed_map = HashMap::new();\n+ let mut renewed_map: HashMap<u32, Vec<DbHash>> = HashMap::new();\n\n  IndexOperation::Renew { extrinsic, hash } => {\n-     renewed_map.insert(extrinsic, DbHash::from_slice(hash.as_ref()));\n+     renewed_map.entry(extrinsic).or_default().push(DbHash::from_slice(hash.as_ref()));\n  }\n```\n\nWhen building extrinsic entries:\n- **1 hash** → `DbExtrinsic::Indexed` (backwards-compatible, same as\nbefore)\n- **2+ hashes** → `DbExtrinsic::MultiRenew` with ref count bumped for\neach hash\n\n### 3. `body_uncached` — body reconstruction\n\n`MultiRenew`'s `header` contains the full encoded extrinsic (unlike\n`Indexed` where header is partial and joined with indexed data). Decoded\ndirectly via `Block::Extrinsic::decode(&mut &header[..])`.\n\n### 4. `block_indexed_body` — indexed data retrieval\n\nReturns transaction data for **all** hashes in `MultiRenew`, not just a\nsingle hash.\n\n### 5. `prune_block` — ref count release\n\nReleases all hashes in `MultiRenew` when pruning, instead of just the\nsingle hash from `Indexed`.\n\n---------\n\nCo-authored-by: Karol Kokoszka <karol@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Francisco Aguirre <franciscoaguirreperez@gmail.com>\nCo-authored-by: Sebastian Kunert <mail@skunert.dev>",
+          "timestamp": "2026-05-01T12:03:05Z",
+          "tree_id": "10813189ad759aab5ffa2505c8ad3fea131d445e",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/98e0271c667a0a32ea4aabd5e4f811f2a1f6171e"
+        },
+        "date": 1777641914840,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13589883149999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.079701788666668,
             "unit": "seconds"
           }
         ]

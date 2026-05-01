@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777642032185,
+  "lastUpdate": 1777656392012,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "48632512+s0me0ne-unkn0wn@users.noreply.github.com",
-            "name": "s0me0ne-unkn0wn",
-            "username": "s0me0ne-unkn0wn"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "143eb77346d6102a80931f600fc9dce1ee1f9e54",
-          "message": "Add collator selection to YAP (#9663)\n\nThis PR adds the collator selection pallet as well as other pallets\nneeded for its functionality to the Yet Another Parachain runtime.\n\nAlong with that, the YAP runtime is a little bit refactored to adopt the\nlatest FRAMEwork changes.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-23T10:34:08Z",
-          "tree_id": "33a4a479609a736a1e1ffc35116059a8e5c4e26f",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/143eb77346d6102a80931f600fc9dce1ee1f9e54"
-        },
-        "date": 1758629049673,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.94999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.044352082063999945,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.034373964757999996,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.0862280718839999,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "45f8331013e6ee2880cf1b4fd22e6676ab14ed23",
+          "message": "Bump WAH spec_version (#11959)",
+          "timestamp": "2026-05-01T16:01:02Z",
+          "tree_id": "76922004ef00887cf6384e4edeb0fe17e10ce938",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/45f8331013e6ee2880cf1b4fd22e6676ab14ed23"
+        },
+        "date": 1777656369746,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.12600000000003,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08091442491199995,
+            "unit": "seconds"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038362711814,
             "unit": "seconds"
           }
         ]

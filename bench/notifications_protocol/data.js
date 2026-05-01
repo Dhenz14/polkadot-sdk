@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777560959015,
+  "lastUpdate": 1777594690401,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "notifications_protocol": [
@@ -155519,6 +155519,198 @@ window.BENCHMARK_DATA = {
             "name": "notifications_protocol/litep2p/with_backpressure/16MB",
             "value": 2368829327,
             "range": "± 155290540",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "oliver.tale-yazdi@parity.io",
+            "name": "Oliver Tale-Yazdi",
+            "username": "ggwpez"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1d65ee942a42bd25836c1d63aa56afe1d77d9045",
+          "message": "Recovery pallet modernization (#10482)\n\n# Recovery Pallet\n\nPallet Recovery allows you to have friends or family recover access to\nyour account if you lose\n your seed phrase or private key.\n\n ## Terminology\n\n- `lost`: An account that has lost access to its private key and needs\nto be recovered.\n - `friend`: A befriended account that can approve a recovery process.\n - `initiator`: An account that initiated a recovery attempt.\n - `recovered`: An account that has been successfully recovered.\n- `inheritor`: An account that is inheriting access to a lost account\nafter recovery.\n - `attempt`: An attempt to recover a lost account by an initiator.\n - `order`: The level of trust that an account has in a friend group.\n- `deposit`: The amount that a friends of this group needs to reserve to\ninitiate an attempt.\n - `threshold`: The number of friends that need to approve an attempt.\n- `inheritance delay`: How long an attempt will be delayed before it can\nsucceed.\n- `provided block`: The blocks that are *provided* by the\n`T::BlockNumberProvider`.\n\n ## Scenario: Recovering a lost account\n\nStory of how the user Alice loses access and is recovered by her\nfriends.\n\n1. Alice uses the recovery pallet to configure one or more friends\ngroups:\n- Alice picks a suitable `inheritor` account that will inherit the\naccess to her account for\n     each friend group. This could be a multisig.\n   - Alice configures all groups with via `set_friend_groups`.\n 2. Alice loses access to her account and becomes a `lost` account.\n3. Any member (aka `initiator`) of Alice's friend groups become aware of\nthe situation and\n    starts a recovery `attempt` via `initiate_attempt`.\n4. The friend group self-organizes and one-by-one approve the ongoing\nattempt via\n    `approve_attempt`.\n5. Exactly `threshold` friends approve the attempt (further approvals\nwill fail since they are\n    useless).\n6. Any account finishes the attempt via `finish_attempt` after at least\n*inheritance delay*\n    blocks since the initiation have passed.\n7. Alice's account is now officially `recovered` and accessible by the\n`inheritor` account.\n8. The `inheritor` may call `control_inherited_account` at any point to\ntransfer Alice's funds\n    to her new account.\n\n ## Scenario: Multiple friend group try to recover an account\n\nAlice may have configured multiple friend groups that all try to recover\nher account at the same\ntime. This can lead to a conflict of which friend group should\neventually inherit the access.\n\n1. Alice configures groups *Family* (delay 10d, order 0) and *Friends*\n(delay 20d, order 1).\n 1. Day 0: Alice loses access to her account.\n 1. Day 6: *Friends* initiate a recovery attempt for Alice.\n1. Day 15: *Family* finally understands Polkadot and initiates an\nattempt as well.\n 1. Day 25: *Family* inherits access to Alice account.\n1. Day 26: *Friends* group gets nothing since inheritance order is\nhigher the one from *Family*.\n\nIn the case above you see how the *Friends* group is now unable to\nrecover Alice account since\n the *Family* group already did it and has a lower inheritance order.  \nNow, imagine the case that the *Friends* group would have started on day\n4 and would have\nalready recovered the account on day 24. Two days later, the *Family*\ngroup can take access back\nand will replace the inheritor account with their own. The *Friends*\ngroup had access for two\n days since they were faster.  \nIf Alice account has most balance locked in 28 day staking this would\nnot make a big difference,\n since only the free balance would be immediately transferable.\n\nAfter a recovery attempt was completed, friend groups with a higher\ninheritance order cannot\n open a new attempt to recover the account.\n\n ## Data Structures\n\nThe pallet has three storage items, see the in-code docs\n[`FriendGroups`], [`Attempts`] and\n[`Inheritor`]. Storage items may contain deposit \"tickets\" or similar\nnoise and should therefore\n not be read directly but only through the API.\n\n ## API\n\n *Reading* data can be done through the view functions:\n\n- `provided_block_number`: The block number that will be used to measure\ntime.\n- `friend_groups`: The friend groups of an account that can initiate\nrecovery attempts.\n - `attempts`: Ongoing recovery attempts for a lost account.\n- `inheritor`: The account that inherited full access to the lost\naccount.\n- `inheritance`: All the recovered accounts that an account inherited\naccess to.\n\n## TODO\n\n- [x] Create migration from old format for Kusama\n- [ ] Weights\n\n---------\n\nSigned-off-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>\nCo-authored-by: claravanstaden <claravanstaden64@gmail.com>\nCo-authored-by: Alexandre R. Baldé <alexandre.balde@parity.io>",
+          "timestamp": "2026-04-30T23:07:53Z",
+          "tree_id": "2efea1b77f4dd4d639f2a0cfea7bdbe0061b8786",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/1d65ee942a42bd25836c1d63aa56afe1d77d9045"
+        },
+        "date": 1777594646696,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "notifications_protocol/libp2p/serially/64B",
+            "value": 4203205,
+            "range": "± 67670",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64B",
+            "value": 319010,
+            "range": "± 6785",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/512B",
+            "value": 4278854,
+            "range": "± 73509",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/512B",
+            "value": 398505,
+            "range": "± 10891",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/4KB",
+            "value": 4963777,
+            "range": "± 71194",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/4KB",
+            "value": 1002860,
+            "range": "± 17101",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/64KB",
+            "value": 11042156,
+            "range": "± 166523",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64KB",
+            "value": 5544643,
+            "range": "± 95563",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/256KB",
+            "value": 50332409,
+            "range": "± 1151449",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/256KB",
+            "value": 41444165,
+            "range": "± 742913",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/2MB",
+            "value": 373838879,
+            "range": "± 4616591",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/2MB",
+            "value": 308184988,
+            "range": "± 11308512",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/16MB",
+            "value": 2706571440,
+            "range": "± 34760756",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/16MB",
+            "value": 2880195734,
+            "range": "± 136893778",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64B",
+            "value": 3273461,
+            "range": "± 93773",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64B",
+            "value": 1629536,
+            "range": "± 20085",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/512B",
+            "value": 3278444,
+            "range": "± 66812",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/512B",
+            "value": 1687762,
+            "range": "± 16445",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/4KB",
+            "value": 4350336,
+            "range": "± 59451",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/4KB",
+            "value": 2120563,
+            "range": "± 19856",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64KB",
+            "value": 8538917,
+            "range": "± 128066",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64KB",
+            "value": 5396732,
+            "range": "± 61239",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/256KB",
+            "value": 37523330,
+            "range": "± 1844200",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/256KB",
+            "value": 37800033,
+            "range": "± 813959",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/2MB",
+            "value": 346654134,
+            "range": "± 4286634",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/2MB",
+            "value": 291625449,
+            "range": "± 2290549",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/16MB",
+            "value": 2623344835,
+            "range": "± 57067628",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/16MB",
+            "value": 2390658580,
+            "range": "± 76755254",
             "unit": "ns/iter"
           }
         ]

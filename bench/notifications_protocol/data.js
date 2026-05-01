@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777594690401,
+  "lastUpdate": 1777634173860,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "notifications_protocol": [
@@ -155711,6 +155711,198 @@ window.BENCHMARK_DATA = {
             "name": "notifications_protocol/litep2p/with_backpressure/16MB",
             "value": 2390658580,
             "range": "± 76755254",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "pgherveou@gmail.com",
+            "name": "PG Herveou",
+            "username": "pgherveou"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "154e0f5560b5f3dc1a60569aca9e1a232e702fbc",
+          "message": "[revive] pgas as storage deposit (#11847)\n\n## Storage deposits backed by PGAS\n\n> PGAS is a protocol-level gas token or gas allowance mechanism for\nusers verified through Polkadot's Proof of Personhood ecosystem.\n\nThis PR adds a second payment backend for pallet-revive storage\ndeposits: instead of always charging the user in native currency (DOT),\na runtime can opt in to having deposits denominated in **PGAS**.\n\n### What happens to existing storage deposits\n\nOn Asset Hub, the v4 migration swaps each existing DOT storage-deposit\nhold for an equivalent PGAS hold. These historical deposits will be\nrefunded in PGAS, not DOT — pre-PR contributions weren't tracked\nper-contributor, so refunding them as DOT would let users harvest free\nDOT against deposits they never paid. Only `PGasRefundPercent` (a\nruntime constant) is returned to the user; the rest is burned.\n\n**Code-upload deposits are unaffected** — they stay in DOT and are still\nrefunded in DOT when the code is removed.\n\nFor scale: at time of writing, total storage deposits across the 176\nlive contracts on Polkadot Asset Hub are roughly **85 DOT**:\n\n| Bucket | Total (Plancks) | Total (DOT) |\n|---|---|---|\n| `storage_byte_deposit`  | 10,404,800,027   | 1.04 |\n| `storage_item_deposit`  | 225,202,500,027  | 22.52 |\n| `storage_base_deposit`  | 617,172,620,000  | 61.72 |\n| **TOTAL** | **852,779,920,054** | **85.28** |\n\n### New trait: `Deposit`\n\n`substrate/frame/revive/src/deposit_payment.rs`\n\nA new sealed `Deposit<T: Config>` trait abstracts over how storage\ndeposits are charged, held, refunded. It has two implementations\nin-crate:\n\n- **`()`**: the default, charges and refunds the native currency.\nIdentical to the existing pre-PR behavior.\n- **`PGasDeposit<Mutator, Holder, Freezer, Id, RefundPercent>`**: the\nPGAS-backed backend.\n\nThe trait is wired into `Config::Deposit` and called from\n`charge_deposit` / `refund_deposit` in place of the direct `T::Currency`\ncalls that used to live there.\n\n### Account lifecycle: `init_account` / `deinit_account`\n\nThe trait includes `init_account(to)` and `deinit_account(contract)`\nmethods. Rather than transferring the ED from the origin at contract\ncreation (and back to origin on destruction), the EDs are **minted** on\ninit and **burned** on deinit:\n\n### New storage: `NativeDepositOf`\n\n`substrate/frame/revive/src/lib.rs`\n\n```rust\npub(crate) type NativeDepositOf<T: Config> = StorageDoubleMap<\n    _, Identity, T::AccountId,\n    Blake2_128Concat, T::AccountId,\n    BalanceOf<T>, ValueQuery,\n>;\n```\n\nKeyed `(holder_account, user) -> native_amount`. It records how much\n**native currency** a user has contributed to a given account's hold.\nThe holder is either a contract (for storage deposits on contract\naccounts) or the pallet account (for code-upload deposits).\n\nIt exists because in the mixed PGAS/DOT world, a user's refund cap needs\nto be tracked explicitly. The map caps how much of a refund can come\nback as DOT ; anything beyond that is settled in PGAS.\n\n### `PGasDeposit<Mutator, Holder, Freezer, Id, RefundPercent>`\n\n`substrate/frame/revive/src/deposit_payment.rs`\n\nParameterized by five type parameters that the runtime wires up:\n\n- `Mutator: fungibles::Mutate` — the fungibles impl backing PGAS (e.g.\n`pallet-assets`).\n- `Holder: fungibles::MutateHold` — the holds backend (e.g.\n`pallet-assets-holder`).\n- `Freezer: fungibles::freeze::Mutate` — the freezes backend (e.g.\n`pallet-assets-freezer`), used to pin each contract's PGAS ED.\n- `Id: Get<AssetId>` — the PGAS asset id on that fungibles instance.\n- `RefundPercent: Get<Perbill>` — the fraction of PGAS returned on\nrefund/collect; the rest is burned.\n\nCharge semantics:\n- If the user has enough reducible PGAS, the full amount is paid in PGAS\nvia `fungibles::MutateHold::transfer_and_hold`, which emits the\n`TransferOnHold` event. No DOT is touched.\n- Otherwise the charge falls through to DOT, and the contribution is\nrecorded in `NativeDepositOf` so it can be refunded as DOT later.\n\nRefund / collect semantics:\n- DOT is returned first, capped by `NativeDepositOf[holder][user]` (and\nby `Precision::BestEffort` on the actual DOT hold).\n- Any shortfall is taken from the PGAS hold. `RefundPercent` of that\nPGAS is transferred to the user's free balance; the remainder is burned.\n- **Sub-ED refunds**: if the `RefundPercent` portion would land below\nPGAS's ED on the user's account (e.g. the user has no PGAS account and\nthe refund is too small to create one), that portion is folded into the\nburn rather than aborting the whole refund.\n\nThe `RefundPercent` burn is what prevents free-PGAS harvesting: a user\ncan't deposit storage, release it, and walk away with an allowance they\ncan spend on execution.\n\n### Migration (v4)\n\n`substrate/frame/revive/src/migrations/v4.rs`\n\nA three-phase multi-block migration brings live chains over:\n\n- **Phase 1**: record each existing code-upload deposit under\n`NativeDepositOf[pallet_account][owner]` so it can still be refunded in\nDOT.\n- **Phase 2**: flip each contract's storage deposit from DOT to PGAS via\n`Deposit::migrate_native_to_pgas` — mint + freeze the PGAS ED under\n`FreezeReason::PGasMinBalance`, burn the native `StorageDepositReserve`\nhold, re-hold the same amount in PGAS. Needed because pre-PR DOT\ndeposits weren't tracked per-contributor.\n- **Phase 3**: rewrite `DeletionQueue` from `TrieId` to\n`DeletionQueueItem { trie_id, account_id }` so the on-idle sweep can\nalso clear the contract's `NativeDepositOf` rows. Runs on every runtime.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Alexander Theißen <alex.theissen@me.com>\nCo-authored-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>",
+          "timestamp": "2026-05-01T10:01:02Z",
+          "tree_id": "272e8b37989e0e908eec1806b7ece9c68e4b1537",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/154e0f5560b5f3dc1a60569aca9e1a232e702fbc"
+        },
+        "date": 1777634151622,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "notifications_protocol/libp2p/serially/64B",
+            "value": 4271646,
+            "range": "± 56511",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64B",
+            "value": 333190,
+            "range": "± 7003",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/512B",
+            "value": 4361513,
+            "range": "± 56771",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/512B",
+            "value": 416408,
+            "range": "± 9755",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/4KB",
+            "value": 5158880,
+            "range": "± 177397",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/4KB",
+            "value": 998859,
+            "range": "± 36451",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/64KB",
+            "value": 10950435,
+            "range": "± 104434",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/64KB",
+            "value": 5499780,
+            "range": "± 184251",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/256KB",
+            "value": 51507886,
+            "range": "± 1139406",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/256KB",
+            "value": 41104502,
+            "range": "± 1405494",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/2MB",
+            "value": 348644554,
+            "range": "± 5474531",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/2MB",
+            "value": 288122498,
+            "range": "± 4024482",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/serially/16MB",
+            "value": 2482040750,
+            "range": "± 8257534",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/libp2p/with_backpressure/16MB",
+            "value": 2751796361,
+            "range": "± 189651397",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64B",
+            "value": 3385061,
+            "range": "± 50998",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64B",
+            "value": 1660220,
+            "range": "± 9285",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/512B",
+            "value": 3555423,
+            "range": "± 64611",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/512B",
+            "value": 1745853,
+            "range": "± 15477",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/4KB",
+            "value": 4180235,
+            "range": "± 99701",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/4KB",
+            "value": 2115311,
+            "range": "± 19497",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/64KB",
+            "value": 8581016,
+            "range": "± 93704",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/64KB",
+            "value": 5438384,
+            "range": "± 293613",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/256KB",
+            "value": 38134798,
+            "range": "± 670831",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/256KB",
+            "value": 37386706,
+            "range": "± 618512",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/2MB",
+            "value": 341132792,
+            "range": "± 15678816",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/2MB",
+            "value": 292990010,
+            "range": "± 4415604",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/serially/16MB",
+            "value": 2692498485,
+            "range": "± 36252949",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "notifications_protocol/litep2p/with_backpressure/16MB",
+            "value": 2593309220,
+            "range": "± 111534812",
             "unit": "ns/iter"
           }
         ]

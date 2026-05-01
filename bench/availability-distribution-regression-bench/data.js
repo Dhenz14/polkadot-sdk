@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777561949504,
+  "lastUpdate": 1777595414724,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "54316454+sandreim@users.noreply.github.com",
-            "name": "Andrei Sandu",
-            "username": "sandreim"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "82b8a501c87460fb384851e9424d60a68566c7de",
-          "message": "Measure backed in block count vs backable  (#9417)\n\nCloses https://github.com/paritytech/polkadot-sdk/issues/9341\n\n---------\n\nSigned-off-by: Andrei Sandu <andrei-mihail@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Javier Viola <javier@parity.io>",
-          "timestamp": "2025-09-23T09:59:54Z",
-          "tree_id": "2100ed3a655566c495348fbe9ff49f17bec4b4a6",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/82b8a501c87460fb384851e9424d60a68566c7de"
-        },
-        "date": 1758625667299,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.1570152269,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.01298367928,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.0074380628799999935,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022415742940000007,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-distribution",
             "value": 0.00708099138,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "oliver.tale-yazdi@parity.io",
+            "name": "Oliver Tale-Yazdi",
+            "username": "ggwpez"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1d65ee942a42bd25836c1d63aa56afe1d77d9045",
+          "message": "Recovery pallet modernization (#10482)\n\n# Recovery Pallet\n\nPallet Recovery allows you to have friends or family recover access to\nyour account if you lose\n your seed phrase or private key.\n\n ## Terminology\n\n- `lost`: An account that has lost access to its private key and needs\nto be recovered.\n - `friend`: A befriended account that can approve a recovery process.\n - `initiator`: An account that initiated a recovery attempt.\n - `recovered`: An account that has been successfully recovered.\n- `inheritor`: An account that is inheriting access to a lost account\nafter recovery.\n - `attempt`: An attempt to recover a lost account by an initiator.\n - `order`: The level of trust that an account has in a friend group.\n- `deposit`: The amount that a friends of this group needs to reserve to\ninitiate an attempt.\n - `threshold`: The number of friends that need to approve an attempt.\n- `inheritance delay`: How long an attempt will be delayed before it can\nsucceed.\n- `provided block`: The blocks that are *provided* by the\n`T::BlockNumberProvider`.\n\n ## Scenario: Recovering a lost account\n\nStory of how the user Alice loses access and is recovered by her\nfriends.\n\n1. Alice uses the recovery pallet to configure one or more friends\ngroups:\n- Alice picks a suitable `inheritor` account that will inherit the\naccess to her account for\n     each friend group. This could be a multisig.\n   - Alice configures all groups with via `set_friend_groups`.\n 2. Alice loses access to her account and becomes a `lost` account.\n3. Any member (aka `initiator`) of Alice's friend groups become aware of\nthe situation and\n    starts a recovery `attempt` via `initiate_attempt`.\n4. The friend group self-organizes and one-by-one approve the ongoing\nattempt via\n    `approve_attempt`.\n5. Exactly `threshold` friends approve the attempt (further approvals\nwill fail since they are\n    useless).\n6. Any account finishes the attempt via `finish_attempt` after at least\n*inheritance delay*\n    blocks since the initiation have passed.\n7. Alice's account is now officially `recovered` and accessible by the\n`inheritor` account.\n8. The `inheritor` may call `control_inherited_account` at any point to\ntransfer Alice's funds\n    to her new account.\n\n ## Scenario: Multiple friend group try to recover an account\n\nAlice may have configured multiple friend groups that all try to recover\nher account at the same\ntime. This can lead to a conflict of which friend group should\neventually inherit the access.\n\n1. Alice configures groups *Family* (delay 10d, order 0) and *Friends*\n(delay 20d, order 1).\n 1. Day 0: Alice loses access to her account.\n 1. Day 6: *Friends* initiate a recovery attempt for Alice.\n1. Day 15: *Family* finally understands Polkadot and initiates an\nattempt as well.\n 1. Day 25: *Family* inherits access to Alice account.\n1. Day 26: *Friends* group gets nothing since inheritance order is\nhigher the one from *Family*.\n\nIn the case above you see how the *Friends* group is now unable to\nrecover Alice account since\n the *Family* group already did it and has a lower inheritance order.  \nNow, imagine the case that the *Friends* group would have started on day\n4 and would have\nalready recovered the account on day 24. Two days later, the *Family*\ngroup can take access back\nand will replace the inheritor account with their own. The *Friends*\ngroup had access for two\n days since they were faster.  \nIf Alice account has most balance locked in 28 day staking this would\nnot make a big difference,\n since only the free balance would be immediately transferable.\n\nAfter a recovery attempt was completed, friend groups with a higher\ninheritance order cannot\n open a new attempt to recover the account.\n\n ## Data Structures\n\nThe pallet has three storage items, see the in-code docs\n[`FriendGroups`], [`Attempts`] and\n[`Inheritor`]. Storage items may contain deposit \"tickets\" or similar\nnoise and should therefore\n not be read directly but only through the API.\n\n ## API\n\n *Reading* data can be done through the view functions:\n\n- `provided_block_number`: The block number that will be used to measure\ntime.\n- `friend_groups`: The friend groups of an account that can initiate\nrecovery attempts.\n - `attempts`: Ongoing recovery attempts for a lost account.\n- `inheritor`: The account that inherited full access to the lost\naccount.\n- `inheritance`: All the recovered accounts that an account inherited\naccess to.\n\n## TODO\n\n- [x] Create migration from old format for Kusama\n- [ ] Weights\n\n---------\n\nSigned-off-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>\nCo-authored-by: claravanstaden <claravanstaden64@gmail.com>\nCo-authored-by: Alexandre R. Baldé <alexandre.balde@parity.io>",
+          "timestamp": "2026-04-30T23:07:53Z",
+          "tree_id": "2efea1b77f4dd4d639f2a0cfea7bdbe0061b8786",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/1d65ee942a42bd25836c1d63aa56afe1d77d9045"
+        },
+        "date": 1777595393179,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.023743072879999997,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.0071348054800000026,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009575743999999987,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14124200192000003,
             "unit": "seconds"
           }
         ]

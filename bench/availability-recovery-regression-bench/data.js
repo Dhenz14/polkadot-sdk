@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777635036496,
+  "lastUpdate": 1777637626290,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "git@kchr.de",
-            "name": "Bastian Köcher",
-            "username": "bkchr"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "19320f104fc4b5cb6663cffc41f340b6b5239be8",
-          "message": "FRAME: Register `on_initialize` after each pallet (#9756)\n\nBefore this pull request, FRAME was executing all pallets\n`on_initialize` and then register the weight, including the weight of\n`on_runtime_upgrade`. Thus, other pallets were not aware on how much\nweight was already used when they were executing their `on_initialize`\ncode. As some pallets are doing some work in `on_initialize`, they need\nto be aware of how much weight is still left.\nTo register the weight after each `on_initialize` call, a new trait is\nadded. This new trait is implemented for tuples of types that implement\n`OnInitialize` and then it registers the weight after each call to\n`on_initialize`.\n\n`pallet-scheduler` is changed to take the remaining weight into account\nand to not just assume that its configured weight is always available.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-23T17:26:05Z",
-          "tree_id": "329e7d671c7b6beb98933de95fc234552598c017",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/19320f104fc4b5cb6663cffc41f340b6b5239be8"
-        },
-        "date": 1758652547120,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.246143838033333,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19581324520000004,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 10.980698588866664,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "142614787+andreitrand@users.noreply.github.com",
+            "name": "Andrei Trandafir",
+            "username": "andreitrand"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "a6597bb572c1eca3a21395380fb6e20bebc1a41c",
+          "message": "Additional improvements for the DAP satellite pallet generalization (#11949)\n\nAdditional fixes / improvements for\nhttps://github.com/paritytech/polkadot-sdk/pull/11881:\n- Rename `TeleportForwarder` to `TeleportForwarderForAccountId32` since\nit only works on `AccountId32`-type accounts (used in all system\nparachains), but future users with different account types will need\ndifferent trait implementations\n- Improved account migration testing\n- Additional comments to clarify important corner-cases\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-05-01T10:51:45Z",
+          "tree_id": "0f8488b30bd2480d173d9bcbac1ab43adb0be7fc",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/a6597bb572c1eca3a21395380fb6e20bebc1a41c"
+        },
+        "date": 1777637603694,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 10.9777662095,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13175198673333333,
             "unit": "seconds"
           }
         ]

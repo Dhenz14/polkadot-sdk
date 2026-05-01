@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777641937417,
+  "lastUpdate": 1777656298685,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "49718502+alexggh@users.noreply.github.com",
-            "name": "Alexandru Gheorghe",
-            "username": "alexggh"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "e8f1aff5a174f420cdd77f5d5c854dd6dc8a3273",
-          "message": "[pallet-revive] Add set_storage/set_storage_var_key methods (#9759)\n\n... to be used in polkadot foundry to make sure EVM state is in sync\nwith pallet-revive state.\n\nFixes: https://github.com/paritytech/foundry-polkadot/issues/275\n\n---------\n\nSigned-off-by: Alexandru Gheorghe <alexandru.gheorghe@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Alexander Theißen <alex.theissen@me.com>",
-          "timestamp": "2025-09-24T10:33:54Z",
-          "tree_id": "2e58ffa530937bbb0842bb596295fd616ef55271",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/e8f1aff5a174f420cdd77f5d5c854dd6dc8a3273"
-        },
-        "date": 1758714100630,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.20474096289999996,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.195573500300004,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 11.079701788666668,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "45f8331013e6ee2880cf1b4fd22e6676ab14ed23",
+          "message": "Bump WAH spec_version (#11959)",
+          "timestamp": "2026-05-01T16:01:02Z",
+          "tree_id": "76922004ef00887cf6384e4edeb0fe17e10ce938",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/45f8331013e6ee2880cf1b4fd22e6676ab14ed23"
+        },
+        "date": 1777656276592,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1273246509,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 10.919085426399999,
             "unit": "seconds"
           }
         ]

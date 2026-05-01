@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777635068047,
+  "lastUpdate": 1777637657711,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "claravanstaden64@gmail.com",
-            "name": "Clara van Staden",
-            "username": "claravanstaden"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "6875cc0cccbc418f229927baa1490110430f6275",
-          "message": "Snowbridge Inbound Queue V2 relayer tip payout fix (#9746)\n\n# Description\n\nFixes a bug where Snowbridge Inbound V2 tips were not paid out to the\nrelayer.\n\n## Review Notes\n\nAny tips added to a message in the Inbound Queue v2 (Ethereum to\nPolkadot direction), were burned and added to storage, but never paid\nout to the relayer. This PR fixes this bug by adding the tip to the\nrelayer fee.\n\n---------\n\nCo-authored-by: Branislav Kontur <bkontur@gmail.com>",
-          "timestamp": "2025-09-23T13:20:12Z",
-          "tree_id": "ab6a21866ce69b2f099f3ee8b986dc90460d6644",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/6875cc0cccbc418f229927baa1490110430f6275"
-        },
-        "date": 1758637837529,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013221095866666673,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.0073749963733333234,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15725936772000007,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022512978273333335,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "bitfield-distribution",
             "value": 0.02378620334666667,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "142614787+andreitrand@users.noreply.github.com",
+            "name": "Andrei Trandafir",
+            "username": "andreitrand"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "a6597bb572c1eca3a21395380fb6e20bebc1a41c",
+          "message": "Additional improvements for the DAP satellite pallet generalization (#11949)\n\nAdditional fixes / improvements for\nhttps://github.com/paritytech/polkadot-sdk/pull/11881:\n- Rename `TeleportForwarder` to `TeleportForwarderForAccountId32` since\nit only works on `AccountId32`-type accounts (used in all system\nparachains), but future users with different account types will need\ndifferent trait implementations\n- Improved account migration testing\n- Additional comments to clarify important corner-cases\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-05-01T10:51:45Z",
+          "tree_id": "0f8488b30bd2480d173d9bcbac1ab43adb0be7fc",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/a6597bb572c1eca3a21395380fb6e20bebc1a41c"
+        },
+        "date": 1777637635298,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009630386993333313,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.1440316771333334,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007223815433333331,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.02427216750666666,
             "unit": "seconds"
           }
         ]

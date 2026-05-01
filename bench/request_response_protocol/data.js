@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777636726843,
+  "lastUpdate": 1777641656030,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -87155,6 +87155,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2987640698,
             "range": "± 68000441",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "rohit.sarpotdar@parity.io",
+            "name": "Rohit Sarpotdar",
+            "username": "rosarp"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "98e0271c667a0a32ea4aabd5e4f811f2a1f6171e",
+          "message": "Support multiple `IndexOperation::Renew` calls within a single extrinsic index in `sc-client-db` (#11474)\n\n# Description\n\nCurrently, `apply_index_ops` uses `renewed_map: HashMap<u32, DbHash>`\nwhich means if multiple `Renew` operations target the same extrinsic\nindex, only the last hash survives — earlier ones are silently\noverwritten. This blocks batch-renewal use cases where a single\nmandatory inherent renews multiple previously-stored data items (e.g.\nthe Bulletin chain's `process_auto_renewals` inherent which calls\n`sp_io::transaction_index::renew()` N times within one extrinsic).\n\nThis PR changes `renewed_map` to `HashMap<u32, Vec<DbHash>>` and\nintroduces a new `DbExtrinsic::MultiRenew` variant to correctly store,\nreconstruct, retrieve, and prune blocks containing multi-renewal\nextrinsics.\n\n\n## Integration\n\nDownstream projects using `sc-client-db` that read `BODY_INDEX` data\ndirectly (rather than through the `BlockchainDb` API) will need to\nhandle the new `DbExtrinsic::MultiRenew` variant. Projects using the\nstandard `blockchain.body()`, `blockchain.block_indexed_body()`, or\n`blockchain.indexed_transaction()` APIs require no changes.\n\nSingle-renewal extrinsics continue to produce `DbExtrinsic::Indexed`\n(backwards-compatible). The `MultiRenew` variant is only emitted when 2+\n`Renew` operations share the same extrinsic index.\n\n\n## Review Notes\n\nAll changes are in `substrate/client/db/src/lib.rs`. There are five\nlogical changes:\n\n### 1. New `DbExtrinsic::MultiRenew` variant\n\n```rust\nMultiRenew {\n    hashes: Vec<DbHash>,  // all renewed data hashes\n    header: Vec<u8>,       // full encoded extrinsic for body reconstruction\n}\n```\n\n### 2. `apply_index_ops` — core fix\n\n```diff\n- let mut renewed_map = HashMap::new();\n+ let mut renewed_map: HashMap<u32, Vec<DbHash>> = HashMap::new();\n\n  IndexOperation::Renew { extrinsic, hash } => {\n-     renewed_map.insert(extrinsic, DbHash::from_slice(hash.as_ref()));\n+     renewed_map.entry(extrinsic).or_default().push(DbHash::from_slice(hash.as_ref()));\n  }\n```\n\nWhen building extrinsic entries:\n- **1 hash** → `DbExtrinsic::Indexed` (backwards-compatible, same as\nbefore)\n- **2+ hashes** → `DbExtrinsic::MultiRenew` with ref count bumped for\neach hash\n\n### 3. `body_uncached` — body reconstruction\n\n`MultiRenew`'s `header` contains the full encoded extrinsic (unlike\n`Indexed` where header is partial and joined with indexed data). Decoded\ndirectly via `Block::Extrinsic::decode(&mut &header[..])`.\n\n### 4. `block_indexed_body` — indexed data retrieval\n\nReturns transaction data for **all** hashes in `MultiRenew`, not just a\nsingle hash.\n\n### 5. `prune_block` — ref count release\n\nReleases all hashes in `MultiRenew` when pruning, instead of just the\nsingle hash from `Indexed`.\n\n---------\n\nCo-authored-by: Karol Kokoszka <karol@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Francisco Aguirre <franciscoaguirreperez@gmail.com>\nCo-authored-by: Sebastian Kunert <mail@skunert.dev>",
+          "timestamp": "2026-05-01T12:03:05Z",
+          "tree_id": "10813189ad759aab5ffa2505c8ad3fea131d445e",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/98e0271c667a0a32ea4aabd5e4f811f2a1f6171e"
+        },
+        "date": 1777641634591,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18210844,
+            "range": "± 106034",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 18518776,
+            "range": "± 102915",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20037534,
+            "range": "± 73376",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24752320,
+            "range": "± 145782",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 58154746,
+            "range": "± 644285",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 332242244,
+            "range": "± 8564235",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2636012280,
+            "range": "± 112658011",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15210223,
+            "range": "± 167970",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 15265958,
+            "range": "± 291353",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 15829881,
+            "range": "± 153021",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20184764,
+            "range": "± 167130",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 56585083,
+            "range": "± 525389",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 329179501,
+            "range": "± 5744667",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2627084698,
+            "range": "± 74329241",
             "unit": "ns/iter"
           }
         ]

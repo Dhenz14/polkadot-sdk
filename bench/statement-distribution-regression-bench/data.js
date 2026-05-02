@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777656392012,
+  "lastUpdate": 1777723522181,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "claravanstaden64@gmail.com",
-            "name": "Clara van Staden",
-            "username": "claravanstaden"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "6875cc0cccbc418f229927baa1490110430f6275",
-          "message": "Snowbridge Inbound Queue V2 relayer tip payout fix (#9746)\n\n# Description\n\nFixes a bug where Snowbridge Inbound V2 tips were not paid out to the\nrelayer.\n\n## Review Notes\n\nAny tips added to a message in the Inbound Queue v2 (Ethereum to\nPolkadot direction), were burned and added to storage, but never paid\nout to the relayer. This PR fixes this bug by adding the tip to the\nrelayer fee.\n\n---------\n\nCo-authored-by: Branislav Kontur <bkontur@gmail.com>",
-          "timestamp": "2025-09-23T13:20:12Z",
-          "tree_id": "ab6a21866ce69b2f099f3ee8b986dc90460d6644",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/6875cc0cccbc418f229927baa1490110430f6275"
-        },
-        "date": 1758637891339,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.95599999999995,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03418215827,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.044482461357999895,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.038362711814,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "franciscoaguirreperez@gmail.com",
+            "name": "Francisco Aguirre",
+            "username": "franciscoaguirre"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3501f2c3c8e46d0b726994065a05615995f03880",
+          "message": "Add sp-hop (#11960)\n\nAdded the primitives needed for HOP (Hand-Off Protocol) in the future\n\n---------\n\nCo-authored-by: Branislav Kontur <bkontur@gmail.com>",
+          "timestamp": "2026-05-02T10:43:06Z",
+          "tree_id": "6dcfaf5a3ff7ff7904888c194880a5c6d94a39f9",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/3501f2c3c8e46d0b726994065a05615995f03880"
+        },
+        "date": 1777723500040,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.136,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08122882091799993,
+            "unit": "seconds"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.039029657595999995,
             "unit": "seconds"
           }
         ]

@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777886431115,
+  "lastUpdate": 1777893598493,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "60601340+lexnv@users.noreply.github.com",
-            "name": "Alexandru Vasile",
-            "username": "lexnv"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "7dc67319065b18d4c02b4275e6b071ee59d40635",
-          "message": "network/tests: Increase test timeout to fix flaky CI (#9810)\n\nThis PR bumps the `libp2p_disconnects_litep2p_substream` test timeout\nfrom 5 seconds to 1 minute.\n\nUnder load, the test may not have sufficient time to establish\nconnectivity and complete the test within the allotted time.\n\ncc @paritytech/networking\n\nSigned-off-by: Alexandru Vasile <alexandru.vasile@parity.io>",
-          "timestamp": "2025-09-24T08:25:10Z",
-          "tree_id": "29118a00bcb8d88cbb396a592265e3ebc32d5246",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/7dc67319065b18d4c02b4275e6b071ee59d40635"
-        },
-        "date": 1758707864790,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 127.94199999999995,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03393072878400001,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04399939745199995,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.0779239821939999,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "karol@parity.io",
+            "name": "Karol Kokoszka",
+            "username": "karolk91"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4d5876e2565a4fe83c92c8f710778ff49c4ed4a8",
+          "message": "client/db, sp-transaction-storage-proof: preserve `MultiRenew` submit order (#11962)\n\n## Problem\n\n#11474 switched `DbExtrinsic::MultiRenew::hashes` from `Vec<DbHash>` to\n`BTreeSet<DbHash>` for dedup + canonical ordering. This silently broke\nproof-of-storage verification for any block produced by a multi-renew\nextrinsic.\n\n`build_proof` walks `block_indexed_body(N)` linearly to count chunks and\npick the chunk at `random_chunk(parent_hash, total_chunks)`. The\nconsumer pallet (`pallet_transaction_storage`) stores a parallel\n`Vec<TransactionInfo>` in dispatch order. Both sides resolve\n`selected_chunk_index` to a position; with `BTreeSet`, the off-chain\nside iterates in hash-sorted order while the runtime indexes in dispatch\norder. Different positions point at different `chunk_root`s →\n`blake2_256_verify_proof` returns `false` → `Error::InvalidProof` →\n`BadMandatory` → chain halts at the first proof block after a\nmulti-renew.\n\n## Fix\n\nRevert `MultiRenew.hashes` to `Vec<DbHash>`, append every\n`IndexOperation::Renew` op (no dedup). Insertion order is the\ncross-process contract; duplicates are preserved so column-refcount\ninc/dec stays symmetric per occurrence.\n\n## Tests\n\n- `block_indexed_body_preserves_renew_op_submission_order`\n(sc-client-db) — submits 5 Renew ops in non-sorted order, asserts both\n`MultiRenew.hashes` and `block_indexed_body(N)` come back\nposition-by-position equal to the submission order. Fails immediately\nunder any sort-applying container.\n- `proof_round_trip_against_parallel_runtime_view`\n(sp-transaction-storage-proof) — builds a proof from N transactions in\nsubmission order `[3, 0, 2, 1]`, then verifies it against a parallel\nruntime-side `Vec<TxInfo>` in the same order using the binary-search\nlogic FRAME consumers use. Sweeps 16 parent_hash seeds. Under\n`BTreeSet`, would fail on the first seed.\n- `random_chunk_is_deterministic_for_same_inputs`,\n`encode_index_round_trip_is_compact` — pin the agreement primitives.\n- All 10 pre-existing multi-renew tests updated for Vec semantics\n(duplicates preserved, refcount math adjusted accordingly).\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Branislav Kontur <bkontur@gmail.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>\nCo-authored-by: Francisco Aguirre <franciscoaguirreperez@gmail.com>",
+          "timestamp": "2026-05-04T09:40:40Z",
+          "tree_id": "da8baadabdd743b604435cda1cea37fd1ceae48b",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/4d5876e2565a4fe83c92c8f710778ff49c4ed4a8"
+        },
+        "date": 1777893576424,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.096,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.03872491975799999,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08327900356799994,
             "unit": "seconds"
           }
         ]

@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777908464429,
+  "lastUpdate": 1777915732226,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "skunert49@gmail.com",
-            "name": "Sebastian Kunert",
-            "username": "skunert"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "fbf98c8dee09e3dc02506a6fea26a9704cc9c05d",
-          "message": "Elastic-scaling-guide: Mention slot duration (#9713)\n\nFollow-up to #9677 . I think it would be good to add our view on the\nslot duration, as it is often confused with the actual block production\ninterval. This short addition should clarify things a bit.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Andrei Sandu <54316454+sandreim@users.noreply.github.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
-          "timestamp": "2025-09-25T09:48:11Z",
-          "tree_id": "75703f988b95d5e94d435f35011ef1e17f150e54",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/fbf98c8dee09e3dc02506a6fea26a9704cc9c05d"
-        },
-        "date": 1758797768570,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15701110734666668,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02233409769333334,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007602966999999991,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012812013439999999,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "bitfield-distribution",
             "value": 0.023776687613333337,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "54316454+sandreim@users.noreply.github.com",
+            "name": "Andrei Sandu",
+            "username": "sandreim"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "66b0b1a0a893b8bfa233b20b90c23c99131ad613",
+          "message": "YAP Gaming FTW 🎮  (#10165)\n\nList of changes:\n- enable 12 cores in the YAP runtime\n- add `dev` feature, so it can be run locally without RC\n- add README\n\n---------\n\nSigned-off-by: Andrei Sandu <andrei-mihail@parity.io>\nCo-authored-by: Alexandru Vasile <60601340+lexnv@users.noreply.github.com>",
+          "timestamp": "2026-05-04T16:03:33Z",
+          "tree_id": "3c3f5b578df3cf00c682e0647aaf30401fd100d1",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/66b0b1a0a893b8bfa233b20b90c23c99131ad613"
+        },
+        "date": 1777915712396,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.0071412246800000015,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.024085558399999995,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009667119000000016,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14214594256666674,
             "unit": "seconds"
           }
         ]

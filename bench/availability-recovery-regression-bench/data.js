@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777893506285,
+  "lastUpdate": 1777908433450,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "skunert49@gmail.com",
-            "name": "Sebastian Kunert",
-            "username": "skunert"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "fbf98c8dee09e3dc02506a6fea26a9704cc9c05d",
-          "message": "Elastic-scaling-guide: Mention slot duration (#9713)\n\nFollow-up to #9677 . I think it would be good to add our view on the\nslot duration, as it is often confused with the actual block production\ninterval. This short addition should clarify things a bit.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Andrei Sandu <54316454+sandreim@users.noreply.github.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
-          "timestamp": "2025-09-25T09:48:11Z",
-          "tree_id": "75703f988b95d5e94d435f35011ef1e17f150e54",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/fbf98c8dee09e3dc02506a6fea26a9704cc9c05d"
-        },
-        "date": 1758797741835,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19442631379999997,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.202029231199997,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 10.895492329933337,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "104af7915ab0a8ab5bf5a3c9f09bf134560a877c",
+          "message": "Version bumps and prdocs reordering after stable2603-1 (#11977)\n\nThis PR backports regualr node version bumps and prdocs reordering from\nstable2603 branch back to master\n\n---------\n\nCo-authored-by: ParityReleases <release-team@parity.io>",
+          "timestamp": "2026-05-04T14:02:52Z",
+          "tree_id": "e770ffce4ae7ef632b9289707c4e3a17b1eaef2e",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/104af7915ab0a8ab5bf5a3c9f09bf134560a877c"
+        },
+        "date": 1777908411220,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13680095639999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.022962956966666,
             "unit": "seconds"
           }
         ]

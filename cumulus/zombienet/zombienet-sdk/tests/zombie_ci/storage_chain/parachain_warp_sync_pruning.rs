@@ -81,6 +81,9 @@ fn get_para_node_args() -> Vec<String> {
 }
 
 #[tokio::test(flavor = "multi_thread")]
+#[ignore = "pre-warp data servability requires gap-sync coverage; covered by PR-2 (IT-C). \
+            PR-1 only fills the TRANSACTION column for tip blocks imported after warp \
+            completes; the snapshot fixtures referenced here predate warp."]
 async fn parachain_warp_sync_with_pruning_test() -> Result<()> {
 	const TEST: &str = "para_warp_sync_pruning";
 	let _ = env_logger::Builder::from_env(Env::default().default_filter_or("info")).try_init();

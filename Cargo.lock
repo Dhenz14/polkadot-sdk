@@ -17013,6 +17013,7 @@ dependencies = [
  "sp-consensus 0.32.0",
  "sp-consensus-aura",
  "sp-core 28.0.0",
+ "sp-database 10.0.0",
  "sp-genesis-builder 0.8.0",
  "sp-inherents 26.0.0",
  "sp-keystore 0.34.0",

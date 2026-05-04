@@ -60,5 +60,7 @@ pub type ParachainService<Block, RuntimeApi, BI, BIExtraReturnValue> = PartialCo
 		Option<Telemetry>,
 		Option<TelemetryWorkerHandle>,
 		BIExtraReturnValue,
+		crate::common::storage_chain_block_import::NetworkHandle,
+		crate::common::storage_chain_block_import::SyncingHandle<Block>,
 	),
 >;

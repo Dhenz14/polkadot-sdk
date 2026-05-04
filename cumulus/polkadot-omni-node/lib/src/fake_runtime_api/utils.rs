@@ -258,14 +258,6 @@ macro_rules! impl_node_runtime_apis {
 					unimplemented!()
 				}
 			}
-
-			impl crate::common::indexed_transactions_api::IndexedTransactionsApi<$block> for $runtime {
-				fn indexed_transactions(
-					_block: u32,
-				) -> Option<Vec<crate::common::indexed_transactions_api::IndexedTransactionInfo>> {
-					unimplemented!()
-				}
-			}
 		}
 	};
 }

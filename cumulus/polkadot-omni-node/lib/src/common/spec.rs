@@ -21,7 +21,7 @@ use crate::{
 		command::NodeCommandRunner,
 		rpc::BuildRpcExtensions,
 		statement_store::{build_statement_store, new_statement_handler_proto},
-		storage_chain_indexing,
+		storage_chain_block_import::{NetworkHandle, StorageChainBlockImport, SyncingHandle},
 		types::{
 			ParachainBackend, ParachainBlockImport, ParachainClient, ParachainHostFunctions,
 			ParachainService,
@@ -60,7 +60,12 @@ use sc_transaction_pool_api::OffchainTransactionPoolFactory;
 use sp_api::{ApiExt, ProvideRuntimeApi};
 use sp_keystore::KeystorePtr;
 use sp_runtime::traits::AccountIdConversion;
-use std::{future::Future, pin::Pin, sync::Arc, time::Duration};
+use std::{
+	future::Future,
+	pin::Pin,
+	sync::{Arc, OnceLock},
+	time::Duration,
+};
 
 // Override default idle connection timeout of 10 seconds to give IPFS clients more
 // time to query data over Bitswap. This is needed when manually adding our node
@@ -68,6 +73,12 @@ use std::{future::Future, pin::Pin, sync::Arc, time::Duration};
 // substreams with us and our node closes a connection after
 // `idle_connection_timeout`.
 const IPFS_WORKAROUND_TIMEOUT: Duration = Duration::from_secs(3600);
+
+/// `BlockImport` after wrapping with `StorageChainBlockImport`. All downstream
+/// `BuildImportQueue`/`StartConsensus`/`ParachainBlockImport` users see this
+/// type, not the inner one.
+pub(crate) type WrappedBlockImport<Block, InnerBI, RuntimeApi> =
+	StorageChainBlockImport<Block, InnerBI, ParachainClient<Block, RuntimeApi>>;
 
 pub(crate) trait BuildImportQueue<
 	Block: BlockT,
@@ -125,7 +136,10 @@ fn warn_if_slow_hardware(hwbench: &sc_sysinfo::HwBench) {
 }
 
 pub(crate) trait InitBlockImport<Block: BlockT, RuntimeApi> {
-	type BlockImport: sc_consensus::BlockImport<Block> + Clone + Send + Sync;
+	type BlockImport: sc_consensus::BlockImport<Block, Error = sp_consensus::Error>
+		+ Clone
+		+ Send
+		+ Sync;
 	type BlockImportAuxiliaryData;
 
 	fn init_block_import(
@@ -160,7 +174,11 @@ pub(crate) trait BaseNodeSpec {
 	type BuildImportQueue: BuildImportQueue<
 		Self::Block,
 		Self::RuntimeApi,
-		<Self::InitBlockImport as InitBlockImport<Self::Block, Self::RuntimeApi>>::BlockImport,
+		WrappedBlockImport<
+			Self::Block,
+			<Self::InitBlockImport as InitBlockImport<Self::Block, Self::RuntimeApi>>::BlockImport,
+			Self::RuntimeApi,
+		>,
 	>;
 
 	type InitBlockImport: self::InitBlockImport<Self::Block, Self::RuntimeApi>;
@@ -215,7 +233,11 @@ pub(crate) trait BaseNodeSpec {
 		ParachainService<
 			Self::Block,
 			Self::RuntimeApi,
-			<Self::InitBlockImport as InitBlockImport<Self::Block, Self::RuntimeApi>>::BlockImport,
+			WrappedBlockImport<
+				Self::Block,
+				<Self::InitBlockImport as InitBlockImport<Self::Block, Self::RuntimeApi>>::BlockImport,
+				Self::RuntimeApi,
+			>,
 			<Self::InitBlockImport as InitBlockImport<Self::Block, Self::RuntimeApi>>::BlockImportAuxiliaryData
 		>
 	>{
@@ -271,10 +293,22 @@ pub(crate) trait BaseNodeSpec {
 			.build(),
 		);
 
-		let (block_import, block_import_auxiliary_data) =
+		let (inner_block_import, block_import_auxiliary_data) =
 			Self::InitBlockImport::init_block_import(client.clone())?;
 
-		let block_import = ParachainBlockImport::new(block_import, backend.clone());
+		let network_handle: NetworkHandle = Arc::new(OnceLock::new());
+		let syncing_handle: SyncingHandle<Self::Block> = Arc::new(OnceLock::new());
+
+		let storage_chain_block_import = StorageChainBlockImport::new(
+			inner_block_import,
+			client.clone(),
+			backend.clone(),
+			Arc::clone(&network_handle),
+			Arc::clone(&syncing_handle),
+		);
+
+		let block_import =
+			ParachainBlockImport::new(storage_chain_block_import, backend.clone());
 
 		let import_queue = Self::BuildImportQueue::build_import_queue(
 			client.clone(),
@@ -292,7 +326,14 @@ pub(crate) trait BaseNodeSpec {
 			task_manager,
 			transaction_pool,
 			select_chain: (),
-			other: (block_import, telemetry, telemetry_worker_handle, block_import_auxiliary_data),
+			other: (
+				block_import,
+				telemetry,
+				telemetry_worker_handle,
+				block_import_auxiliary_data,
+				network_handle,
+				syncing_handle,
+			),
 		})
 	}
 }
@@ -308,7 +349,11 @@ pub(crate) trait NodeSpec: BaseNodeSpec {
 	type StartConsensus: StartConsensus<
 		Self::Block,
 		Self::RuntimeApi,
-		<Self::InitBlockImport as InitBlockImport<Self::Block, Self::RuntimeApi>>::BlockImport,
+		WrappedBlockImport<
+			Self::Block,
+			<Self::InitBlockImport as InitBlockImport<Self::Block, Self::RuntimeApi>>::BlockImport,
+			Self::RuntimeApi,
+		>,
 		<Self::InitBlockImport as InitBlockImport<Self::Block, Self::RuntimeApi>>::BlockImportAuxiliaryData,
 	>;
 
@@ -355,15 +400,15 @@ pub(crate) trait NodeSpec: BaseNodeSpec {
 			let parachain_fork_id = parachain_config.chain_spec.fork_id().map(ToString::to_string);
 			let advertise_non_global_ips = parachain_config.network.allow_non_globals_in_dht;
 
-			let storage_chain_blocks_pruning = match parachain_config.blocks_pruning {
-				sc_client_db::BlocksPruning::Some(n) => Some(n),
-				sc_client_db::BlocksPruning::KeepAll
-				| sc_client_db::BlocksPruning::KeepFinalized => None,
-			};
-
 			let params = Self::new_partial(&parachain_config)?;
-			let (block_import, mut telemetry, telemetry_worker_handle, block_import_auxiliary_data) =
-				params.other;
+			let (
+				block_import,
+				mut telemetry,
+				telemetry_worker_handle,
+				block_import_auxiliary_data,
+				network_handle,
+				syncing_handle,
+			) = params.other;
 			let client = params.client.clone();
 			let backend = params.backend.clone();
 			let mut task_manager = params.task_manager;
@@ -422,6 +467,12 @@ pub(crate) trait NodeSpec: BaseNodeSpec {
 					metrics,
 				})
 				.await?;
+
+			let _ = network_handle.set(
+				network.clone() as Arc<dyn sc_network::NetworkRequest + Send + Sync>,
+			);
+			let _ = syncing_handle.set(sync_service.clone());
+
 			let peer_id = network.local_peer_id();
 
 			let statement_store = statement_handler_proto
@@ -601,30 +652,6 @@ pub(crate) trait NodeSpec: BaseNodeSpec {
 					node_extra_args,
 					block_import_auxiliary_data,
 				)?;
-			}
-
-			if let Some(n) = storage_chain_blocks_pruning {
-				if storage_chain_indexing::runtime_supports_indexing::<Self::Block, _>(&*client) {
-					log::info!(
-						target: "storage-chain-indexer",
-						"blocks_pruning={n} + runtime implements IndexedTransactionsApi; \
-						 spawning indexer bootstrap task",
-					);
-					storage_chain_indexing::spawn::<Self::Block, _, _>(
-						client.clone(),
-						backend.clone(),
-						network.clone(),
-						sync_service.clone(),
-						&task_manager,
-						n,
-					);
-				} else {
-					log::debug!(
-						target: "storage-chain-indexer",
-						"blocks_pruning={n} but runtime does not implement \
-						 IndexedTransactionsApi; indexer not spawned",
-					);
-				}
 			}
 
 			Ok(task_manager)

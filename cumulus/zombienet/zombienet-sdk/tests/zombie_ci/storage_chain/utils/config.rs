@@ -20,7 +20,7 @@ pub const LOG_TIMEOUT_SECS: u64 = 60;
 pub const LOG_ERROR_TIMEOUT_SECS: u64 = 10;
 
 pub const TEST_DATA_SIZE: usize = 2048;
-pub const NODE_LOG_CONFIG: &str = "-lsync=trace,sub-libp2p=trace,litep2p=trace,request-response=trace,transaction-storage=trace,bitswap=trace,storage-chain-indexer=debug";
+pub const NODE_LOG_CONFIG: &str = "-lsync=trace,sub-libp2p=trace,litep2p=trace,request-response=trace,transaction-storage=trace,bitswap=trace,storage-chain-block-import=debug";
 
 pub const RELAY_CHAIN: &str = "westend-local";
 pub const PARA_ID: u32 = 2487;

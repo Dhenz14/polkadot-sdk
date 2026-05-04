@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777915759570,
+  "lastUpdate": 1777924749248,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "skunert49@gmail.com",
-            "name": "Sebastian Kunert",
-            "username": "skunert"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "fbf98c8dee09e3dc02506a6fea26a9704cc9c05d",
-          "message": "Elastic-scaling-guide: Mention slot duration (#9713)\n\nFollow-up to #9677 . I think it would be good to add our view on the\nslot duration, as it is often confused with the actual block production\ninterval. This short addition should clarify things a bit.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Andrei Sandu <54316454+sandreim@users.noreply.github.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
-          "timestamp": "2025-09-25T09:48:11Z",
-          "tree_id": "75703f988b95d5e94d435f35011ef1e17f150e54",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/fbf98c8dee09e3dc02506a6fea26a9704cc9c05d"
-        },
-        "date": 1758797795741,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52942,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63633.630000000005,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.000022292059999999997,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.251597718189997,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.000022292059999999997,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.49945573749,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.6548460355509764,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.4433169865299993,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.441021260450002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005620910040000004,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000022539240000000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9593426740199977,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.4619270842300005,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4409130654299984,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000022539240000000002,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting-parallel/approval-voting-parallel-db",
             "value": 2.503501884159999,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "pgherveou@gmail.com",
+            "name": "PG Herveou",
+            "username": "pgherveou"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "7fd332f53c29ab2b639e895f339769f1a0b6caf9",
+          "message": "benchmarking: Support child trie key whitelisting (#10992)\n\n## Summary\n\nExtends the benchmarking framework to support whitelisting child trie\nstorage keys, enabling accurate PoV measurement for pallets that use\nchild tries (e.g. `pallet-revive` for contract storage).\n\n- Add `child_trie_key: Option<Vec<u8>>` field to `TrackedStorageKey`\nwith `new_child()` constructor\n- Add `add_to_whitelist_child()` helper function for benchmarks\n- Update whitelist pre-read in both v1 and v2 benchmark macros to handle\nchild trie keys via `child::get_raw()`\n- **Fix stale whitelist bug**: `on_before_start` now reads from the\nglobal whitelist (`get_whitelist()`) instead of a captured local copy,\nso keys added during benchmark setup are properly pre-loaded\n- Export `ChildInfo` from `frame_support::storage`\n\n### Problem\n\nCalling `add_to_whitelist()` or `add_to_whitelist_child()` during\nbenchmark setup had no effect on PoV measurement because:\n1. The pre-read only used `unhashed::get_raw()` which doesn't work for\nchild tries\n2. The pre-read closure captured a local whitelist copy that missed keys\nadded during benchmark setup\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Marian Radu <marian@parity.io>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
+          "timestamp": "2026-05-04T18:34:20Z",
+          "tree_id": "185423589de40fccbcaeeefabc9254328093abf6",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/7fd332f53c29ab2b639e895f339769f1a0b6caf9"
+        },
+        "date": 1777924726399,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 52940.09999999999,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 63633.259999999995,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.0000210565,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.0000210565,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005212036000000001,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.00002622273,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.9375567289200006,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.74164378231995,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.8289122576900008,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.8075970033700015,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7859263851199605,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.00002622273,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.8811385189699994,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.495300852249989,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.343747127662814,
             "unit": "seconds"
           }
         ]

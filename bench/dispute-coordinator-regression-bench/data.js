@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777908557037,
+  "lastUpdate": 1777915812521,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "60601340+lexnv@users.noreply.github.com",
-            "name": "Alexandru Vasile",
-            "username": "lexnv"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "80ee9c8f4cd6e2ea49cb8eceadde5b42f7e87a86",
-          "message": "ci: Use `--locked` for cargo doc steps (#9828)\n\nThis PR adds the `--locked` option to the cargo doc tests.\n\nDetected by running the CI on PR:\nhttps://github.com/paritytech/polkadot-sdk/actions/runs/17972092266/job/51117118432\n\n```rust\nerror[E0277]: the trait bound `BoundedVec<u8, v3::MaxPalletNameLen>: JsonSchema` is not satisfied\n   --> polkadot/xcm/src/v3/mod.rs:228:12\n    |\n228 |     pub name: BoundedVec<u8, MaxPalletNameLen>,\n    |               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the trait `JsonSchema` is not implemented for `BoundedVec<u8, v3::MaxPalletNameLen>`\n    |\nnote: there are multiple different versions of crate `schemars` in the dependency graph\n   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/schemars-0.8.22/src/lib.rs:133:1\n    |\n133 | pub trait JsonSchema {\n    | ^^^^^^^^^^^^^^^^^^^^ this is the required trait\n    |\n   ::: polkadot/xcm/src/v3/junction.rs:49:44\n    |\n49  | #[cfg_attr(feature = \"json-schema\", derive(schemars::JsonSchema))]\n    |                                            -------- one version of crate `schemars` used here, as a direct dependency of the current crate\n    |\n   ::: polkadot/xcm/src/lib.rs:31:5\n```\n\nThanks @bkchr for the suggestion here 🙏 \n\nThis has been detected while working on:\n- https://github.com/paritytech/polkadot-sdk/pull/9418\n\nSigned-off-by: Alexandru Vasile <alexandru.vasile@parity.io>",
-          "timestamp": "2025-09-24T14:58:33Z",
-          "tree_id": "884a671f0bbf4fe179c1013dce196003dfc20cc9",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/80ee9c8f4cd6e2ea49cb8eceadde5b42f7e87a86"
-        },
-        "date": 1758730206717,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008697737899999985,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005303366449999993,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.00267507153,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-coordinator",
             "value": 0.0026605525400000005,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "54316454+sandreim@users.noreply.github.com",
+            "name": "Andrei Sandu",
+            "username": "sandreim"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "66b0b1a0a893b8bfa233b20b90c23c99131ad613",
+          "message": "YAP Gaming FTW 🎮  (#10165)\n\nList of changes:\n- enable 12 cores in the YAP runtime\n- add `dev` feature, so it can be run locally without RC\n- add README\n\n---------\n\nSigned-off-by: Andrei Sandu <andrei-mihail@parity.io>\nCo-authored-by: Alexandru Vasile <60601340+lexnv@users.noreply.github.com>",
+          "timestamp": "2026-05-04T16:03:33Z",
+          "tree_id": "3c3f5b578df3cf00c682e0647aaf30401fd100d1",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/66b0b1a0a893b8bfa233b20b90c23c99131ad613"
+        },
+        "date": 1777915791842,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.0026599197300000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.00993558244,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009371625699999967,
             "unit": "seconds"
           }
         ]

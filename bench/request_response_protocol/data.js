@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777914901461,
+  "lastUpdate": 1777923824290,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -88019,6 +88019,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2694971483,
             "range": "± 31036372",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "pgherveou@gmail.com",
+            "name": "PG Herveou",
+            "username": "pgherveou"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "7fd332f53c29ab2b639e895f339769f1a0b6caf9",
+          "message": "benchmarking: Support child trie key whitelisting (#10992)\n\n## Summary\n\nExtends the benchmarking framework to support whitelisting child trie\nstorage keys, enabling accurate PoV measurement for pallets that use\nchild tries (e.g. `pallet-revive` for contract storage).\n\n- Add `child_trie_key: Option<Vec<u8>>` field to `TrackedStorageKey`\nwith `new_child()` constructor\n- Add `add_to_whitelist_child()` helper function for benchmarks\n- Update whitelist pre-read in both v1 and v2 benchmark macros to handle\nchild trie keys via `child::get_raw()`\n- **Fix stale whitelist bug**: `on_before_start` now reads from the\nglobal whitelist (`get_whitelist()`) instead of a captured local copy,\nso keys added during benchmark setup are properly pre-loaded\n- Export `ChildInfo` from `frame_support::storage`\n\n### Problem\n\nCalling `add_to_whitelist()` or `add_to_whitelist_child()` during\nbenchmark setup had no effect on PoV measurement because:\n1. The pre-read only used `unhashed::get_raw()` which doesn't work for\nchild tries\n2. The pre-read closure captured a local whitelist copy that missed keys\nadded during benchmark setup\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Marian Radu <marian@parity.io>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
+          "timestamp": "2026-05-04T18:34:20Z",
+          "tree_id": "185423589de40fccbcaeeefabc9254328093abf6",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/7fd332f53c29ab2b639e895f339769f1a0b6caf9"
+        },
+        "date": 1777923802108,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 20130183,
+            "range": "± 217711",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 20915419,
+            "range": "± 268608",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 22099692,
+            "range": "± 91030",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 27148338,
+            "range": "± 288016",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 64611528,
+            "range": "± 1435240",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 395748162,
+            "range": "± 8569688",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2873205467,
+            "range": "± 164460127",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 16264436,
+            "range": "± 179815",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 16110620,
+            "range": "± 359238",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 17105727,
+            "range": "± 385450",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21859450,
+            "range": "± 129766",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 60534082,
+            "range": "± 323335",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 355488053,
+            "range": "± 16275547",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2791693916,
+            "range": "± 46353182",
             "unit": "ns/iter"
           }
         ]

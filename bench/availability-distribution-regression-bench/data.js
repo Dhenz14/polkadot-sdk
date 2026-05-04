@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777893537586,
+  "lastUpdate": 1777908464429,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "robertvaneerdewijk@gmail.com",
-            "name": "0xRVE",
-            "username": "0xRVE"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "afbe4258991a60a7b41270d0fe47d1cd94a5681c",
-          "message": "bugfix revm set_storage gas cost (#9823)\n\nFixes bug in revm gasmetering where the initial charge was less than the\nadjusted charge.\n\n---------\n\nCo-authored-by: Robert van Eerdewijk <robert@Roberts-MacBook-Pro.local>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: PG Herveou <pgherveou@gmail.com>",
-          "timestamp": "2025-09-25T09:05:41Z",
-          "tree_id": "093d3a6142cd89d6a78d461a8e82aa2251bcfeb6",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/afbe4258991a60a7b41270d0fe47d1cd94a5681c"
-        },
-        "date": 1758795320733,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007703187159999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013065930933333334,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15883102896666676,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022753231500000002,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-store",
             "value": 0.14149715552666667,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "104af7915ab0a8ab5bf5a3c9f09bf134560a877c",
+          "message": "Version bumps and prdocs reordering after stable2603-1 (#11977)\n\nThis PR backports regualr node version bumps and prdocs reordering from\nstable2603 branch back to master\n\n---------\n\nCo-authored-by: ParityReleases <release-team@parity.io>",
+          "timestamp": "2026-05-04T14:02:52Z",
+          "tree_id": "e770ffce4ae7ef632b9289707c4e3a17b1eaef2e",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/104af7915ab0a8ab5bf5a3c9f09bf134560a877c"
+        },
+        "date": 1777908442366,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14052567065333346,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007162619846666667,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009874307799999978,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.023776687613333337,
             "unit": "seconds"
           }
         ]

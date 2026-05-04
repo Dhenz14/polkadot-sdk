@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777891703163,
+  "lastUpdate": 1777907622324,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -87803,6 +87803,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2944955252,
             "range": "± 42685567",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "104af7915ab0a8ab5bf5a3c9f09bf134560a877c",
+          "message": "Version bumps and prdocs reordering after stable2603-1 (#11977)\n\nThis PR backports regualr node version bumps and prdocs reordering from\nstable2603 branch back to master\n\n---------\n\nCo-authored-by: ParityReleases <release-team@parity.io>",
+          "timestamp": "2026-05-04T14:02:52Z",
+          "tree_id": "e770ffce4ae7ef632b9289707c4e3a17b1eaef2e",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/104af7915ab0a8ab5bf5a3c9f09bf134560a877c"
+        },
+        "date": 1777907581664,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 18671786,
+            "range": "± 219290",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 19029226,
+            "range": "± 209249",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 20338359,
+            "range": "± 144660",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 24970804,
+            "range": "± 248466",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 62496248,
+            "range": "± 1290688",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 376769670,
+            "range": "± 4247799",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2462531729,
+            "range": "± 81182474",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 15652804,
+            "range": "± 270103",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 14926251,
+            "range": "± 988462",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 16303732,
+            "range": "± 157886",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 20776123,
+            "range": "± 275213",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 60689657,
+            "range": "± 865316",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 354905404,
+            "range": "± 10899148",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2838456465,
+            "range": "± 78745933",
             "unit": "ns/iter"
           }
         ]

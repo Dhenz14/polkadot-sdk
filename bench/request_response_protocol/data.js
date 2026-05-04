@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777885512518,
+  "lastUpdate": 1777891703163,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -87695,6 +87695,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 3116016438,
             "range": "± 43859715",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "karol@parity.io",
+            "name": "Karol Kokoszka",
+            "username": "karolk91"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4d5876e2565a4fe83c92c8f710778ff49c4ed4a8",
+          "message": "client/db, sp-transaction-storage-proof: preserve `MultiRenew` submit order (#11962)\n\n## Problem\n\n#11474 switched `DbExtrinsic::MultiRenew::hashes` from `Vec<DbHash>` to\n`BTreeSet<DbHash>` for dedup + canonical ordering. This silently broke\nproof-of-storage verification for any block produced by a multi-renew\nextrinsic.\n\n`build_proof` walks `block_indexed_body(N)` linearly to count chunks and\npick the chunk at `random_chunk(parent_hash, total_chunks)`. The\nconsumer pallet (`pallet_transaction_storage`) stores a parallel\n`Vec<TransactionInfo>` in dispatch order. Both sides resolve\n`selected_chunk_index` to a position; with `BTreeSet`, the off-chain\nside iterates in hash-sorted order while the runtime indexes in dispatch\norder. Different positions point at different `chunk_root`s →\n`blake2_256_verify_proof` returns `false` → `Error::InvalidProof` →\n`BadMandatory` → chain halts at the first proof block after a\nmulti-renew.\n\n## Fix\n\nRevert `MultiRenew.hashes` to `Vec<DbHash>`, append every\n`IndexOperation::Renew` op (no dedup). Insertion order is the\ncross-process contract; duplicates are preserved so column-refcount\ninc/dec stays symmetric per occurrence.\n\n## Tests\n\n- `block_indexed_body_preserves_renew_op_submission_order`\n(sc-client-db) — submits 5 Renew ops in non-sorted order, asserts both\n`MultiRenew.hashes` and `block_indexed_body(N)` come back\nposition-by-position equal to the submission order. Fails immediately\nunder any sort-applying container.\n- `proof_round_trip_against_parallel_runtime_view`\n(sp-transaction-storage-proof) — builds a proof from N transactions in\nsubmission order `[3, 0, 2, 1]`, then verifies it against a parallel\nruntime-side `Vec<TxInfo>` in the same order using the binary-search\nlogic FRAME consumers use. Sweeps 16 parent_hash seeds. Under\n`BTreeSet`, would fail on the first seed.\n- `random_chunk_is_deterministic_for_same_inputs`,\n`encode_index_round_trip_is_compact` — pin the agreement primitives.\n- All 10 pre-existing multi-renew tests updated for Vec semantics\n(duplicates preserved, refcount math adjusted accordingly).\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Branislav Kontur <bkontur@gmail.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>\nCo-authored-by: Francisco Aguirre <franciscoaguirreperez@gmail.com>",
+          "timestamp": "2026-05-04T09:40:40Z",
+          "tree_id": "da8baadabdd743b604435cda1cea37fd1ceae48b",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/4d5876e2565a4fe83c92c8f710778ff49c4ed4a8"
+        },
+        "date": 1777891680735,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 19764723,
+            "range": "± 308395",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 20289147,
+            "range": "± 217090",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 21688326,
+            "range": "± 325812",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 26888145,
+            "range": "± 295466",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 66381025,
+            "range": "± 987941",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 365517979,
+            "range": "± 6894164",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2784059821,
+            "range": "± 178787700",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 16492638,
+            "range": "± 335625",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 16753239,
+            "range": "± 311407",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 17220966,
+            "range": "± 290447",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21915115,
+            "range": "± 988719",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 64232435,
+            "range": "± 855435",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 380649716,
+            "range": "± 7837604",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2944955252,
+            "range": "± 42685567",
             "unit": "ns/iter"
           }
         ]

@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777908433450,
+  "lastUpdate": 1777915706566,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "1728078+michalkucharczyk@users.noreply.github.com",
-            "name": "Michal Kucharczyk",
-            "username": "michalkucharczyk"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "8978c005de6631dce20e204380bb43149127cdce",
-          "message": "wasmtime: support for perfmap added (#9821)\n\nThis PR add  support for `perfmap` in wasmtime executor.\n\nFor more technical details refer to this\n[doc](https://docs.wasmtime.dev/examples-profiling-perf.html#profiling-with-perfmap).\n\nInstruction on how to configure profiling on substrate nodes (tested\nwith cumulus benchmarks) is\n[here](https://hackmd.io/o_Ghc86OT4KzCE4x04MeOg?view#Getting-the-right-flamegraph).\n\nThe following environment variable needs to be set when executing the\nnode binary:\n```\nexport WASMTIME_PROFILING_STRATEGY=perfmap\n```\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-25T10:38:47Z",
-          "tree_id": "5014ce67276b6f7ddaf68d6ea916b50e1937a11d",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/8978c005de6631dce20e204380bb43149127cdce"
-        },
-        "date": 1758800794783,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.320050762166671,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.1987611747,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 11.022962956966666,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "54316454+sandreim@users.noreply.github.com",
+            "name": "Andrei Sandu",
+            "username": "sandreim"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "66b0b1a0a893b8bfa233b20b90c23c99131ad613",
+          "message": "YAP Gaming FTW 🎮  (#10165)\n\nList of changes:\n- enable 12 cores in the YAP runtime\n- add `dev` feature, so it can be run locally without RC\n- add README\n\n---------\n\nSigned-off-by: Andrei Sandu <andrei-mihail@parity.io>\nCo-authored-by: Alexandru Vasile <60601340+lexnv@users.noreply.github.com>",
+          "timestamp": "2026-05-04T16:03:33Z",
+          "tree_id": "3c3f5b578df3cf00c682e0647aaf30401fd100d1",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/66b0b1a0a893b8bfa233b20b90c23c99131ad613"
+        },
+        "date": 1777915686176,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 10.891940290700003,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1243682422,
             "unit": "seconds"
           }
         ]

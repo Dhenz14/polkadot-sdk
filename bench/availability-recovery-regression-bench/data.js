@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777915706566,
+  "lastUpdate": 1777924684978,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "robertvaneerdewijk@gmail.com",
-            "name": "0xRVE",
-            "username": "0xRVE"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "7fc007deca8c14d0356367b2461300683bf890b4",
-          "message": "pallet revive evm backend add tests for cross vm contract calls (#9768)\n\nfixes https://github.com/paritytech/polkadot-sdk/issues/9576\n\n---------\n\nCo-authored-by: Robert van Eerdewijk <robert@Roberts-MacBook-Pro.local>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Alexander Theißen <alex.theissen@me.com>",
-          "timestamp": "2025-09-25T13:13:25Z",
-          "tree_id": "2099121124c3880f9004a9d06de28043c05ace37",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/7fc007deca8c14d0356367b2461300683bf890b4"
-        },
-        "date": 1758810421368,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.2056391543333334,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.307842413833331,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.1243682422,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "pgherveou@gmail.com",
+            "name": "PG Herveou",
+            "username": "pgherveou"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "7fd332f53c29ab2b639e895f339769f1a0b6caf9",
+          "message": "benchmarking: Support child trie key whitelisting (#10992)\n\n## Summary\n\nExtends the benchmarking framework to support whitelisting child trie\nstorage keys, enabling accurate PoV measurement for pallets that use\nchild tries (e.g. `pallet-revive` for contract storage).\n\n- Add `child_trie_key: Option<Vec<u8>>` field to `TrackedStorageKey`\nwith `new_child()` constructor\n- Add `add_to_whitelist_child()` helper function for benchmarks\n- Update whitelist pre-read in both v1 and v2 benchmark macros to handle\nchild trie keys via `child::get_raw()`\n- **Fix stale whitelist bug**: `on_before_start` now reads from the\nglobal whitelist (`get_whitelist()`) instead of a captured local copy,\nso keys added during benchmark setup are properly pre-loaded\n- Export `ChildInfo` from `frame_support::storage`\n\n### Problem\n\nCalling `add_to_whitelist()` or `add_to_whitelist_child()` during\nbenchmark setup had no effect on PoV measurement because:\n1. The pre-read only used `unhashed::get_raw()` which doesn't work for\nchild tries\n2. The pre-read closure captured a local whitelist copy that missed keys\nadded during benchmark setup\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Marian Radu <marian@parity.io>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
+          "timestamp": "2026-05-04T18:34:20Z",
+          "tree_id": "185423589de40fccbcaeeefabc9254328093abf6",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/7fd332f53c29ab2b639e895f339769f1a0b6caf9"
+        },
+        "date": 1777924662130,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.127727138833336,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1259045224666667,
             "unit": "seconds"
           }
         ]

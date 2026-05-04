@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777915785873,
+  "lastUpdate": 1777924782288,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "54316454+sandreim@users.noreply.github.com",
-            "name": "Andrei Sandu",
-            "username": "sandreim"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "58a6df32ec9a145615061cd203875c55db5e6fa1",
-          "message": "Elastic scaling runtime upgrade test (#9811)\n\nCloses https://github.com/paritytech/polkadot-sdk/issues/7259.\n\nTODO\n- [x] prdoc\n- [x] upgrade from sync backing\n\n---------\n\nSigned-off-by: Andrei Sandu <andrei-mihail@parity.io>\nCo-authored-by: Javier Viola <javier@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Javier Viola <363911+pepoviola@users.noreply.github.com>",
-          "timestamp": "2025-09-25T07:55:03Z",
-          "tree_id": "3f4658109c44db355c366d8a854cb1975abcfa86",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/58a6df32ec9a145615061cd203875c55db5e6fa1"
-        },
-        "date": 1758791029051,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 127.96599999999998,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.034475158838,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04466099199199996,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.08035124249999992,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "pgherveou@gmail.com",
+            "name": "PG Herveou",
+            "username": "pgherveou"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "7fd332f53c29ab2b639e895f339769f1a0b6caf9",
+          "message": "benchmarking: Support child trie key whitelisting (#10992)\n\n## Summary\n\nExtends the benchmarking framework to support whitelisting child trie\nstorage keys, enabling accurate PoV measurement for pallets that use\nchild tries (e.g. `pallet-revive` for contract storage).\n\n- Add `child_trie_key: Option<Vec<u8>>` field to `TrackedStorageKey`\nwith `new_child()` constructor\n- Add `add_to_whitelist_child()` helper function for benchmarks\n- Update whitelist pre-read in both v1 and v2 benchmark macros to handle\nchild trie keys via `child::get_raw()`\n- **Fix stale whitelist bug**: `on_before_start` now reads from the\nglobal whitelist (`get_whitelist()`) instead of a captured local copy,\nso keys added during benchmark setup are properly pre-loaded\n- Export `ChildInfo` from `frame_support::storage`\n\n### Problem\n\nCalling `add_to_whitelist()` or `add_to_whitelist_child()` during\nbenchmark setup had no effect on PoV measurement because:\n1. The pre-read only used `unhashed::get_raw()` which doesn't work for\nchild tries\n2. The pre-read closure captured a local whitelist copy that missed keys\nadded during benchmark setup\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Marian Radu <marian@parity.io>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
+          "timestamp": "2026-05-04T18:34:20Z",
+          "tree_id": "185423589de40fccbcaeeefabc9254328093abf6",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/7fd332f53c29ab2b639e895f339769f1a0b6caf9"
+        },
+        "date": 1777924759086,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.14999999999998,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.03863792513600001,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08280970337599992,
             "unit": "seconds"
           }
         ]

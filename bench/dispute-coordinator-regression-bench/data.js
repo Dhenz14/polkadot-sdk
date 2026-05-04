@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777723553029,
+  "lastUpdate": 1777886457365,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "git@kchr.de",
-            "name": "Bastian Köcher",
-            "username": "bkchr"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "19320f104fc4b5cb6663cffc41f340b6b5239be8",
-          "message": "FRAME: Register `on_initialize` after each pallet (#9756)\n\nBefore this pull request, FRAME was executing all pallets\n`on_initialize` and then register the weight, including the weight of\n`on_runtime_upgrade`. Thus, other pallets were not aware on how much\nweight was already used when they were executing their `on_initialize`\ncode. As some pallets are doing some work in `on_initialize`, they need\nto be aware of how much weight is still left.\nTo register the weight after each `on_initialize` call, a new trait is\nadded. This new trait is implemented for tuples of types that implement\n`OnInitialize` and then it registers the weight after each call to\n`on_initialize`.\n\n`pallet-scheduler` is changed to take the remaining weight into account\nand to not just assume that its configured weight is always available.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-23T17:26:05Z",
-          "tree_id": "329e7d671c7b6beb98933de95fc234552598c017",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/19320f104fc4b5cb6663cffc41f340b6b5239be8"
-        },
-        "date": 1758652654317,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005028634699999991,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0026483011499999994,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008568878589999997,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.009501191269999992,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "oliver.tale-yazdi@parity.io",
+            "name": "Oliver Tale-Yazdi",
+            "username": "ggwpez"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "cdfcd62fc27725404673f0de011447f7e5b6ac6d",
+          "message": "Fix recursive XCM decoding (#11964)\n\nSigned-off-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-05-04T07:56:55Z",
+          "tree_id": "d30ee20b19e2cbfe555c940a911507690837d2a2",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/cdfcd62fc27725404673f0de011447f7e5b6ac6d"
+        },
+        "date": 1777886437366,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009492015779999984,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.010045868619999992,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.002681848579999999,
             "unit": "seconds"
           }
         ]

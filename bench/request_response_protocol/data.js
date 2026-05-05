@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777983624452,
+  "lastUpdate": 1777986999581,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -88235,6 +88235,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2763022394,
             "range": "± 65074859",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "claravanstaden64@gmail.com",
+            "name": "Clara van Staden",
+            "username": "claravanstaden"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "c3ecf63034924511d6b92e3533c23c15765f16b9",
+          "message": "Fix `claim_rewards_to` benchmark to enable Snowbridge reward claims (#10952)\n\nThe `prepare_rewards_account` benchmark helper was returning `None`,\ncausing `claim_rewards_to` to be assigned `Weight::MAX` and effectively\ndisabling the extrinsic. This fix returns a valid beneficiary account,\nenabling Snowbridge relayers to claim rewards to AssetHub as intended.\n\n---------\n\nCo-authored-by: Adrian Catangiu <adrian@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-05-05T12:08:04Z",
+          "tree_id": "a501877d9951c422cf0a742c1ce2ab2b94bd587d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/c3ecf63034924511d6b92e3533c23c15765f16b9"
+        },
+        "date": 1777986976657,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 21079979,
+            "range": "± 149385",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 21808240,
+            "range": "± 433276",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 23109680,
+            "range": "± 207353",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 29007158,
+            "range": "± 413381",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 73133225,
+            "range": "± 1153317",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 438386769,
+            "range": "± 8823441",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 3073499859,
+            "range": "± 257249398",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 17674424,
+            "range": "± 687282",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 18134363,
+            "range": "± 234140",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 18433081,
+            "range": "± 397831",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 24475581,
+            "range": "± 1223221",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 66878479,
+            "range": "± 1598743",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 443482360,
+            "range": "± 24348871",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 3211343143,
+            "range": "± 82343587",
             "unit": "ns/iter"
           }
         ]

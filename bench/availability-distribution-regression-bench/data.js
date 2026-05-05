@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777924717696,
+  "lastUpdate": 1777984612638,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "robertvaneerdewijk@gmail.com",
-            "name": "0xRVE",
-            "username": "0xRVE"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "7fc007deca8c14d0356367b2461300683bf890b4",
-          "message": "pallet revive evm backend add tests for cross vm contract calls (#9768)\n\nfixes https://github.com/paritytech/polkadot-sdk/issues/9576\n\n---------\n\nCo-authored-by: Robert van Eerdewijk <robert@Roberts-MacBook-Pro.local>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Alexander Theißen <alex.theissen@me.com>",
-          "timestamp": "2025-09-25T13:13:25Z",
-          "tree_id": "2099121124c3880f9004a9d06de28043c05ace37",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/7fc007deca8c14d0356367b2461300683bf890b4"
-        },
-        "date": 1758810447901,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.0074707613466666635,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15695318655999999,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022512317313333335,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012877928586666665,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-store",
             "value": 0.14203752008666673,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "claravanstaden64@gmail.com",
+            "name": "Clara van Staden",
+            "username": "claravanstaden"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ef30210809ef77767afb5e2a5bb238d41180989e",
+          "message": "Snowbridge: Halt message verifier when Ethereum client is Halted    (#11856)\n\nWhen the Snowbridge Ethereum client is halted, no messages should be\nverified. The Ethereum client currently checks the bridge status, but\n`submit_delivery_receipt` does not explicitly use the Ethereum client -\nit uses the `Verifier` impl. When the Ethereum client is `Halted`, no\nmessages should be processed at all. This PR adds a check if the pallet\nis halted, and if so, return a `VerificationError::Halted` message.\n\nThere is no current vulnerability or exploit that this change fixes, it\nis just good security posture.\n\n---------\n\nCo-authored-by: Adrian Catangiu <adrian@parity.io>",
+          "timestamp": "2026-05-05T11:05:24Z",
+          "tree_id": "008e20e6e6dfe724cece80b6a831f26ed64256c5",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/ef30210809ef77767afb5e2a5bb238d41180989e"
+        },
+        "date": 1777984590398,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.006854259213333333,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.02374601873333333,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14067555889333336,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009201042346666632,
             "unit": "seconds"
           }
         ]

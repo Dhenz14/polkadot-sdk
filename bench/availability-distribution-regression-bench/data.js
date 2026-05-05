@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777984612638,
+  "lastUpdate": 1777989165203,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "tsvetomir@parity.io",
-            "name": "Tsvetomir Dimitrov",
-            "username": "tdimitrov"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "ad4ae97793083c2b08369fe7b0e63331e7753a4c",
-          "message": "Handle invulnerable AH collators with priority in collator-protocol/validator-side (#9458)\n\nImplements priority handling of invulnerable AH collators which consists\nof:\n1. Connection management - there is a connection limit in the networking\nstack of 100 peers after which no new connections are accepted. To make\nsure that the invulnerable collators can always connect to the\nvalidators permissionless collators are getting disconnected one the\nconnection count is close to the limit.\n2. Collations from permissionless collators are held off for some time\nbefore processing so that the invulnerables have got a chance to put a\ncollation on their own.\n\nTODOs:\n- [x] Add the invulnerables list.\n- [x] Test if the change works for collators claiming positions further\ninto the CQ.\n- [x] Find a good value for `HOLD_OFF_DURATION` and test it on a\ntestnet.\n- [x] Safetynet: Add a command line parameter which overrides\n`HOLD_OFF_DURATION`.\n- [x] Make the hold off more idiomatic.\n- [x] Hold off per relay parent.\n- [x] Fix failing tests.\n\n---------\n\nCo-authored-by: Andrei Sandu <54316454+sandreim@users.noreply.github.com>",
-          "timestamp": "2025-09-26T05:37:51Z",
-          "tree_id": "17846cf3dfa6de29d1559d0660723069ab287da8",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/ad4ae97793083c2b08369fe7b0e63331e7753a4c"
-        },
-        "date": 1758869290515,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02248574053333334,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012716245026666666,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007372536520000001,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15664777712666672,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.009201042346666632,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "claravanstaden64@gmail.com",
+            "name": "Clara van Staden",
+            "username": "claravanstaden"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "c3ecf63034924511d6b92e3533c23c15765f16b9",
+          "message": "Fix `claim_rewards_to` benchmark to enable Snowbridge reward claims (#10952)\n\nThe `prepare_rewards_account` benchmark helper was returning `None`,\ncausing `claim_rewards_to` to be assigned `Weight::MAX` and effectively\ndisabling the extrinsic. This fix returns a valid beneficiary account,\nenabling Snowbridge relayers to claim rewards to AssetHub as intended.\n\n---------\n\nCo-authored-by: Adrian Catangiu <adrian@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-05-05T12:08:04Z",
+          "tree_id": "a501877d9951c422cf0a742c1ce2ab2b94bd587d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/c3ecf63034924511d6b92e3533c23c15765f16b9"
+        },
+        "date": 1777989143622,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.006782042526666668,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14142007670666668,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.023854601860000005,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009579306066666638,
             "unit": "seconds"
           }
         ]

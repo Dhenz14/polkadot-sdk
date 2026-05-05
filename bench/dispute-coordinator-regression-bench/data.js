@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777924815348,
+  "lastUpdate": 1777984705341,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "robertvaneerdewijk@gmail.com",
-            "name": "0xRVE",
-            "username": "0xRVE"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "afbe4258991a60a7b41270d0fe47d1cd94a5681c",
-          "message": "bugfix revm set_storage gas cost (#9823)\n\nFixes bug in revm gasmetering where the initial charge was less than the\nadjusted charge.\n\n---------\n\nCo-authored-by: Robert van Eerdewijk <robert@Roberts-MacBook-Pro.local>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: PG Herveou <pgherveou@gmail.com>",
-          "timestamp": "2025-09-25T09:05:41Z",
-          "tree_id": "093d3a6142cd89d6a78d461a8e82aa2251bcfeb6",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/afbe4258991a60a7b41270d0fe47d1cd94a5681c"
-        },
-        "date": 1758795401805,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005147795699999996,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.00868360990999999,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0026035826699999996,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.009971236569999996,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "claravanstaden64@gmail.com",
+            "name": "Clara van Staden",
+            "username": "claravanstaden"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ef30210809ef77767afb5e2a5bb238d41180989e",
+          "message": "Snowbridge: Halt message verifier when Ethereum client is Halted    (#11856)\n\nWhen the Snowbridge Ethereum client is halted, no messages should be\nverified. The Ethereum client currently checks the bridge status, but\n`submit_delivery_receipt` does not explicitly use the Ethereum client -\nit uses the `Verifier` impl. When the Ethereum client is `Halted`, no\nmessages should be processed at all. This PR adds a check if the pallet\nis halted, and if so, return a `VerificationError::Halted` message.\n\nThere is no current vulnerability or exploit that this change fixes, it\nis just good security posture.\n\n---------\n\nCo-authored-by: Adrian Catangiu <adrian@parity.io>",
+          "timestamp": "2026-05-05T11:05:24Z",
+          "tree_id": "008e20e6e6dfe724cece80b6a831f26ed64256c5",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/ef30210809ef77767afb5e2a5bb238d41180989e"
+        },
+        "date": 1777984683391,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009268424379999984,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009646902869999988,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.00269902765,
             "unit": "seconds"
           }
         ]

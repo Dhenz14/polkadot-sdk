@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777984643247,
+  "lastUpdate": 1777989196207,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "robertvaneerdewijk@gmail.com",
-            "name": "0xRVE",
-            "username": "0xRVE"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "7fc007deca8c14d0356367b2461300683bf890b4",
-          "message": "pallet revive evm backend add tests for cross vm contract calls (#9768)\n\nfixes https://github.com/paritytech/polkadot-sdk/issues/9576\n\n---------\n\nCo-authored-by: Robert van Eerdewijk <robert@Roberts-MacBook-Pro.local>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Alexander Theißen <alex.theissen@me.com>",
-          "timestamp": "2025-09-25T13:13:25Z",
-          "tree_id": "2099121124c3880f9004a9d06de28043c05ace37",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/7fc007deca8c14d0356367b2461300683bf890b4"
-        },
-        "date": 1758810475045,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52942.59999999999,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63632.25,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4807492711899997,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.4730271659600005,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.4987551524900002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005706188710000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.968135433150001,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.0000210641,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.394745717299996,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.44008662964999734,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.6196824275110417,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.0000211444,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.0000211444,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.5282858761499996,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.0000210641,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting-parallel",
             "value": 14.672807077889962,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "claravanstaden64@gmail.com",
+            "name": "Clara van Staden",
+            "username": "claravanstaden"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "c3ecf63034924511d6b92e3533c23c15765f16b9",
+          "message": "Fix `claim_rewards_to` benchmark to enable Snowbridge reward claims (#10952)\n\nThe `prepare_rewards_account` benchmark helper was returning `None`,\ncausing `claim_rewards_to` to be assigned `Weight::MAX` and effectively\ndisabling the extrinsic. This fix returns a valid beneficiary account,\nenabling Snowbridge relayers to claim rewards to AssetHub as intended.\n\n---------\n\nCo-authored-by: Adrian Catangiu <adrian@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-05-05T12:08:04Z",
+          "tree_id": "a501877d9951c422cf0a742c1ce2ab2b94bd587d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/c3ecf63034924511d6b92e3533c23c15765f16b9"
+        },
+        "date": 1777989174079,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 63626.78999999999,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 52938.3,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.00002167785,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.00002167785,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.000020669360000000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.8775145364300005,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.808031938660001,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7676628668099512,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.248319547862824,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.8340218512600006,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.4570570731000045,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.000020669360000000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.563986598749963,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.814571664490004,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005126668000000003,
             "unit": "seconds"
           }
         ]

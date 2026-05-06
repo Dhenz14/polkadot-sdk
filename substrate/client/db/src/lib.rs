@@ -2211,43 +2211,6 @@ impl<Block: BlockT> Backend<Block> {
 		RecordStatsState::new(state, None, self.state_usage.clone())
 	}
 
-	/// Process a block's body using indexed transaction metadata from the runtime.
-	///
-	/// Reads the body from BODY column, splits indexed extrinsics into
-	/// BODY_INDEX + TRANSACTION entries, and removes the raw BODY entry.
-	/// Returns content_hashes of renew extrinsics whose data is missing.
-	pub fn apply_indexed_meta_for_block(
-		&self,
-		hash: Block::Hash,
-		number: NumberFor<Block>,
-		meta: Vec<IndexedTransactionMeta>,
-	) -> ClientResult<Vec<[u8; 32]>> {
-		let body: Vec<Block::Extrinsic> = self.blockchain.body(hash)?.ok_or_else(|| {
-			sp_blockchain::Error::Backend(format!(
-				"Cannot apply indexed meta: no body for block {hash:?}"
-			))
-		})?;
-
-		let lookup_key = utils::number_and_hash_to_lookup_key(number, hash)?;
-
-		let mut transaction = Transaction::new();
-		let (body_index_encoded, missing) =
-			apply_body_with_indexed_meta::<Block>(&mut transaction, &body, &meta);
-
-		transaction.set_from_vec(columns::BODY_INDEX, &lookup_key, body_index_encoded);
-		transaction.remove(columns::BODY, &lookup_key);
-
-		self.storage.db.commit(transaction)?;
-
-		debug!(
-			target: "db",
-			"Block #{number} ({hash:?}): applied indexed meta, {} missing renew hashes",
-			missing.len(),
-		);
-
-		Ok(missing)
-	}
-
 	/// Store a blob fetched via bitswap into the `TRANSACTION` column with the given target
 	/// reference count. The caller owns the count computation (typically the number of
 	/// `DbExtrinsic::Indexed { hash: content_hash, .. }` entries across `BODY_INDEX` entries that
@@ -2290,26 +2253,6 @@ impl<Block: BlockT> Backend<Block> {
 			"store_fetched_transaction_with_count: hash={:?} ref_count={}",
 			db_hash,
 			target_ref_count,
-		);
-		Ok(())
-	}
-
-	/// Bump the `TRANSACTION` column's reference counter for `content_hash` by `count`.
-	/// Silent no-op on missing keys; use only when the entry is known to exist (check via
-	/// `has_indexed_transaction` first).
-	pub fn bump_transaction_ref(&self, content_hash: [u8; 32], count: u32) -> ClientResult<()> {
-		if count == 0 {
-			return Ok(());
-		}
-		let db_hash = DbHash::from_slice(&content_hash);
-		let mut transaction = Transaction::new();
-		transaction.reference_count(columns::TRANSACTION, db_hash, count);
-		self.storage.db.commit(transaction)?;
-		debug!(
-			target: "db",
-			"bump_transaction_ref: hash={:?} count={}",
-			db_hash,
-			count,
 		);
 		Ok(())
 	}

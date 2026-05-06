@@ -42,6 +42,7 @@
 //! Behaviour gated by `BlockOrigin`: blocks from `WarpSync`, `GapSync`, `File`, and `Genesis` are
 //! passed through unchanged. Gap-sync coverage is a separate workstream.
 
+use futures::stream::{StreamExt, TryStreamExt};
 use sc_client_api::backend::Backend as BackendT;
 use sc_client_db::{
 	classify_indexed_extrinsics, Backend, ClassifiedExtrinsic, IndexedTransactionMeta,
@@ -70,6 +71,10 @@ const LOG_TARGET: &str = "storage-chain-block-import";
 const RAW_CID_CODEC: u64 = 0x55;
 const BITSWAP_PER_PEER_TIMEOUT: Duration = Duration::from_secs(5);
 const MAX_PEERS_PER_HASH: usize = 8;
+/// Maximum number of bitswap fetches that run concurrently for a single block. The cap exists so
+/// that a bulk-renew block (e.g. `process_auto_renewals` with hundreds of hashes) cannot saturate
+/// the substrate request-response queue, which has its own per-peer bound.
+const MAX_CONCURRENT_RENEW_FETCHES: usize = 8;
 
 /// Late-bound network handles populated after `build_network` returns.
 pub type NetworkHandle = Arc<OnceLock<Arc<dyn NetworkRequest + Send + Sync>>>;
@@ -133,10 +138,10 @@ where
 		&self,
 		params: BlockImportParams<Block>,
 	) -> Result<ImportResult, Self::Error> {
-		let to_fetch = self.classify_missing_renews(&params)?;
-		for (content_hash, hashing) in to_fetch {
-			self.fetch_and_store_one(content_hash, hashing).await?;
-		}
+		let renews = self.classify_renew_hashes(&params)?;
+		let missing = self.filter_missing(renews);
+		let fetched = self.fetch_all(missing).await?;
+		self.store_all(fetched)?;
 		self.inner.import_block(params).await
 	}
 }
@@ -174,13 +179,14 @@ where
 			.unwrap_or(false)
 	}
 
-	/// Determine which renew hashes are missing locally for this block.
+	/// Returns every renew (hash, hashing) pair declared by the runtime for this block. Pure —
+	/// does no DB lookup; [`Self::filter_missing`] filters this set down to entries whose data is
+	/// not yet on disk.
 	///
 	/// `indexed_transactions(block_n)` is contracted (per `TransactionStorageApi v2`) to return an
 	/// empty vec for blocks outside the runtime's retention window — so calls for blocks far below
-	/// the tip silently yield an empty fetch set, which is the right behaviour for a tip-only
-	/// wrapper.
-	fn classify_missing_renews(
+	/// the tip silently yield an empty set, which is the right behaviour for a tip-only wrapper.
+	fn classify_renew_hashes(
 		&self,
 		params: &BlockImportParams<Block>,
 	) -> Result<HashSet<([u8; 32], HashingAlgorithm)>, ConsensusError> {
@@ -216,7 +222,7 @@ where
 			ConsensusError::Other("StorageChainBlockImport: body absent after gate".into())
 		})?;
 
-		let missing: HashSet<([u8; 32], HashingAlgorithm)> =
+		let renews: HashSet<([u8; 32], HashingAlgorithm)> =
 			classify_indexed_extrinsics::<Block>(body, &db_meta)
 				.into_iter()
 				.filter_map(|entry| match entry {
@@ -226,34 +232,44 @@ where
 				.flatten()
 				.collect();
 
-		if !missing.is_empty() {
+		if !renews.is_empty() {
 			log::debug!(
 				target: LOG_TARGET,
-				"block #{:?} ({:?}): {} indexed entries, {} missing-renew hashes to fetch",
+				"block #{:?} ({:?}): {} indexed entries, {} renew hashes",
 				block_number,
 				parent_hash,
 				db_meta.len(),
-				missing.len(),
+				renews.len(),
 			);
 		}
 
-		Ok(missing)
+		Ok(renews)
 	}
 
-	async fn fetch_and_store_one(
+	/// Drops every entry whose data is already in the local TRANSACTION column.
+	fn filter_missing(
+		&self,
+		renews: HashSet<([u8; 32], HashingAlgorithm)>,
+	) -> HashSet<([u8; 32], HashingAlgorithm)> {
+		renews
+			.into_iter()
+			.filter(|(hash, _)| {
+				!self
+					.backend
+					.blockchain()
+					.has_indexed_transaction((*hash).into())
+					.unwrap_or(false)
+			})
+			.collect()
+	}
+
+	/// Resolves a single hash via bitswap. Pure fetch — does no DB write. Caller decides what to
+	/// do with the bytes.
+	async fn fetch_one(
 		&self,
 		content_hash: [u8; 32],
 		hashing: HashingAlgorithm,
-	) -> Result<(), ConsensusError> {
-		if self
-			.backend
-			.blockchain()
-			.has_indexed_transaction(content_hash.into())
-			.unwrap_or(false)
-		{
-			return Ok(());
-		}
-
+	) -> Result<Vec<u8>, ConsensusError> {
 		let network = self.network.get().ok_or_else(|| {
 			ConsensusError::Other(
 				"StorageChainBlockImport: network handle not yet set; \
@@ -269,36 +285,57 @@ where
 			)
 		})?;
 
-		let data =
-			fetch_via_bitswap::<Block>(network.as_ref(), sync.as_ref(), content_hash, hashing)
-				.await
-				.ok_or_else(|| {
-					ConsensusError::Other(
-						format!(
-							"bitswap fetch failed for indexed transaction {content_hash:?}; \
-							 retry block import after peers respond"
-						)
-						.into(),
-					)
-				})?;
-
-		self.backend
-			.store_fetched_transaction_with_count(content_hash, data, 1, hashing)
-			.map_err(|e| {
+		fetch_via_bitswap::<Block>(network.as_ref(), sync.as_ref(), content_hash, hashing)
+			.await
+			.ok_or_else(|| {
 				ConsensusError::Other(
 					format!(
-						"store_fetched_transaction_with_count({content_hash:?}) failed: {e}"
+						"bitswap fetch failed for indexed transaction {content_hash:?}; \
+						 retry block import after peers respond"
 					)
 					.into(),
 				)
-			})?;
+			})
+	}
 
-		log::info!(
-			target: LOG_TARGET,
-			"bitswap-fetched indexed transaction {:?} (rc=1) ahead of inner import",
-			content_hash,
-		);
+	/// Resolves every missing entry concurrently (capped at [`MAX_CONCURRENT_RENEW_FETCHES`]),
+	/// holding the fetched bytes in memory. Returns `Err` on the first failure, abandoning any
+	/// in-flight fetches; their network requests time out naturally.
+	async fn fetch_all(
+		&self,
+		missing: HashSet<([u8; 32], HashingAlgorithm)>,
+	) -> Result<Vec<([u8; 32], HashingAlgorithm, Vec<u8>)>, ConsensusError> {
+		futures::stream::iter(missing)
+			.map(|(hash, hashing)| async move {
+				let data = self.fetch_one(hash, hashing).await?;
+				Ok::<_, ConsensusError>((hash, hashing, data))
+			})
+			.buffer_unordered(MAX_CONCURRENT_RENEW_FETCHES)
+			.try_collect()
+			.await
+	}
 
+	/// Persists every fetched entry into the local TRANSACTION column with `ref_count = 1`. The
+	/// inner block import's `Renew` op will then bump the refcount to its true value.
+	fn store_all(
+		&self,
+		fetched: Vec<([u8; 32], HashingAlgorithm, Vec<u8>)>,
+	) -> Result<(), ConsensusError> {
+		for (hash, hashing, data) in fetched {
+			self.backend
+				.store_fetched_transaction_with_count(hash, data, 1, hashing)
+				.map_err(|e| {
+					ConsensusError::Other(
+						format!("store_fetched_transaction_with_count({hash:?}) failed: {e}")
+							.into(),
+					)
+				})?;
+			log::info!(
+				target: LOG_TARGET,
+				"bitswap-fetched indexed transaction {:?} (rc=1) ahead of inner import",
+				hash,
+			);
+		}
 		Ok(())
 	}
 }

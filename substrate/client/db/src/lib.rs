@@ -82,8 +82,7 @@ use sp_transaction_storage_proof::HashingAlgorithm;
 use sp_runtime::{
 	generic::BlockId,
 	traits::{
-		Block as BlockT, Hash, HashingFor, Header as HeaderT, NumberFor, One, SaturatedConversion,
-		Zero,
+		Block as BlockT, HashingFor, Header as HeaderT, NumberFor, One, SaturatedConversion, Zero,
 	},
 	Justification, Justifications, StateVersion, Storage,
 };

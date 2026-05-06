@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778053813303,
+  "lastUpdate": 1778071591702,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -88451,6 +88451,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2739294691,
             "range": "± 33036059",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "alex.theissen@me.com",
+            "name": "Alexander Theißen",
+            "username": "athei"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "94f200baf9d331175b678cc090a7eb92bb41802c",
+          "message": "Pass -Zjson-target-spec when building with a .json target spec (#11992)\n\nRecent rustc requires `-Z json-target-spec` to opt into the JSON target\nspec format whenever `--target=*.json` is used. Without this, builds\nthat go through `polkavm-linker::target_json_path` fail with:\n\n  error: `.json` target specs require -Zjson-target-spec\n\nFix the two places in the workspace that invoke cargo with a JSON target\nspec for the Riscv runtime:\n\n- substrate-wasm-builder (`wasm_project.rs`): pass the flag for\n`RuntimeTarget::Riscv`. `RUSTC_BOOTSTRAP=1` is already set by the\npreceding `-Z build-std` block (Riscv always opts into build-std).\n- pallet-revive-fixtures (`builder.rs`): refactor the inline rustc\nversion detection to expose major/minor and derive both\n`new_immediate_abort` (1.92+) and `needs_json_target_spec` (1.95+) from\nthem.\n\nThe flag is gated on rustc 1.95+ where it was introduced. Older rustc\ndoesn't recognize it; later rustc requires it.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-05-06T11:41:37Z",
+          "tree_id": "91939c04d1951ca428ac9018d45388f45ca1b32c",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/94f200baf9d331175b678cc090a7eb92bb41802c"
+        },
+        "date": 1778071571374,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 21945430,
+            "range": "± 520538",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 22359975,
+            "range": "± 253229",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 24113958,
+            "range": "± 121079",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 28950056,
+            "range": "± 331986",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 72337639,
+            "range": "± 1039059",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 466999094,
+            "range": "± 15096974",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2776023694,
+            "range": "± 175262771",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 17979334,
+            "range": "± 349492",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 18142916,
+            "range": "± 348269",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 20170668,
+            "range": "± 398445",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 25580806,
+            "range": "± 562702",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 73643431,
+            "range": "± 2269960",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 446575054,
+            "range": "± 8160411",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 3150429337,
+            "range": "± 53645962",
             "unit": "ns/iter"
           }
         ]

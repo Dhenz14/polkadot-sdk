@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777989165203,
+  "lastUpdate": 1778054932097,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "gui.thiolliere@gmail.com",
-            "name": "Guillaume Thiolliere",
-            "username": "gui1117"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "9e0636567bebf312b065ca3acb285a8b32499df7",
-          "message": "Add remove_by method in runtime interface and extension. (#9836)\n\nCurrently the runtime is responsible to remove statements from the\nstore. this is the only for the statements to expire and not grow\nindefinitely until the store gobal limits.\n\nIf we use a statements store with 4GiB of statements, the method\n`statements` and `remove` to query and remove statements from the\noffchain worker is unusable given `statements` cannot be called.\n\nI introduce the method `remove_by` which is safe.\n\nLater we can also introduce a method `valid_statement_change` which\nresize the usage of the statement store of one account given a new\nusage. But I don't have time for this now.\n\nThere are some other possibilities (both implemented in different commit\nof https://github.com/paritytech/polkadot-sdk/pull/9827):\n* Do no make the runtime responsible of cleaning the store: make the\nstatement store clean the statements after some duration like 7 days.\n* Make the user responsible to refresh their statements. The statement\nstore would clean statements by order of insertion. User with remaining\nallowance must resubmit their statements regularly. (the pace depends on\nhow fast the allowance of user is changing in the runtime).\n\n---------\n\nCo-authored-by: Bastian Köcher <git@kchr.de>\nCo-authored-by: georgepisaltu <52418509+georgepisaltu@users.noreply.github.com>",
-          "timestamp": "2025-09-26T07:27:40Z",
-          "tree_id": "3b0ad9124e47dd265152387ff55d9685f4566649",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/9e0636567bebf312b065ca3acb285a8b32499df7"
-        },
-        "date": 1758875911739,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007757722053333358,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15793422392666667,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012965652473333335,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02272561255333334,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.009579306066666638,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "9df45c241230ca446b9a3e73a51ea554a9cf1ef1",
+          "message": "Use app token to create post crates release PR  (#11987)\n\nThis PR replaces standard GH token with the one generated for the GH app\nso that CI checks will be triggered automatically when PR is created\nfrom the Post Crates Activities flow\nCloses: https://github.com/paritytech/release-engineering/issues/296",
+          "timestamp": "2026-05-06T06:43:34Z",
+          "tree_id": "791084a12542353030f2e25f92f9666f5caa0e70",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/9df45c241230ca446b9a3e73a51ea554a9cf1ef1"
+        },
+        "date": 1778054909480,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009422408906666664,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007271219986666672,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.023750151179999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14083155966666677,
             "unit": "seconds"
           }
         ]

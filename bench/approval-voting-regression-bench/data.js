@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778054963399,
+  "lastUpdate": 1778072577503,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "gui.thiolliere@gmail.com",
-            "name": "Guillaume Thiolliere",
-            "username": "gui1117"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "9e0636567bebf312b065ca3acb285a8b32499df7",
-          "message": "Add remove_by method in runtime interface and extension. (#9836)\n\nCurrently the runtime is responsible to remove statements from the\nstore. this is the only for the statements to expire and not grow\nindefinitely until the store gobal limits.\n\nIf we use a statements store with 4GiB of statements, the method\n`statements` and `remove` to query and remove statements from the\noffchain worker is unusable given `statements` cannot be called.\n\nI introduce the method `remove_by` which is safe.\n\nLater we can also introduce a method `valid_statement_change` which\nresize the usage of the statement store of one account given a new\nusage. But I don't have time for this now.\n\nThere are some other possibilities (both implemented in different commit\nof https://github.com/paritytech/polkadot-sdk/pull/9827):\n* Do no make the runtime responsible of cleaning the store: make the\nstatement store clean the statements after some duration like 7 days.\n* Make the user responsible to refresh their statements. The statement\nstore would clean statements by order of insertion. User with remaining\nallowance must resubmit their statements regularly. (the pace depends on\nhow fast the allowance of user is changing in the runtime).\n\n---------\n\nCo-authored-by: Bastian Köcher <git@kchr.de>\nCo-authored-by: georgepisaltu <52418509+georgepisaltu@users.noreply.github.com>",
-          "timestamp": "2025-09-26T07:27:40Z",
-          "tree_id": "3b0ad9124e47dd265152387ff55d9685f4566649",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/9e0636567bebf312b065ca3acb285a8b32499df7"
-        },
-        "date": 1758875938964,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52943.2,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63636.85000000001,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9191500661999996,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.42371914747999506,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000019678299999999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.6540529537911635,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.000018240730000000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000019678299999999998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.000018240730000000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.173255059539992,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.4477461834400005,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005602003940000001,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.455727293159998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.4753028602899994,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.4460075050300008,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting/test-environment",
             "value": 0.00002302752,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "alex.theissen@me.com",
+            "name": "Alexander Theißen",
+            "username": "athei"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "94f200baf9d331175b678cc090a7eb92bb41802c",
+          "message": "Pass -Zjson-target-spec when building with a .json target spec (#11992)\n\nRecent rustc requires `-Z json-target-spec` to opt into the JSON target\nspec format whenever `--target=*.json` is used. Without this, builds\nthat go through `polkavm-linker::target_json_path` fail with:\n\n  error: `.json` target specs require -Zjson-target-spec\n\nFix the two places in the workspace that invoke cargo with a JSON target\nspec for the Riscv runtime:\n\n- substrate-wasm-builder (`wasm_project.rs`): pass the flag for\n`RuntimeTarget::Riscv`. `RUSTC_BOOTSTRAP=1` is already set by the\npreceding `-Z build-std` block (Riscv always opts into build-std).\n- pallet-revive-fixtures (`builder.rs`): refactor the inline rustc\nversion detection to expose major/minor and derive both\n`new_immediate_abort` (1.92+) and `needs_json_target_spec` (1.95+) from\nthem.\n\nThe flag is gated on rustc 1.95+ where it was introduced. Older rustc\ndoesn't recognize it; later rustc requires it.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-05-06T11:41:37Z",
+          "tree_id": "91939c04d1951ca428ac9018d45388f45ca1b32c",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/94f200baf9d331175b678cc090a7eb92bb41802c"
+        },
+        "date": 1778072555872,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 63623.7,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 52939,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.8181843506899993,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.00002515085,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.813484292920002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.69376042446998,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.9396253325500004,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7806727336799735,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.00002600823,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.00002600823,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.4778675101628425,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.00564874742,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.00002515085,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.86922569132,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.466919275890006,
             "unit": "seconds"
           }
         ]

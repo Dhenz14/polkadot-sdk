@@ -2442,7 +2442,8 @@ fn apply_index_ops<Block: BlockT>(
 pub enum ClassifiedExtrinsic {
 	/// Body extrinsic carries the indexed data as its tail bytes; can be stored locally.
 	Insert {
-		hash: DbHash,
+		/// Content hash of the indexed data.
+		hash: [u8; 32],
 		/// Length of the extrinsic header (everything before the indexed tail).
 		header_len: usize,
 		/// Indexed data tail.
@@ -2455,7 +2456,7 @@ pub enum ClassifiedExtrinsic {
 	/// `process_auto_renewals`-style multi-renew extrinsic.
 	Renew {
 		/// Renew targets, in submission order. Always non-empty.
-		hashes: Vec<(DbHash, HashingAlgorithm)>,
+		hashes: Vec<([u8; 32], HashingAlgorithm)>,
 	},
 	/// Body extrinsic with no associated indexed entry.
 	Full,
@@ -2494,8 +2495,7 @@ fn classify_by_extrinsic_index<Block: BlockT>(
 
 	let mut out = Vec::with_capacity(body.len());
 	for (i, ext) in body.iter().enumerate() {
-		let i_u32 = i as u32;
-		let entries = match entries_at.get(&i_u32) {
+		let entries = match entries_at.get(&(i as u32)) {
 			Some(entries) => entries.as_slice(),
 			None => {
 				out.push(ClassifiedExtrinsic::Full);
@@ -2503,30 +2503,31 @@ fn classify_by_extrinsic_index<Block: BlockT>(
 			},
 		};
 
-		if let [meta] = entries {
-			let encoded = ext.encode();
-			let size = meta.size as usize;
-			let db_hash = DbHash::from_slice(&meta.content_hash);
-			if encoded.len() >= size {
-				let tail = &encoded[encoded.len() - size..];
-				if meta.hashing.hash(tail) == meta.content_hash {
-					out.push(ClassifiedExtrinsic::Insert {
-						hash: db_hash,
-						header_len: encoded.len() - size,
-						tail: tail.to_vec(),
-						hashing: meta.hashing,
-					});
-					continue;
-				}
-			}
-			out.push(ClassifiedExtrinsic::Renew { hashes: vec![(db_hash, meta.hashing)] });
-		} else {
-			let hashes = entries
-				.iter()
-				.map(|m| (DbHash::from_slice(&m.content_hash), m.hashing))
-				.collect();
+		// Multiple metas at the same extrinsic_index can only come from a multi-renew.
+		if entries.len() > 1 {
+			let hashes = entries.iter().map(|m| (m.content_hash, m.hashing)).collect();
 			out.push(ClassifiedExtrinsic::Renew { hashes });
+			continue;
 		}
+
+		let meta = entries[0];
+		let encoded = ext.encode();
+		let size = meta.size as usize;
+		if encoded.len() >= size {
+			let tail = &encoded[encoded.len() - size..];
+			if meta.hashing.hash(tail) == meta.content_hash {
+				out.push(ClassifiedExtrinsic::Insert {
+					hash: meta.content_hash,
+					header_len: encoded.len() - size,
+					tail: tail.to_vec(),
+					hashing: meta.hashing,
+				});
+				continue;
+			}
+		}
+		out.push(ClassifiedExtrinsic::Renew {
+			hashes: vec![(meta.content_hash, meta.hashing)],
+		});
 	}
 	out
 }
@@ -2535,11 +2536,10 @@ fn classify_by_tail_scan<Block: BlockT>(
 	body: &[Block::Extrinsic],
 	indexed_meta: &[IndexedTransactionMeta],
 ) -> Vec<ClassifiedExtrinsic> {
-	let mut matched: HashMap<usize, (DbHash, usize, Vec<u8>, HashingAlgorithm)> = HashMap::new();
-	let mut renew_queue: Vec<(DbHash, HashingAlgorithm)> = Vec::new();
+	let mut matched: HashMap<usize, ([u8; 32], usize, Vec<u8>, HashingAlgorithm)> = HashMap::new();
+	let mut renew_queue: Vec<([u8; 32], HashingAlgorithm)> = Vec::new();
 
 	for meta in indexed_meta {
-		let db_hash = DbHash::from_slice(&meta.content_hash);
 		let size = meta.size as usize;
 		let mut found = false;
 
@@ -2553,14 +2553,17 @@ fn classify_by_tail_scan<Block: BlockT>(
 			}
 			let tail = &encoded[encoded.len() - size..];
 			if meta.hashing.hash(tail) == meta.content_hash {
-				matched.insert(i, (db_hash, encoded.len() - size, tail.to_vec(), meta.hashing));
+				matched.insert(
+					i,
+					(meta.content_hash, encoded.len() - size, tail.to_vec(), meta.hashing),
+				);
 				found = true;
 				break;
 			}
 		}
 
 		if !found {
-			renew_queue.push((db_hash, meta.hashing));
+			renew_queue.push((meta.content_hash, meta.hashing));
 		}
 	}
 
@@ -2597,17 +2600,18 @@ pub fn apply_body_with_indexed_meta<Block: BlockT>(
 	for (i, (kind, ext)) in classification.into_iter().zip(body.iter()).enumerate() {
 		match kind {
 			ClassifiedExtrinsic::Insert { hash, header_len, tail, .. } => {
+				let db_hash = DbHash::from_slice(&hash);
 				debug!(
 					target: "db",
 					"Indexed tx: STORE ext[{}] content_hash={:?} data_size={}",
 					i,
-					hash,
+					db_hash,
 					tail.len(),
 				);
-				transaction.store(columns::TRANSACTION, hash, tail);
+				transaction.store(columns::TRANSACTION, db_hash, tail);
 				let encoded = ext.encode();
 				let header = encoded[..header_len].to_vec();
-				db_extrinsics.push(DbExtrinsic::Indexed { hash, header });
+				db_extrinsics.push(DbExtrinsic::Indexed { hash: db_hash, header });
 				n_inserts += 1;
 			},
 			ClassifiedExtrinsic::Renew { hashes } => {
@@ -2620,21 +2624,20 @@ pub fn apply_body_with_indexed_meta<Block: BlockT>(
 				let encoded = ext.encode();
 				if hashes.len() == 1 {
 					let (hash, _) = hashes[0];
-					db_extrinsics.push(DbExtrinsic::Indexed { hash, header: encoded });
-					let mut bytes = [0u8; 32];
-					bytes.copy_from_slice(hash.as_ref());
-					missing.push(bytes);
+					db_extrinsics.push(DbExtrinsic::Indexed {
+						hash: DbHash::from_slice(&hash),
+						header: encoded,
+					});
+					missing.push(hash);
 				} else {
-					let hash_set: Vec<DbHash> =
-						hashes.iter().map(|(h, _)| *h).collect();
+					let db_hashes: Vec<DbHash> =
+						hashes.iter().map(|(h, _)| DbHash::from_slice(h)).collect();
 					db_extrinsics.push(DbExtrinsic::MultiRenew {
-						hashes: hash_set,
+						hashes: db_hashes,
 						extrinsic: encoded,
 					});
-					for (hash, _) in &hashes {
-						let mut bytes = [0u8; 32];
-						bytes.copy_from_slice(hash.as_ref());
-						missing.push(bytes);
+					for (hash, _) in hashes {
+						missing.push(hash);
 					}
 				}
 			},

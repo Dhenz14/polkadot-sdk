@@ -234,7 +234,6 @@ where
 					_ => None,
 				})
 				.flatten()
-				.map(|(hash, hashing)| (hash.to_fixed_bytes(), hashing))
 				.collect();
 
 		if !missing.is_empty() {

@@ -193,9 +193,9 @@ where
 	fn classify_missing_renews(
 		&self,
 		params: &BlockImportParams<Block>,
-	) -> Result<Vec<([u8; 32], HashingAlgorithm)>, ConsensusError> {
+	) -> Result<HashSet<([u8; 32], HashingAlgorithm)>, ConsensusError> {
 		if !self.should_intercept(params) {
-			return Ok(Vec::new());
+			return Ok(HashSet::new());
 		}
 
 		let parent_hash = *params.header.parent_hash();
@@ -212,35 +212,30 @@ where
 			})?;
 
 		if infos.is_empty() {
-			return Ok(Vec::new());
+			return Ok(HashSet::new());
 		}
 
 		let db_meta: Vec<IndexedTransactionMeta> =
 			infos.iter().filter(is_supported).map(to_db_meta).collect();
 
 		if db_meta.is_empty() {
-			return Ok(Vec::new());
+			return Ok(HashSet::new());
 		}
 
 		let body = params.body.as_ref().ok_or_else(|| {
 			ConsensusError::Other("StorageChainBlockImport: body absent after gate".into())
 		})?;
 
-		let classified = classify_indexed_extrinsics::<Block>(body, &db_meta);
-		let mut seen = HashSet::new();
-		let mut missing: Vec<([u8; 32], HashingAlgorithm)> = Vec::new();
-		for entry in classified {
-			let ClassifiedExtrinsic::Renew { hashes } = entry else {
-				continue;
-			};
-			for (hash, hashing) in hashes {
-				let mut bytes = [0u8; 32];
-				bytes.copy_from_slice(hash.as_ref());
-				if seen.insert(bytes) {
-					missing.push((bytes, hashing));
-				}
-			}
-		}
+		let missing: HashSet<([u8; 32], HashingAlgorithm)> =
+			classify_indexed_extrinsics::<Block>(body, &db_meta)
+				.into_iter()
+				.filter_map(|entry| match entry {
+					ClassifiedExtrinsic::Renew { hashes } => Some(hashes),
+					_ => None,
+				})
+				.flatten()
+				.map(|(hash, hashing)| (hash.to_fixed_bytes(), hashing))
+				.collect();
 
 		if !missing.is_empty() {
 			log::debug!(

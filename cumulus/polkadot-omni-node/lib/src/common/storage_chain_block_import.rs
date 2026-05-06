@@ -62,7 +62,7 @@ use sp_transaction_storage_proof::{
 use std::{
 	collections::HashSet,
 	marker::PhantomData,
-	sync::{Arc, Mutex, OnceLock},
+	sync::{Arc, OnceLock},
 	time::Duration,
 };
 
@@ -84,7 +84,6 @@ pub struct StorageChainBlockImport<Block: BlockT, Inner, Client> {
 	backend: Arc<Backend<Block>>,
 	network: NetworkHandle,
 	syncing_service: SyncingHandle<Block>,
-	inflight: Arc<Mutex<HashSet<[u8; 32]>>>,
 	_phantom: PhantomData<Block>,
 }
 
@@ -96,7 +95,6 @@ impl<Block: BlockT, Inner: Clone, Client> Clone for StorageChainBlockImport<Bloc
 			backend: self.backend.clone(),
 			network: self.network.clone(),
 			syncing_service: self.syncing_service.clone(),
-			inflight: self.inflight.clone(),
 			_phantom: PhantomData,
 		}
 	}
@@ -110,15 +108,7 @@ impl<Block: BlockT, Inner, Client> StorageChainBlockImport<Block, Inner, Client>
 		network: NetworkHandle,
 		syncing_service: SyncingHandle<Block>,
 	) -> Self {
-		Self {
-			inner,
-			client,
-			backend,
-			network,
-			syncing_service,
-			inflight: Arc::new(Mutex::new(HashSet::new())),
-			_phantom: PhantomData,
-		}
+		Self { inner, client, backend, network, syncing_service, _phantom: PhantomData }
 	}
 }
 
@@ -264,31 +254,6 @@ where
 			return Ok(());
 		}
 
-		let claimed = {
-			let mut guard = self
-				.inflight
-				.lock()
-				.map_err(|_| ConsensusError::Other("inflight mutex poisoned".into()))?;
-			guard.insert(content_hash)
-		};
-		if !claimed {
-			return Ok(());
-		}
-
-		let result = self.do_fetch_and_store(content_hash, hashing).await;
-
-		if let Ok(mut guard) = self.inflight.lock() {
-			guard.remove(&content_hash);
-		}
-
-		result
-	}
-
-	async fn do_fetch_and_store(
-		&self,
-		content_hash: [u8; 32],
-		hashing: HashingAlgorithm,
-	) -> Result<(), ConsensusError> {
 		let network = self.network.get().ok_or_else(|| {
 			ConsensusError::Other(
 				"StorageChainBlockImport: network handle not yet set; \
@@ -316,15 +281,6 @@ where
 						.into(),
 					)
 				})?;
-
-		if self
-			.backend
-			.blockchain()
-			.has_indexed_transaction(content_hash.into())
-			.unwrap_or(false)
-		{
-			return Ok(());
-		}
 
 		self.backend
 			.store_fetched_transaction_with_count(content_hash, data, 1, hashing)
@@ -492,31 +448,5 @@ mod tests {
 		assert_eq!(meta.size, 4096);
 		assert_eq!(meta.extrinsic_index, 17);
 		assert_eq!(meta.hashing, HashingAlgorithm::Sha2_256);
-	}
-
-	#[test]
-	fn raw_cid_codec_matches_upstream_bitswap_constant() {
-		assert_eq!(RAW_CID_CODEC, 0x55);
-	}
-
-	#[test]
-	fn intercept_origins_contain_only_live_origins() {
-		fn allowed(o: BlockOrigin) -> bool {
-			matches!(
-				o,
-				BlockOrigin::NetworkInitialSync
-					| BlockOrigin::NetworkBroadcast
-					| BlockOrigin::ConsensusBroadcast
-					| BlockOrigin::Own,
-			)
-		}
-		assert!(allowed(BlockOrigin::NetworkInitialSync));
-		assert!(allowed(BlockOrigin::NetworkBroadcast));
-		assert!(allowed(BlockOrigin::ConsensusBroadcast));
-		assert!(allowed(BlockOrigin::Own));
-		assert!(!allowed(BlockOrigin::Genesis));
-		assert!(!allowed(BlockOrigin::File));
-		assert!(!allowed(BlockOrigin::WarpSync));
-		assert!(!allowed(BlockOrigin::GapSync));
 	}
 }

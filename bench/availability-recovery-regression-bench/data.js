@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778072517652,
+  "lastUpdate": 1778101181782,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "indirection42@outlook.com",
-            "name": "Jiyuan Zheng",
-            "username": "indirection42"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "615f664b4d250d627cc4fb84e2ca434f04664159",
-          "message": "Add oracle pallet (part of Polkadot Stablecoin prerequisites) (#9815)\n\n# Description\nThis PR is part of #9765.\nThis PR introduces `pallet-oracle`, a new FRAME pallet that provides a\ndecentralized and trustworthy way to bring external, off-chain data onto\nthe blockchain. The pallet allows a configurable set of oracle operators\nto feed data, such as prices, into the system, which can then be\nconsumed by other pallets.\n\n## Integration\n\n### For Runtime Developers\n\nTo integrate `pallet-oracle` into your runtime:\n\n1. **Add dependency to your runtime's `Cargo.toml`**:\n\n   ```toml\n   pallet-oracle = { version = \"1.0.0\", default-features = false }\n   ```\n\n2. **Implement the `Config` trait** in your runtime:\n\n   ```rust\n   impl pallet_oracle::Config for Runtime {\n       type OnNewData = ();\n       type CombineData = pallet_oracle::DefaultCombineData;\n       type Time = Timestamp;\n       type OracleKey = AssetId;  // Your key type\n       type OracleValue = Price;     // Your value type\n       type RootOperatorAccountId = RootOperatorAccountId;\n       type Members = OracleMembers;\ntype WeightInfo = pallet_oracle::weights::SubstrateWeight<Runtime>;\n       type MaxHasDispatchedSize = ConstU32<100>;\n       type MaxFeedValues = ConstU32<50>;\n   }\n   ```\n\n3. **Add to `construct_runtime!`**:\n\n   ```rust\n   construct_runtime!(\n       pub enum Runtime {\n           // ... other pallets\n           Oracle: pallet_oracle,\n       }\n   );\n   ```\n\n### For Pallet Developers\n\nOther pallets can consume oracle data using the `DataProvider` trait:\n\n```rust\nuse pallet_oracle::traits::DataProvider;\n\n// Get current price\nif let Some(price) = <pallet_oracle::Pallet<T> as DataProvider<CurrencyId, Price>>::get(&currency_id) {\n    // Use the price data\n}\n```\n\n## Review Notes\n\n### Key Features\n\n- **Decentralized Data Feeding**: Uses `SortedMembers` trait to manage\noracle operators, allowing integration with `pallet-membership`\n- **Flexible Data Aggregation**: Configurable `CombineData`\nimplementation with default median-based aggregation\n- **Timestamped Data**: All data includes timestamps for freshness\nvalidation\n- **Root Operator Support**: Special account that can bypass membership\nchecks for emergency data updates\n- **Data Provider Traits**: Implements `DataProvider` and\n`DataProviderExtended` for easy consumption by other pallets\n\n### Implementation Details\n\nThe pallet uses a two-tier storage approach:\n\n- `RawValues`: Stores individual operator submissions with timestamps\n- `Values`: Stores aggregated values after applying the `CombineData`\nlogic\n\n### Security Considerations\n\n- Only authorized members can feed data (enforced via `SortedMembers`)\n- Root operator can bypass membership checks for emergency situations\n- One submission per operator per block to prevent spam\n- Configurable limits on maximum feed values per transaction\n\n### Testing\n\nThe pallet includes comprehensive tests covering:\n\n- Basic data feeding and retrieval\n- Member management and authorization\n- Data aggregation logic\n- Edge cases and error conditions\n- Benchmarking for weight calculation\n\n### Files Added\n\n- `substrate/frame/honzon/oracle/` - Complete pallet implementation\n- `substrate/frame/honzon/oracle/README.md` - Comprehensive\ndocumentation\n- Integration into umbrella workspace and node runtime\n- Runtime API for off-chain access to oracle data\n\n### Breaking Changes\n\nNone - this is a new pallet addition.\n\n### Migration Guide\n\nNo migration required - this is a new feature.\n\n# Checklist\n\n- [x] My PR includes a detailed description as outlined in the\n\"Description\" and its two subsections above.\n- [x] My PR follows the [labeling\nrequirements](https://github.com/paritytech/polkadot-sdk/blob/master/docs/contributor/CONTRIBUTING.md#Process)\nof this project (at minimum one label for `T` required)\n- External contributors: ask maintainers to put the right label on your\nPR.\n- [ ] I have made corresponding changes to the documentation (if\napplicable)\n- [x] I have added tests that prove my fix is effective or that my\nfeature works (if applicable)\n\n---------\n\nCo-authored-by: Bryan Chen <xlchen1291@gmail.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
-          "timestamp": "2025-09-28T20:42:49Z",
-          "tree_id": "2ccab4db015604d87451d953a160f3a7f916e015",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/615f664b4d250d627cc4fb84e2ca434f04664159"
-        },
-        "date": 1759096283734,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.1952681773333333,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.25946726066667,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 10.921666121533335,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]",
+            "username": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "56fa1e78adb20f39bfbcc6eee32d299541e878ab",
+          "message": "build(deps): bump openssl from 0.10.72 to 0.10.79 (#11863)\n\nBumps [openssl](https://github.com/rust-openssl/rust-openssl) from\n0.10.72 to 0.10.79.\n<details>\n<summary>Release notes</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/rust-openssl/rust-openssl/releases\">openssl's\nreleases</a>.</em></p>\n<blockquote>\n<h2>openssl-v0.10.79</h2>\n<h2>What's Changed</h2>\n<ul>\n<li>Bump actions/cache from 5.0.4 to 5.0.5 by <a\nhref=\"https://github.com/dependabot\"><code>@​dependabot</code></a>[bot]\nin <a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2610\">rust-openssl/rust-openssl#2610</a></li>\n<li>Try to fix OpenSSL 1.1.0l download by <a\nhref=\"https://github.com/botovq\"><code>@​botovq</code></a> in <a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2614\">rust-openssl/rust-openssl#2614</a></li>\n<li>Require &amp;mut BigNumContextRef for EcPointRef mul/invert by <a\nhref=\"https://github.com/alex\"><code>@​alex</code></a> in <a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2615\">rust-openssl/rust-openssl#2615</a></li>\n<li>Fix UB in EcGroupRef::generator on groups without a generator by <a\nhref=\"https://github.com/alex\"><code>@​alex</code></a> in <a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2617\">rust-openssl/rust-openssl#2617</a></li>\n<li>Replace <code>use libc::*;</code> with targeted imports in\nopenssl-sys by <a href=\"https://github.com/alex\"><code>@​alex</code></a>\nin <a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2618\">rust-openssl/rust-openssl#2618</a></li>\n<li>Add PKeyRef::is_a and KeyType for name-based key identification by\n<a href=\"https://github.com/reaperhulk\"><code>@​reaperhulk</code></a> in\n<a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2619\">rust-openssl/rust-openssl#2619</a></li>\n<li>Add PKey::{public,private}_key_from_raw_bytes_ex by <a\nhref=\"https://github.com/reaperhulk\"><code>@​reaperhulk</code></a> in <a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2620\">rust-openssl/rust-openssl#2620</a></li>\n<li>Bump MSRV to 1.80 by <a\nhref=\"https://github.com/reaperhulk\"><code>@​reaperhulk</code></a> in <a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2622\">rust-openssl/rust-openssl#2622</a></li>\n<li>Drop once_cell in favor of std::sync::{LazyLock, OnceLock} by <a\nhref=\"https://github.com/reaperhulk\"><code>@​reaperhulk</code></a> in <a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2623\">rust-openssl/rust-openssl#2623</a></li>\n<li>Add PKey::private_key_from_seed for ML-DSA/ML-KEM key import by <a\nhref=\"https://github.com/reaperhulk\"><code>@​reaperhulk</code></a> in <a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2621\">rust-openssl/rust-openssl#2621</a></li>\n<li>parallelize more builds in CI for cold caches by <a\nhref=\"https://github.com/reaperhulk\"><code>@​reaperhulk</code></a> in <a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2625\">rust-openssl/rust-openssl#2625</a></li>\n<li>Add PKeyRef::seed_into for ML-DSA/ML-KEM seed extraction by <a\nhref=\"https://github.com/reaperhulk\"><code>@​reaperhulk</code></a> in <a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2626\">rust-openssl/rust-openssl#2626</a></li>\n<li>Fix process abort when verify/PSK callbacks fire after SSL_CTX swap\nby <a href=\"https://github.com/alex\"><code>@​alex</code></a> in <a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2624\">rust-openssl/rust-openssl#2624</a></li>\n<li>Bind OSSL_PARAM_modified and use it for seed_into by <a\nhref=\"https://github.com/reaperhulk\"><code>@​reaperhulk</code></a> in <a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2628\">rust-openssl/rust-openssl#2628</a></li>\n<li>Add PkeyCtxRef::set_context_string for ML-DSA by <a\nhref=\"https://github.com/reaperhulk\"><code>@​reaperhulk</code></a> in <a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2629\">rust-openssl/rust-openssl#2629</a></li>\n<li>Reject non-UTF-8 OCSP responder URLs in X509Ref::ocsp_responders by\n<a href=\"https://github.com/alex\"><code>@​alex</code></a> in <a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2631\">rust-openssl/rust-openssl#2631</a></li>\n<li>Fix output buffer overflow for AES key-wrap-with-padding ciphers by\n<a href=\"https://github.com/alex\"><code>@​alex</code></a> in <a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2630\">rust-openssl/rust-openssl#2630</a></li>\n<li>Release openssl 0.10.79 and openssl-sys 0.9.115 by <a\nhref=\"https://github.com/reaperhulk\"><code>@​reaperhulk</code></a> in <a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2632\">rust-openssl/rust-openssl#2632</a></li>\n</ul>\n<p><strong>Full Changelog</strong>: <a\nhref=\"https://github.com/rust-openssl/rust-openssl/compare/openssl-v0.10.78...openssl-v0.10.79\">https://github.com/rust-openssl/rust-openssl/compare/openssl-v0.10.78...openssl-v0.10.79</a></p>\n<h2>openssl-v0.10.78</h2>\n<h2>What's Changed</h2>\n<ul>\n<li>Fix Suite B flag assignments in verify.rs by <a\nhref=\"https://github.com/alex\"><code>@​alex</code></a> in <a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2592\">rust-openssl/rust-openssl#2592</a></li>\n<li>Use cvt_p for OPENSSL_malloc error handling by <a\nhref=\"https://github.com/alex\"><code>@​alex</code></a> in <a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2593\">rust-openssl/rust-openssl#2593</a></li>\n<li>Mark BIO_get_mem_data on AWS-LC to be unsafe by <a\nhref=\"https://github.com/alex\"><code>@​alex</code></a> in <a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2594\">rust-openssl/rust-openssl#2594</a></li>\n<li>Set timeout for package installation step by <a\nhref=\"https://github.com/alex\"><code>@​alex</code></a> in <a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2595\">rust-openssl/rust-openssl#2595</a></li>\n<li>Panic in Crypter::new when IV is required but not provided by <a\nhref=\"https://github.com/alex\"><code>@​alex</code></a> in <a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2596\">rust-openssl/rust-openssl#2596</a></li>\n<li>openssl 4 support by <a\nhref=\"https://github.com/reaperhulk\"><code>@​reaperhulk</code></a> in <a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2591\">rust-openssl/rust-openssl#2591</a></li>\n<li>Avoid panic for overlong OIDs by <a\nhref=\"https://github.com/botovq\"><code>@​botovq</code></a> in <a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2598\">rust-openssl/rust-openssl#2598</a></li>\n<li>Fix dangling stack pointer in custom extension add callback by <a\nhref=\"https://github.com/alex\"><code>@​alex</code></a> in <a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2599\">rust-openssl/rust-openssl#2599</a></li>\n<li>Add support for LibreSSL 4.3.x by <a\nhref=\"https://github.com/botovq\"><code>@​botovq</code></a> in <a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2603\">rust-openssl/rust-openssl#2603</a></li>\n<li>fix inverted bounds assertion in AES key unwrap by <a\nhref=\"https://github.com/reaperhulk\"><code>@​reaperhulk</code></a> in <a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2604\">rust-openssl/rust-openssl#2604</a></li>\n<li>Reject oversized length returns from password callback trampoline by\n<a href=\"https://github.com/alex\"><code>@​alex</code></a> in <a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2605\">rust-openssl/rust-openssl#2605</a></li>\n<li>Validate callback-returned lengths in PSK and cookie trampolines by\n<a href=\"https://github.com/alex\"><code>@​alex</code></a> in <a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2607\">rust-openssl/rust-openssl#2607</a></li>\n<li>Error for short out in MdCtxRef::digest_final() by <a\nhref=\"https://github.com/botovq\"><code>@​botovq</code></a> in <a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2608\">rust-openssl/rust-openssl#2608</a></li>\n<li>Check derive output buffer length on OpenSSL 1.1.x by <a\nhref=\"https://github.com/alex\"><code>@​alex</code></a> in <a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2606\">rust-openssl/rust-openssl#2606</a></li>\n<li>Release openssl v0.10.78 and openssl-sys v0.9.114 by <a\nhref=\"https://github.com/alex\"><code>@​alex</code></a> in <a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2609\">rust-openssl/rust-openssl#2609</a></li>\n</ul>\n<p><strong>Full Changelog</strong>: <a\nhref=\"https://github.com/rust-openssl/rust-openssl/compare/openssl-v0.10.77...openssl-v0.10.78\">https://github.com/rust-openssl/rust-openssl/compare/openssl-v0.10.77...openssl-v0.10.78</a></p>\n<h2>openssl-v0.10.77</h2>\n<h2>What's Changed</h2>\n<ul>\n<li>CI: Hash-pin all action usage, avoid credential persistence in\nactions/checkout by <a\nhref=\"https://github.com/woodruffw\"><code>@​woodruffw</code></a> in <a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2587\">rust-openssl/rust-openssl#2587</a></li>\n<li>Bump aws-lc-sys to 0.39 by <a\nhref=\"https://github.com/goffrie\"><code>@​goffrie</code></a> in <a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2588\">rust-openssl/rust-openssl#2588</a></li>\n<li>md_ctx: enable sign/verify/reset on BoringSSL, LibreSSL, and AWS-LC\nby <a href=\"https://github.com/alex\"><code>@​alex</code></a> in <a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/pull/2589\">rust-openssl/rust-openssl#2589</a></li>\n</ul>\n<!-- raw HTML omitted -->\n</blockquote>\n<p>... (truncated)</p>\n</details>\n<details>\n<summary>Commits</summary>\n<ul>\n<li><a\nhref=\"https://github.com/rust-openssl/rust-openssl/commit/649f2d9e37f3aa701e20bd8ab5cd7eb5afa0a90f\"><code>649f2d9</code></a>\nRelease openssl 0.10.79 and openssl-sys 0.9.115 (<a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/issues/2632\">#2632</a>)</li>\n<li><a\nhref=\"https://github.com/rust-openssl/rust-openssl/commit/257f9b20c001b888986f93579f118fa2a57d4f45\"><code>257f9b2</code></a>\nFix output buffer overflow for AES key-wrap-with-padding ciphers (<a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/issues/2630\">#2630</a>)</li>\n<li><a\nhref=\"https://github.com/rust-openssl/rust-openssl/commit/d43e9179b1885fc66269a42361cc7a80f631ac8f\"><code>d43e917</code></a>\nReject non-UTF-8 OCSP responder URLs in X509Ref::ocsp_responders (<a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/issues/2631\">#2631</a>)</li>\n<li><a\nhref=\"https://github.com/rust-openssl/rust-openssl/commit/f46519c8694a3e121091dafe38aab77c2f756546\"><code>f46519c</code></a>\nAdd PkeyCtxRef::set_context_string for ML-DSA (<a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/issues/2629\">#2629</a>)</li>\n<li><a\nhref=\"https://github.com/rust-openssl/rust-openssl/commit/ad9ae312771f898749a9471549519d45eba6a033\"><code>ad9ae31</code></a>\nBind OSSL_PARAM_modified and use it for seed_into (<a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/issues/2628\">#2628</a>)</li>\n<li><a\nhref=\"https://github.com/rust-openssl/rust-openssl/commit/4e25c9be20dae1e78f1a3815950cd0973addae82\"><code>4e25c9b</code></a>\nFix process abort when verify/PSK callbacks fire after SSL_CTX swap (<a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/issues/2624\">#2624</a>)</li>\n<li><a\nhref=\"https://github.com/rust-openssl/rust-openssl/commit/3dd8f425ef34a069b5bec46f3971b67db1c295c7\"><code>3dd8f42</code></a>\nAdd PKeyRef::seed_into for ML-DSA/ML-KEM seed extraction (<a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/issues/2626\">#2626</a>)</li>\n<li><a\nhref=\"https://github.com/rust-openssl/rust-openssl/commit/2c5e5a8f1483d5ec85580c07f721de9057d58e69\"><code>2c5e5a8</code></a>\nparallelize more builds in CI for cold caches (<a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/issues/2625\">#2625</a>)</li>\n<li><a\nhref=\"https://github.com/rust-openssl/rust-openssl/commit/668559171168538cd190574373abfc9e120263ca\"><code>6685591</code></a>\nAdd PKey::private_key_from_seed for ML-DSA/ML-KEM key import (<a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/issues/2621\">#2621</a>)</li>\n<li><a\nhref=\"https://github.com/rust-openssl/rust-openssl/commit/8f8fdce627fb3c553673b8c688d9f1dc10ea0cc8\"><code>8f8fdce</code></a>\nDrop once_cell in favor of std::sync::{LazyLock, OnceLock} (<a\nhref=\"https://redirect.github.com/rust-openssl/rust-openssl/issues/2623\">#2623</a>)</li>\n<li>Additional commits viewable in <a\nhref=\"https://github.com/rust-openssl/rust-openssl/compare/openssl-v0.10.72...openssl-v0.10.79\">compare\nview</a></li>\n</ul>\n</details>\n<br />\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>",
+          "timestamp": "2026-05-06T19:22:00Z",
+          "tree_id": "dee526f052205885d88e2ef10176db47ec1d2fa0",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/56fa1e78adb20f39bfbcc6eee32d299541e878ab"
+        },
+        "date": 1778101159597,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1365591149,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.271946239433333,
             "unit": "seconds"
           }
         ]

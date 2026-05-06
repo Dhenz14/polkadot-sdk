@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777989134442,
+  "lastUpdate": 1778054900842,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "diego2737@gmail.com",
-            "name": "Diego",
-            "username": "dimartiro"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "d5473e6fa3633c3355f8ef19a8b8921673657a9f",
-          "message": "Add new zepter duplicate-deps check as part of CI (#9809)\n\n# Description\n\nThis PR builds on my previous\n[PR](https://github.com/paritytech/polkadot-sdk/pull/9233) and addresses\nfeedback from Basti’s comment\n[here](https://github.com/paritytech/polkadot-sdk/pull/9283#issuecomment-3104712426).\n\nTo prevent the same situation from recurring in the future, I’ve\nintroduced a new **lint check** in **Zepter**, which is now also\nintegrated into the CI workflow. The purpose of this check is to\nautomatically detect and block cases where the same dependency is\ndeclared both under `[dependencies]` and `[dev-dependencies]`.",
-          "timestamp": "2025-09-26T08:23:23Z",
-          "tree_id": "0cfd615bddc52c65baf5cb7983f6d7f4e2d362c6",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/d5473e6fa3633c3355f8ef19a8b8921673657a9f"
-        },
-        "date": 1758879491628,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.371795060999997,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.1997940932333333,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.13209228909999998,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "9df45c241230ca446b9a3e73a51ea554a9cf1ef1",
+          "message": "Use app token to create post crates release PR  (#11987)\n\nThis PR replaces standard GH token with the one generated for the GH app\nso that CI checks will be triggered automatically when PR is created\nfrom the Post Crates Activities flow\nCloses: https://github.com/paritytech/release-engineering/issues/296",
+          "timestamp": "2026-05-06T06:43:34Z",
+          "tree_id": "791084a12542353030f2e25f92f9666f5caa0e70",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/9df45c241230ca446b9a3e73a51ea554a9cf1ef1"
+        },
+        "date": 1778054878348,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.12796513913333335,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 10.950369495600002,
             "unit": "seconds"
           }
         ]

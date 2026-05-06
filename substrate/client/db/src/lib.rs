@@ -911,6 +911,7 @@ pub struct BlockImportOperation<Block: BlockT> {
 	create_gap: bool,
 	reset_storage: bool,
 	index_ops: Vec<IndexOperation>,
+	prefetched_indexed_transactions: HashMap<DbHash, Vec<u8>>,
 }
 
 impl<Block: BlockT> BlockImportOperation<Block> {
@@ -1071,6 +1072,17 @@ impl<Block: BlockT> sc_client_api::backend::BlockImportOperation<Block>
 
 	fn update_transaction_index(&mut self, index_ops: Vec<IndexOperation>) -> ClientResult<()> {
 		self.index_ops = index_ops;
+		Ok(())
+	}
+
+	fn set_prefetched_indexed_transactions(
+		&mut self,
+		data: Vec<([u8; 32], Vec<u8>)>,
+	) -> ClientResult<()> {
+		for (hash, bytes) in data {
+			self.prefetched_indexed_transactions
+				.insert(DbHash::from_slice(&hash), bytes);
+		}
 		Ok(())
 	}
 
@@ -1674,8 +1686,12 @@ impl<Block: BlockT> Backend<Block> {
 				if operation.index_ops.is_empty() {
 					transaction.set_from_vec(columns::BODY, &lookup_key, body.encode());
 				} else {
-					let body =
-						apply_index_ops::<Block>(&mut transaction, body, operation.index_ops);
+					let body = apply_index_ops::<Block>(
+						&mut transaction,
+						body,
+						operation.index_ops,
+						&operation.prefetched_indexed_transactions,
+					);
 					transaction.set_from_vec(columns::BODY_INDEX, &lookup_key, body);
 				}
 			}
@@ -2298,6 +2314,7 @@ fn apply_index_ops<Block: BlockT>(
 	transaction: &mut Transaction<DbHash>,
 	body: Vec<Block::Extrinsic>,
 	ops: Vec<IndexOperation>,
+	prefetched: &HashMap<DbHash, Vec<u8>>,
 ) -> Vec<u8> {
 	let mut extrinsic_index: Vec<DbExtrinsic<Block>> = Vec::with_capacity(body.len());
 	let mut index_map = HashMap::new();
@@ -2317,6 +2334,21 @@ fn apply_index_ops<Block: BlockT>(
 			},
 		}
 	}
+	// Issue at most one Store per distinct prefetched hash; subsequent Reference ops handle
+	// the per-occurrence refcount bumps (`apply_index_ops` already emits one Reference per
+	// renew occurrence, matching the per-occurrence Release that prune emits).
+	let mut prefetched_stored: HashSet<DbHash> = HashSet::new();
+	let store_prefetched = |tx: &mut Transaction<DbHash>,
+	                        stored: &mut HashSet<DbHash>,
+	                        hash: DbHash| {
+		if stored.contains(&hash) {
+			return;
+		}
+		if let Some(bytes) = prefetched.get(&hash) {
+			tx.store(columns::TRANSACTION, hash, bytes.clone());
+			stored.insert(hash);
+		}
+	};
 	let mut n_inserted = 0usize;
 	let mut n_renew_slots = 0usize;
 	let mut n_renew_hashes = 0usize;
@@ -2329,11 +2361,13 @@ fn apply_index_ops<Block: BlockT>(
 			if hashes.len() == 1 {
 				// Single renewal: backwards-compatible Indexed variant
 				let hash = hashes[0];
+				store_prefetched(transaction, &mut prefetched_stored, hash);
 				transaction.reference(columns::TRANSACTION, hash);
 				DbExtrinsic::Indexed { hash, header: encoded }
 			} else {
 				// Multi-renewal: bump ref counter for each hash
 				for hash in &hashes {
+					store_prefetched(transaction, &mut prefetched_stored, *hash);
 					transaction.reference(columns::TRANSACTION, *hash);
 				}
 				DbExtrinsic::MultiRenew { hashes, extrinsic: encoded }
@@ -2659,6 +2693,7 @@ impl<Block: BlockT> sc_client_api::backend::Backend<Block> for Backend<Block> {
 			create_gap: true,
 			reset_storage: false,
 			index_ops: Default::default(),
+			prefetched_indexed_transactions: HashMap::new(),
 		})
 	}
 
@@ -3216,6 +3251,26 @@ pub(crate) mod tests {
 		body: Vec<UncheckedXt>,
 		transaction_index: Option<Vec<IndexOperation>>,
 	) -> Result<H256, sp_blockchain::Error> {
+		insert_block_with_prefetched(
+			backend,
+			number,
+			parent_hash,
+			extrinsics_root,
+			body,
+			transaction_index,
+			Vec::new(),
+		)
+	}
+
+	pub fn insert_block_with_prefetched(
+		backend: &Backend<Block>,
+		number: u64,
+		parent_hash: H256,
+		extrinsics_root: H256,
+		body: Vec<UncheckedXt>,
+		transaction_index: Option<Vec<IndexOperation>>,
+		prefetched: Vec<([u8; 32], Vec<u8>)>,
+	) -> Result<H256, sp_blockchain::Error> {
 		use sp_runtime::testing::Digest;
 
 		let digest = Digest::default();
@@ -3228,8 +3283,10 @@ pub(crate) mod tests {
 		if let Some(index) = transaction_index {
 			op.update_transaction_index(index).unwrap();
 		}
+		if !prefetched.is_empty() {
+			op.set_prefetched_indexed_transactions(prefetched).unwrap();
+		}
 
-		// Insert some fake data to ensure that the block can be found in the state column.
 		let (root, overlay) = op.old_state.storage_root(
 			vec![(block_hash.as_ref(), Some(block_hash.as_ref()))].into_iter(),
 			StateVersion::V1,
@@ -5352,6 +5409,139 @@ pub(crate) mod tests {
 	}
 
 	#[test]
+	fn prefetched_renew_creates_transaction_entry_atomically() {
+		let backend = Backend::<Block>::new_test_with_tx_storage(BlocksPruning::Some(2), 10);
+
+		let payload = b"prefetched-blob-A".to_vec();
+		let payload_hash = <HashingFor<Block> as sp_core::Hasher>::hash(&payload);
+		let payload_hash_arr: [u8; 32] = payload_hash.into();
+
+		let block0 = insert_block_with_prefetched(
+			&backend,
+			0,
+			Default::default(),
+			Default::default(),
+			vec![UncheckedXt::new_transaction(0.into(), ())],
+			Some(vec![IndexOperation::Renew {
+				extrinsic: 0,
+				hash: payload_hash_arr.to_vec(),
+			}]),
+			vec![(payload_hash_arr, payload.clone())],
+		)
+		.unwrap();
+
+		let bc = backend.blockchain();
+		assert_eq!(
+			bc.indexed_transaction(payload_hash).unwrap().as_deref(),
+			Some(payload.as_slice()),
+			"prefetched bytes must be readable via indexed_transaction after commit",
+		);
+
+		let body = bc.block_indexed_body(block0).unwrap().unwrap();
+		assert_eq!(body.len(), 1);
+		assert_eq!(body[0], payload);
+	}
+
+	#[test]
+	fn prefetched_multi_renew_same_hash_in_one_block_balanced_lifecycle() {
+		let backend = Backend::<Block>::new_test_with_tx_storage(BlocksPruning::Some(2), 10);
+
+		let payload = b"prefetched-blob-B".to_vec();
+		let payload_hash = <HashingFor<Block> as sp_core::Hasher>::hash(&payload);
+		let payload_hash_arr: [u8; 32] = payload_hash.into();
+
+		let mut blocks = Vec::new();
+		let block0 = insert_block_with_prefetched(
+			&backend,
+			0,
+			Default::default(),
+			Default::default(),
+			vec![UncheckedXt::new_transaction(0.into(), ())],
+			Some(vec![
+				IndexOperation::Renew { extrinsic: 0, hash: payload_hash_arr.to_vec() },
+				IndexOperation::Renew { extrinsic: 0, hash: payload_hash_arr.to_vec() },
+			]),
+			vec![(payload_hash_arr, payload.clone())],
+		)
+		.unwrap();
+		blocks.push(block0);
+
+		assert!(backend.blockchain().indexed_transaction(payload_hash).unwrap().is_some());
+
+		let mut prev = block0;
+		for i in 1..6u64 {
+			prev = insert_block(
+				&backend,
+				i,
+				prev,
+				None,
+				Default::default(),
+				vec![UncheckedXt::new_transaction(i.into(), ())],
+				None,
+			)
+			.unwrap();
+			blocks.push(prev);
+		}
+
+		for i in 1..6 {
+			let mut op = backend.begin_operation().unwrap();
+			backend.begin_state_operation(&mut op, blocks[4]).unwrap();
+			op.mark_finalized(blocks[i], None).unwrap();
+			backend.commit_operation(op).unwrap();
+		}
+
+		assert!(
+			backend.blockchain().indexed_transaction(payload_hash).unwrap().is_none(),
+			"prefetched data should be pruned once the only block referencing it falls out of \
+			 the retention window",
+		);
+	}
+
+	#[test]
+	fn prefetched_renew_with_existing_data_is_idempotent_store() {
+		let backend = Backend::<Block>::new_test_with_tx_storage(BlocksPruning::Some(10), 10);
+
+		let payload_xt = UncheckedXt::new_transaction(7.into(), ()).encode();
+		let payload = payload_xt[1..].to_vec();
+		let payload_hash = <HashingFor<Block> as sp_core::Hasher>::hash(&payload);
+		let payload_hash_arr: [u8; 32] = payload_hash.into();
+
+		let block0 = insert_block(
+			&backend,
+			0,
+			Default::default(),
+			None,
+			Default::default(),
+			vec![UncheckedXt::new_transaction(7.into(), ())],
+			Some(vec![IndexOperation::Insert {
+				extrinsic: 0,
+				hash: payload_hash_arr.to_vec(),
+				size: payload.len() as u32,
+			}]),
+		)
+		.unwrap();
+
+		assert!(backend.blockchain().indexed_transaction(payload_hash).unwrap().is_some());
+
+		let block1 = insert_block_with_prefetched(
+			&backend,
+			1,
+			block0,
+			Default::default(),
+			vec![UncheckedXt::new_transaction(99.into(), ())],
+			Some(vec![IndexOperation::Renew { extrinsic: 0, hash: payload_hash_arr.to_vec() }]),
+			vec![(payload_hash_arr, payload.clone())],
+		)
+		.unwrap();
+
+		let bc = backend.blockchain();
+		assert_eq!(bc.indexed_transaction(payload_hash).unwrap().as_deref(), Some(payload.as_slice()));
+		let body = bc.block_indexed_body(block1).unwrap().unwrap();
+		assert_eq!(body.len(), 1);
+		assert_eq!(body[0], payload);
+	}
+
+	#[test]
 	fn insert_and_renew_same_index_renew_wins() {
 		// Documents the pre-existing precedence in apply_index_ops: when both an Insert
 		// and a Renew op target the same extrinsic_index, the Renew wins and the Insert
@@ -5447,11 +5637,12 @@ pub(crate) mod tests {
 			IndexOperation::Renew { extrinsic: 1, hash: h3.clone() },
 		];
 
+		let prefetched = HashMap::new();
 		let mut tx1: Transaction<DbHash> = Transaction::new();
-		let bytes1 = apply_index_ops::<Block>(&mut tx1, body.clone(), ops.clone());
+		let bytes1 = apply_index_ops::<Block>(&mut tx1, body.clone(), ops.clone(), &prefetched);
 
 		let mut tx2: Transaction<DbHash> = Transaction::new();
-		let bytes2 = apply_index_ops::<Block>(&mut tx2, body, ops);
+		let bytes2 = apply_index_ops::<Block>(&mut tx2, body, ops, &prefetched);
 
 		assert_eq!(bytes1, bytes2);
 

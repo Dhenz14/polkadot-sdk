@@ -255,9 +255,30 @@ pub trait BlockImportOperation<Block: BlockT> {
 	fn update_transaction_index(&mut self, index: Vec<IndexOperation>)
 		-> sp_blockchain::Result<()>;
 
+	/// Provide pre-fetched indexed-transaction data to be stored alongside the block's
+	/// `BODY_INDEX` writes. Each entry is `(content_hash, data)`; the backend stores the data
+	/// in its indexed-transaction column in the same atomic commit as the block, so that
+	/// `Renew` references for missing data resolve correctly.
+	///
+	/// The default implementation discards the data; only backends that maintain a
+	/// reference-counted indexed-transaction column override it.
+	fn set_prefetched_indexed_transactions(
+		&mut self,
+		_data: Vec<([u8; 32], Vec<u8>)>,
+	) -> sp_blockchain::Result<()> {
+		Ok(())
+	}
+
 	/// Configure whether to create a block gap if newly imported block is missing parent
 	fn set_create_gap(&mut self, create_gap: bool);
 }
+
+/// `BlockImportParams::intermediates` key used by `StorageChainBlockImport` to ferry
+/// bitswap-fetched indexed-transaction data through the import pipeline. The payload is a
+/// `Vec<([u8; 32], Vec<u8>)>` of `(content_hash, bytes)` pairs whose hash has already been
+/// verified against the declared algorithm by the producer.
+pub const PREFETCHED_INDEXED_TRANSACTIONS_INTERMEDIATE_KEY: &[u8] =
+	b"prefetched-indexed-transactions";
 
 /// Interface for performing operations on the backend.
 pub trait LockImportRun<Block: BlockT, B: Backend<Block>> {

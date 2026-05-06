@@ -32,6 +32,7 @@ use sc_client_api::{
 	backend::{
 		self, apply_aux, BlockImportOperation, ClientImportOperation, FinalizeSummary, Finalizer,
 		ImportNotificationAction, ImportSummary, LockImportRun, NewBlockState, StorageProvider,
+		PREFETCHED_INDEXED_TRANSACTIONS_INTERMEDIATE_KEY,
 	},
 	client::{
 		BadBlocks, BlockBackend, BlockImportNotification, BlockOf, BlockchainEvents, ClientInfo,
@@ -480,15 +481,29 @@ where
 			finalized,
 			auxiliary,
 			fork_choice,
-			intermediates,
+			mut intermediates,
 			import_existing,
 			create_gap,
 			..
 		} = import_block;
 
+		let prefetched_indexed_transactions = match intermediates
+			.remove(PREFETCHED_INDEXED_TRANSACTIONS_INTERMEDIATE_KEY)
+		{
+			Some(boxed) => match boxed.downcast::<Vec<([u8; 32], Vec<u8>)>>() {
+				Ok(payload) => *payload,
+				Err(_) => return Err(Error::IncompletePipeline),
+			},
+			None => Vec::new(),
+		};
+
 		if !intermediates.is_empty() {
 			return Err(Error::IncompletePipeline);
 		}
+
+		operation
+			.op
+			.set_prefetched_indexed_transactions(prefetched_indexed_transactions)?;
 
 		let fork_choice = fork_choice.ok_or(Error::IncompletePipeline)?;
 

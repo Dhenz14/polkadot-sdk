@@ -14,8 +14,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-//! `BlockImport` wrapper that fills missing TRANSACTION-column entries before delegating to the
-//! inner import.
+//! `BlockImport` wrapper that ferries missing TRANSACTION-column entries to the inner import.
 //!
 //! Storage-chain parachains track indexed-data refcounts in `sc-client-db`'s TRANSACTION column.
 //! When a tip block contains a `Renew` operation for indexed data the local node has never
@@ -33,17 +32,21 @@
 //!    which returns the renew hashes whose data is **not** carried in the body and is **not**
 //!    already on disk.
 //! 3. For each such hash it issues a bitswap `WANT-BLOCK` to a connected peer. On success the
-//!    data is verified using the algorithm declared by the runtime and stored via
-//!    `Backend::store_fetched_transaction_with_count(.., target_ref_count = 1)`.
-//! 4. It then delegates to the inner block import. The inner `apply_index_ops::Renew` path now
-//!    finds an existing TRANSACTION entry and `transaction.reference()` correctly bumps its
-//!    refcount.
+//!    data is verified against the algorithm declared by the runtime.
+//! 4. The verified `(content_hash, bytes)` pairs are attached to `BlockImportParams.intermediates`
+//!    under [`PREFETCHED_INDEXED_TRANSACTIONS_INTERMEDIATE_KEY`]. The inner client extracts the
+//!    payload and forwards it to the backend, which writes the data to the TRANSACTION column in
+//!    the **same atomic commit** as the block's BODY_INDEX entries. The inner
+//!    `apply_index_ops::Renew` path's `transaction.reference()` then balances against the
+//!    per-occurrence prune-time `transaction.release()`.
 //!
 //! Behaviour gated by `BlockOrigin`: blocks from `WarpSync`, `GapSync`, `File`, and `Genesis` are
 //! passed through unchanged. Gap-sync coverage is a separate workstream.
 
 use futures::stream::{StreamExt, TryStreamExt};
-use sc_client_api::backend::Backend as BackendT;
+use sc_client_api::backend::{
+	Backend as BackendT, PREFETCHED_INDEXED_TRANSACTIONS_INTERMEDIATE_KEY,
+};
 use sc_client_db::{
 	classify_indexed_extrinsics, Backend, ClassifiedExtrinsic, IndexedTransactionMeta,
 };
@@ -136,12 +139,12 @@ where
 
 	async fn import_block(
 		&self,
-		params: BlockImportParams<Block>,
+		mut params: BlockImportParams<Block>,
 	) -> Result<ImportResult, Self::Error> {
 		let renews = self.classify_renew_hashes(&params)?;
 		let missing = self.filter_missing(renews);
 		let fetched = self.fetch_all(missing).await?;
-		self.store_all(fetched)?;
+		Self::attach_prefetched(&mut params, fetched)?;
 		self.inner.import_block(params).await
 	}
 }
@@ -296,27 +299,40 @@ where
 			.await
 	}
 
-	/// Persists every fetched entry into the local TRANSACTION column with `ref_count = 1`. The
-	/// inner block import's `Renew` op will then bump the refcount to its true value.
-	fn store_all(
-		&self,
+	/// Verifies every fetched blob against its declared content hash and attaches the resulting
+	/// `Vec<([u8; 32], Vec<u8>)>` to `params.intermediates` under
+	/// [`PREFETCHED_INDEXED_TRANSACTIONS_INTERMEDIATE_KEY`]. The inner client extracts the
+	/// payload in `apply_block` and forwards it to the backend, which stores the bytes in the
+	/// TRANSACTION column atomically with the block's BODY_INDEX writes.
+	///
+	/// No-op when `fetched` is empty so we don't pollute the intermediates map.
+	fn attach_prefetched(
+		params: &mut BlockImportParams<Block>,
 		fetched: Vec<([u8; 32], HashingAlgorithm, Vec<u8>)>,
 	) -> Result<(), ConsensusError> {
+		if fetched.is_empty() {
+			return Ok(());
+		}
+		let mut payload: Vec<([u8; 32], Vec<u8>)> = Vec::with_capacity(fetched.len());
 		for (hash, hashing, data) in fetched {
-			self.backend
-				.store_fetched_transaction_with_count(hash, data, 1, hashing)
-				.map_err(|e| {
-					ConsensusError::Other(
-						format!("store_fetched_transaction_with_count({hash:?}) failed: {e}")
-							.into(),
+			let computed = hashing.hash(&data);
+			if computed != hash {
+				return Err(ConsensusError::Other(
+					format!(
+						"prefetched indexed transaction hash mismatch: declared={hash:?}, \
+						 computed={computed:?}"
 					)
-				})?;
+					.into(),
+				));
+			}
 			log::info!(
 				target: LOG_TARGET,
-				"bitswap-fetched indexed transaction {:?} (rc=1) ahead of inner import",
+				"attaching bitswap-fetched indexed transaction {:?} to BlockImportParams",
 				hash,
 			);
+			payload.push((hash, data));
 		}
+		params.insert_intermediate(PREFETCHED_INDEXED_TRANSACTIONS_INTERMEDIATE_KEY, payload);
 		Ok(())
 	}
 }

@@ -14,18 +14,38 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-//! `StorageChainBlockImport` — wraps the inner block-import for storage-chain
-//! parachains. On tip-sync block import, ensures every renewed
-//! `IndexedTransactionInfo` whose data is missing from the local TRANSACTION
-//! column gets bitswap-fetched and stored before the inner import runs
-//! `apply_index_ops::Renew` (kvdb's `transaction.reference()` silently no-ops
-//! on missing entries).
+//! `BlockImport` wrapper that fills missing TRANSACTION-column entries before delegating to the
+//! inner import.
 //!
-//! See `.sisyphus/plans/storage-chain-block-import-option2.md` for the full
-//! design rationale (PR-1: tip-only).
+//! Storage-chain parachains track indexed-data refcounts in `sc-client-db`'s TRANSACTION column.
+//! When a tip block contains a `Renew` operation for indexed data the local node has never
+//! stored, the inner block import calls `transaction.reference()` on a missing key — a silent
+//! no-op in kvdb — and the refcount stays at zero. Subsequent prune cycles then drop entries the
+//! runtime considered live.
+//!
+//! `StorageChainBlockImport` interposes between consensus and the inner import:
+//!
+//! 1. On every incoming tip block (`NetworkInitialSync` / `NetworkBroadcast` /
+//!    `ConsensusBroadcast` / `Own` origin, `body.is_some()`, runtime exposes
+//!    `TransactionStorageApi >= 2`), it asks the runtime which indexed transactions the block
+//!    references via `indexed_transactions(block_number)`.
+//! 2. It feeds the body and runtime metadata through `sc_client_db::classify_indexed_extrinsics`,
+//!    which returns the renew hashes whose data is **not** carried in the body and is **not**
+//!    already on disk.
+//! 3. For each such hash it issues a bitswap `WANT-BLOCK` to a connected peer. On success the
+//!    data is verified using the algorithm declared by the runtime and stored via
+//!    `Backend::store_fetched_transaction_with_count(.., target_ref_count = 1)`.
+//! 4. It then delegates to the inner block import. The inner `apply_index_ops::Renew` path now
+//!    finds an existing TRANSACTION entry and `transaction.reference()` correctly bumps its
+//!    refcount.
+//!
+//! Behaviour gated by `BlockOrigin`: blocks from `WarpSync`, `GapSync`, `File`, and `Genesis` are
+//! passed through unchanged. Gap-sync coverage is a separate workstream.
 
 use sc_client_api::backend::Backend as BackendT;
-use sc_client_db::{apply_body_with_indexed_meta, Backend, IndexedTransactionMeta};
+use sc_client_db::{
+	classify_indexed_extrinsics, Backend, ClassifiedExtrinsic, IndexedTransactionMeta,
+};
 use sc_consensus::{BlockCheckParams, BlockImport, BlockImportParams, ImportResult};
 use sc_network::{
 	bitswap::{BitswapClient, BitswapError},
@@ -35,7 +55,6 @@ use sc_network_sync::SyncingService;
 use sp_api::{ApiExt, ProvideRuntimeApi};
 use sp_blockchain::Backend as BlockchainBackendT;
 use sp_consensus::{BlockOrigin, Error as ConsensusError};
-use sp_database::Transaction;
 use sp_runtime::traits::{Block as BlockT, Header as HeaderT};
 use sp_transaction_storage_proof::{
 	runtime_api::TransactionStorageApi, HashingAlgorithm, IndexedTransactionInfo,
@@ -125,8 +144,8 @@ where
 		params: BlockImportParams<Block>,
 	) -> Result<ImportResult, Self::Error> {
 		let to_fetch = self.classify_missing_renews(&params)?;
-		for content_hash in to_fetch {
-			self.fetch_and_store_one(content_hash).await?;
+		for (content_hash, hashing) in to_fetch {
+			self.fetch_and_store_one(content_hash, hashing).await?;
 		}
 		self.inner.import_block(params).await
 	}
@@ -138,6 +157,12 @@ where
 	Client: ProvideRuntimeApi<Block> + Send + Sync,
 	Client::Api: TransactionStorageApi<Block>,
 {
+	/// Returns `true` iff the block should pass through the bitswap-fetch path.
+	///
+	/// The wrapper acts only on tip-sync blocks for runtimes that expose
+	/// `TransactionStorageApi >= 2`. Warp-sync and gap-sync blocks (origin `WarpSync` /
+	/// `GapSync`) are passed straight through; their TRANSACTION-column population is the
+	/// responsibility of separate workstreams.
 	fn should_intercept(&self, params: &BlockImportParams<Block>) -> bool {
 		if params.body.is_none() {
 			return false;
@@ -159,10 +184,16 @@ where
 			.unwrap_or(false)
 	}
 
+	/// Determine which renew hashes are missing locally for this block.
+	///
+	/// `indexed_transactions(block_n)` is contracted (per `TransactionStorageApi v2`) to return an
+	/// empty vec for blocks outside the runtime's retention window — so calls for blocks far below
+	/// the tip silently yield an empty fetch set, which is the right behaviour for a tip-only
+	/// wrapper.
 	fn classify_missing_renews(
 		&self,
 		params: &BlockImportParams<Block>,
-	) -> Result<Vec<[u8; 32]>, ConsensusError> {
+	) -> Result<Vec<([u8; 32], HashingAlgorithm)>, ConsensusError> {
 		if !self.should_intercept(params) {
 			return Ok(Vec::new());
 		}
@@ -195,29 +226,41 @@ where
 			ConsensusError::Other("StorageChainBlockImport: body absent after gate".into())
 		})?;
 
-		let mut throwaway = Transaction::new();
-		let (_, missing) = apply_body_with_indexed_meta::<Block>(&mut throwaway, body, &db_meta);
-		drop(throwaway);
+		let classified = classify_indexed_extrinsics::<Block>(body, &db_meta);
+		let mut seen = HashSet::new();
+		let mut missing: Vec<([u8; 32], HashingAlgorithm)> = Vec::new();
+		for entry in classified {
+			let ClassifiedExtrinsic::Renew { hashes } = entry else {
+				continue;
+			};
+			for (hash, hashing) in hashes {
+				let mut bytes = [0u8; 32];
+				bytes.copy_from_slice(hash.as_ref());
+				if seen.insert(bytes) {
+					missing.push((bytes, hashing));
+				}
+			}
+		}
 
-		let mut unique: Vec<[u8; 32]> = missing;
-		unique.sort_unstable();
-		unique.dedup();
-
-		if !unique.is_empty() {
+		if !missing.is_empty() {
 			log::debug!(
 				target: LOG_TARGET,
 				"block #{:?} ({:?}): {} indexed entries, {} missing-renew hashes to fetch",
 				block_number,
 				parent_hash,
 				db_meta.len(),
-				unique.len(),
+				missing.len(),
 			);
 		}
 
-		Ok(unique)
+		Ok(missing)
 	}
 
-	async fn fetch_and_store_one(&self, content_hash: [u8; 32]) -> Result<(), ConsensusError> {
+	async fn fetch_and_store_one(
+		&self,
+		content_hash: [u8; 32],
+		hashing: HashingAlgorithm,
+	) -> Result<(), ConsensusError> {
 		if self
 			.backend
 			.blockchain()
@@ -238,7 +281,7 @@ where
 			return Ok(());
 		}
 
-		let result = self.do_fetch_and_store(content_hash).await;
+		let result = self.do_fetch_and_store(content_hash, hashing).await;
 
 		if let Ok(mut guard) = self.inflight.lock() {
 			guard.remove(&content_hash);
@@ -247,7 +290,11 @@ where
 		result
 	}
 
-	async fn do_fetch_and_store(&self, content_hash: [u8; 32]) -> Result<(), ConsensusError> {
+	async fn do_fetch_and_store(
+		&self,
+		content_hash: [u8; 32],
+		hashing: HashingAlgorithm,
+	) -> Result<(), ConsensusError> {
 		let network = self.network.get().ok_or_else(|| {
 			ConsensusError::Other(
 				"StorageChainBlockImport: network handle not yet set; \
@@ -263,17 +310,18 @@ where
 			)
 		})?;
 
-		let data = fetch_via_bitswap::<Block>(network.as_ref(), sync.as_ref(), content_hash)
-			.await
-			.ok_or_else(|| {
-				ConsensusError::Other(
-					format!(
-						"bitswap fetch failed for indexed transaction {content_hash:?}; \
-						 retry block import after peers respond"
+		let data =
+			fetch_via_bitswap::<Block>(network.as_ref(), sync.as_ref(), content_hash, hashing)
+				.await
+				.ok_or_else(|| {
+					ConsensusError::Other(
+						format!(
+							"bitswap fetch failed for indexed transaction {content_hash:?}; \
+							 retry block import after peers respond"
+						)
+						.into(),
 					)
-					.into(),
-				)
-			})?;
+				})?;
 
 		if self
 			.backend
@@ -285,7 +333,7 @@ where
 		}
 
 		self.backend
-			.store_fetched_transaction_with_count(content_hash, data, 1)
+			.store_fetched_transaction_with_count(content_hash, data, 1, hashing)
 			.map_err(|e| {
 				ConsensusError::Other(
 					format!(
@@ -306,17 +354,23 @@ where
 }
 
 fn is_supported(info: &&IndexedTransactionInfo) -> bool {
-	matches!(info.hashing, HashingAlgorithm::Blake2b256) && info.cid_codec == RAW_CID_CODEC
+	info.cid_codec == RAW_CID_CODEC
 }
 
 fn to_db_meta(info: &IndexedTransactionInfo) -> IndexedTransactionMeta {
-	IndexedTransactionMeta { content_hash: info.content_hash, size: info.size }
+	IndexedTransactionMeta {
+		content_hash: info.content_hash,
+		size: info.size,
+		extrinsic_index: info.extrinsic_index,
+		hashing: info.hashing,
+	}
 }
 
 async fn fetch_via_bitswap<Block: BlockT>(
 	network: &(dyn NetworkRequest + Send + Sync),
 	sync: &SyncingService<Block>,
 	content_hash: [u8; 32],
+	hashing: HashingAlgorithm,
 ) -> Option<Vec<u8>> {
 	let peers = match sync.peers_info().await {
 		Ok(peers) => peers.into_iter().map(|(peer, _)| peer).collect::<Vec<_>>(),
@@ -336,7 +390,7 @@ async fn fetch_via_bitswap<Block: BlockT>(
 
 	let client = BitswapClient::new();
 	for peer in peers.into_iter().take(MAX_PEERS_PER_HASH) {
-		let fut = client.fetch(network, peer, content_hash);
+		let fut = client.fetch(network, peer, content_hash, hashing);
 		let timed = with_timeout(fut, BITSWAP_PER_PEER_TIMEOUT).await;
 		match timed {
 			Some(Ok(Some(data))) => {
@@ -390,9 +444,12 @@ where
 mod tests {
 	use super::*;
 
-	fn info(content_hash: [u8; 32], size: u32, alg: HashingAlgorithm, codec: u64)
-		-> IndexedTransactionInfo
-	{
+	fn info(
+		content_hash: [u8; 32],
+		size: u32,
+		alg: HashingAlgorithm,
+		codec: u64,
+	) -> IndexedTransactionInfo {
 		IndexedTransactionInfo {
 			content_hash,
 			size,
@@ -403,36 +460,44 @@ mod tests {
 	}
 
 	#[test]
-	fn is_supported_accepts_blake2b_with_raw_codec() {
-		let i = info([0u8; 32], 100, HashingAlgorithm::Blake2b256, RAW_CID_CODEC);
-		assert!(is_supported(&&i));
-	}
-
-	#[test]
-	fn is_supported_rejects_sha2_256() {
-		let i = info([0u8; 32], 100, HashingAlgorithm::Sha2_256, RAW_CID_CODEC);
-		assert!(!is_supported(&&i));
-	}
-
-	#[test]
-	fn is_supported_rejects_keccak_256() {
-		let i = info([0u8; 32], 100, HashingAlgorithm::Keccak256, RAW_CID_CODEC);
-		assert!(!is_supported(&&i));
+	fn is_supported_accepts_all_hashings_with_raw_codec() {
+		for algo in [
+			HashingAlgorithm::Blake2b256,
+			HashingAlgorithm::Sha2_256,
+			HashingAlgorithm::Keccak256,
+		] {
+			let i = info([0u8; 32], 100, algo, RAW_CID_CODEC);
+			assert!(is_supported(&&i), "{algo:?} should be supported with RAW codec");
+		}
 	}
 
 	#[test]
 	fn is_supported_rejects_non_raw_codec() {
-		let i = info([0u8; 32], 100, HashingAlgorithm::Blake2b256, 0x70);
-		assert!(!is_supported(&&i));
+		for algo in [
+			HashingAlgorithm::Blake2b256,
+			HashingAlgorithm::Sha2_256,
+			HashingAlgorithm::Keccak256,
+		] {
+			let i = info([0u8; 32], 100, algo, 0x70);
+			assert!(!is_supported(&&i), "{algo:?} with non-RAW codec should be rejected");
+		}
 	}
 
 	#[test]
-	fn to_db_meta_preserves_content_hash_and_size() {
+	fn to_db_meta_preserves_all_fields() {
 		let h = [7u8; 32];
-		let i = info(h, 4096, HashingAlgorithm::Blake2b256, RAW_CID_CODEC);
+		let i = IndexedTransactionInfo {
+			content_hash: h,
+			size: 4096,
+			hashing: HashingAlgorithm::Sha2_256,
+			cid_codec: RAW_CID_CODEC,
+			extrinsic_index: 17,
+		};
 		let meta = to_db_meta(&i);
 		assert_eq!(meta.content_hash, h);
 		assert_eq!(meta.size, 4096);
+		assert_eq!(meta.extrinsic_index, 17);
+		assert_eq!(meta.hashing, HashingAlgorithm::Sha2_256);
 	}
 
 	#[test]

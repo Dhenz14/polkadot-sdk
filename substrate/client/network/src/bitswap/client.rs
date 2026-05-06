@@ -22,7 +22,7 @@ use futures::channel::oneshot;
 use log::{debug, trace};
 use prost::Message;
 use sc_network_types::PeerId;
-use sp_runtime::traits::{BlakeTwo256, Hash as HashT};
+use sp_transaction_storage_proof::HashingAlgorithm;
 
 const LOG_TARGET: &str = "bitswap";
 
@@ -36,7 +36,6 @@ use super::{
 };
 
 const RAW_CODEC: u64 = 0x55;
-const BLAKE2B_256_MULTIHASH_CODE: u64 = 0xb220;
 
 type Multihash = CidMultihash<64>;
 
@@ -85,18 +84,21 @@ impl BitswapClient {
 
 	/// Fetch data for a content hash from a specific peer via bitswap.
 	///
-	/// Constructs the CID, sends a WANT message, parses the response, and verifies the returned
-	/// blob against the expected `blake2_256` content hash.
+	/// Constructs the CID using the given `hashing` algorithm, sends a WANT-BLOCK message, parses
+	/// the response, and verifies the returned blob using the same algorithm. Returns `Ok(None)`
+	/// when the peer responds with `DontHave`, `Err(BitswapError::HashMismatch)` if the data
+	/// hashes to something other than `content_hash`, and `Err(...)` for protocol/network errors.
 	pub async fn fetch<N>(
 		&self,
 		network: &N,
 		peer: PeerId,
 		content_hash: [u8; 32],
+		hashing: HashingAlgorithm,
 	) -> Result<Option<Vec<u8>>, BitswapError>
 	where
 		N: BitswapRequestSender + ?Sized,
 	{
-		let cid = Self::cid_for_hash(content_hash)?;
+		let cid = Self::cid_for_hash(content_hash, hashing)?;
 		let request = BitswapMessage {
 			wantlist: Some(Wantlist {
 				entries: vec![Entry {
@@ -173,12 +175,12 @@ impl BitswapClient {
 				)));
 			}
 
-			let computed = BlakeTwo256::hash(&block.data);
-			if computed.as_ref() != content_hash.as_ref() {
+			let computed = hashing.hash(&block.data);
+			if computed != content_hash {
 				debug!(
 					target: LOG_TARGET,
 					"client: hash mismatch from {peer} (CID {cid}): got 0x{}",
-					hex_encode(computed.as_ref()),
+					hex_encode(&computed),
 				);
 				return Err(BitswapError::HashMismatch);
 			}
@@ -234,16 +236,22 @@ impl BitswapClient {
 		Ok(None)
 	}
 
-	fn cid_for_hash(content_hash: [u8; 32]) -> Result<Cid, BitswapError> {
-		let multihash = Multihash::wrap(BLAKE2B_256_MULTIHASH_CODE, &content_hash)
+	fn cid_for_hash(
+		content_hash: [u8; 32],
+		hashing: HashingAlgorithm,
+	) -> Result<Cid, BitswapError> {
+		let multihash = Multihash::wrap(hashing.multihash_code(), &content_hash)
 			.map_err(|err| BitswapError::DecodeError(err.to_string()))?;
 		Ok(Cid::new_v1(RAW_CODEC, multihash))
 	}
 
 	fn cid_from_block_prefix(prefix: &[u8], data: &[u8]) -> Result<Cid, BitswapError> {
 		let prefix = decode_prefix(prefix)?;
-		let hash = BlakeTwo256::hash(data);
-		let multihash = Multihash::wrap(prefix.mh_type, hash.as_ref())
+		let hashing = HashingAlgorithm::from_multihash_code(prefix.mh_type).ok_or_else(|| {
+			BitswapError::UnsupportedHashing { multihash_code: prefix.mh_type }
+		})?;
+		let hash = hashing.hash(data);
+		let multihash = Multihash::wrap(prefix.mh_type, &hash)
 			.map_err(|err| BitswapError::DecodeError(err.to_string()))?;
 
 		match prefix.version {
@@ -309,4 +317,10 @@ pub enum BitswapError {
 	DecodeError(String),
 	/// Request/response exchange failed.
 	RequestFailed(String),
+	/// Block prefix declared a multihash code that does not map to any supported
+	/// `HashingAlgorithm`.
+	UnsupportedHashing {
+		/// The unrecognised IPFS multihash code.
+		multihash_code: u64,
+	},
 }

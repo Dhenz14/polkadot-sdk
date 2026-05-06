@@ -67,9 +67,14 @@ const MAX_WANTED_BLOCKS: usize = 16;
 /// Bitswap protocol name
 pub(crate) const PROTOCOL_NAME: &'static str = "/ipfs/bitswap/1.2.0";
 
-/// Check if a CID is supported by the bitswap protocol.
+/// Check if a CID is supported by the bitswap protocol — CIDv1, 32-byte digest, with a
+/// multihash code that maps to a supported [`HashingAlgorithm`] (Blake2b-256, SHA2-256, or
+/// Keccak-256).
 pub fn is_cid_supported(cid: &Cid) -> bool {
-	cid.version() != CidVersion::V0 && cid.hash().size() == 32
+	cid.version() != CidVersion::V0
+		&& cid.hash().size() == 32
+		&& sp_transaction_storage_proof::HashingAlgorithm::from_multihash_code(cid.hash().code())
+			.is_some()
 }
 
 /// Prefix represents all metadata of a CID, without the actual content.
@@ -540,5 +545,31 @@ mod tests {
 		} else {
 			panic!("invalid event received");
 		}
+	}
+
+	#[test]
+	fn is_cid_supported_accepts_all_three_supported_hashings() {
+		use cid::multihash::Multihash;
+		const RAW_CODEC: u64 = 0x55;
+		for algo in [
+			sp_transaction_storage_proof::HashingAlgorithm::Blake2b256,
+			sp_transaction_storage_proof::HashingAlgorithm::Sha2_256,
+			sp_transaction_storage_proof::HashingAlgorithm::Keccak256,
+		] {
+			let digest = [9u8; 32];
+			let mh = Multihash::<64>::wrap(algo.multihash_code(), &digest).unwrap();
+			let cid = Cid::new_v1(RAW_CODEC, mh);
+			assert!(is_cid_supported(&cid), "{algo:?} CID should be supported");
+		}
+	}
+
+	#[test]
+	fn is_cid_supported_rejects_unknown_multihash_code() {
+		use cid::multihash::Multihash;
+		const RAW_CODEC: u64 = 0x55;
+		let digest = [9u8; 32];
+		let mh = Multihash::<64>::wrap(0x99, &digest).unwrap();
+		let cid = Cid::new_v1(RAW_CODEC, mh);
+		assert!(!is_cid_supported(&cid));
 	}
 }

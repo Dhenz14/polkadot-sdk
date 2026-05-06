@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1777989196207,
+  "lastUpdate": 1778054963399,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "tsvetomir@parity.io",
-            "name": "Tsvetomir Dimitrov",
-            "username": "tdimitrov"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "ad4ae97793083c2b08369fe7b0e63331e7753a4c",
-          "message": "Handle invulnerable AH collators with priority in collator-protocol/validator-side (#9458)\n\nImplements priority handling of invulnerable AH collators which consists\nof:\n1. Connection management - there is a connection limit in the networking\nstack of 100 peers after which no new connections are accepted. To make\nsure that the invulnerable collators can always connect to the\nvalidators permissionless collators are getting disconnected one the\nconnection count is close to the limit.\n2. Collations from permissionless collators are held off for some time\nbefore processing so that the invulnerables have got a chance to put a\ncollation on their own.\n\nTODOs:\n- [x] Add the invulnerables list.\n- [x] Test if the change works for collators claiming positions further\ninto the CQ.\n- [x] Find a good value for `HOLD_OFF_DURATION` and test it on a\ntestnet.\n- [x] Safetynet: Add a command line parameter which overrides\n`HOLD_OFF_DURATION`.\n- [x] Make the hold off more idiomatic.\n- [x] Hold off per relay parent.\n- [x] Fix failing tests.\n\n---------\n\nCo-authored-by: Andrei Sandu <54316454+sandreim@users.noreply.github.com>",
-          "timestamp": "2025-09-26T05:37:51Z",
-          "tree_id": "17846cf3dfa6de29d1559d0660723069ab287da8",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/ad4ae97793083c2b08369fe7b0e63331e7753a4c"
-        },
-        "date": 1758869317363,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 63635.76000000001,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 52939.7,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.4697963861700014,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.000019056830000000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.000019056830000000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9422567934700061,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.00001819171,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4505789770099997,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.00001819171,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.250937244200008,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005511791460000006,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.413363635680001,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.6637441833810205,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.5009250354700017,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.4685046249399996,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting-parallel/approval-voting-gather-signatures",
             "value": 0.005126668000000003,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "9df45c241230ca446b9a3e73a51ea554a9cf1ef1",
+          "message": "Use app token to create post crates release PR  (#11987)\n\nThis PR replaces standard GH token with the one generated for the GH app\nso that CI checks will be triggered automatically when PR is created\nfrom the Post Crates Activities flow\nCloses: https://github.com/paritytech/release-engineering/issues/296",
+          "timestamp": "2026-05-06T06:43:34Z",
+          "tree_id": "791084a12542353030f2e25f92f9666f5caa0e70",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/9df45c241230ca446b9a3e73a51ea554a9cf1ef1"
+        },
+        "date": 1778054940812,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 63620.6,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 52941.8,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7833387544199819,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.809044927140002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.00002219913,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005250545799999997,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.8201736189400006,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.00002219913,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.00002302752,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.8995205029699984,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.636395206839984,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.4660002514400023,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.367293970942769,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.8530666061299996,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.00002302752,
             "unit": "seconds"
           }
         ]

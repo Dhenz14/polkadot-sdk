@@ -207,30 +207,11 @@ where
 				)
 			})?;
 
-		if infos.is_empty() {
-			return Ok(HashSet::new());
-		}
-
-		let db_meta: Vec<IndexedTransactionMeta> =
-			infos.iter().filter(is_supported).map(to_db_meta).collect();
-
-		if db_meta.is_empty() {
-			return Ok(HashSet::new());
-		}
-
 		let body = params.body.as_ref().ok_or_else(|| {
 			ConsensusError::Other("StorageChainBlockImport: body absent after gate".into())
 		})?;
 
-		let renews: HashSet<([u8; 32], HashingAlgorithm)> =
-			classify_indexed_extrinsics::<Block>(body, &db_meta)
-				.into_iter()
-				.filter_map(|entry| match entry {
-					ClassifiedExtrinsic::Renew { hashes } => Some(hashes),
-					_ => None,
-				})
-				.flatten()
-				.collect();
+		let renews = body_classify_renews::<Block>(&infos, body);
 
 		if !renews.is_empty() {
 			log::debug!(
@@ -238,7 +219,7 @@ where
 				"block #{:?} ({:?}): {} indexed entries, {} renew hashes",
 				block_number,
 				parent_hash,
-				db_meta.len(),
+				infos.len(),
 				renews.len(),
 			);
 		}
@@ -353,6 +334,34 @@ fn to_db_meta(info: &IndexedTransactionInfo) -> IndexedTransactionMeta {
 	}
 }
 
+/// Pure: given runtime-provided indexed-transaction metadata and a block body, returns the set of
+/// renew (hash, hashing) pairs whose data is **not** carried in the body — i.e. the entries the
+/// caller needs to fetch from elsewhere.
+///
+/// Has no side effects (no DB, no network, no `&self`). Filters out entries whose `cid_codec` is
+/// not the IPFS RAW codec (these are not bitswap-fetchable). Multi-renew shapes (multiple metas
+/// at the same `extrinsic_index`) are flattened into individual hashes.
+fn body_classify_renews<Block: BlockT>(
+	infos: &[IndexedTransactionInfo],
+	body: &[Block::Extrinsic],
+) -> HashSet<([u8; 32], HashingAlgorithm)> {
+	let db_meta: Vec<IndexedTransactionMeta> =
+		infos.iter().filter(is_supported).map(to_db_meta).collect();
+
+	if db_meta.is_empty() {
+		return HashSet::new();
+	}
+
+	classify_indexed_extrinsics::<Block>(body, &db_meta)
+		.into_iter()
+		.filter_map(|entry| match entry {
+			ClassifiedExtrinsic::Renew { hashes } => Some(hashes),
+			_ => None,
+		})
+		.flatten()
+		.collect()
+}
+
 async fn fetch_via_bitswap<Block: BlockT>(
 	network: &(dyn NetworkRequest + Send + Sync),
 	sync: &SyncingService<Block>,
@@ -430,20 +439,40 @@ where
 #[cfg(test)]
 mod tests {
 	use super::*;
+	use codec::Encode;
+	use sp_runtime::{generic, traits::BlakeTwo256, OpaqueExtrinsic};
+	use std::collections::HashSet;
+
+	type Block = generic::Block<generic::Header<u32, BlakeTwo256>, OpaqueExtrinsic>;
 
 	fn info(
 		content_hash: [u8; 32],
 		size: u32,
 		alg: HashingAlgorithm,
 		codec: u64,
+		extrinsic_index: u32,
 	) -> IndexedTransactionInfo {
 		IndexedTransactionInfo {
 			content_hash,
 			size,
 			hashing: alg,
 			cid_codec: codec,
-			extrinsic_index: u32::MAX,
+			extrinsic_index,
 		}
+	}
+
+	fn extrinsic(bytes: &[u8]) -> OpaqueExtrinsic {
+		OpaqueExtrinsic::from_blob(bytes.to_vec())
+	}
+
+	fn body_info(
+		ext: &OpaqueExtrinsic,
+		extrinsic_index: u32,
+		hashing: HashingAlgorithm,
+		codec: u64,
+	) -> IndexedTransactionInfo {
+		let encoded = ext.encode();
+		info(hashing.hash(&encoded), encoded.len() as u32, hashing, codec, extrinsic_index)
 	}
 
 	#[test]
@@ -453,7 +482,7 @@ mod tests {
 			HashingAlgorithm::Sha2_256,
 			HashingAlgorithm::Keccak256,
 		] {
-			let i = info([0u8; 32], 100, algo, RAW_CID_CODEC);
+			let i = info([0u8; 32], 100, algo, RAW_CID_CODEC, u32::MAX);
 			assert!(is_supported(&&i), "{algo:?} should be supported with RAW codec");
 		}
 	}
@@ -465,7 +494,7 @@ mod tests {
 			HashingAlgorithm::Sha2_256,
 			HashingAlgorithm::Keccak256,
 		] {
-			let i = info([0u8; 32], 100, algo, 0x70);
+			let i = info([0u8; 32], 100, algo, 0x70, u32::MAX);
 			assert!(!is_supported(&&i), "{algo:?} with non-RAW codec should be rejected");
 		}
 	}
@@ -485,5 +514,61 @@ mod tests {
 		assert_eq!(meta.size, 4096);
 		assert_eq!(meta.extrinsic_index, 17);
 		assert_eq!(meta.hashing, HashingAlgorithm::Sha2_256);
+	}
+
+	#[test]
+	fn body_classify_renews_returns_empty_for_supported_insert() {
+		let body = vec![extrinsic(&[1, 2, 3])];
+		let infos = vec![body_info(&body[0], 0, HashingAlgorithm::Blake2b256, RAW_CID_CODEC)];
+
+		assert!(body_classify_renews::<Block>(&infos, &body).is_empty());
+	}
+
+	#[test]
+	fn body_classify_renews_filters_unsupported_non_raw_codec() {
+		let body = vec![extrinsic(&[4, 5, 6])];
+		let infos = vec![info(
+			[9; 32],
+			body[0].encode().len() as u32,
+			HashingAlgorithm::Blake2b256,
+			0x70,
+			0,
+		)];
+
+		assert!(body_classify_renews::<Block>(&infos, &body).is_empty());
+	}
+
+	#[test]
+	fn body_classify_renews_returns_single_supported_renew() {
+		let body = vec![extrinsic(&[7, 8, 9])];
+		let infos = vec![info(
+			[1; 32],
+			body[0].encode().len() as u32,
+			HashingAlgorithm::Sha2_256,
+			RAW_CID_CODEC,
+			0,
+		)];
+
+		let renews = body_classify_renews::<Block>(&infos, &body);
+		assert_eq!(renews, HashSet::from([([1; 32], HashingAlgorithm::Sha2_256)]));
+	}
+
+	#[test]
+	fn body_classify_renews_flattens_multi_renews_at_same_index() {
+		let body = vec![extrinsic(&[10, 11, 12])];
+		let encoded_len = body[0].encode().len() as u32;
+		let infos = vec![
+			info([2; 32], encoded_len, HashingAlgorithm::Blake2b256, RAW_CID_CODEC, 0),
+			info([3; 32], encoded_len, HashingAlgorithm::Keccak256, RAW_CID_CODEC, 0),
+		];
+
+		let renews = body_classify_renews::<Block>(&infos, &body);
+		assert_eq!(
+			renews,
+			HashSet::from([
+				([2; 32], HashingAlgorithm::Blake2b256),
+				([3; 32], HashingAlgorithm::Keccak256),
+			]),
+		);
 	}
 }

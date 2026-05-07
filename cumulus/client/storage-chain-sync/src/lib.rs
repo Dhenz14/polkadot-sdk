@@ -47,7 +47,6 @@ mod fetcher;
 
 pub use fetcher::{FetchError, IndexedTransactionFetcher, NetworkHandle, SyncingHandle};
 
-use futures::stream::{StreamExt, TryStreamExt};
 use sc_client_api::backend::{
 	Backend as BackendT, PREFETCHED_INDEXED_TRANSACTIONS_INTERMEDIATE_KEY,
 };
@@ -66,10 +65,6 @@ use std::{collections::HashSet, marker::PhantomData, sync::Arc};
 
 const LOG_TARGET: &str = "storage-chain-block-import";
 const RAW_CID_CODEC: u64 = 0x55;
-/// Maximum number of bitswap fetches that run concurrently for a single block. The cap exists so
-/// that a bulk-renew block (e.g. `process_auto_renewals` with hundreds of hashes) cannot saturate
-/// the substrate request-response queue, which has its own per-peer bound.
-const MAX_CONCURRENT_RENEW_FETCHES: usize = 8;
 
 /// Block-import wrapper that bitswap-fetches missing TRANSACTION-column entries
 /// for tip-sync blocks before delegating to the inner block import.
@@ -125,6 +120,10 @@ where
 		&self,
 		mut params: BlockImportParams<Block>,
 	) -> Result<ImportResult, Self::Error> {
+		if !self.should_intercept(params) {
+			return self.inner.import_block(params).await;
+		}
+
 		let renews = self.classify_renew_hashes(&params)?;
 		let missing = self.filter_missing(renews);
 		let fetched = self.fetch_all(missing).await?;
@@ -177,10 +176,6 @@ where
 		&self,
 		params: &BlockImportParams<Block>,
 	) -> Result<HashSet<([u8; 32], HashingAlgorithm)>, ConsensusError> {
-		if !self.should_intercept(params) {
-			return Ok(HashSet::new());
-		}
-
 		let parent_hash = *params.header.parent_hash();
 		let block_number = *params.header.number();
 
@@ -231,25 +226,39 @@ where
 			.collect()
 	}
 
-	/// Resolves every missing entry concurrently (capped at [`MAX_CONCURRENT_RENEW_FETCHES`]),
-	/// holding the fetched bytes in memory. Returns `Err` on the first failure, abandoning any
-	/// in-flight fetches; their network requests time out naturally.
+	/// Resolves every missing entry by delegating to the fetcher's batch API. Returns `Err`
+	/// if any entry was not served by any peer.
 	async fn fetch_all(
 		&self,
 		missing: HashSet<([u8; 32], HashingAlgorithm)>,
 	) -> Result<Vec<([u8; 32], HashingAlgorithm, Vec<u8>)>, ConsensusError> {
-		futures::stream::iter(missing)
-			.map(|(hash, hashing)| async move {
-				let data = self.fetcher.fetch(hash, hashing).await.map_err(|e| {
-					ConsensusError::Other(
-						format!("bitswap fetch for {hash:?}: {e}").into(),
-					)
-				})?;
-				Ok::<_, ConsensusError>((hash, hashing, data))
+		if missing.is_empty() {
+			return Ok(Vec::new());
+		}
+		let wants: Vec<([u8; 32], HashingAlgorithm)> = missing.into_iter().collect();
+		let acquired = self.fetcher.fetch_many(&wants).await.map_err(|e| {
+			ConsensusError::Other(format!("bitswap fetch_many: {e}").into())
+		})?;
+		if acquired.len() != wants.len() {
+			let missing_count = wants.len() - acquired.len();
+			return Err(ConsensusError::Other(
+				format!(
+					"bitswap fetch_many: {missing_count} of {} entries not served",
+					wants.len(),
+				)
+				.into(),
+			));
+		}
+		Ok(wants
+			.into_iter()
+			.map(|(hash, hashing)| {
+				let data = acquired
+					.get(&hash)
+					.expect("all hashes present; len equality verified above; qed")
+					.clone();
+				(hash, hashing, data)
 			})
-			.buffer_unordered(MAX_CONCURRENT_RENEW_FETCHES)
-			.try_collect()
-			.await
+			.collect())
 	}
 
 	/// Verifies every fetched blob against its declared content hash and attaches the resulting

@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778143349240,
+  "lastUpdate": 1778169898936,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "indirection42@outlook.com",
-            "name": "Jiyuan Zheng",
-            "username": "indirection42"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "615f664b4d250d627cc4fb84e2ca434f04664159",
-          "message": "Add oracle pallet (part of Polkadot Stablecoin prerequisites) (#9815)\n\n# Description\nThis PR is part of #9765.\nThis PR introduces `pallet-oracle`, a new FRAME pallet that provides a\ndecentralized and trustworthy way to bring external, off-chain data onto\nthe blockchain. The pallet allows a configurable set of oracle operators\nto feed data, such as prices, into the system, which can then be\nconsumed by other pallets.\n\n## Integration\n\n### For Runtime Developers\n\nTo integrate `pallet-oracle` into your runtime:\n\n1. **Add dependency to your runtime's `Cargo.toml`**:\n\n   ```toml\n   pallet-oracle = { version = \"1.0.0\", default-features = false }\n   ```\n\n2. **Implement the `Config` trait** in your runtime:\n\n   ```rust\n   impl pallet_oracle::Config for Runtime {\n       type OnNewData = ();\n       type CombineData = pallet_oracle::DefaultCombineData;\n       type Time = Timestamp;\n       type OracleKey = AssetId;  // Your key type\n       type OracleValue = Price;     // Your value type\n       type RootOperatorAccountId = RootOperatorAccountId;\n       type Members = OracleMembers;\ntype WeightInfo = pallet_oracle::weights::SubstrateWeight<Runtime>;\n       type MaxHasDispatchedSize = ConstU32<100>;\n       type MaxFeedValues = ConstU32<50>;\n   }\n   ```\n\n3. **Add to `construct_runtime!`**:\n\n   ```rust\n   construct_runtime!(\n       pub enum Runtime {\n           // ... other pallets\n           Oracle: pallet_oracle,\n       }\n   );\n   ```\n\n### For Pallet Developers\n\nOther pallets can consume oracle data using the `DataProvider` trait:\n\n```rust\nuse pallet_oracle::traits::DataProvider;\n\n// Get current price\nif let Some(price) = <pallet_oracle::Pallet<T> as DataProvider<CurrencyId, Price>>::get(&currency_id) {\n    // Use the price data\n}\n```\n\n## Review Notes\n\n### Key Features\n\n- **Decentralized Data Feeding**: Uses `SortedMembers` trait to manage\noracle operators, allowing integration with `pallet-membership`\n- **Flexible Data Aggregation**: Configurable `CombineData`\nimplementation with default median-based aggregation\n- **Timestamped Data**: All data includes timestamps for freshness\nvalidation\n- **Root Operator Support**: Special account that can bypass membership\nchecks for emergency data updates\n- **Data Provider Traits**: Implements `DataProvider` and\n`DataProviderExtended` for easy consumption by other pallets\n\n### Implementation Details\n\nThe pallet uses a two-tier storage approach:\n\n- `RawValues`: Stores individual operator submissions with timestamps\n- `Values`: Stores aggregated values after applying the `CombineData`\nlogic\n\n### Security Considerations\n\n- Only authorized members can feed data (enforced via `SortedMembers`)\n- Root operator can bypass membership checks for emergency situations\n- One submission per operator per block to prevent spam\n- Configurable limits on maximum feed values per transaction\n\n### Testing\n\nThe pallet includes comprehensive tests covering:\n\n- Basic data feeding and retrieval\n- Member management and authorization\n- Data aggregation logic\n- Edge cases and error conditions\n- Benchmarking for weight calculation\n\n### Files Added\n\n- `substrate/frame/honzon/oracle/` - Complete pallet implementation\n- `substrate/frame/honzon/oracle/README.md` - Comprehensive\ndocumentation\n- Integration into umbrella workspace and node runtime\n- Runtime API for off-chain access to oracle data\n\n### Breaking Changes\n\nNone - this is a new pallet addition.\n\n### Migration Guide\n\nNo migration required - this is a new feature.\n\n# Checklist\n\n- [x] My PR includes a detailed description as outlined in the\n\"Description\" and its two subsections above.\n- [x] My PR follows the [labeling\nrequirements](https://github.com/paritytech/polkadot-sdk/blob/master/docs/contributor/CONTRIBUTING.md#Process)\nof this project (at minimum one label for `T` required)\n- External contributors: ask maintainers to put the right label on your\nPR.\n- [ ] I have made corresponding changes to the documentation (if\napplicable)\n- [x] I have added tests that prove my fix is effective or that my\nfeature works (if applicable)\n\n---------\n\nCo-authored-by: Bryan Chen <xlchen1291@gmail.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
-          "timestamp": "2025-09-28T20:42:49Z",
-          "tree_id": "2ccab4db015604d87451d953a160f3a7f916e015",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/615f664b4d250d627cc4fb84e2ca434f04664159"
-        },
-        "date": 1759096337590,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 63625.490000000005,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 52939.5,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.00002379162,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.7035118468810175,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.00002258777,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.469328387109999,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.4428092806300006,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.00002379162,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.0060232545599999965,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4509167704400014,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.42915322596000316,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.5004533324700002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.00002258777,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.233838840629998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9351545894599957,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-distribution/test-environment",
             "value": 0.000020766879999999998,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "41779041+alvicsam@users.noreply.github.com",
+            "name": "Alexander Samusev",
+            "username": "alvicsam"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "912969a78efada22616c5f3f74ed12274e872545",
+          "message": "ci: fix resolc download (#12008)\n\nPR adds some logic to retry download resolc to avoid\n[such](https://github.com/paritytech/polkadot-sdk/actions/runs/25483886193/job/74774666969)\nproblems\n\ncc https://github.com/paritytech/devops/issues/5285",
+          "timestamp": "2026-05-07T14:16:45Z",
+          "tree_id": "4240b9e11b6c4949c5bfcea8a5dae01bdde6b367",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/912969a78efada22616c5f3f74ed12274e872545"
+        },
+        "date": 1778169876744,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 63620.39,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 52939.40000000001,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.91592840208,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.4688574738700018,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.8552397032199983,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.837318186089999,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.260758782662763,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7688395516499638,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.000023808190000000006,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.000024256069999999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.000023808190000000006,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.712027987049964,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.000024256069999999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005885811820000005,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.8599588583199997,
             "unit": "seconds"
           }
         ]

@@ -5121,6 +5121,27 @@ dependencies = [
 ]
 
 [[package]]
+name = "cumulus-client-storage-chain-sync"
+version = "0.7.0"
+dependencies = [
+ "async-trait",
+ "futures",
+ "futures-timer",
+ "log",
+ "parity-scale-codec",
+ "sc-client-api 28.0.0",
+ "sc-client-db",
+ "sc-consensus",
+ "sc-network 0.34.0",
+ "sc-network-sync",
+ "sp-api 26.0.0",
+ "sp-blockchain 28.0.0",
+ "sp-consensus 0.32.0",
+ "sp-runtime 31.0.1",
+ "sp-transaction-storage-proof",
+]
+
+[[package]]
 name = "cumulus-pallet-aura-ext"
 version = "0.7.0"
 dependencies = [
@@ -16958,6 +16979,7 @@ dependencies = [
  "cumulus-client-consensus-relay-chain",
  "cumulus-client-parachain-inherent",
  "cumulus-client-service",
+ "cumulus-client-storage-chain-sync",
  "cumulus-primitives-aura",
  "cumulus-primitives-core",
  "cumulus-relay-chain-interface",

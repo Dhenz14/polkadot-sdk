@@ -264,36 +264,25 @@ impl BitswapClient {
 }
 
 fn decode_prefix(mut bytes: &[u8]) -> Result<Prefix, BitswapError> {
-	let (version, rest) = unsigned_varint::decode::u64(bytes)
-		.map_err(|err| BitswapError::DecodeError(err.to_string()))?;
-	bytes = rest;
+	let mut read_varint = || -> Result<u64, BitswapError> {
+		let (v, rest) = unsigned_varint::decode::u64(bytes)
+			.map_err(|err| BitswapError::DecodeError(err.to_string()))?;
+		bytes = rest;
+		Ok(v)
+	};
 
-	let (codec, rest) = unsigned_varint::decode::u64(bytes)
-		.map_err(|err| BitswapError::DecodeError(err.to_string()))?;
-	bytes = rest;
-
-	let (mh_type, rest) = unsigned_varint::decode::u64(bytes)
-		.map_err(|err| BitswapError::DecodeError(err.to_string()))?;
-	bytes = rest;
-
-	let (mh_len, rest) = unsigned_varint::decode::u64(bytes)
-		.map_err(|err| BitswapError::DecodeError(err.to_string()))?;
-	bytes = rest;
+	let version = read_varint()?;
+	let codec = read_varint()?;
+	let mh_type = read_varint()?;
+	let mh_len = read_varint()?;
 
 	if !bytes.is_empty() {
 		return Err(BitswapError::DecodeError("bitswap block prefix had trailing bytes".into()));
 	}
 
-	let version = match version {
-		0 => CidVersion::V0,
-		1 => CidVersion::V1,
-		other => {
-			return Err(BitswapError::DecodeError(format!(
-				"unsupported CID version {other}",
-			)))
-		},
-	};
-	let mh_len = mh_len.try_into().map_err(|_| {
+	let version = CidVersion::try_from(version)
+		.map_err(|_| BitswapError::DecodeError(format!("unsupported CID version {version}")))?;
+	let mh_len = u8::try_from(mh_len).map_err(|_| {
 		BitswapError::DecodeError(format!("multihash length {mh_len} does not fit into u8"))
 	})?;
 

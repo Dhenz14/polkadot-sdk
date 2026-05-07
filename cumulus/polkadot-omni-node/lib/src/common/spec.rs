@@ -21,7 +21,6 @@ use crate::{
 		command::NodeCommandRunner,
 		rpc::BuildRpcExtensions,
 		statement_store::{build_statement_store, new_statement_handler_proto},
-		storage_chain_block_import::{NetworkHandle, StorageChainBlockImport, SyncingHandle},
 		types::{
 			ParachainBackend, ParachainBlockImport, ParachainClient, ParachainHostFunctions,
 			ParachainService,
@@ -31,6 +30,9 @@ use crate::{
 };
 use codec::Encode;
 use cumulus_client_bootnodes::{start_bootnode_tasks, StartBootnodeTasksParams};
+use cumulus_client_storage_chain_sync::{
+	IndexedTransactionFetcher, NetworkHandle, StorageChainBlockImport, SyncingHandle,
+};
 use cumulus_client_cli::CollatorOptions;
 use cumulus_client_service::{
 	build_network, build_relay_chain_interface, prepare_node_config, start_relay_chain_tasks,
@@ -299,12 +301,16 @@ pub(crate) trait BaseNodeSpec {
 		let network_handle: NetworkHandle = Arc::new(OnceLock::new());
 		let syncing_handle: SyncingHandle<Self::Block> = Arc::new(OnceLock::new());
 
+		let fetcher = IndexedTransactionFetcher::new(
+			Arc::clone(&network_handle),
+			Arc::clone(&syncing_handle),
+		);
+
 		let storage_chain_block_import = StorageChainBlockImport::new(
 			inner_block_import,
 			client.clone(),
 			backend.clone(),
-			Arc::clone(&network_handle),
-			Arc::clone(&syncing_handle),
+			fetcher,
 		);
 
 		let block_import =

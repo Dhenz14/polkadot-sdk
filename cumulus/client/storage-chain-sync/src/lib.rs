@@ -43,6 +43,10 @@
 //! Behaviour gated by `BlockOrigin`: blocks from `WarpSync`, `GapSync`, `File`, and `Genesis` are
 //! passed through unchanged. Gap-sync coverage is a separate workstream.
 
+mod fetcher;
+
+pub use fetcher::{FetchError, IndexedTransactionFetcher, NetworkHandle, SyncingHandle};
+
 use futures::stream::{StreamExt, TryStreamExt};
 use sc_client_api::backend::{
 	Backend as BackendT, PREFETCHED_INDEXED_TRANSACTIONS_INTERMEDIATE_KEY,
@@ -51,11 +55,6 @@ use sc_client_db::{
 	classify_indexed_extrinsics, Backend, ClassifiedExtrinsic, IndexedTransactionMeta,
 };
 use sc_consensus::{BlockCheckParams, BlockImport, BlockImportParams, ImportResult};
-use sc_network::{
-	bitswap::{BitswapClient, BitswapError},
-	NetworkRequest,
-};
-use sc_network_sync::SyncingService;
 use sp_api::{ApiExt, ProvideRuntimeApi};
 use sp_blockchain::Backend as BlockchainBackendT;
 use sp_consensus::{BlockOrigin, Error as ConsensusError};
@@ -63,26 +62,14 @@ use sp_runtime::traits::{Block as BlockT, Header as HeaderT};
 use sp_transaction_storage_proof::{
 	runtime_api::TransactionStorageApi, HashingAlgorithm, IndexedTransactionInfo,
 };
-use std::{
-	collections::HashSet,
-	marker::PhantomData,
-	sync::{Arc, OnceLock},
-	time::Duration,
-};
+use std::{collections::HashSet, marker::PhantomData, sync::Arc};
 
 const LOG_TARGET: &str = "storage-chain-block-import";
 const RAW_CID_CODEC: u64 = 0x55;
-const BITSWAP_PER_PEER_TIMEOUT: Duration = Duration::from_secs(5);
-const MAX_PEERS_PER_HASH: usize = 8;
 /// Maximum number of bitswap fetches that run concurrently for a single block. The cap exists so
 /// that a bulk-renew block (e.g. `process_auto_renewals` with hundreds of hashes) cannot saturate
 /// the substrate request-response queue, which has its own per-peer bound.
 const MAX_CONCURRENT_RENEW_FETCHES: usize = 8;
-
-/// Late-bound network handles populated after `build_network` returns.
-pub type NetworkHandle = Arc<OnceLock<Arc<dyn NetworkRequest + Send + Sync>>>;
-/// Late-bound `SyncingService` handle populated after `build_network` returns.
-pub type SyncingHandle<Block> = Arc<OnceLock<Arc<SyncingService<Block>>>>;
 
 /// Block-import wrapper that bitswap-fetches missing TRANSACTION-column entries
 /// for tip-sync blocks before delegating to the inner block import.
@@ -90,8 +77,7 @@ pub struct StorageChainBlockImport<Block: BlockT, Inner, Client> {
 	inner: Inner,
 	client: Arc<Client>,
 	backend: Arc<Backend<Block>>,
-	network: NetworkHandle,
-	syncing_service: SyncingHandle<Block>,
+	fetcher: IndexedTransactionFetcher<Block>,
 	_phantom: PhantomData<Block>,
 }
 
@@ -101,8 +87,7 @@ impl<Block: BlockT, Inner: Clone, Client> Clone for StorageChainBlockImport<Bloc
 			inner: self.inner.clone(),
 			client: self.client.clone(),
 			backend: self.backend.clone(),
-			network: self.network.clone(),
-			syncing_service: self.syncing_service.clone(),
+			fetcher: self.fetcher.clone(),
 			_phantom: PhantomData,
 		}
 	}
@@ -113,10 +98,9 @@ impl<Block: BlockT, Inner, Client> StorageChainBlockImport<Block, Inner, Client>
 		inner: Inner,
 		client: Arc<Client>,
 		backend: Arc<Backend<Block>>,
-		network: NetworkHandle,
-		syncing_service: SyncingHandle<Block>,
+		fetcher: IndexedTransactionFetcher<Block>,
 	) -> Self {
-		Self { inner, client, backend, network, syncing_service, _phantom: PhantomData }
+		Self { inner, client, backend, fetcher, _phantom: PhantomData }
 	}
 }
 
@@ -247,41 +231,6 @@ where
 			.collect()
 	}
 
-	/// Resolves a single hash via bitswap. Pure fetch — does no DB write. Caller decides what to
-	/// do with the bytes.
-	async fn fetch_one(
-		&self,
-		content_hash: [u8; 32],
-		hashing: HashingAlgorithm,
-	) -> Result<Vec<u8>, ConsensusError> {
-		let network = self.network.get().ok_or_else(|| {
-			ConsensusError::Other(
-				"StorageChainBlockImport: network handle not yet set; \
-				 storage-chain blocks cannot be imported before build_network completes"
-					.into(),
-			)
-		})?;
-		let sync = self.syncing_service.get().ok_or_else(|| {
-			ConsensusError::Other(
-				"StorageChainBlockImport: sync handle not yet set; \
-				 storage-chain blocks cannot be imported before build_network completes"
-					.into(),
-			)
-		})?;
-
-		fetch_via_bitswap::<Block>(network.as_ref(), sync.as_ref(), content_hash, hashing)
-			.await
-			.ok_or_else(|| {
-				ConsensusError::Other(
-					format!(
-						"bitswap fetch failed for indexed transaction {content_hash:?}; \
-						 retry block import after peers respond"
-					)
-					.into(),
-				)
-			})
-	}
-
 	/// Resolves every missing entry concurrently (capped at [`MAX_CONCURRENT_RENEW_FETCHES`]),
 	/// holding the fetched bytes in memory. Returns `Err` on the first failure, abandoning any
 	/// in-flight fetches; their network requests time out naturally.
@@ -291,7 +240,11 @@ where
 	) -> Result<Vec<([u8; 32], HashingAlgorithm, Vec<u8>)>, ConsensusError> {
 		futures::stream::iter(missing)
 			.map(|(hash, hashing)| async move {
-				let data = self.fetch_one(hash, hashing).await?;
+				let data = self.fetcher.fetch(hash, hashing).await.map_err(|e| {
+					ConsensusError::Other(
+						format!("bitswap fetch for {hash:?}: {e}").into(),
+					)
+				})?;
 				Ok::<_, ConsensusError>((hash, hashing, data))
 			})
 			.buffer_unordered(MAX_CONCURRENT_RENEW_FETCHES)
@@ -376,80 +329,6 @@ fn body_classify_renews<Block: BlockT>(
 		})
 		.flatten()
 		.collect()
-}
-
-async fn fetch_via_bitswap<Block: BlockT>(
-	network: &(dyn NetworkRequest + Send + Sync),
-	sync: &SyncingService<Block>,
-	content_hash: [u8; 32],
-	hashing: HashingAlgorithm,
-) -> Option<Vec<u8>> {
-	let peers = match sync.peers_info().await {
-		Ok(peers) => peers.into_iter().map(|(peer, _)| peer).collect::<Vec<_>>(),
-		Err(_) => {
-			log::warn!(target: LOG_TARGET, "peers_info() channel cancelled");
-			return None;
-		},
-	};
-	if peers.is_empty() {
-		log::debug!(
-			target: LOG_TARGET,
-			"no connected sync peers, cannot fetch {:?} via bitswap yet",
-			content_hash,
-		);
-		return None;
-	}
-
-	let client = BitswapClient::new();
-	for peer in peers.into_iter().take(MAX_PEERS_PER_HASH) {
-		let fut = client.fetch(network, peer, content_hash, hashing);
-		let timed = with_timeout(fut, BITSWAP_PER_PEER_TIMEOUT).await;
-		match timed {
-			Some(Ok(Some(data))) => {
-				log::debug!(
-					target: LOG_TARGET,
-					"bitswap fetch {:?} from {peer:?}: got {} bytes",
-					content_hash,
-					data.len(),
-				);
-				return Some(data);
-			},
-			Some(Ok(None)) => {},
-			Some(Err(BitswapError::HashMismatch)) => {
-				log::warn!(
-					target: LOG_TARGET,
-					"bitswap fetch {:?} from {peer:?}: hash mismatch",
-					content_hash,
-				);
-			},
-			Some(Err(e)) => {
-				log::debug!(
-					target: LOG_TARGET,
-					"bitswap fetch {:?} from {peer:?}: {e:?}",
-					content_hash,
-				);
-			},
-			None => {
-				log::debug!(
-					target: LOG_TARGET,
-					"bitswap fetch {:?} from {peer:?}: timeout",
-					content_hash,
-				);
-			},
-		}
-	}
-	None
-}
-
-async fn with_timeout<F, T>(fut: F, timeout: Duration) -> Option<T>
-where
-	F: std::future::Future<Output = T>,
-{
-	use futures::FutureExt;
-	futures::select! {
-		v = fut.fuse() => Some(v),
-		_ = futures_timer::Delay::new(timeout).fuse() => None,
-	}
 }
 
 #[cfg(test)]

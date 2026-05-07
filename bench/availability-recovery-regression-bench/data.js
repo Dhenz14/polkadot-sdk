@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778179490406,
+  "lastUpdate": 1778193241396,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "alex.theissen@me.com",
-            "name": "Alexander Theißen",
-            "username": "athei"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "50372ea7fa3601d43db7e9200d8b249c67dbdf66",
-          "message": "Allow sending transactions from an Ethereum address derived account id (#8757)\n\nWe always allowed signing transactions using an Bitcoin/Eth style\nSECP256k1 key. The account in this case is simply the blake2 hash of the\npublic key.\n\nThis address derivation is problematic: It requires the public key in\norder to derive the account id. On Ethereum you simply can't know the\npublic key of an address. This is why the mapping in pallet_revive is\ndefined as `address <-> account_id`.\n\nThis PR adds a new signature variant that allows signing a transaction\nwith an account id as origin that matches this mapping.\n\n## Why is this important?\n\n### Example1 \nA wallet contains an SECP256k1 key and wants to interact with native\nPolkadot APIs. It can sign the transaction using this key. However,\nwithout this change the origin of that transaction will be different\nthan the one it would appear under if it had signed an Ethereum\ntransaction.\n\n### Example2\nA chain using an Ethereum style address (like Mythical) wants to send\nsome tokens to one of their users account on AssetHub. How would they\nknow what is the address of that user on AssetHub? With this change they\ncan just pad the address with `0xEE` and rely on the fact that the user\ncan interact with AssetHub using their existing key.\n\n## Why a new variant?\nWe can't modify the existing variant. Otherwise the same signature would\nsuddenly map to a different account making people lose access to their\nfunds. Instead, we add a new variant that adds control over an\nadditional account for the same signature.\n\n## A new `KeccakSigner` and `KeccakSignature`\n\nAfter considering feedback by @Moliholy I am convinced that we should\nuse keccak instead of blake2b for this new `MultiSignature` variant.\nReasoning is that this will make it much simpler for Ethereum tooling to\ngenerate such signatures. Since this signature is specifically created\nfor Ethereum interop it just makes sense to also use keccak here.\n\nTo that end I made the `ecdsa::{KeccakSigner, KeccakSignature}` generic\nover their hash algorithm. Please note that I am using tags here and not\nthe `Hasher` trait directly. This makes things more complicated but it\nwas necessary: All Hasher implementations are in higher level crates and\ncan't be directly referenced here. But I would have to reference it in\norder to make this a non breaking change. The `Signer` and `Signature`\ntypes behave exactly the same way as before.\n\n---------\n\nCo-authored-by: joe petrowski <25483142+joepetrowski@users.noreply.github.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-29T14:11:17Z",
-          "tree_id": "30ab5c454ed6fb858003e6b6e13f2d4212883b0b",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/50372ea7fa3601d43db7e9200d8b249c67dbdf66"
-        },
-        "date": 1759160850394,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.485339177166674,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.1983863183,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 11.264968663266668,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "54316454+sandreim@users.noreply.github.com",
+            "name": "Andrei Sandu",
+            "username": "sandreim"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c2e8c6004af99b23f776b3bde9cf3589f1c436d5",
+          "message": "Enable parachain code size up to 5MiB (#11894)\n\nFixes https://github.com/paritytech/polkadot-sdk/issues/11880 \n\nAlso add some more tests.\n\nThe host config parameter still needs to be bumped via Gov.\n\n---------\n\nSigned-off-by: Andrei Sandu <andrei-mihail@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-05-07T21:11:58Z",
+          "tree_id": "5a8422797a76adfb91a45752a8c3e0e9036daf79",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/c2e8c6004af99b23f776b3bde9cf3589f1c436d5"
+        },
+        "date": 1778193219382,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 10.945892607400001,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1362056445,
             "unit": "seconds"
           }
         ]

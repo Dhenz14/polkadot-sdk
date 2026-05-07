@@ -216,17 +216,14 @@ impl Litep2pNetworkBackend {
 					Protocol::Ip4(_),
 				) => match address.iter().find(|protocol| std::matches!(protocol, Protocol::P2p(_)))
 				{
-					Some(Protocol::P2p(multihash)) => PeerId::from_multihash(multihash.into())
-						.map_or(None, |peer| Some((peer, Some(address)))),
+					Some(Protocol::P2p(peer_id)) => Some((peer_id, Some(address))),
 					_ => None,
 				},
-				Some(Protocol::P2p(multihash)) => {
-					PeerId::from_multihash(multihash.into()).map_or(None, |peer| Some((peer, None)))
-				},
+				Some(Protocol::P2p(peer_id)) => Some((peer_id, None)),
 				_ => None,
 			})
 			.fold(HashMap::new(), |mut acc, (peer, maybe_address)| {
-				let entry = acc.entry(peer).or_default();
+				let entry = acc.entry(peer.into()).or_default();
 				maybe_address.map(|address| entry.push(address));
 
 				acc
@@ -313,13 +310,8 @@ impl Litep2pNetworkBackend {
 				(Some(Protocol::Tcp(_)), Some(Protocol::Ws(_) | Protocol::Wss(_))) => {
 					tcp_addresses.push(addr.clone());
 				},
-				// WebRTC.
-				//
-				// Note: we should accept only the latest webrtc-direct protocol here.
-				// However, the multiaddr crate deduces both deprecated webrtc and webrtc-direct
-				// to the same Protocol::WebRTC variant. This is a limitation of the multiaddr
-				// crate.
-				(Some(Protocol::Udp(_)), Some(Protocol::WebRTC)) => {
+				// WebRTCDirect address.
+				(Some(Protocol::Udp(_)), Some(Protocol::WebRTCDirect)) => {
 					log::info!(target: LOG_TARGET, "using webrtc protocol {addr:?}");
 					webrtc_addresses.push(addr.clone());
 				},
@@ -1154,7 +1146,7 @@ impl<B: BlockT + 'static, H: ExHashT> NetworkBackend<B, H> for Litep2pNetworkBac
 
 						// Litep2p requires the peer ID to be present in the address.
 						let address = if !std::matches!(address.iter().last(), Some(Protocol::P2p(_))) {
-							address.with(Protocol::P2p(*local_peer_id.as_ref()))
+							address.with(Protocol::P2p((*local_peer_id).into()))
 						} else {
 							address
 						};

@@ -537,7 +537,7 @@ where
 		// The address must include the local peer id.
 		addresses
 			.into_iter()
-			.map(move |a| a.with(multiaddr::Protocol::P2p(*local_peer_id.as_ref())))
+			.map(move |a| a.with(multiaddr::Protocol::P2p(local_peer_id.into())))
 	}
 
 	/// Publish own public addresses.
@@ -916,7 +916,7 @@ where
 			.map_err(Error::ParsingMultiaddress)?;
 
 		let get_peer_id = |a: &Multiaddr| match a.iter().last() {
-			Some(multiaddr::Protocol::P2p(key)) => PeerId::from_multihash(key).ok(),
+			Some(multiaddr::Protocol::P2p(key)) => Some(key.into()),
 			_ => None,
 		};
 
@@ -1084,7 +1084,7 @@ impl AddressType {
 		};
 
 		if let Some(multiaddr::Protocol::P2p(peer_id)) = address.iter().last() {
-			if peer_id != *local_peer_id.as_ref() {
+			if peer_id != local_peer_id.into() {
 				error!(
 					target: LOG_TARGET,
 					"Network returned '{source}' '{address}' with peer id \

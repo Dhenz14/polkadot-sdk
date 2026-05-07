@@ -64,7 +64,7 @@ impl PeerId {
 	/// Try to extract `PeerId` from `Multiaddr`.
 	pub fn try_from_multiaddr(address: &Multiaddr) -> Option<PeerId> {
 		match address.iter().find(|protocol| std::matches!(protocol, Protocol::P2p(_))) {
-			Some(Protocol::P2p(multihash)) => Some(Self { multihash }),
+			Some(Protocol::P2p(peer_id)) => Some(peer_id.into()),
 			_ => None,
 		}
 	}

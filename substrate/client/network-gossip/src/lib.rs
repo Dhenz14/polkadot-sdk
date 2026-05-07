@@ -83,7 +83,7 @@ mod validator;
 /// Abstraction over a network.
 pub trait Network<B: BlockT>: NetworkPeers + NetworkEventStream {
 	fn add_set_reserved(&self, who: PeerId, protocol: ProtocolName) {
-		let addr = Multiaddr::empty().with(Protocol::P2p(*who.as_ref()));
+		let addr = Multiaddr::empty().with(Protocol::P2p(who.into()));
 		let result = self.add_peers_to_reserved_set(protocol, iter::once(addr).collect());
 		if let Err(err) = result {
 			log::error!(target: "gossip", "add_set_reserved failed: {}", err);

@@ -111,14 +111,14 @@ fn fixup_external_addresses(external_addresses: &mut Vec<Multiaddr>, peer_id: &P
 			false
 		},
 		None => {
-			addr.push(Protocol::P2p(*peer_id.as_ref()));
+			addr.push(Protocol::P2p(peer_id.into()));
 			true
 		},
 	});
 
 	// If there are no addresses, insert one consisting of just the peer ID
 	if external_addresses.is_empty() {
-		external_addresses.push(multiaddr!(P2p(*peer_id.as_ref())));
+		external_addresses.push(multiaddr!(P2p(peer_id)));
 	}
 }
 

@@ -27,3 +27,4 @@ sp-blockchain = { workspace = true, default-features = true }
 sp-consensus = { workspace = true, default-features = true }
 sp-runtime = { workspace = true, default-features = true }
 sp-transaction-storage-proof = { workspace = true, default-features = true }
+thiserror = { workspace = true }

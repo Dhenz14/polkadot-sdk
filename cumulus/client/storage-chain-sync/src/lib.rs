@@ -59,7 +59,7 @@ use sp_blockchain::Backend as BlockchainBackendT;
 use sp_consensus::{BlockOrigin, Error as ConsensusError};
 use sp_runtime::traits::{Block as BlockT, Header as HeaderT};
 use sp_transaction_storage_proof::{
-	runtime_api::TransactionStorageApi, HashingAlgorithm, IndexedTransactionInfo,
+	runtime_api::TransactionStorageApi, ContentHash, HashingAlgorithm, IndexedTransactionInfo,
 };
 use std::{collections::HashSet, marker::PhantomData, sync::Arc};
 
@@ -120,7 +120,7 @@ where
 		&self,
 		mut params: BlockImportParams<Block>,
 	) -> Result<ImportResult, Self::Error> {
-		if !self.should_intercept(params) {
+		if !self.should_intercept(&params) {
 			return self.inner.import_block(params).await;
 		}
 
@@ -175,7 +175,7 @@ where
 	fn classify_renew_hashes(
 		&self,
 		params: &BlockImportParams<Block>,
-	) -> Result<HashSet<([u8; 32], HashingAlgorithm)>, ConsensusError> {
+	) -> Result<HashSet<(ContentHash, HashingAlgorithm)>, ConsensusError> {
 		let parent_hash = *params.header.parent_hash();
 		let block_number = *params.header.number();
 
@@ -212,8 +212,8 @@ where
 	/// Drops every entry whose data is already in the local TRANSACTION column.
 	fn filter_missing(
 		&self,
-		renews: HashSet<([u8; 32], HashingAlgorithm)>,
-	) -> HashSet<([u8; 32], HashingAlgorithm)> {
+		renews: HashSet<(ContentHash, HashingAlgorithm)>,
+	) -> HashSet<(ContentHash, HashingAlgorithm)> {
 		renews
 			.into_iter()
 			.filter(|(hash, _)| {
@@ -230,12 +230,13 @@ where
 	/// if any entry was not served by any peer.
 	async fn fetch_all(
 		&self,
-		missing: HashSet<([u8; 32], HashingAlgorithm)>,
-	) -> Result<Vec<([u8; 32], HashingAlgorithm, Vec<u8>)>, ConsensusError> {
+		missing: HashSet<(ContentHash, HashingAlgorithm)>,
+	) -> Result<Vec<(ContentHash, HashingAlgorithm, Vec<u8>)>, ConsensusError> {
 		if missing.is_empty() {
-			return Ok(Vec::new());
+			return Ok(Default::default());
 		}
-		let wants: Vec<([u8; 32], HashingAlgorithm)> = missing.into_iter().collect();
+
+		let wants: Vec<_> = missing.into_iter().collect();
 		let acquired = self.fetcher.fetch_many(&wants).await.map_err(|e| {
 			ConsensusError::Other(format!("bitswap fetch_many: {e}").into())
 		})?;
@@ -262,7 +263,7 @@ where
 	}
 
 	/// Verifies every fetched blob against its declared content hash and attaches the resulting
-	/// `Vec<([u8; 32], Vec<u8>)>` to `params.intermediates` under
+	/// `Vec<(ContentHash, Vec<u8>)>` to `params.intermediates` under
 	/// [`PREFETCHED_INDEXED_TRANSACTIONS_INTERMEDIATE_KEY`]. The inner client extracts the
 	/// payload in `apply_block` and forwards it to the backend, which stores the bytes in the
 	/// TRANSACTION column atomically with the block's BODY_INDEX writes.
@@ -270,12 +271,12 @@ where
 	/// No-op when `fetched` is empty so we don't pollute the intermediates map.
 	fn attach_prefetched(
 		params: &mut BlockImportParams<Block>,
-		fetched: Vec<([u8; 32], HashingAlgorithm, Vec<u8>)>,
+		fetched: Vec<(ContentHash, HashingAlgorithm, Vec<u8>)>,
 	) -> Result<(), ConsensusError> {
 		if fetched.is_empty() {
 			return Ok(());
 		}
-		let mut payload: Vec<([u8; 32], Vec<u8>)> = Vec::with_capacity(fetched.len());
+		let mut payload: Vec<(ContentHash, Vec<u8>)> = Vec::with_capacity(fetched.len());
 		for (hash, hashing, data) in fetched {
 			let computed = hashing.hash(&data);
 			if computed != hash {
@@ -322,7 +323,7 @@ fn to_db_meta(info: &IndexedTransactionInfo) -> IndexedTransactionMeta {
 fn body_classify_renews<Block: BlockT>(
 	infos: &[IndexedTransactionInfo],
 	body: &[Block::Extrinsic],
-) -> HashSet<([u8; 32], HashingAlgorithm)> {
+) -> HashSet<(ContentHash, HashingAlgorithm)> {
 	let db_meta: Vec<IndexedTransactionMeta> =
 		infos.iter().filter(is_supported).map(to_db_meta).collect();
 
@@ -350,7 +351,7 @@ mod tests {
 	type Block = generic::Block<generic::Header<u32, BlakeTwo256>, OpaqueExtrinsic>;
 
 	fn info(
-		content_hash: [u8; 32],
+		content_hash: ContentHash,
 		size: u32,
 		alg: HashingAlgorithm,
 		codec: u64,

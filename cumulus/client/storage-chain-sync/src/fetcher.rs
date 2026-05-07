@@ -23,11 +23,11 @@
 
 use sc_network::{
 	bitswap::{BitswapClient, FetchOutcome, MAX_WANTED_BLOCKS_PER_REQUEST},
-	NetworkRequest,
+	NetworkRequest, PeerId,
 };
 use sc_network_sync::SyncingService;
 use sp_runtime::traits::Block as BlockT;
-use sp_transaction_storage_proof::HashingAlgorithm;
+use sp_transaction_storage_proof::{ContentHash, HashingAlgorithm};
 use std::{
 	collections::HashMap,
 	sync::{Arc, OnceLock},
@@ -48,27 +48,13 @@ pub type SyncingHandle<Block> = Arc<OnceLock<Arc<SyncingService<Block>>>>;
 /// Per-CID misses (peer absent, peer responded `DontHave`, peer ignored entry) are *not* errors:
 /// they manifest as missing keys in the returned map. Errors here only cover infrastructure
 /// preconditions that prevent any fetch from happening at all.
-#[derive(Debug)]
+#[derive(Debug, thiserror::Error)]
 pub enum FetchError {
-	/// The late-bound network handle has not been populated yet (i.e. `build_network` has not
-	/// returned).
+	#[error("network handle not yet set; storage-chain blocks cannot be fetched before build_network completes")]
 	NetworkHandleUnset,
-	/// The late-bound `SyncingService` handle has not been populated yet.
+	#[error("sync handle not yet set; storage-chain blocks cannot be fetched before build_network completes")]
 	SyncingHandleUnset,
 }
-
-impl std::fmt::Display for FetchError {
-	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-		match self {
-			Self::NetworkHandleUnset =>
-				f.write_str("network handle not yet set; storage-chain blocks cannot be fetched before build_network completes"),
-			Self::SyncingHandleUnset =>
-				f.write_str("sync handle not yet set; storage-chain blocks cannot be fetched before build_network completes"),
-		}
-	}
-}
-
-impl std::error::Error for FetchError {}
 
 /// Fetcher that resolves a single indexed-transaction hash via bitswap.
 ///
@@ -104,8 +90,8 @@ impl<Block: BlockT> IndexedTransactionFetcher<Block> {
 	/// by comparing `result.len()` against `wants.len()`.
 	pub async fn fetch_many(
 		&self,
-		wants: &[([u8; 32], HashingAlgorithm)],
-	) -> Result<HashMap<[u8; 32], Vec<u8>>, FetchError> {
+		wants: &[(ContentHash, HashingAlgorithm)],
+	) -> Result<HashMap<ContentHash, Vec<u8>>, FetchError> {
 		if wants.is_empty() {
 			return Ok(HashMap::new());
 		}
@@ -127,52 +113,68 @@ impl<Block: BlockT> IndexedTransactionFetcher<Block> {
 			return Ok(HashMap::new());
 		}
 
-		let mut remaining: Vec<([u8; 32], HashingAlgorithm)> = wants.to_vec();
-		let mut acquired: HashMap<[u8; 32], Vec<u8>> = HashMap::new();
+		let mut remaining: Vec<_> = wants.to_vec();
+		let mut acquired: HashMap<ContentHash, Vec<u8>> = HashMap::new();
 		let client = BitswapClient::new();
 
-		'peers: for peer in peers.into_iter().take(MAX_PEERS_PER_IMPORT) {
+		for peer in peers.into_iter().take(MAX_PEERS_PER_IMPORT) {
 			if remaining.is_empty() {
 				break;
 			}
-			for chunk in remaining.clone().chunks(MAX_WANTED_BLOCKS_PER_REQUEST) {
-				match with_timeout(
-					client.fetch_many(network.as_ref(), peer, chunk),
-					BITSWAP_PER_PEER_TIMEOUT,
-				)
-				.await
-				{
-					None => {
-						log::debug!(
-							target: LOG_TARGET,
-							"fetch_many to {peer:?}: timeout (chunk size {})",
-							chunk.len(),
-						);
-						continue 'peers;
-					},
-					Some(Err(e)) => {
-						log::debug!(target: LOG_TARGET, "fetch_many to {peer:?}: {e:?}");
-						continue 'peers;
-					},
-					Some(Ok(per_cid)) =>
-						for (hash, outcome) in per_cid {
-							if let FetchOutcome::Block(data) = outcome {
-								log::debug!(
-									target: LOG_TARGET,
-									"fetched {} bytes for {:?} from {peer:?}",
-									data.len(),
-									hash,
-								);
-								acquired.insert(hash, data);
-							}
-						},
-				}
-			}
+			let from_peer =
+				try_fetch_from_peer(&client, network.as_ref(), peer, &remaining).await;
+			acquired.extend(from_peer);
 			remaining.retain(|(hash, _)| !acquired.contains_key(hash));
 		}
 
 		Ok(acquired)
 	}
+}
+
+/// Try every chunk of `wants` against a single peer in sequence. Returns whatever blocks the
+/// peer actually served. A timeout or per-chunk error aborts the remaining chunks for this peer
+/// and lets the caller move on to the next one.
+async fn try_fetch_from_peer(
+	client: &BitswapClient,
+	network: &(dyn NetworkRequest + Send + Sync),
+	peer: PeerId,
+	wants: &[(ContentHash, HashingAlgorithm)],
+) -> HashMap<ContentHash, Vec<u8>> {
+	let mut acquired: HashMap<ContentHash, Vec<u8>> = HashMap::new();
+	for chunk in wants.chunks(MAX_WANTED_BLOCKS_PER_REQUEST) {
+		match with_timeout(
+			client.fetch_many(network, peer, chunk),
+			BITSWAP_PER_PEER_TIMEOUT,
+		)
+		.await
+		{
+			None => {
+				log::debug!(
+					target: LOG_TARGET,
+					"fetch_many to {peer:?}: timeout (chunk size {})",
+					chunk.len(),
+				);
+				return acquired;
+			},
+			Some(Err(e)) => {
+				log::debug!(target: LOG_TARGET, "fetch_many to {peer:?}: {e:?}");
+				return acquired;
+			},
+			Some(Ok(per_cid)) =>
+				for (hash, outcome) in per_cid {
+					if let FetchOutcome::Block(data) = outcome {
+						log::debug!(
+							target: LOG_TARGET,
+							"fetched {} bytes for {:?} from {peer:?}",
+							data.len(),
+							hash,
+						);
+						acquired.insert(hash, data);
+					}
+				},
+		}
+	}
+	acquired
 }
 
 async fn with_timeout<F, T>(fut: F, timeout: Duration) -> Option<T>

@@ -22,7 +22,7 @@ use futures::channel::oneshot;
 use log::{debug, trace, warn};
 use prost::Message;
 use sc_network_types::PeerId;
-use sp_transaction_storage_proof::HashingAlgorithm;
+use sp_transaction_storage_proof::{ContentHash, HashingAlgorithm};
 use std::collections::HashMap;
 
 const LOG_TARGET: &str = "bitswap";
@@ -113,8 +113,8 @@ impl BitswapClient {
 		&self,
 		network: &N,
 		peer: PeerId,
-		wants: &[([u8; 32], HashingAlgorithm)],
-	) -> Result<HashMap<[u8; 32], FetchOutcome>, BitswapError>
+		wants: &[(ContentHash, HashingAlgorithm)],
+	) -> Result<HashMap<ContentHash, FetchOutcome>, BitswapError>
 	where
 		N: BitswapRequestSender + ?Sized,
 	{
@@ -128,7 +128,7 @@ impl BitswapClient {
 			)));
 		}
 
-		let mut wanted: HashMap<Cid, ([u8; 32], HashingAlgorithm)> =
+		let mut wanted: HashMap<Cid, (ContentHash, HashingAlgorithm)> =
 			HashMap::with_capacity(wants.len());
 		for &(content_hash, hashing) in wants {
 			let cid = Self::cid_for_hash(content_hash, hashing)?;
@@ -190,7 +190,7 @@ impl BitswapClient {
 			BitswapError::DecodeError(err.to_string())
 		})?;
 
-		let mut result: HashMap<[u8; 32], FetchOutcome> = HashMap::with_capacity(wanted.len());
+		let mut result: HashMap<ContentHash, FetchOutcome> = HashMap::with_capacity(wanted.len());
 
 		for block in response.payload {
 			let block_cid = match Self::cid_from_block_prefix(&block.prefix, &block.data) {
@@ -279,7 +279,7 @@ impl BitswapClient {
 	}
 
 	fn cid_for_hash(
-		content_hash: [u8; 32],
+		content_hash: ContentHash,
 		hashing: HashingAlgorithm,
 	) -> Result<Cid, BitswapError> {
 		let multihash = Multihash::wrap(hashing.multihash_code(), &content_hash)
@@ -399,14 +399,14 @@ mod tests {
 		.to_bytes()
 	}
 
-	fn cid_for(hash: [u8; 32], hashing: HashingAlgorithm) -> Cid {
+	fn cid_for(hash: ContentHash, hashing: HashingAlgorithm) -> Cid {
 		let mh = Multihash::wrap(hashing.multihash_code(), &hash).unwrap();
 		Cid::new_v1(RAW_CODEC, mh)
 	}
 
 	fn encode_response(
 		blocks: &[(HashingAlgorithm, Vec<u8>)],
-		presences: &[([u8; 32], HashingAlgorithm, i32)],
+		presences: &[(ContentHash, HashingAlgorithm, i32)],
 	) -> Vec<u8> {
 		let payload = blocks
 			.iter()

@@ -5139,6 +5139,7 @@ dependencies = [
  "sp-consensus 0.32.0",
  "sp-runtime 31.0.1",
  "sp-transaction-storage-proof",
+ "thiserror 1.0.65",
 ]
 
 [[package]]

@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778101181782,
+  "lastUpdate": 1778143287160,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "pgherveou@gmail.com",
-            "name": "PG Herveou",
-            "username": "pgherveou"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "2c0ed3c7aa804e290c29a93c31e5f82418185475",
-          "message": "[pallet-revive] update rpc metadata (#9853)\n\nUpdate eth-rpc metadata files\n\nthe metadata should have been updated here\nhttps://github.com/paritytech/polkadot-sdk/pull/9759\nwhere a new variant was added to an enum used by the runtime api\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-29T11:21:45+02:00",
-          "tree_id": "47f0d871cb3009fb0278692939a95d85a3bd4afc",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/2c0ed3c7aa804e290c29a93c31e5f82418185475"
-        },
-        "date": 1759139628738,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.21021648506666665,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.385060690766668,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 11.271946239433333,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "54316454+sandreim@users.noreply.github.com",
+            "name": "Andrei Sandu",
+            "username": "sandreim"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "bbaa06f68d1e10fcd4aa43ee136819e16cf760eb",
+          "message": "Update `TargetBlockRate` impl to match configured runtime block processing velocity on all test chains (#12005)\n\nSigned-off-by: Andrei Sandu <andrei-mihail@parity.io>",
+          "timestamp": "2026-05-07T07:17:47Z",
+          "tree_id": "46be5d023cdc50bbba42833314e69d5bc79bea93",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/bbaa06f68d1e10fcd4aa43ee136819e16cf760eb"
+        },
+        "date": 1778143264668,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 10.914753135233337,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1260184562666667,
             "unit": "seconds"
           }
         ]

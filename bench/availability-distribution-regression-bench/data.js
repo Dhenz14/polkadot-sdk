@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778101212254,
+  "lastUpdate": 1778143318493,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "indirection42@outlook.com",
-            "name": "Jiyuan Zheng",
-            "username": "indirection42"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "615f664b4d250d627cc4fb84e2ca434f04664159",
-          "message": "Add oracle pallet (part of Polkadot Stablecoin prerequisites) (#9815)\n\n# Description\nThis PR is part of #9765.\nThis PR introduces `pallet-oracle`, a new FRAME pallet that provides a\ndecentralized and trustworthy way to bring external, off-chain data onto\nthe blockchain. The pallet allows a configurable set of oracle operators\nto feed data, such as prices, into the system, which can then be\nconsumed by other pallets.\n\n## Integration\n\n### For Runtime Developers\n\nTo integrate `pallet-oracle` into your runtime:\n\n1. **Add dependency to your runtime's `Cargo.toml`**:\n\n   ```toml\n   pallet-oracle = { version = \"1.0.0\", default-features = false }\n   ```\n\n2. **Implement the `Config` trait** in your runtime:\n\n   ```rust\n   impl pallet_oracle::Config for Runtime {\n       type OnNewData = ();\n       type CombineData = pallet_oracle::DefaultCombineData;\n       type Time = Timestamp;\n       type OracleKey = AssetId;  // Your key type\n       type OracleValue = Price;     // Your value type\n       type RootOperatorAccountId = RootOperatorAccountId;\n       type Members = OracleMembers;\ntype WeightInfo = pallet_oracle::weights::SubstrateWeight<Runtime>;\n       type MaxHasDispatchedSize = ConstU32<100>;\n       type MaxFeedValues = ConstU32<50>;\n   }\n   ```\n\n3. **Add to `construct_runtime!`**:\n\n   ```rust\n   construct_runtime!(\n       pub enum Runtime {\n           // ... other pallets\n           Oracle: pallet_oracle,\n       }\n   );\n   ```\n\n### For Pallet Developers\n\nOther pallets can consume oracle data using the `DataProvider` trait:\n\n```rust\nuse pallet_oracle::traits::DataProvider;\n\n// Get current price\nif let Some(price) = <pallet_oracle::Pallet<T> as DataProvider<CurrencyId, Price>>::get(&currency_id) {\n    // Use the price data\n}\n```\n\n## Review Notes\n\n### Key Features\n\n- **Decentralized Data Feeding**: Uses `SortedMembers` trait to manage\noracle operators, allowing integration with `pallet-membership`\n- **Flexible Data Aggregation**: Configurable `CombineData`\nimplementation with default median-based aggregation\n- **Timestamped Data**: All data includes timestamps for freshness\nvalidation\n- **Root Operator Support**: Special account that can bypass membership\nchecks for emergency data updates\n- **Data Provider Traits**: Implements `DataProvider` and\n`DataProviderExtended` for easy consumption by other pallets\n\n### Implementation Details\n\nThe pallet uses a two-tier storage approach:\n\n- `RawValues`: Stores individual operator submissions with timestamps\n- `Values`: Stores aggregated values after applying the `CombineData`\nlogic\n\n### Security Considerations\n\n- Only authorized members can feed data (enforced via `SortedMembers`)\n- Root operator can bypass membership checks for emergency situations\n- One submission per operator per block to prevent spam\n- Configurable limits on maximum feed values per transaction\n\n### Testing\n\nThe pallet includes comprehensive tests covering:\n\n- Basic data feeding and retrieval\n- Member management and authorization\n- Data aggregation logic\n- Edge cases and error conditions\n- Benchmarking for weight calculation\n\n### Files Added\n\n- `substrate/frame/honzon/oracle/` - Complete pallet implementation\n- `substrate/frame/honzon/oracle/README.md` - Comprehensive\ndocumentation\n- Integration into umbrella workspace and node runtime\n- Runtime API for off-chain access to oracle data\n\n### Breaking Changes\n\nNone - this is a new pallet addition.\n\n### Migration Guide\n\nNo migration required - this is a new feature.\n\n# Checklist\n\n- [x] My PR includes a detailed description as outlined in the\n\"Description\" and its two subsections above.\n- [x] My PR follows the [labeling\nrequirements](https://github.com/paritytech/polkadot-sdk/blob/master/docs/contributor/CONTRIBUTING.md#Process)\nof this project (at minimum one label for `T` required)\n- External contributors: ask maintainers to put the right label on your\nPR.\n- [ ] I have made corresponding changes to the documentation (if\napplicable)\n- [x] I have added tests that prove my fix is effective or that my\nfeature works (if applicable)\n\n---------\n\nCo-authored-by: Bryan Chen <xlchen1291@gmail.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
-          "timestamp": "2025-09-28T20:42:49Z",
-          "tree_id": "2ccab4db015604d87451d953a160f3a7f916e015",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/615f664b4d250d627cc4fb84e2ca434f04664159"
-        },
-        "date": 1759096310612,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022554438546666663,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007440040866666653,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013046736773333338,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15733638602000008,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.009846163526666646,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "54316454+sandreim@users.noreply.github.com",
+            "name": "Andrei Sandu",
+            "username": "sandreim"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "bbaa06f68d1e10fcd4aa43ee136819e16cf760eb",
+          "message": "Update `TargetBlockRate` impl to match configured runtime block processing velocity on all test chains (#12005)\n\nSigned-off-by: Andrei Sandu <andrei-mihail@parity.io>",
+          "timestamp": "2026-05-07T07:17:47Z",
+          "tree_id": "46be5d023cdc50bbba42833314e69d5bc79bea93",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/bbaa06f68d1e10fcd4aa43ee136819e16cf760eb"
+        },
+        "date": 1778143296093,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007080463880000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.023974600393333326,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009727909479999977,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14114228176666668,
             "unit": "seconds"
           }
         ]

@@ -256,8 +256,6 @@ impl NetworkParams {
 			},
 		};
 
-		let mode: sc_network::config::SyncMode = self.sync.into();
-
 		NetworkConfiguration {
 			boot_nodes,
 			net_config_path,
@@ -291,7 +289,7 @@ impl NetworkParams {
 			kademlia_replication_factor: self.kademlia_replication_factor,
 			ipfs_server: self.ipfs_server,
 			ipfs_bootnodes: self.ipfs_bootnodes.clone(),
-			sync_mode: mode,
+			sync_mode: self.sync.into(),
 			network_backend: self.network_backend.into(),
 		}
 	}

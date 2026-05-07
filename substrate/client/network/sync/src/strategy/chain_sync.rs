@@ -276,12 +276,8 @@ pub enum ChainSyncMode {
 
 impl ChainSyncMode {
 	/// Returns the base block attributes required for this sync mode.
-	///
-	/// Selective body stripping for gap sync within the pruning window is done by
-	/// `peer_gap_block_request` via the `body_start` gate; this function returns the
-	/// full attribute set and lets the caller strip per-range.
-	pub fn required_block_attributes(&self, _is_gap: bool, _is_archive: bool) -> BlockAttributes {
-		match self {
+	pub fn required_block_attributes(&self, is_gap: bool, is_archive: bool) -> BlockAttributes {
+		let attrs = match self {
 			ChainSyncMode::Full => {
 				BlockAttributes::HEADER | BlockAttributes::JUSTIFICATION | BlockAttributes::BODY
 			},
@@ -293,28 +289,13 @@ impl ChainSyncMode {
 					BlockAttributes::JUSTIFICATION |
 					BlockAttributes::INDEXED_BODY
 			},
-		}
-	}
-}
-
-/// Convert supported block pruning configuration inputs into sync pruning depth.
-pub trait IntoBlocksPruning {
-	/// Convert into block pruning depth used by sync.
-	fn into_blocks_pruning(self) -> Option<u32>;
-}
-
-impl IntoBlocksPruning for Option<u32> {
-	fn into_blocks_pruning(self) -> Option<u32> {
-		self
-	}
-}
-
-impl IntoBlocksPruning for bool {
-	fn into_blocks_pruning(self) -> Option<u32> {
-		if self {
-			None
+		};
+		// Skip body requests for gap sync only if not in archive mode.
+		// Archive nodes need bodies to maintain complete block history.
+		if is_gap && !is_archive {
+			attrs & !BlockAttributes::BODY
 		} else {
-			Some(0)
+			attrs
 		}
 	}
 }
@@ -443,10 +424,9 @@ pub struct ChainSync<B: BlockT, Client> {
 	import_existing: bool,
 	/// Block downloader
 	block_downloader: Arc<dyn BlockDownloader<B>>,
-	/// Block pruning depth used by sync.
-	///
-	/// `None` keeps archive block history, while `Some(n)` keeps the last `n` finalized blocks.
-	blocks_pruning: Option<u32>,
+	/// Whether to archive blocks. When `true`, gap sync requests bodies to maintain complete
+	/// block history.
+	archive_blocks: bool,
 	/// Gap download process.
 	gap_sync: Option<GapSync<B>>,
 	/// Pending actions.
@@ -1082,11 +1062,10 @@ where
 		max_blocks_per_request: u32,
 		state_request_protocol_name: ProtocolName,
 		block_downloader: Arc<dyn BlockDownloader<B>>,
-		blocks_pruning: impl IntoBlocksPruning,
+		archive_blocks: bool,
 		metrics_registry: Option<&Registry>,
 		initial_peers: impl Iterator<Item = (PeerId, B::Hash, NumberFor<B>)>,
 	) -> Result<Self, ClientError> {
-		let blocks_pruning = blocks_pruning.into_blocks_pruning();
 		let mut sync = Self {
 			client,
 			peers: HashMap::new(),
@@ -1107,7 +1086,7 @@ where
 			state_sync: None,
 			import_existing: false,
 			block_downloader,
-			blocks_pruning,
+			archive_blocks,
 			gap_sync: None,
 			actions: Vec::new(),
 			metrics: metrics_registry.and_then(|r| match Metrics::register(r) {
@@ -1300,7 +1279,6 @@ where
 	) -> Result<(), BadPeer> {
 		self.downloaded_blocks += response.blocks.len();
 		let mut gap = false;
-		let body_start_for_drop = self.body_start_number();
 		let new_blocks: Vec<IncomingBlock<B>> = if let Some(peer) = self.peers.get_mut(peer_id) {
 			let mut blocks = response.blocks;
 			if request.as_ref().map_or(false, |r| r.direction == Direction::Descending) {
@@ -1342,23 +1320,6 @@ where
 												block_data.block.justification,
 											)
 										});
-									let below_body_start = match (
-										body_start_for_drop,
-										block_data.block.header.as_ref(),
-									) {
-										(Some(start), Some(h)) => *h.number() < start,
-										_ => false,
-									};
-									let body = if below_body_start {
-										None
-									} else {
-										block_data.block.body
-									};
-									let indexed_body = if below_body_start {
-										None
-									} else {
-										block_data.block.indexed_body
-									};
 									let gap_sync_stats = GapSyncStats {
 										header_bytes: block_data
 											.block
@@ -1366,7 +1327,9 @@ where
 											.as_ref()
 											.map(|h| h.encoded_size())
 											.unwrap_or(0),
-										body_bytes: body
+										body_bytes: block_data
+											.block
+											.body
 											.as_ref()
 											.map(|b| b.encoded_size())
 											.unwrap_or(0),
@@ -1380,11 +1343,13 @@ where
 									IncomingBlock {
 										hash: block_data.block.hash,
 										header: block_data.block.header,
-										body,
-										indexed_body,
+										body: block_data.block.body,
+										indexed_body: block_data.block.indexed_body,
 										justifications,
 										origin: block_data.origin,
 										allow_missing_state: true,
+										// Warp-synced blocks are header-only. Allow re-import to
+										// store bodies if gap sync requested them.
 										import_existing: true,
 										skip_execution: true,
 										state: None,
@@ -1992,18 +1957,6 @@ where
 		.collect()
 	}
 
-	/// Lower bound of the body window for gap sync — equal to the pruning frontier.
-	///
-	/// Returns `None` for archive nodes (no `blocks_pruning`); otherwise:
-	/// `min(best_queued, finalized) - blocks_pruning + 1`.
-	fn body_start_number(&self) -> Option<NumberFor<B>> {
-		self.blocks_pruning.map(|n| {
-			let last_finalized =
-				std::cmp::min(self.best_queued_number, self.client.info().finalized_number);
-			last_finalized.saturating_sub(n.saturated_into()) + One::one()
-		})
-	}
-
 	/// Get block requests scheduled by sync to be sent out.
 	fn block_requests(&mut self) -> Vec<(PeerId, BlockRequest<B>)> {
 		if self.allowed_requests.is_empty() || self.state_sync.is_some() {
@@ -2016,19 +1969,11 @@ where
 		}
 		let is_major_syncing = self.status().state.is_major_syncing();
 		let mode = self.mode;
-		let is_archive = self.blocks_pruning.is_none();
-		let last_finalized =
-			std::cmp::min(self.best_queued_number, self.client.info().finalized_number);
-		let body_start_number = self.body_start_number();
-		if let (Some(body_start), Some(n)) = (body_start_number, self.blocks_pruning) {
-			debug!(
-				target: LOG_TARGET,
-				"Gap sync body boundary: blocks >= {:?} get bodies (blocks_pruning={})",
-				body_start, n,
-			);
-		}
+		let is_archive = self.archive_blocks;
 		let blocks = &mut self.blocks;
 		let fork_targets = &mut self.fork_targets;
+		let last_finalized =
+			std::cmp::min(self.best_queued_number, self.client.info().finalized_number);
 		let best_queued = self.best_queued_number;
 		let client = &self.client;
 		let queue_blocks = &self.queue_blocks;
@@ -2119,7 +2064,6 @@ where
 						peer,
 						&mut sync.blocks,
 						mode.required_block_attributes(true, is_archive),
-						body_start_number,
 						sync.target,
 						sync.best_queued_number,
 						max_blocks_per_request,
@@ -2426,7 +2370,6 @@ fn peer_gap_block_request<B: BlockT>(
 	peer: &PeerSync<B>,
 	blocks: &mut BlockCollection<B>,
 	attrs: BlockAttributes,
-	body_start: Option<NumberFor<B>>,
 	target: NumberFor<B>,
 	common_number: NumberFor<B>,
 	max_blocks_per_request: u32,
@@ -2443,20 +2386,10 @@ fn peer_gap_block_request<B: BlockT>(
 	// The end is not part of the range.
 	let last = range.end.saturating_sub(One::one());
 	let from = FromBlock::Number(last);
-	// Strip BODY/INDEXED_BODY only when the entire range is below body_start.
-	// Ranges that span body_start keep BODY: the few extra-bandwidth bytes for
-	// pre-body-window blocks are outweighed by getting bodies for the in-window
-	// blocks in the same response.
-	let effective_attrs = match body_start {
-		Some(start) if range.end <= start => {
-			attrs & !(BlockAttributes::BODY | BlockAttributes::INDEXED_BODY)
-		},
-		_ => attrs,
-	};
 
 	let request = BlockRequest::<B> {
 		id: 0,
-		fields: effective_attrs,
+		fields: attrs,
 		from,
 		direction: Direction::Descending,
 		max: Some((range.end - range.start).saturated_into::<u32>()),

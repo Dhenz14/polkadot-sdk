@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778143380294,
+  "lastUpdate": 1778169930037,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "diego2737@gmail.com",
-            "name": "Diego",
-            "username": "dimartiro"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "d5473e6fa3633c3355f8ef19a8b8921673657a9f",
-          "message": "Add new zepter duplicate-deps check as part of CI (#9809)\n\n# Description\n\nThis PR builds on my previous\n[PR](https://github.com/paritytech/polkadot-sdk/pull/9233) and addresses\nfeedback from Basti’s comment\n[here](https://github.com/paritytech/polkadot-sdk/pull/9283#issuecomment-3104712426).\n\nTo prevent the same situation from recurring in the future, I’ve\nintroduced a new **lint check** in **Zepter**, which is now also\nintegrated into the CI workflow. The purpose of this check is to\nautomatically detect and block cases where the same dependency is\ndeclared both under `[dependencies]` and `[dev-dependencies]`.",
-          "timestamp": "2025-09-26T08:23:23Z",
-          "tree_id": "0cfd615bddc52c65baf5cb7983f6d7f4e2d362c6",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/d5473e6fa3633c3355f8ef19a8b8921673657a9f"
-        },
-        "date": 1758879572054,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.95399999999994,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03417374363400002,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.044233926673999946,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.07994930894399994,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "41779041+alvicsam@users.noreply.github.com",
+            "name": "Alexander Samusev",
+            "username": "alvicsam"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "912969a78efada22616c5f3f74ed12274e872545",
+          "message": "ci: fix resolc download (#12008)\n\nPR adds some logic to retry download resolc to avoid\n[such](https://github.com/paritytech/polkadot-sdk/actions/runs/25483886193/job/74774666969)\nproblems\n\ncc https://github.com/paritytech/devops/issues/5285",
+          "timestamp": "2026-05-07T14:16:45Z",
+          "tree_id": "4240b9e11b6c4949c5bfcea8a5dae01bdde6b367",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/912969a78efada22616c5f3f74ed12274e872545"
+        },
+        "date": 1778169907767,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.172,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.03844913401600001,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08423718999399993,
             "unit": "seconds"
           }
         ]

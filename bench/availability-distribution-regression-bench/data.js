@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778143318493,
+  "lastUpdate": 1778169867985,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "pgherveou@gmail.com",
-            "name": "PG Herveou",
-            "username": "pgherveou"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "2c0ed3c7aa804e290c29a93c31e5f82418185475",
-          "message": "[pallet-revive] update rpc metadata (#9853)\n\nUpdate eth-rpc metadata files\n\nthe metadata should have been updated here\nhttps://github.com/paritytech/polkadot-sdk/pull/9759\nwhere a new variant was added to an enum used by the runtime api\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-29T11:21:45+02:00",
-          "tree_id": "47f0d871cb3009fb0278692939a95d85a3bd4afc",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/2c0ed3c7aa804e290c29a93c31e5f82418185475"
-        },
-        "date": 1759139657092,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02242131182666667,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.1570198520666667,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012924193046666664,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.00755750217333333,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-store",
             "value": 0.14114228176666668,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "41779041+alvicsam@users.noreply.github.com",
+            "name": "Alexander Samusev",
+            "username": "alvicsam"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "912969a78efada22616c5f3f74ed12274e872545",
+          "message": "ci: fix resolc download (#12008)\n\nPR adds some logic to retry download resolc to avoid\n[such](https://github.com/paritytech/polkadot-sdk/actions/runs/25483886193/job/74774666969)\nproblems\n\ncc https://github.com/paritytech/devops/issues/5285",
+          "timestamp": "2026-05-07T14:16:45Z",
+          "tree_id": "4240b9e11b6c4949c5bfcea8a5dae01bdde6b367",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/912969a78efada22616c5f3f74ed12274e872545"
+        },
+        "date": 1778169845735,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.006810053960000001,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.023644003599999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14029670847333342,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.00929949235333331,
             "unit": "seconds"
           }
         ]

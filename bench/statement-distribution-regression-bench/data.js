@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778169930037,
+  "lastUpdate": 1778179584291,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "git@kchr.de",
-            "name": "Bastian Köcher",
-            "username": "bkchr"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "5e28de73b153391e15233ea51089874eb2544db7",
-          "message": "xcm: Do not require `Asset` to be sorted on `decode` (#9842)\n\n`Asset` was requiring that all the assets are sorted at decoding. This\nis quite confusing for people writingg frontends, because this is not\nreally documented anywhere. There are also only at max 20 assets\navailable, we can just make everyones life easier and always sort the\nassets after decoding.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-27T06:33:19Z",
-          "tree_id": "5d2e6f3e3e75d9c01fd3a700060f11ca07081231",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/5e28de73b153391e15233ea51089874eb2544db7"
-        },
-        "date": 1758958957150,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 127.94999999999993,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03396033571200001,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04387017805199993,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.08423718999399993,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "54316454+sandreim@users.noreply.github.com",
+            "name": "Andrei Sandu",
+            "username": "sandreim"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "180dc75fdd427c8ac17d51b9075ff6b71114f607",
+          "message": "Fix zombienet test throughput flakyness and enable more tests (#12001)\n\nI added waiting for PVF to be compiled before we measure tput. Even if\nwe wit for 1 block to be backed, doesn't mean that all validators in\ntest have compiled PVF. Let's see how stable the numbers get in CI\n\n\nAssetHub Westend ES test should pass with\nhttps://github.com/paritytech/polkadot-sdk/pull/12005 merged\n\n---------\n\nSigned-off-by: Andrei Sandu <andrei-mihail@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-05-07T17:20:51Z",
+          "tree_id": "9c9d47872f9ad434b76aa3e98616422f7c6196b9",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/180dc75fdd427c8ac17d51b9075ff6b71114f607"
+        },
+        "date": 1778179562357,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.092,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.03889231331200002,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08000591929599996,
             "unit": "seconds"
           }
         ]

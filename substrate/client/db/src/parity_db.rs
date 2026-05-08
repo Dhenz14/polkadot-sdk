@@ -113,18 +113,6 @@ impl<H: Clone + AsRef<[u8]>> Database<H> for DbAdapter {
 						not_ref_counted_column.push(col);
 					}
 				},
-				Change::ReferenceCount(col, key, n) => {
-					if ref_counted_column(col) {
-						let value = <Self as Database<H>>::get(self, col, key.as_ref());
-						let key_bytes = key.as_ref().to_vec();
-						tuples.reserve(n as usize);
-						for _ in 0..n {
-							tuples.push((col as u8, key_bytes.clone(), value.clone()));
-						}
-					} else if !not_ref_counted_column.contains(&col) {
-						not_ref_counted_column.push(col);
-					}
-				},
 				Change::Release(col, key) => {
 					if ref_counted_column(col) {
 						tuples.push((col as u8, key.as_ref().to_vec(), None));

@@ -83,12 +83,6 @@ fn commit_impl<H: Clone + AsRef<[u8]>>(
 					tx.put(col, &counter_key, &counter.to_le_bytes());
 				}
 			},
-			Change::ReferenceCount(col, key, n) => {
-				if let (counter_key, Some(mut counter)) = read_counter(db, col, key.as_ref())? {
-					counter += n;
-					tx.put(col, &counter_key, &counter.to_le_bytes());
-				}
-			},
 			Change::Release(col, key) => {
 				if let (counter_key, Some(mut counter)) = read_counter(db, col, key.as_ref())? {
 					counter -= 1;
@@ -158,103 +152,4 @@ where
 	H: Clone + AsRef<[u8]>,
 {
 	std::sync::Arc::new(RocksDbAdapter(db))
-}
-
-#[cfg(test)]
-mod tests {
-	use super::*;
-	use crate::Transaction;
-
-	const COL: ColumnId = 0;
-	const KEY: [u8; 32] = [0x42; 32];
-	const DATA: &[u8] = b"payload";
-
-	fn open() -> std::sync::Arc<dyn Database<[u8; 32]>> {
-		let kv = kvdb_memorydb::create(1);
-		as_database(kv)
-	}
-
-	fn refcount(db: &dyn Database<[u8; 32]>) -> u32 {
-		let mut count = 0u32;
-		while db.contains(COL, &KEY) {
-			let mut tx = Transaction::<[u8; 32]>::new();
-			tx.release(COL, KEY);
-			db.commit(tx).unwrap();
-			count += 1;
-			if count > 4096 {
-				panic!("runaway");
-			}
-		}
-		count
-	}
-
-	#[test]
-	fn kvdb_reference_count_bumps_existing_entry_by_n() {
-		let db = open();
-		let mut tx = Transaction::<[u8; 32]>::new();
-		tx.store(COL, KEY, DATA.to_vec());
-		db.commit(tx).unwrap();
-
-		let mut tx = Transaction::<[u8; 32]>::new();
-		tx.reference_count(COL, KEY, 5);
-		db.commit(tx).unwrap();
-
-		assert_eq!(refcount(&*db), 6);
-	}
-
-	#[test]
-	fn kvdb_reference_count_on_missing_key_is_silent_noop() {
-		let db = open();
-		let mut tx = Transaction::<[u8; 32]>::new();
-		tx.reference_count(COL, KEY, 5);
-		db.commit(tx).unwrap();
-		assert!(!db.contains(COL, &KEY));
-	}
-
-	#[test]
-	fn kvdb_store_plus_multi_reference_in_one_tx_undercounts() {
-		let db = open();
-		let mut tx = Transaction::<[u8; 32]>::new();
-		tx.store(COL, KEY, DATA.to_vec());
-		for _ in 0..4 {
-			tx.reference(COL, KEY);
-		}
-		db.commit(tx).unwrap();
-
-		assert_eq!(
-			refcount(&*db),
-			1,
-			"existing buggy pattern: store + N references in one tx undercounts to 1"
-		);
-	}
-
-	#[test]
-	fn kvdb_store_then_reference_count_in_separate_commits_works() {
-		let db = open();
-		let mut tx = Transaction::<[u8; 32]>::new();
-		tx.store(COL, KEY, DATA.to_vec());
-		db.commit(tx).unwrap();
-
-		let mut tx = Transaction::<[u8; 32]>::new();
-		tx.reference_count(COL, KEY, 4);
-		db.commit(tx).unwrap();
-
-		assert_eq!(refcount(&*db), 5);
-	}
-
-	#[test]
-	fn kvdb_store_plus_reference_count_in_one_tx_undercounts_due_to_kvdb_read_semantics() {
-		let db = open();
-		let mut tx = Transaction::<[u8; 32]>::new();
-		tx.store(COL, KEY, DATA.to_vec());
-		tx.reference_count(COL, KEY, 4);
-		db.commit(tx).unwrap();
-
-		assert_eq!(
-			refcount(&*db),
-			1,
-			"single-tx Store+ReferenceCount: ReferenceCount reads pre-commit DB (entry missing) and silently no-ops; \
-			 callers must split into two commits when using a freshly Stored key (see helper refactor)"
-		);
-	}
 }

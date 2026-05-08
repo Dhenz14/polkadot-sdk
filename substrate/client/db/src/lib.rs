@@ -2226,52 +2226,6 @@ impl<Block: BlockT> Backend<Block> {
 		let state = RefTrackingState::new(db_state, self.storage.clone(), None);
 		RecordStatsState::new(state, None, self.state_usage.clone())
 	}
-
-	/// Store a blob fetched via bitswap into the `TRANSACTION` column with the given target
-	/// reference count. The caller owns the count computation (typically the number of
-	/// `DbExtrinsic::Indexed { hash: content_hash, .. }` entries across `BODY_INDEX` entries that
-	/// reference this content hash).
-	///
-	/// Verifies `hashing.hash(data) == content_hash`. Refuses to store when
-	/// `target_ref_count == 0`.
-	pub fn store_fetched_transaction_with_count(
-		&self,
-		content_hash: [u8; 32],
-		data: Vec<u8>,
-		target_ref_count: u32,
-		hashing: HashingAlgorithm,
-	) -> ClientResult<()> {
-		if target_ref_count == 0 {
-			return Err(sp_blockchain::Error::Backend(
-				"refusing to store unreferenced indexed transaction".into(),
-			));
-		}
-
-		let computed = hashing.hash(&data);
-		if computed != content_hash {
-			return Err(sp_blockchain::Error::Backend("Transaction data hash mismatch".into()));
-		}
-
-		let db_hash = DbHash::from_slice(&content_hash);
-
-		let mut store_tx = Transaction::new();
-		store_tx.store(columns::TRANSACTION, db_hash, data);
-		self.storage.db.commit(store_tx)?;
-
-		if target_ref_count > 1 {
-			let mut bump_tx = Transaction::new();
-			bump_tx.reference_count(columns::TRANSACTION, db_hash, target_ref_count - 1);
-			self.storage.db.commit(bump_tx)?;
-		}
-
-		debug!(
-			target: "db",
-			"store_fetched_transaction_with_count: hash={:?} ref_count={}",
-			db_hash,
-			target_ref_count,
-		);
-		Ok(())
-	}
 }
 
 fn apply_state_commit(

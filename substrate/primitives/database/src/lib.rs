@@ -36,7 +36,6 @@ pub enum Change<H> {
 	Remove(ColumnId, Vec<u8>),
 	Store(ColumnId, H, Vec<u8>),
 	Reference(ColumnId, H),
-	ReferenceCount(ColumnId, H, u32),
 	Release(ColumnId, H),
 }
 
@@ -71,15 +70,6 @@ impl<H> Transaction<H> {
 	/// Increase the number of references for `hash` in the database.
 	pub fn reference(&mut self, col: ColumnId, hash: H) {
 		self.0.push(Change::Reference(col, hash))
-	}
-	/// Increase the number of references for `hash` in the database by `n` atomically.
-	/// Equivalent to calling [`Self::reference`] `n` times but composes correctly across
-	/// backends within a single committed transaction. Silent no-op if the entry does not
-	/// exist, same as [`Self::reference`].
-	pub fn reference_count(&mut self, col: ColumnId, hash: H, n: u32) {
-		if n > 0 {
-			self.0.push(Change::ReferenceCount(col, hash, n))
-		}
 	}
 	/// Release the preimage of `hash` from the database. An equal number of these to the number of
 	/// corresponding `store`s must have been given before it is legal for `Database::get` to

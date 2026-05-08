@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778257252764,
+  "lastUpdate": 1778260011154,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "alex.theissen@me.com",
-            "name": "Alexander Theißen",
-            "username": "athei"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "c3f62bf918ef6879390dc6a2cf9f91caac23f5b5",
-          "message": "[pallet_transaction_payment]: Share withdrawn tx fee credit with other pallets (#9780)\n\nReplaces https://github.com/paritytech/polkadot-sdk/pull/9590.\n\nThe audit of #9590 showed that holding the txfee as held balance and\nespecially playing around with `providers` causes a lot of troubles.\n\nThis PR is a much lighter change. It keeps the original withdraw/deposit\npattern. It simply stores the withdrawn `Credit` and allows other\npallets to withdraw from it.\n\nIt is also better in terms of performance since all tx signers share a\nsingle storage item (instead of a named hold per account).\n\n---------\n\nCo-authored-by: joe petrowski <25483142+joepetrowski@users.noreply.github.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
-          "timestamp": "2025-09-29T22:19:05Z",
-          "tree_id": "6e4aac4ae217869a0122375a4f1a02bc4bbf3da7",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/c3f62bf918ef6879390dc6a2cf9f91caac23f5b5"
-        },
-        "date": 1759188680746,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008476332449999992,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.0050225210999999955,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0025886531499999996,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-distribution",
             "value": 0.009384864779999957,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "bcd139f350ac253b4cc0409993e1d070c4bcc396",
+          "message": "Bump WAH spec_version (#12030)",
+          "timestamp": "2026-05-08T15:43:48Z",
+          "tree_id": "399624bb07580079f378d1c4fac02e84281153cc",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/bcd139f350ac253b4cc0409993e1d070c4bcc396"
+        },
+        "date": 1778259989434,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.011129129460000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.00272382145,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.00951719936999998,
             "unit": "seconds"
           }
         ]

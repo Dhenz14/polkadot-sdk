@@ -38,9 +38,8 @@ use super::{
 
 const RAW_CODEC: u64 = 0x55;
 
-/// Maximum number of entries per outbound `WANT-BLOCK` wantlist. Mirrors the inbound
-/// substrate handler limit (`MAX_WANTED_BLOCKS` in `bitswap/mod.rs`); larger requests are
-/// rejected by the peer.
+/// Maximum entries per `WANT-BLOCK` request. Bigger requests get rejected by the peer
+/// (see `MAX_WANTED_BLOCKS` in `bitswap/mod.rs`).
 pub const MAX_WANTED_BLOCKS_PER_REQUEST: usize = 16;
 
 /// Per-CID outcome from a [`BitswapClient::fetch_many`] call.
@@ -50,18 +49,13 @@ pub enum FetchOutcome {
 	Block(Vec<u8>),
 	/// Peer explicitly indicated it does not have this CID.
 	DontHave,
-	/// Peer's response contained no acknowledgment for this CID, or the acknowledgment
-	/// was malformed (unsolicited block, unsupported CID, unknown presence type).
+	/// Peer didn't acknowledge this CID, or its response was malformed.
 	Missing,
 }
 
 type Multihash = CidMultihash<64>;
 
-/// Outbound request abstraction used by [`BitswapClient`].
-///
-/// `sc-network-sync` can implement this trait for its `NetworkServiceHandle` wrapper by
-/// forwarding to `start_request`, while `sc-network` users can rely on the blanket
-/// implementation for [`NetworkRequest`].
+/// Outbound bitswap request transport. Blanket-implemented for any [`NetworkRequest`].
 pub trait BitswapRequestSender {
 	/// Start a request-response exchange with a peer.
 	fn start_bitswap_request(
@@ -95,20 +89,12 @@ where
 pub struct BitswapClient;
 
 impl BitswapClient {
-	/// Create a new [`BitswapClient`].
-	pub fn new() -> Self {
-		Self
-	}
-
-	/// Fetch data for one or more content hashes from a single peer in a single
-	/// `WANT-BLOCK` request.
+	/// Send one `WANT-BLOCK` request for `wants` to `peer` and classify the response.
 	///
-	/// Sends a multi-entry wantlist (`WANT-BLOCK`, `send_dont_have = true`) and returns a
-	/// per-CID outcome map. Per-CID failures (unsolicited blocks, malformed presences, peer
-	/// silence) are isolated to that CID — they never poison other entries in the batch.
+	/// Returns a map with an outcome per requested hash. Bad blocks from the peer affect
+	/// only their own entry, never others.
 	///
-	/// Errors out with [`BitswapError::DecodeError`] if `wants` is empty or longer than
-	/// [`MAX_WANTED_BLOCKS_PER_REQUEST`]; chunking is the caller's responsibility.
+	/// Errors if `wants` is empty or larger than [`MAX_WANTED_BLOCKS_PER_REQUEST`].
 	pub async fn fetch_many<N>(
 		&self,
 		network: &N,
@@ -193,85 +179,51 @@ impl BitswapClient {
 		let mut result: HashMap<ContentHash, FetchOutcome> = HashMap::with_capacity(wanted.len());
 
 		for block in response.payload {
-			let block_cid = match Self::cid_from_block_prefix(&block.prefix, &block.data) {
-				Ok(cid) => cid,
-				Err(err) => {
-					debug!(
-						target: LOG_TARGET,
-						"client: malformed block prefix from {peer}: {err:?}",
-					);
-					continue;
-				},
-			};
-			if !is_cid_supported(&block_cid) {
-				debug!(
-					target: LOG_TARGET,
-					"client: {peer} returned unsupported CID {block_cid}",
-				);
+			let Ok(cid) = Self::cid_from_block_prefix(&block.prefix, &block.data)
+				.inspect_err(|err| {
+					debug!(target: LOG_TARGET, "client: malformed block prefix from {peer}: {err:?}");
+				})
+			else {
 				continue;
-			}
-			let Some(&(content_hash, _)) = wanted.get(&block_cid) else {
-				debug!(
-					target: LOG_TARGET,
-					"client: {peer} returned unsolicited block for CID {block_cid}",
-				);
+			};
+			let Some(content_hash) = lookup_wanted(&wanted, &cid, peer, "block") else {
 				continue;
 			};
 			debug!(
 				target: LOG_TARGET,
-				"client: {peer} returned {} bytes for CID {block_cid}",
+				"client: {peer} returned {} bytes for CID {cid}",
 				block.data.len(),
 			);
 			result.insert(content_hash, FetchOutcome::Block(block.data));
 		}
 
 		for presence in response.block_presences {
-			let presence_cid = match Cid::read_bytes(presence.cid.as_slice()) {
-				Ok(cid) => cid,
-				Err(err) => {
-					debug!(
-						target: LOG_TARGET,
-						"client: malformed presence CID from {peer}: {err}",
-					);
-					continue;
-				},
+			let Ok(cid) = Cid::read_bytes(presence.cid.as_slice()).inspect_err(|err| {
+				debug!(target: LOG_TARGET, "client: malformed presence CID from {peer}: {err}");
+			}) else {
+				continue;
 			};
-			let Some(&(content_hash, _)) = wanted.get(&presence_cid) else {
-				debug!(
-					target: LOG_TARGET,
-					"client: {peer} returned presence for unrequested CID {presence_cid}",
-				);
+			let Some(content_hash) = lookup_wanted(&wanted, &cid, peer, "presence") else {
 				continue;
 			};
 			if result.contains_key(&content_hash) {
 				continue;
 			}
-			match presence.r#type {
-				x if x == BlockPresenceType::DontHave as i32 => {
-					debug!(
-						target: LOG_TARGET,
-						"client: {peer} DONT_HAVE for CID {presence_cid}",
-					);
-					result.insert(content_hash, FetchOutcome::DontHave);
-				},
-				x if x == BlockPresenceType::Have as i32 => {
-					warn!(
-						target: LOG_TARGET,
-						"client: {peer} advertised HAVE without data for CID {presence_cid}",
-					);
-					result.insert(content_hash, FetchOutcome::Missing);
-				},
-				other => {
-					warn!(
-						target: LOG_TARGET,
-						"client: {peer} returned unknown presence type {other} for CID {presence_cid}",
-					);
-					result.insert(content_hash, FetchOutcome::Missing);
-				},
-			}
+			let outcome = if presence.r#type == BlockPresenceType::DontHave as i32 {
+				debug!(target: LOG_TARGET, "client: {peer} DONT_HAVE for CID {cid}");
+				FetchOutcome::DontHave
+			} else {
+				warn!(
+					target: LOG_TARGET,
+					"client: {peer} unexpected presence type {} for CID {cid}",
+					presence.r#type,
+				);
+				FetchOutcome::Missing
+			};
+			result.insert(content_hash, outcome);
 		}
 
-		for (_, &(content_hash, _)) in &wanted {
+		for &(content_hash, _) in wanted.values() {
 			result.entry(content_hash).or_insert(FetchOutcome::Missing);
 		}
 
@@ -305,6 +257,25 @@ impl BitswapClient {
 	}
 }
 
+fn lookup_wanted(
+	wanted: &HashMap<Cid, (ContentHash, HashingAlgorithm)>,
+	cid: &Cid,
+	peer: PeerId,
+	role: &str,
+) -> Option<ContentHash> {
+	if !is_cid_supported(cid) {
+		debug!(target: LOG_TARGET, "client: {peer} returned unsupported CID {cid} in {role}");
+		return None;
+	}
+	match wanted.get(cid) {
+		Some(&(content_hash, _)) => Some(content_hash),
+		None => {
+			debug!(target: LOG_TARGET, "client: {peer} returned unsolicited {role} for CID {cid}");
+			None
+		},
+	}
+}
+
 fn decode_prefix(mut bytes: &[u8]) -> Result<Prefix, BitswapError> {
 	let mut read_varint = || -> Result<u64, BitswapError> {
 		let (v, rest) = unsigned_varint::decode::u64(bytes)
@@ -334,11 +305,6 @@ fn decode_prefix(mut bytes: &[u8]) -> Result<Prefix, BitswapError> {
 /// Bitswap client errors.
 #[derive(Debug)]
 pub enum BitswapError {
-	/// Returned data did not match the requested content hash.
-	///
-	/// Reserved for API stability; not constructed by [`BitswapClient::fetch_many`], which
-	/// surfaces such cases as [`FetchOutcome::Missing`] for the affected CID.
-	HashMismatch,
 	/// Failed to decode or validate a bitswap payload.
 	DecodeError(String),
 	/// Request/response exchange failed.
@@ -443,7 +409,7 @@ mod tests {
 			&[],
 		);
 		let stub = StubSender::new([Ok(response)]);
-		let client = BitswapClient::new();
+		let client = BitswapClient;
 
 		let result = client
 			.fetch_many(
@@ -480,7 +446,7 @@ mod tests {
 			&[(hash_c, HashingAlgorithm::Blake2b256, BlockPresenceType::DontHave as i32)],
 		);
 		let stub = StubSender::new([Ok(response)]);
-		let client = BitswapClient::new();
+		let client = BitswapClient;
 
 		let result = client
 			.fetch_many(
@@ -517,7 +483,7 @@ mod tests {
 			&[],
 		);
 		let stub = StubSender::new([Ok(response)]);
-		let client = BitswapClient::new();
+		let client = BitswapClient;
 
 		let result = client
 			.fetch_many(
@@ -546,7 +512,7 @@ mod tests {
 			&[],
 		);
 		let stub = StubSender::new([Ok(response)]);
-		let client = BitswapClient::new();
+		let client = BitswapClient;
 
 		let result = client
 			.fetch_many(
@@ -570,7 +536,7 @@ mod tests {
 
 		let response = encode_response(&[(HashingAlgorithm::Blake2b256, data_a)], &[]);
 		let stub = StubSender::new([Ok(response)]);
-		let client = BitswapClient::new();
+		let client = BitswapClient;
 
 		let result = client
 			.fetch_many(
@@ -594,7 +560,7 @@ mod tests {
 	#[tokio::test]
 	async fn fetch_many_empty_wants_errors() {
 		let stub = StubSender::new(std::iter::empty());
-		let client = BitswapClient::new();
+		let client = BitswapClient;
 
 		let err = client
 			.fetch_many(&stub, PeerId::random(), &[])
@@ -613,7 +579,7 @@ mod tests {
 			})
 			.collect();
 		let stub = StubSender::new(std::iter::empty());
-		let client = BitswapClient::new();
+		let client = BitswapClient;
 
 		let err = client
 			.fetch_many(&stub, PeerId::random(), &wants)
@@ -625,7 +591,7 @@ mod tests {
 	#[tokio::test]
 	async fn fetch_many_request_failure_propagates() {
 		let stub = StubSender::new([Err(RequestFailure::NotConnected)]);
-		let client = BitswapClient::new();
+		let client = BitswapClient;
 
 		let hash = HashingAlgorithm::Blake2b256.hash(b"any");
 		let err = client
@@ -657,7 +623,7 @@ mod tests {
 			&[],
 		);
 		let stub = StubSender::new([Ok(response)]);
-		let client = BitswapClient::new();
+		let client = BitswapClient;
 
 		let result = client
 			.fetch_many(

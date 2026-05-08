@@ -115,7 +115,7 @@ impl<Block: BlockT> IndexedTransactionFetcher<Block> {
 
 		let mut remaining: Vec<_> = wants.to_vec();
 		let mut acquired: HashMap<ContentHash, Vec<u8>> = HashMap::new();
-		let client = BitswapClient::new();
+		let client = BitswapClient;
 
 		for peer in peers.into_iter().take(MAX_PEERS_PER_IMPORT) {
 			if remaining.is_empty() {

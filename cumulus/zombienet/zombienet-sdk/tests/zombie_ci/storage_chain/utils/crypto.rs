@@ -1,8 +1,7 @@
 // Copyright (C) Parity Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
-use anyhow::Result;
-use blake2::{digest::consts::U32, Blake2b, Digest};
+use blake2::{Blake2b, Digest, digest::consts::U32};
 
 pub fn blake2_256(data: &[u8]) -> [u8; 32] {
 	let mut hasher = Blake2b::<U32>::new();
@@ -13,6 +12,7 @@ pub fn blake2_256(data: &[u8]) -> [u8; 32] {
 	output
 }
 
+#[cfg(feature = "generate-snapshots")]
 pub fn twox_128(data: &[u8]) -> [u8; 16] {
 	use std::hash::Hasher;
 	let mut h0 = twox_hash::XxHash64::with_seed(0);
@@ -27,6 +27,7 @@ pub fn twox_128(data: &[u8]) -> [u8; 16] {
 	result
 }
 
+#[cfg(feature = "generate-snapshots")]
 pub fn retention_period_storage_key() -> Vec<u8> {
 	let mut key = Vec::new();
 	key.extend_from_slice(&twox_128(b"TransactionStorage"));
@@ -43,22 +44,6 @@ pub fn hash_to_cid(hash: &[u8; 32]) -> String {
 	Cid::new_v1(RAW_CODEC, mh).to_string()
 }
 
-pub fn hash_to_cid_bytes(hash: &[u8; 32]) -> Vec<u8> {
-	use cid::Cid;
-	use multihash::Multihash;
-	const BLAKE2B_256: u64 = 0xb220;
-	const RAW_CODEC: u64 = 0x55;
-	let mh = Multihash::<64>::wrap(BLAKE2B_256, hash).expect("Valid multihash");
-	Cid::new_v1(RAW_CODEC, mh).to_bytes()
-}
-
-pub fn content_hash_and_cid(data: &[u8]) -> (String, String) {
-	let hash = blake2_256(data);
-	let hash_hex = hex::encode(hash).to_uppercase();
-	let cid = hash_to_cid(&hash);
-	(hash_hex, cid)
-}
-
 pub fn generate_test_data(size: usize, pattern: &[u8]) -> Vec<u8> {
 	let mut data = Vec::with_capacity(size);
 	while data.len() < size {
@@ -70,18 +55,4 @@ pub fn generate_test_data(size: usize, pattern: &[u8]) -> Vec<u8> {
 		}
 	}
 	data
-}
-
-pub fn verify_data_matches(fetched: &[u8], expected: &[u8]) -> Result<bool> {
-	if fetched == expected {
-		log::info!("Bitswap fetch successful - data matches ({} bytes)", fetched.len());
-		Ok(true)
-	} else {
-		log::error!(
-			"Bitswap fetch data mismatch: expected {} bytes, got {} bytes",
-			expected.len(),
-			fetched.len()
-		);
-		Ok(false)
-	}
 }

@@ -2,11 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 use super::config::*;
-use anyhow::{anyhow, Context, Result};
-use futures::StreamExt;
+use anyhow::{Context, Result, anyhow};
 use std::time::Duration;
-use zombienet_sdk::subxt::{config::substrate::SubstrateConfig, OnlineClient};
 use zombienet_orchestrator::network::node::LogLineCountOptions;
+use zombienet_sdk::subxt::{OnlineClient, config::substrate::SubstrateConfig};
 
 pub fn log_line_at_least_once(timeout_secs: u64) -> LogLineCountOptions {
 	LogLineCountOptions::new(|count| count >= 1, Duration::from_secs(timeout_secs), false)
@@ -48,26 +47,6 @@ pub async fn expect_no_log_line(
 	Ok(())
 }
 
-pub async fn verify_state_sync_completed(node: &zombienet_sdk::NetworkNode) -> Result<()> {
-	log::info!("Verifying state sync was attempted");
-	expect_log_line(
-		node,
-		"Starting state sync",
-		LOG_TIMEOUT_SECS,
-		"Node did not start state sync - fast sync may not be active",
-	)
-	.await?;
-	expect_no_log_line(
-		node,
-		"verification failed",
-		LOG_ERROR_TIMEOUT_SECS,
-		"Node logged verification errors",
-	)
-	.await?;
-	log::info!("✓ State sync was attempted");
-	Ok(())
-}
-
 pub async fn verify_warp_sync_completed(node: &zombienet_sdk::NetworkNode) -> Result<()> {
 	log::info!("Verifying warp sync completed");
 	expect_log_line(
@@ -89,16 +68,6 @@ pub async fn verify_warp_sync_completed(node: &zombienet_sdk::NetworkNode) -> Re
 	.await?;
 	log::info!("✓ Warp sync completed and node is idle");
 	Ok(())
-}
-
-pub async fn wait_for_validator(node: &zombienet_sdk::NetworkNode) -> Result<()> {
-	node.wait_metric_with_timeout(
-		NODE_ROLE_METRIC,
-		|role| role == VALIDATOR_ROLE_VALUE,
-		METRIC_TIMEOUT_SECS,
-	)
-	.await
-	.context("Node did not become validator")
 }
 
 pub async fn wait_for_fullnode(node: &zombienet_sdk::NetworkNode) -> Result<()> {
@@ -201,7 +170,10 @@ pub async fn wait_for_relay_chain_to_sync(
 const WAIT_MAX_BLOCKS_FOR_SESSION: u32 = 50;
 
 async fn is_session_change_block(
-	block: &zombienet_sdk::subxt::blocks::Block<SubstrateConfig, zombienet_sdk::subxt::OnlineClient<SubstrateConfig>>,
+	block: &zombienet_sdk::subxt::blocks::Block<
+		SubstrateConfig,
+		zombienet_sdk::subxt::OnlineClient<SubstrateConfig>,
+	>,
 ) -> Result<bool> {
 	let events = block.events().await.context("Failed to fetch block events")?;
 	Ok(events.iter().any(|event| {

@@ -5,17 +5,16 @@
 //!
 //! # What this proves
 //!
-//! 1. A node that warp-syncs to the tip starts with an EMPTY TRANSACTION column —
-//!    none of the indexed-transaction blobs from before the warp target are on disk.
-//! 2. When the collator submits a `transaction_storage::renew(block, index)` for a
-//!    pre-warp entry, the renew block reaches the syncing node via tip sync. The
-//!    block body references a `content_hash` the syncing node does not have.
-//!    [`StorageChainBlockImport`] detects this, issues a bitswap `WANT-BLOCK`,
-//!    receives the bytes from the collator, and writes them to the TRANSACTION
-//!    column atomically with the block's BODY_INDEX entry.
-//! 3. After the renew is finalized, the syncing node's `bitswap_v1_get` RPC
-//!    returns the original blob — direct evidence the wrapper's fetch path ran
-//!    AND the bytes landed in the TRANSACTION column.
+//! 1. A node that warp-syncs to the tip starts with an EMPTY TRANSACTION column — none of the
+//!    indexed-transaction blobs from before the warp target are on disk.
+//! 2. When the collator submits a `transaction_storage::renew(block, index)` for a pre-warp entry,
+//!    the renew block reaches the syncing node via tip sync. The block body references a
+//!    `content_hash` the syncing node does not have. [`StorageChainBlockImport`] detects this,
+//!    issues a bitswap `WANT-BLOCK`, receives the bytes from the collator, and writes them to the
+//!    TRANSACTION column atomically with the block's BODY_INDEX entry.
+//! 3. After the renew is finalized, the syncing node's `bitswap_v1_get` RPC returns the original
+//!    blob — direct evidence the wrapper's fetch path ran AND the bytes landed in the TRANSACTION
+//!    column.
 //!
 //! # Snapshot fixtures required
 //!
@@ -40,12 +39,11 @@
 //!
 //! The test couples to the snapshot generator's deterministic behavior. With:
 //!   - `TARGET_BLOCKS=300`, `STORE_INTERVAL=10` → 30 stores total
-//!   - `RENEWABLE_STORE_COUNT=10` → first 10 stores marked renewable
-//!     (originally at blocks 10, 20, …, 100, each at index 0)
-//!   - `RENEWAL_PASS_BLOCK=105`, `RENEWAL_PASS_INTERVAL=80`,
-//!     `LAST_RENEWAL_PASS_CEILING=270` → renewal passes at blocks 105 and 185 only;
-//!     185 + 80 = 265 ≤ 270 so a third pass at 265 is included.
-//!     With `TARGET_BLOCKS - 30 = 270`, the cutoff allows passes at 105, 185, 265.
+//!   - `RENEWABLE_STORE_COUNT=10` → first 10 stores marked renewable (originally at blocks 10, 20,
+//!     …, 100, each at index 0)
+//!   - `RENEWAL_PASS_BLOCK=105`, `RENEWAL_PASS_INTERVAL=80`, `LAST_RENEWAL_PASS_CEILING=270` →
+//!     renewal passes at blocks 105 and 185 only; 185 + 80 = 265 ≤ 270 so a third pass at 265 is
+//!     included. With `TARGET_BLOCKS - 30 = 270`, the cutoff allows passes at 105, 185, 265.
 //!
 //! Therefore the **last renewal pass lands at block 265**, with the 10 renewable
 //! entries placed at indices 0..10 within that block (one renew extrinsic per
@@ -55,21 +53,21 @@
 //! best block has advanced past 265.
 
 use super::utils::{
-	authorize_bob_for_renewals_helper, blake2_256,
-	build_parachain_network_config_three_relay_validators_with_snapshots, expect_dont_have,
-	expect_log_line, expect_no_log_line, generate_test_data, get_best_block_height, hash_to_cid,
-	initialize_network, renew_data, verify_parachain_binaries, verify_warp_sync_completed,
-	wait_for_block_height, wait_for_finalized_height, wait_for_fullnode, wait_for_new_block_beyond,
-	wait_for_relay_chain_to_sync, wait_for_session_change_on_node, ParachainSnapshots,
 	BLOCK_PRODUCTION_TIMEOUT_SECS, NETWORK_READY_TIMEOUT_SECS, NODE_LOG_CONFIG, PARA_ID,
-	PARACHAIN_BINARY, SYNC_TIMEOUT_SECS, TEST_DATA_SIZE,
+	PARACHAIN_BINARY, ParachainSnapshots, SYNC_TIMEOUT_SECS, TEST_DATA_SIZE, bitswap_v1_get,
+	blake2_256, build_parachain_network_config_three_relay_validators_with_snapshots,
+	expect_dont_have, expect_no_log_line, generate_test_data, get_best_block_height, hash_to_cid,
+	initialize_network, renew_data_with_hash, verify_parachain_binaries,
+	verify_warp_sync_completed, wait_for_block_height, wait_for_finalized_height,
+	wait_for_fullnode, wait_for_new_block_beyond, wait_for_relay_chain_to_sync,
+	wait_for_session_change_on_node,
 };
 use crate::test_log;
-use anyhow::{anyhow, Context, Result};
+use anyhow::{Context, Result, anyhow};
 use env_logger::Env;
 use std::time::Duration;
 use zombienet_orchestrator::AddCollatorOptions;
-use zombienet_sdk::subxt::{config::substrate::SubstrateConfig, OnlineClient};
+use zombienet_sdk::subxt::{OnlineClient, config::substrate::SubstrateConfig};
 
 // Snapshot constants the test couples to (see the file-level doc).
 const SNAPSHOT_STORE_INTERVAL: u64 = 10;
@@ -108,17 +106,14 @@ impl ResolvedSnapshots {
 					snapshot_dir
 				)
 			})?;
-		let relay =
-			std::fs::canonicalize(snapshot_base.join("relay.tgz")).with_context(|| {
-				format!("relay.tgz not found in {}", snapshot_dir)
-			})?;
+		let relay = std::fs::canonicalize(snapshot_base.join("relay.tgz"))
+			.with_context(|| format!("relay.tgz not found in {}", snapshot_dir))?;
 		let chain_spec = std::fs::canonicalize(snapshot_base.join("raw-chain-spec.json"))
 			.with_context(|| format!("raw-chain-spec.json not found in {}", snapshot_dir))?;
-		let relay_chain_spec =
-			std::fs::canonicalize(snapshot_base.join("raw-relay-chain-spec.json"))
-				.with_context(|| {
-					format!("raw-relay-chain-spec.json not found in {}", snapshot_dir)
-				})?;
+		let relay_chain_spec = std::fs::canonicalize(
+			snapshot_base.join("raw-relay-chain-spec.json"),
+		)
+		.with_context(|| format!("raw-relay-chain-spec.json not found in {}", snapshot_dir))?;
 		Ok(Self { collator, relay, chain_spec, relay_chain_spec })
 	}
 
@@ -133,11 +128,11 @@ impl ResolvedSnapshots {
 }
 
 #[tokio::test(flavor = "multi_thread")]
-#[ignore = "Phase 4 (renewal loop) currently hits transient transaction-pool errors \
-            (Invalid Transaction 1010 / State already discarded). Phase 1-3 (snapshot \
-            load, warp sync, sync-node DontHave assertion) verified passing on this branch. \
-            Snapshot fixture: TARGET_BLOCKS=300 cargo test ... parachain_generate_databases, \
-            then mv archive.tgz tip-sync-300.tgz."]
+#[ignore = "Transaction construction now succeeds when reusing Bob's snapshot nonce/state, \
+			 but the sync node still does not expose renewed content via bitswap_v1_get after \
+			 importing the renew blocks. This remaining failure appears feature-level, not \
+			 test-setup-only. Snapshot fixture: TARGET_BLOCKS=300 cargo test ... \
+			 parachain_generate_databases, then mv archive.tgz tip-sync-300.tgz."]
 async fn parachain_tip_sync_with_renewals_test() -> Result<()> {
 	const TEST: &str = "para_tip_sync_renewals";
 	let _ = env_logger::Builder::from_env(Env::default().default_filter_or("info")).try_init();
@@ -208,9 +203,7 @@ async fn parachain_tip_sync_with_renewals_test() -> Result<()> {
 		let cid = hash_to_cid(&blake2_256(&data));
 		expect_dont_have(sync_node, &cid, Duration::from_secs(BITSWAP_RPC_POLL_TIMEOUT_SECS))
 			.await
-			.with_context(|| {
-				format!("pre-renewal: sync-node should not have entry {i} ({cid})")
-			})?;
+			.with_context(|| format!("pre-renewal: sync-node should not have entry {i} ({cid})"))?;
 	}
 	test_log!(
 		TEST,
@@ -228,30 +221,26 @@ async fn parachain_tip_sync_with_renewals_test() -> Result<()> {
 	// renewals succeed.
 	// ─────────────────────────────────────────────────────────────────────────
 	let collator_client: OnlineClient<SubstrateConfig> = collator1.wait_client().await?;
-
-	let alice_nonce = collator_client
+	let mut bob_nonce = collator_client
 		.tx()
-		.account_nonce(&zombienet_sdk::subxt_signer::sr25519::dev::alice().public_key().to_account_id())
+		.account_nonce(
+			&zombienet_sdk::subxt_signer::sr25519::dev::bob().public_key().to_account_id(),
+		)
 		.await?;
-	authorize_bob_for_renewals_helper(
-		&collator_client,
-		alice_nonce,
-		N_RENEW_EXERCISES as u32 * 2,
-		(N_RENEW_EXERCISES * (TEST_DATA_SIZE as u64) * 2) as u64,
-	)
-	.await?;
-	let mut bob_nonce: u64 = 0;
 
 	let mut successful_renews = 0usize;
+	let mut renewed_hashes = Vec::new();
 	let collator_best = get_best_block_height(collator1).await?;
-	let search_floor = collator_best.saturating_sub(120);
+	let search_floor = collator_best.saturating_sub(200);
+	let mut first_renew_error: Option<String> = None;
 
-	for candidate_block in (search_floor..collator_best).rev() {
+	for candidate_block in search_floor..collator_best {
 		if successful_renews >= N_RENEW_EXERCISES as usize {
 			break;
 		}
-		match renew_data(&collator_client, candidate_block, 0, bob_nonce).await {
-			Ok(renew_block) => {
+		match renew_data_with_hash(&collator_client, candidate_block, 0, bob_nonce).await {
+			Ok(outcome) => {
+				let renew_block = outcome.renewed_at_block;
 				test_log!(
 					TEST,
 					"✓ Renew {}/{}: block={}, index=0 → renewed at block {}",
@@ -262,37 +251,66 @@ async fn parachain_tip_sync_with_renewals_test() -> Result<()> {
 				);
 				bob_nonce += 1;
 				successful_renews += 1;
+				renewed_hashes.push(outcome.content_hash);
 
-				wait_for_finalized_height(
-					collator1,
-					renew_block,
-					BLOCK_PRODUCTION_TIMEOUT_SECS,
-				)
-				.await?;
+				wait_for_finalized_height(collator1, renew_block, BLOCK_PRODUCTION_TIMEOUT_SECS)
+					.await?;
 				wait_for_block_height(sync_node, renew_block, SYNC_TIMEOUT_SECS).await?;
-			}
-			Err(_) => continue,
+			},
+			Err(err) => {
+				if first_renew_error.is_none() {
+					first_renew_error = Some(format!(
+						"block={}, index=0, nonce={}: {err:#}",
+						candidate_block, bob_nonce,
+					));
+				}
+				continue;
+			},
 		}
 	}
 
 	if successful_renews < N_RENEW_EXERCISES as usize {
 		return Err(anyhow!(
-			"Only managed {} renewals out of {} requested (search range {}..{})",
+			"Only managed {} renewals out of {} requested (search range {}..{}). First renew error: {}",
 			successful_renews,
 			N_RENEW_EXERCISES,
 			search_floor,
 			collator_best,
+			first_renew_error.unwrap_or_else(|| "<none captured>".into()),
 		));
 	}
 
-	expect_log_line(
-		sync_node,
-		r"storage-chain-block-import.*bitswap-fetched indexed transaction",
-		60,
-		"sync-node never logged a bitswap-fetched indexed transaction",
-	)
-	.await?;
-	test_log!(TEST, "✓ Sync-node logged bitswap-fetched indexed transaction(s)");
+	let deadline = std::time::Instant::now() + Duration::from_secs(BITSWAP_RPC_POLL_TIMEOUT_SECS);
+	let renewed_entries_available = loop {
+		let mut renewed_entries_available = 0usize;
+		for content_hash in &renewed_hashes {
+			let cid = hash_to_cid(content_hash);
+			if matches!(bitswap_v1_get(sync_node, &cid).await, Ok(Some(bytes)) if blake2_256(&bytes) == *content_hash)
+			{
+				renewed_entries_available += 1;
+			}
+		}
+
+		if renewed_entries_available >= N_RENEW_EXERCISES as usize {
+			break renewed_entries_available;
+		}
+
+		if std::time::Instant::now() >= deadline {
+			return Err(anyhow!(
+				"post-renewal: sync-node served only {} of {} renewed entries within {}s",
+				renewed_entries_available,
+				renewed_hashes.len(),
+				BITSWAP_RPC_POLL_TIMEOUT_SECS,
+			));
+		}
+
+		tokio::time::sleep(Duration::from_secs(1)).await;
+	};
+	test_log!(
+		TEST,
+		"✓ Sync-node serves {} renewed pre-warp entries via bitswap_v1_get",
+		renewed_entries_available,
+	);
 
 	// ─────────────────────────────────────────────────────────────────────────
 	// Phase 5: negative log assertions — no hash mismatches anywhere.
@@ -316,4 +334,3 @@ async fn parachain_tip_sync_with_renewals_test() -> Result<()> {
 	network.destroy().await?;
 	Ok(())
 }
-

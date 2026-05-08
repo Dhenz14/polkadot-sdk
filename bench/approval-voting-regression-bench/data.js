@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778257187673,
+  "lastUpdate": 1778259949710,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "88332432+dastansam@users.noreply.github.com",
-            "name": "Dastan",
-            "username": "dastansam"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "cfce3b96be3fe7348c88ba1deeaa701834240d38",
-          "message": "`pallet-assets`: extract precompiles to a separate crate (#9796)\n\ncloses #9434 \n\n###  Description\n\nAssets pallet includes `pallet-revive` precompiles and subsequently pull\na lot of EVM related dependencies by default. This forces downstream\nusers that only want `pallet-assets` functionality to pull unrelated\ndependencies and causes confusion (why do we have bunch of ethereum\ncrates in the dependency tree of `pallet-assets`?). This extracts\nprecompiles into its own crate\n\n---------\n\nCo-authored-by: Alexander Theißen <alex.theissen@me.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
-          "timestamp": "2025-09-30T09:11:50Z",
-          "tree_id": "5425894d473ec0ee79c528aca01d4f7facb1e1dd",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/cfce3b96be3fe7348c88ba1deeaa701834240d38"
-        },
-        "date": 1759227614974,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52942.90000000001,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63640.03999999999,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000019149959999999995,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.00002039919,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.5261852087100003,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9478667621099963,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.412057126089994,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4904852858099993,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.499807500769999,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.5049268335299995,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.4373227660100003,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005462769150000001,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000019149959999999995,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.00002039919,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.645772954300812,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 4.255636076892817,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "bcd139f350ac253b4cc0409993e1d070c4bcc396",
+          "message": "Bump WAH spec_version (#12030)",
+          "timestamp": "2026-05-08T15:43:48Z",
+          "tree_id": "399624bb07580079f378d1c4fac02e84281153cc",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/bcd139f350ac253b4cc0409993e1d070c4bcc396"
+        },
+        "date": 1778259927928,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 52939.90000000001,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 63629.1,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.796260341720002,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.275333561512994,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.4571417020499977,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.87081977274,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7844974665299844,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.000023708139999999997,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.006369128399999998,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.78930436744,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.809300327379998,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.000026650799999999992,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.000023708139999999997,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.513693106259982,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.000026650799999999992,
             "unit": "seconds"
           }
         ]

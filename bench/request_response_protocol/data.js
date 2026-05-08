@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778192369698,
+  "lastUpdate": 1778226231547,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "request_response_protocol": [
@@ -89099,6 +89099,114 @@ window.BENCHMARK_DATA = {
             "name": "request_response_protocol/litep2p/serially/16MB",
             "value": 2902857332,
             "range": "± 104344067",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "10196091+Ank4n@users.noreply.github.com",
+            "name": "Ankan",
+            "username": "Ank4n"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "67190176f144a642c3e3831dc13248d4327bbdf1",
+          "message": "[Staking] Use offence era for proportional slash distribution (#11999)\n\n## Bug\nWhen a slash is applied, `StakingLedger::slash` decides which unlocking\nchunks are still slashable based on `bonding_duration` from a reference\nera. We were passing the **slash application era** (offence_era +\n`SlashDeferDuration`) instead of the **offence era** in the extrinsic\nbased apply slash.\n\n## Impact\nNo funds escape slashing, only the distribution between active and\nunlocking chunks is off.\n\n### Example\nGiven: Total balance 1000 (active 100, unlock chunk 900), 50% slash:\n- Correct slash: 50 from active + 450 from chunk\n- Buggy slash: 100 from active + 400 from chunk\n\nShown in [test\nhere](https://github.com/paritytech/polkadot-sdk/compare/ankn-slash-test).",
+          "timestamp": "2026-05-08T06:13:29Z",
+          "tree_id": "01a271b5374c1fcd629189e61b0cb68018102061",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/67190176f144a642c3e3831dc13248d4327bbdf1"
+        },
+        "date": 1778226209453,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "request_response_protocol/libp2p/serially/64B",
+            "value": 19502751,
+            "range": "± 211206",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/512B",
+            "value": 19791033,
+            "range": "± 289994",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/4KB",
+            "value": 21203479,
+            "range": "± 170196",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/64KB",
+            "value": 25906052,
+            "range": "± 306132",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/256KB",
+            "value": 61586687,
+            "range": "± 983358",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/2MB",
+            "value": 380094623,
+            "range": "± 7690897",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/libp2p/serially/16MB",
+            "value": 2713287209,
+            "range": "± 97118098",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64B",
+            "value": 16099025,
+            "range": "± 271040",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/512B",
+            "value": 16149004,
+            "range": "± 209437",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/4KB",
+            "value": 17058988,
+            "range": "± 304096",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/64KB",
+            "value": 21612137,
+            "range": "± 277084",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/256KB",
+            "value": 60887429,
+            "range": "± 1501498",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/2MB",
+            "value": 361678071,
+            "range": "± 6046026",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "request_response_protocol/litep2p/serially/16MB",
+            "value": 2669778134,
+            "range": "± 36126727",
             "unit": "ns/iter"
           }
         ]

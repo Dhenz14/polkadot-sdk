@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778246707644,
+  "lastUpdate": 1778254748284,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "88332432+dastansam@users.noreply.github.com",
-            "name": "Dastan",
-            "username": "dastansam"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "cfce3b96be3fe7348c88ba1deeaa701834240d38",
-          "message": "`pallet-assets`: extract precompiles to a separate crate (#9796)\n\ncloses #9434 \n\n###  Description\n\nAssets pallet includes `pallet-revive` precompiles and subsequently pull\na lot of EVM related dependencies by default. This forces downstream\nusers that only want `pallet-assets` functionality to pull unrelated\ndependencies and causes confusion (why do we have bunch of ethereum\ncrates in the dependency tree of `pallet-assets`?). This extracts\nprecompiles into its own crate\n\n---------\n\nCo-authored-by: Alexander Theißen <alex.theissen@me.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
-          "timestamp": "2025-09-30T09:11:50Z",
-          "tree_id": "5425894d473ec0ee79c528aca01d4f7facb1e1dd",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/cfce3b96be3fe7348c88ba1deeaa701834240d38"
-        },
-        "date": 1759227562079,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.1998406999333333,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.268045500433331,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.13313679609999998,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "claravanstaden64@gmail.com",
+            "name": "Clara van Staden",
+            "username": "claravanstaden"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "2b5a0e15122b7d24eca7371d20d5f8b7e31fa9fd",
+          "message": "Snowbridge: Set default asset claimer to local network (#11919)\n\nThe inbound-queue v2 message converter falls back to the Snowbridge\nsovereign account on AssetHub as the asset claimer when no explicit\nclaimer is supplied. Previously this fallback used `AccountId32 {\nnetwork: None, .. }`, which did not match the location AssetHub's\nsigned-origin converter produces (it sets `network:\nSome(LocalNetwork)`). The trap-key hash stored on `AssetsTrapped`\ntherefore could not be matched by a signed `polkadotXcm.claim_assets`\ncall, making default-claimer trapped funds effectively unrecoverable\nwithout a runtime upgrade.\n\nThis PR sets `network: Some(LocalNetwork::get())` on the fallback\nclaimer so its `Location` agrees with what `SignedToAccountId32<_, _,\nLocalNetwork>` yields on AssetHub, and adds a test covering the\nno-claimer-supplied path.\n\n---------\n\nCo-authored-by: Branislav Kontur <bkontur@gmail.com>",
+          "timestamp": "2026-05-08T13:59:03Z",
+          "tree_id": "aa40f757496e1f52cf0c7a61dd30ab49f089c50b",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/2b5a0e15122b7d24eca7371d20d5f8b7e31fa9fd"
+        },
+        "date": 1778254726097,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 10.871565244466668,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13727594613333333,
             "unit": "seconds"
           }
         ]

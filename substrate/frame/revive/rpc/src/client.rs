@@ -21,9 +21,9 @@ pub(crate) mod runtime_api;
 pub(crate) mod storage_api;
 
 use crate::{
-	BlockId, BlockInfoProvider, BlockNumberOrTag, FeeHistoryProvider, Filter, Log, ReceiptInfo,
-	ReceiptProvider, SubxtBlockInfoProvider, SyncLabel, SyncingProgress, SyncingStatus, TracerType,
-	block_sync::SyncCheckpoint,
+	BlockId, BlockInfoProvider, BlockNumberOrTag, FeeHistoryProvider, FeeHistoryResult, Filter,
+	Log, ReceiptInfo, ReceiptProvider, SubxtBlockInfoProvider, SyncLabel, SyncingProgress,
+	SyncingStatus, TracerType, block_sync::SyncCheckpoint,
 	subxt_client::{self, SrcChainConfig, revive::calls::types::EthTransact},
 	types::transaction_info_from_receipt,
 };
@@ -32,8 +32,8 @@ use jsonrpsee::types::{ErrorObjectOwned, error::CALL_EXECUTION_FAILED_CODE};
 use pallet_revive::{
 	EthTransactError,
 	evm::{
-		Block, FeeHistoryResult, GenericTransaction, H256, HashesOrTransactionInfos,
-		StateOverrideSet, Trace, TransactionSigned, TransactionTrace, U256, decode_revert_reason,
+		Block, GenericTransaction, H256, HashesOrTransactionInfos, StateOverrideSet, Trace,
+		TransactionSigned, TransactionTrace, U256, decode_revert_reason,
 	},
 };
 use runtime_api::RuntimeApi;

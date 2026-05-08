@@ -16,11 +16,13 @@
 // limitations under the License.
 //! Types owned by the Ethereum RPC crate.
 
+mod fee_history;
 mod log;
 mod receipt;
 mod sync;
 pub mod subscriptions;
 
+pub use fee_history::*;
 pub use log::*;
 pub use receipt::*;
 pub use sync::*;

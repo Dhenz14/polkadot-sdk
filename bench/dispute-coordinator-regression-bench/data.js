@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778193364713,
+  "lastUpdate": 1778227149548,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "pgherveou@gmail.com",
-            "name": "PG Herveou",
-            "username": "pgherveou"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "2c0ed3c7aa804e290c29a93c31e5f82418185475",
-          "message": "[pallet-revive] update rpc metadata (#9853)\n\nUpdate eth-rpc metadata files\n\nthe metadata should have been updated here\nhttps://github.com/paritytech/polkadot-sdk/pull/9759\nwhere a new variant was added to an enum used by the runtime api\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-29T11:21:45+02:00",
-          "tree_id": "47f0d871cb3009fb0278692939a95d85a3bd4afc",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/2c0ed3c7aa804e290c29a93c31e5f82418185475"
-        },
-        "date": 1759139739599,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008513801649999988,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005018024429999996,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.00262739283,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.00947819352,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "10196091+Ank4n@users.noreply.github.com",
+            "name": "Ankan",
+            "username": "Ank4n"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "67190176f144a642c3e3831dc13248d4327bbdf1",
+          "message": "[Staking] Use offence era for proportional slash distribution (#11999)\n\n## Bug\nWhen a slash is applied, `StakingLedger::slash` decides which unlocking\nchunks are still slashable based on `bonding_duration` from a reference\nera. We were passing the **slash application era** (offence_era +\n`SlashDeferDuration`) instead of the **offence era** in the extrinsic\nbased apply slash.\n\n## Impact\nNo funds escape slashing, only the distribution between active and\nunlocking chunks is off.\n\n### Example\nGiven: Total balance 1000 (active 100, unlock chunk 900), 50% slash:\n- Correct slash: 50 from active + 450 from chunk\n- Buggy slash: 100 from active + 400 from chunk\n\nShown in [test\nhere](https://github.com/paritytech/polkadot-sdk/compare/ankn-slash-test).",
+          "timestamp": "2026-05-08T06:13:29Z",
+          "tree_id": "01a271b5374c1fcd629189e61b0cb68018102061",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/67190176f144a642c3e3831dc13248d4327bbdf1"
+        },
+        "date": 1778227126729,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.0026644949000000006,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.010960944159999996,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.00958482442999998,
             "unit": "seconds"
           }
         ]

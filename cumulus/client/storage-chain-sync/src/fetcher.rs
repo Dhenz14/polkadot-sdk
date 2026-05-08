@@ -22,7 +22,7 @@
 //! what to do with the returned bytes.
 
 use sc_network::{
-	bitswap::{BitswapClient, FetchOutcome, MAX_WANTED_BLOCKS_PER_REQUEST},
+	bitswap::{self, FetchOutcome, MAX_WANTED_BLOCKS_PER_REQUEST},
 	NetworkRequest, PeerId,
 };
 use sc_network_sync::SyncingService;
@@ -69,10 +69,7 @@ pub struct IndexedTransactionFetcher<Block: BlockT> {
 
 impl<Block: BlockT> Clone for IndexedTransactionFetcher<Block> {
 	fn clone(&self) -> Self {
-		Self {
-			network: self.network.clone(),
-			syncing_service: self.syncing_service.clone(),
-		}
+		Self { network: self.network.clone(), syncing_service: self.syncing_service.clone() }
 	}
 }
 
@@ -115,14 +112,12 @@ impl<Block: BlockT> IndexedTransactionFetcher<Block> {
 
 		let mut remaining: Vec<_> = wants.to_vec();
 		let mut acquired: HashMap<ContentHash, Vec<u8>> = HashMap::new();
-		let client = BitswapClient;
 
 		for peer in peers.into_iter().take(MAX_PEERS_PER_IMPORT) {
 			if remaining.is_empty() {
 				break;
 			}
-			let from_peer =
-				try_fetch_from_peer(&client, network.as_ref(), peer, &remaining).await;
+			let from_peer = try_fetch_from_peer(network.as_ref(), peer, &remaining).await;
 			acquired.extend(from_peer);
 			remaining.retain(|(hash, _)| !acquired.contains_key(hash));
 		}
@@ -135,18 +130,14 @@ impl<Block: BlockT> IndexedTransactionFetcher<Block> {
 /// peer actually served. A timeout or per-chunk error aborts the remaining chunks for this peer
 /// and lets the caller move on to the next one.
 async fn try_fetch_from_peer(
-	client: &BitswapClient,
 	network: &(dyn NetworkRequest + Send + Sync),
 	peer: PeerId,
 	wants: &[(ContentHash, HashingAlgorithm)],
 ) -> HashMap<ContentHash, Vec<u8>> {
 	let mut acquired: HashMap<ContentHash, Vec<u8>> = HashMap::new();
 	for chunk in wants.chunks(MAX_WANTED_BLOCKS_PER_REQUEST) {
-		match with_timeout(
-			client.fetch_many(network, peer, chunk),
-			BITSWAP_PER_PEER_TIMEOUT,
-		)
-		.await
+		match with_timeout(bitswap::fetch_many(network, peer, chunk), BITSWAP_PER_PEER_TIMEOUT)
+			.await
 		{
 			None => {
 				log::debug!(
@@ -160,7 +151,7 @@ async fn try_fetch_from_peer(
 				log::debug!(target: LOG_TARGET, "fetch_many to {peer:?}: {e:?}");
 				return acquired;
 			},
-			Some(Ok(per_cid)) =>
+			Some(Ok(per_cid)) => {
 				for (hash, outcome) in per_cid {
 					if let FetchOutcome::Block(data) = outcome {
 						log::debug!(
@@ -171,7 +162,8 @@ async fn try_fetch_from_peer(
 						);
 						acquired.insert(hash, data);
 					}
-				},
+				}
+			},
 		}
 	}
 	acquired

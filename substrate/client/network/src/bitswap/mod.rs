@@ -46,7 +46,7 @@ use unsigned_varint::encode as varint_encode;
 pub mod client;
 pub(crate) mod schema;
 
-pub use client::{BitswapClient, BitswapError, FetchOutcome, MAX_WANTED_BLOCKS_PER_REQUEST};
+pub use client::{fetch_many, BitswapError, FetchOutcome, MAX_WANTED_BLOCKS_PER_REQUEST};
 
 pub(crate) use schema::bitswap::Message as BitswapProtoMessage;
 
@@ -71,9 +71,9 @@ pub(crate) const PROTOCOL_NAME: &'static str = "/ipfs/bitswap/1.2.0";
 /// multihash code that maps to a supported [`HashingAlgorithm`] (Blake2b-256, SHA2-256, or
 /// Keccak-256).
 pub fn is_cid_supported(cid: &Cid) -> bool {
-	cid.version() != CidVersion::V0
-		&& cid.hash().size() == 32
-		&& sp_transaction_storage_proof::HashingAlgorithm::from_multihash_code(cid.hash().code())
+	cid.version() != CidVersion::V0 &&
+		cid.hash().size() == 32 &&
+		sp_transaction_storage_proof::HashingAlgorithm::from_multihash_code(cid.hash().code())
 			.is_some()
 }
 

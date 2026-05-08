@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778227084251,
+  "lastUpdate": 1778230061198,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "alex.theissen@me.com",
-            "name": "Alexander Theißen",
-            "username": "athei"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "50372ea7fa3601d43db7e9200d8b249c67dbdf66",
-          "message": "Allow sending transactions from an Ethereum address derived account id (#8757)\n\nWe always allowed signing transactions using an Bitcoin/Eth style\nSECP256k1 key. The account in this case is simply the blake2 hash of the\npublic key.\n\nThis address derivation is problematic: It requires the public key in\norder to derive the account id. On Ethereum you simply can't know the\npublic key of an address. This is why the mapping in pallet_revive is\ndefined as `address <-> account_id`.\n\nThis PR adds a new signature variant that allows signing a transaction\nwith an account id as origin that matches this mapping.\n\n## Why is this important?\n\n### Example1 \nA wallet contains an SECP256k1 key and wants to interact with native\nPolkadot APIs. It can sign the transaction using this key. However,\nwithout this change the origin of that transaction will be different\nthan the one it would appear under if it had signed an Ethereum\ntransaction.\n\n### Example2\nA chain using an Ethereum style address (like Mythical) wants to send\nsome tokens to one of their users account on AssetHub. How would they\nknow what is the address of that user on AssetHub? With this change they\ncan just pad the address with `0xEE` and rely on the fact that the user\ncan interact with AssetHub using their existing key.\n\n## Why a new variant?\nWe can't modify the existing variant. Otherwise the same signature would\nsuddenly map to a different account making people lose access to their\nfunds. Instead, we add a new variant that adds control over an\nadditional account for the same signature.\n\n## A new `KeccakSigner` and `KeccakSignature`\n\nAfter considering feedback by @Moliholy I am convinced that we should\nuse keccak instead of blake2b for this new `MultiSignature` variant.\nReasoning is that this will make it much simpler for Ethereum tooling to\ngenerate such signatures. Since this signature is specifically created\nfor Ethereum interop it just makes sense to also use keccak here.\n\nTo that end I made the `ecdsa::{KeccakSigner, KeccakSignature}` generic\nover their hash algorithm. Please note that I am using tags here and not\nthe `Hasher` trait directly. This makes things more complicated but it\nwas necessary: All Hasher implementations are in higher level crates and\ncan't be directly referenced here. But I would have to reference it in\norder to make this a non breaking change. The `Signer` and `Signature`\ntypes behave exactly the same way as before.\n\n---------\n\nCo-authored-by: joe petrowski <25483142+joepetrowski@users.noreply.github.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-29T14:11:17Z",
-          "tree_id": "30ab5c454ed6fb858003e6b6e13f2d4212883b0b",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/50372ea7fa3601d43db7e9200d8b249c67dbdf66"
-        },
-        "date": 1759160904787,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 63626.479999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 52938.09999999999,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.00002033861,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.53740036401,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9327136888399916,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005590251689999999,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.345770594279989,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.4993181697200018,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4677074096999996,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.00002033861,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000020663760000000004,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000020663760000000004,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.471324017659998,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.4317166926599996,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.6178571325710247,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting",
             "value": 0.00002490754,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@kchr.de",
+            "name": "Bastian Köcher",
+            "username": "bkchr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b18fb34a8ae348df5866e4b718d82871d744e60d",
+          "message": "Improve the sync (#12017)\n\nWe should not panic and handle it more gracefully.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-05-08T07:25:10Z",
+          "tree_id": "4f8e0ac1191f5681370fde931673c8105e7d75fe",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/b18fb34a8ae348df5866e4b718d82871d744e60d"
+        },
+        "date": 1778230038890,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 63637.619999999995,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 52941.2,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.606144151009952,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.0000198784,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.8114604561500016,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.793163335249954,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.359083478122965,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.00002307019,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.8599317416400005,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.0000198784,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005482620120000002,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.82543732186,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.8495720545900003,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.00002307019,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.4610966213999985,
             "unit": "seconds"
           }
         ]

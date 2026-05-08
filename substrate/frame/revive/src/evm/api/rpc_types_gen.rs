@@ -341,22 +341,6 @@ pub struct GenericTransaction {
 	pub value: Option<U256>,
 }
 
-/// Syncing status
-#[derive(Debug, Clone, Serialize, Deserialize, From, TryInto, Eq, PartialEq)]
-#[serde(untagged)]
-pub enum SyncingStatus {
-	/// Syncing progress
-	SyncingProgress(SyncingProgress),
-	/// Not syncing
-	/// Should always return false if not syncing.
-	Bool(bool),
-}
-impl Default for SyncingStatus {
-	fn default() -> Self {
-		SyncingStatus::SyncingProgress(Default::default())
-	}
-}
-
 /// Transaction information
 #[derive(Debug, Default, Clone, Serialize, Eq, PartialEq, TypeInfo, Encode, Decode)]
 #[serde(rename_all = "camelCase")]
@@ -528,21 +512,6 @@ impl HashesOrTransactionInfos {
 			},
 		}
 	}
-}
-
-/// Syncing progress
-#[derive(Debug, Default, Clone, Serialize, Deserialize, Eq, PartialEq)]
-#[serde(rename_all = "camelCase")]
-pub struct SyncingProgress {
-	/// Current block
-	#[serde(skip_serializing_if = "Option::is_none")]
-	pub current_block: Option<U256>,
-	/// Highest block
-	#[serde(skip_serializing_if = "Option::is_none")]
-	pub highest_block: Option<U256>,
-	/// Starting block
-	#[serde(skip_serializing_if = "Option::is_none")]
-	pub starting_block: Option<U256>,
 }
 
 /// EIP-1559 transaction.

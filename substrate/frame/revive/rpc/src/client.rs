@@ -22,7 +22,7 @@ pub(crate) mod storage_api;
 
 use crate::{
 	BlockId, BlockInfoProvider, BlockNumberOrTag, FeeHistoryProvider, Filter, Log, ReceiptInfo,
-	ReceiptProvider, SubxtBlockInfoProvider, SyncLabel, TracerType,
+	ReceiptProvider, SubxtBlockInfoProvider, SyncLabel, SyncingProgress, SyncingStatus, TracerType,
 	block_sync::SyncCheckpoint,
 	subxt_client::{self, SrcChainConfig, revive::calls::types::EthTransact},
 	types::transaction_info_from_receipt,
@@ -33,8 +33,7 @@ use pallet_revive::{
 	EthTransactError,
 	evm::{
 		Block, FeeHistoryResult, GenericTransaction, H256, HashesOrTransactionInfos,
-		StateOverrideSet, SyncingProgress, SyncingStatus, Trace, TransactionSigned,
-		TransactionTrace, U256, decode_revert_reason,
+		StateOverrideSet, Trace, TransactionSigned, TransactionTrace, U256, decode_revert_reason,
 	},
 };
 use runtime_api::RuntimeApi;

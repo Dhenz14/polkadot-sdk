@@ -1,7 +1,8 @@
 //! Types used by Ethereum JSON-RPC subscriptions.
 
+use super::Log;
 use codec::{Decode, Encode};
-use pallet_revive::evm::{Address, BlockHeader, H160, H256, Log};
+use pallet_revive::evm::{Address, BlockHeader, H160, H256};
 use scale_info::TypeInfo;
 use serde::{Deserialize, Serialize};
 use sp_core::ConstU32;

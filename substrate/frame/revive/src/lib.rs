@@ -105,7 +105,7 @@ pub use crate::{
 	debug::DebugSettings,
 	deposit_payment::{Deposit, PGasDeposit},
 	evm::{
-		Address as EthAddress, Block as EthBlock, DryRunConfig, ReceiptInfo, TracingConfig,
+		Address as EthAddress, Block as EthBlock, DryRunConfig, TracingConfig,
 		block_hash::ReceiptGasInfo,
 	},
 	exec::{CallResources, DelegateInfo, Executable, Key, MomentOf, Origin as ExecOrigin},
@@ -500,7 +500,7 @@ pub mod pallet {
 		/// Emitted when an Ethereum transaction reverts.
 		///
 		/// Ethereum transactions always complete successfully at the extrinsic level,
-		/// as even reverted calls must store their `ReceiptInfo`.
+		/// as even reverted calls must store their receipt metadata.
 		/// To distinguish reverted calls from successful ones, this event is emitted
 		/// for failed Ethereum transactions.
 		EthExtrinsicRevert { dispatch_error: DispatchError },

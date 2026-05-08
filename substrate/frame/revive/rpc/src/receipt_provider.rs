@@ -16,12 +16,12 @@
 // limitations under the License.
 use crate::{
 	Address, BlockInfoProvider, BlockNumberOrTag, Bytes, ChainMetadata, ClientError, Filter,
-	ReceiptExtractor, SubxtBlockInfoProvider, SyncLabel, SyncStateKey,
+	Log, ReceiptExtractor, ReceiptInfo, SubxtBlockInfoProvider, SyncLabel, SyncStateKey,
 	block_sync::SyncCheckpoint,
 	client::{SubstrateBlock, SubstrateBlockNumber},
 };
 use alloy_rpc_types::FilterBlockOption;
-use pallet_revive::evm::{Log, ReceiptInfo, TransactionSigned};
+use pallet_revive::evm::TransactionSigned;
 use sp_core::{H256, U256};
 use sqlx::{QueryBuilder, Row, Sqlite, SqlitePool, query};
 use std::{
@@ -953,7 +953,7 @@ mod tests {
 	use super::*;
 	use crate::test::{MockBlockInfo, MockBlockInfoProvider};
 	use alloy_primitives::{Address as AlloyAddress, B256};
-	use pallet_revive::evm::{ReceiptInfo, TransactionSigned};
+	use pallet_revive::evm::TransactionSigned;
 	use pretty_assertions::assert_eq;
 	use sp_core::{H160, H256};
 	use sqlx::SqlitePool;

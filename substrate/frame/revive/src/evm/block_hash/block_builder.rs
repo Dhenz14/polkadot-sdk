@@ -301,11 +301,41 @@ impl<T: Config> Default for EthereumBlockBuilderIR<T> {
 mod test {
 	use super::*;
 	use crate::{
-		evm::{Block, ReceiptInfo},
+		evm::{Block, Bytes},
 		tests::{ExtBuilder, Test},
 	};
 	use alloy_core::rlp;
 	use alloy_trie::{HashBuilder, Nibbles};
+
+	/// Receipt fields needed by the Ethereum block builder fixture tests.
+	#[derive(serde::Deserialize)]
+	#[serde(rename_all = "camelCase")]
+	struct ReceiptFixture {
+		/// Hash of the block containing the transaction.
+		block_hash: H256,
+		/// Effective gas price paid by the transaction.
+		effective_gas_price: U256,
+		/// Gas used by the transaction.
+		gas_used: U256,
+		/// Logs emitted by the transaction.
+		logs: Vec<LogFixture>,
+		/// Execution status of the transaction.
+		status: Option<U256>,
+		/// Index of the transaction in the block.
+		transaction_index: U256,
+	}
+
+	/// Log fields needed by the Ethereum block builder fixture tests.
+	#[derive(serde::Deserialize)]
+	#[serde(rename_all = "camelCase")]
+	struct LogFixture {
+		/// Address that emitted the log.
+		address: H160,
+		/// Non-indexed data emitted with the log.
+		data: Option<Bytes>,
+		/// Indexed topics emitted with the log.
+		topics: Vec<H256>,
+	}
 
 	/// Manual implementation of the Ethereum trie root computation.
 	///
@@ -426,7 +456,7 @@ mod test {
 			let block: Block = serde_json::from_str(&json).unwrap();
 
 			let json = std::fs::read_to_string(receipts_path).unwrap();
-			let receipts: Vec<ReceiptInfo> = serde_json::from_str(&json).unwrap();
+			let receipts: Vec<ReceiptFixture> = serde_json::from_str(&json).unwrap();
 
 			assert_eq!(block.header_hash(), receipts[0].block_hash);
 

@@ -473,7 +473,7 @@ impl EthRpcServer for EthRpcServerImpl {
 		let receipt = self.client.receipt(&transaction_hash).await;
 		let signed_tx = self.client.signed_tx_by_hash(&transaction_hash).await;
 		if let (Some(receipt), Some(signed_tx)) = (receipt, signed_tx) {
-			return Ok(Some(TransactionInfo::new(&receipt, signed_tx)));
+			return Ok(Some(types::transaction_info_from_receipt(&receipt, signed_tx)));
 		}
 
 		Ok(None)
@@ -564,7 +564,7 @@ impl EthRpcServerImpl {
 			return Ok(None);
 		};
 
-		Ok(Some(TransactionInfo::new(&receipt, signed_tx)))
+		Ok(Some(types::transaction_info_from_receipt(&receipt, signed_tx)))
 	}
 
 	async fn handle_subscription_forwarding(

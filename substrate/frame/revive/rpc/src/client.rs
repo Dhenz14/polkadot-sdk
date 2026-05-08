@@ -21,18 +21,19 @@ pub(crate) mod runtime_api;
 pub(crate) mod storage_api;
 
 use crate::{
-	BlockId, BlockInfoProvider, BlockNumberOrTag, FeeHistoryProvider, Filter, ReceiptProvider,
-	SubxtBlockInfoProvider, SyncLabel, TracerType, TransactionInfo,
+	BlockId, BlockInfoProvider, BlockNumberOrTag, FeeHistoryProvider, Filter, Log, ReceiptInfo,
+	ReceiptProvider, SubxtBlockInfoProvider, SyncLabel, TracerType,
 	block_sync::SyncCheckpoint,
 	subxt_client::{self, SrcChainConfig, revive::calls::types::EthTransact},
+	types::transaction_info_from_receipt,
 };
 use futures::TryStreamExt;
 use jsonrpsee::types::{ErrorObjectOwned, error::CALL_EXECUTION_FAILED_CODE};
 use pallet_revive::{
 	EthTransactError,
 	evm::{
-		Block, FeeHistoryResult, GenericTransaction, H256, HashesOrTransactionInfos, Log,
-		ReceiptInfo, StateOverrideSet, SyncingProgress, SyncingStatus, Trace, TransactionSigned,
+		Block, FeeHistoryResult, GenericTransaction, H256, HashesOrTransactionInfos,
+		StateOverrideSet, SyncingProgress, SyncingStatus, Trace, TransactionSigned,
 		TransactionTrace, U256, decode_revert_reason,
 	},
 };
@@ -1081,7 +1082,9 @@ impl Client {
 						})
 						.unwrap_or_default()
 						.into_iter()
-						.map(|(signed_tx, receipt)| TransactionInfo::new(&receipt, signed_tx))
+						.map(|(signed_tx, receipt)| {
+							transaction_info_from_receipt(&receipt, signed_tx)
+						})
 						.collect::<Vec<_>>();
 
 					eth_block.transactions = HashesOrTransactionInfos::TransactionInfos(tx_infos);

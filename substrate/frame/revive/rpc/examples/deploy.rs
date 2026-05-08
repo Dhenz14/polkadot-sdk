@@ -15,8 +15,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 use jsonrpsee::http_client::HttpClientBuilder;
-use pallet_revive::{create1, evm::{Account, ReceiptInfo, U256}};
-use pallet_revive_eth_rpc::{BlockNumberOrTag, EthRpcClient, example::TransactionBuilder};
+use pallet_revive::{
+	create1,
+	evm::{Account, U256},
+};
+use pallet_revive_eth_rpc::{
+	BlockNumberOrTag, EthRpcClient, ReceiptInfo, example::TransactionBuilder,
+};
 use std::sync::Arc;
 
 #[tokio::main]

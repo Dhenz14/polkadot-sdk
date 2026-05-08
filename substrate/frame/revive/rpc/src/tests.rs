@@ -20,14 +20,15 @@
 
 use crate::{
 	BlockInfoProvider, BoundedOneOrMany, ChainMetadata, DbContext, DebugRpcClient, EthRpcClient,
-	ReceiptExtractor, ReceiptProvider, SubxtBlockInfoProvider, SubscriptionItem, SubscriptionKind,
-	SubscriptionOptions, SyncLabel,
+	FilterResults, Log, ReceiptExtractor, ReceiptProvider, SubxtBlockInfoProvider, SubscriptionItem,
+	SubscriptionKind, SubscriptionOptions, SyncLabel,
 	cli::{self, CliCommand},
 	client::{Client, GapFillRequest, SubscriptionGapQueue, connect},
 	example::TransactionBuilder,
 	subxt_client::{
 		self, SrcChainConfig, src_chain::runtime_types::pallet_revive::primitives::Code,
 	},
+	types::transaction_info_from_receipt,
 };
 use alloy_network::EthereumWallet;
 use alloy_primitives::{Address as AlloyAddress, B256, Bytes as AlloyBytes, U256 as AlloyU256};
@@ -46,8 +47,8 @@ use jsonrpsee::{
 use pallet_revive::{
 	create1,
 	evm::{
-		Account, Block, BlockHeader, FilterResults, GenericTransaction, H256,
-		HashesOrTransactionInfos, Log, Trace, TransactionInfo, TransactionUnsigned, U256,
+		Account, Block, BlockHeader, GenericTransaction, H256, HashesOrTransactionInfos, Trace,
+		TransactionUnsigned, U256,
 	},
 	precompiles::alloy::{
 		self,
@@ -813,7 +814,7 @@ async fn test_evm_blocks_hydrated_should_match() -> anyhow::Result<()> {
 		.try_into_unsigned()
 		.expect("Transaction shall be converted");
 	let signed_tx = signer_copy.sign_transaction(unsigned_tx);
-	let expected_tx_info = TransactionInfo::new(&receipt, signed_tx);
+	let expected_tx_info = transaction_info_from_receipt(&receipt, signed_tx);
 
 	let tx_info = if let HashesOrTransactionInfos::TransactionInfos(tx_infos) =
 		evm_block_from_rpc_by_number.transactions

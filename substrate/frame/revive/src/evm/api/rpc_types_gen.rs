@@ -276,21 +276,6 @@ impl From<Block> for BlockHeader {
 	}
 }
 
-/// Filter results
-#[derive(Debug, Clone, Serialize, Deserialize, From, TryInto, Eq, PartialEq)]
-#[serde(untagged)]
-pub enum FilterResults {
-	/// new block or transaction hashes
-	Hashes(Vec<H256>),
-	/// new logs
-	Logs(Vec<Log>),
-}
-impl Default for FilterResults {
-	fn default() -> Self {
-		FilterResults::Hashes(Default::default())
-	}
-}
-
 /// Transaction object generic to all types
 #[derive(
 	Debug, Default, Clone, Encode, Decode, TypeInfo, Serialize, Deserialize, Eq, PartialEq,
@@ -354,66 +339,6 @@ pub struct GenericTransaction {
 	/// value
 	#[serde(skip_serializing_if = "Option::is_none")]
 	pub value: Option<U256>,
-}
-
-/// Receipt information
-#[derive(Debug, Default, Clone, Serialize, Deserialize, Eq, PartialEq)]
-#[serde(rename_all = "camelCase")]
-pub struct ReceiptInfo {
-	/// blob gas price
-	/// The actual value per gas deducted from the sender's account for blob gas. Only specified
-	/// for blob transactions as defined by EIP-4844.
-	#[serde(skip_serializing_if = "Option::is_none")]
-	pub blob_gas_price: Option<U256>,
-	/// blob gas used
-	/// The amount of blob gas used for this specific transaction. Only specified for blob
-	/// transactions as defined by EIP-4844.
-	#[serde(skip_serializing_if = "Option::is_none")]
-	pub blob_gas_used: Option<U256>,
-	/// block hash
-	pub block_hash: H256,
-	/// block number
-	pub block_number: U256,
-	/// contract address
-	/// The contract address created, if the transaction was a contract creation, otherwise null.
-	pub contract_address: Option<Address>,
-	/// cumulative gas used
-	/// The sum of gas used by this transaction and all preceding transactions in the same block.
-	pub cumulative_gas_used: U256,
-	/// effective gas price
-	/// The actual value per gas deducted from the sender's account. Before EIP-1559, this is equal
-	/// to the transaction's gas price. After, it is equal to baseFeePerGas + min(maxFeePerGas -
-	/// baseFeePerGas, maxPriorityFeePerGas).
-	pub effective_gas_price: U256,
-	/// from
-	pub from: Address,
-	/// gas used
-	/// The amount of gas used for this specific transaction alone.
-	pub gas_used: U256,
-	/// logs
-	pub logs: Vec<Log>,
-	/// logs bloom
-	pub logs_bloom: Bytes256,
-	/// state root
-	/// The post-transaction state root. Only specified for transactions included before the
-	/// Byzantium upgrade.
-	#[serde(skip_serializing_if = "Option::is_none")]
-	pub root: Option<H256>,
-	/// status
-	/// Either 1 (success) or 0 (failure). Only specified for transactions included after the
-	/// Byzantium upgrade.
-	#[serde(skip_serializing_if = "Option::is_none")]
-	pub status: Option<U256>,
-	/// to
-	/// Address of the receiver or null in a contract creation transaction.
-	pub to: Option<Address>,
-	/// transaction hash
-	pub transaction_hash: H256,
-	/// transaction index
-	pub transaction_index: U256,
-	/// type
-	#[serde(skip_serializing_if = "Option::is_none")]
-	pub r#type: Option<Byte>,
 }
 
 /// Syncing status
@@ -603,33 +528,6 @@ impl HashesOrTransactionInfos {
 			},
 		}
 	}
-}
-
-/// log
-#[derive(Debug, Default, Clone, Serialize, Deserialize, Eq, PartialEq)]
-#[serde(rename_all = "camelCase")]
-pub struct Log {
-	/// address
-	pub address: Address,
-	/// block hash
-	pub block_hash: H256,
-	/// block number
-	pub block_number: U256,
-	/// data
-	#[serde(skip_serializing_if = "Option::is_none")]
-	pub data: Option<Bytes>,
-	/// log index
-	pub log_index: U256,
-	/// removed
-	#[serde(default)]
-	pub removed: bool,
-	/// topics
-	#[serde(default)]
-	pub topics: Vec<H256>,
-	/// transaction hash
-	pub transaction_hash: H256,
-	/// transaction index
-	pub transaction_index: U256,
 }
 
 /// Syncing progress

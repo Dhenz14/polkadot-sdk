@@ -5794,12 +5794,21 @@ name = "cumulus-zombienet-sdk-tests"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+<<<<<<< ours
+=======
+ "blake2 0.10.6",
+ "cid 0.11.1",
+>>>>>>> theirs
  "cumulus-primitives-core",
  "cumulus-test-runtime",
  "cumulus-zombienet-sdk-helpers",
  "env_logger 0.11.3",
  "frame-support",
  "futures",
+<<<<<<< ours
+=======
+ "hex",
+>>>>>>> theirs
  "log",
  "parity-scale-codec",
  "parity-wasm",
@@ -5821,7 +5830,14 @@ dependencies = [
  "sp-runtime 31.0.1",
  "sp-statement-store",
  "sp-version 29.0.0",
+<<<<<<< ours
  "subxt 0.44.2",
+=======
+ "subxt 0.50.0",
+ "subxt-signer 0.50.0",
+ "tar",
+ "thiserror 1.0.65",
+>>>>>>> theirs
  "tokio",
  "zombienet-configuration",
  "zombienet-orchestrator",

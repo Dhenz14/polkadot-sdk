@@ -42,20 +42,14 @@ scale-info = { workspace = true, features = ["derive"] }
 rstest = { workspace = true }
 subxt = { workspace = true, features = ["reconnecting-rpc-client"] }
 
-async-trait = { workspace = true }
 blake2 = { workspace = true, default-features = true }
-bytes = { workspace = true, default-features = true }
 cid = { workspace = true }
 flate2 = { workspace = true }
 hex = { workspace = true, default-features = true }
-litep2p = { workspace = true }
 multihash = { workspace = true, default-features = true }
-prost = { workspace = true }
 tar = { workspace = true }
+thiserror = { workspace = true }
 twox-hash = { workspace = true, default-features = true }
-
-[build-dependencies]
-prost-build = { version = "0.12.4" }
 
 [features]
 zombie-ci = []

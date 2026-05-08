@@ -301,3 +301,40 @@ pub async fn renew_data(
 	);
 	Ok(b.number() as u64)
 }
+
+/// Sudo-authorise Bob for `transactions` renewals up to `bytes` total.
+/// `nonce` is Alice's current nonce. Waits until inclusion in best block.
+pub async fn authorize_bob_for_renewals_helper(
+	client: &OnlineClient<SubstrateConfig>,
+	nonce: u64,
+	transactions: u32,
+	bytes: u64,
+) -> Result<()> {
+	let signer = dev::alice();
+	let bob = dev::bob();
+
+	let authorize_call = zombienet_sdk::subxt::tx::dynamic(
+		"Sudo",
+		"sudo",
+		vec![value! {
+			TransactionStorage(authorize_account {
+				who: Value::from_bytes(bob.public_key().0),
+				transactions: transactions,
+				bytes: bytes
+			})
+		}],
+	);
+	let params = SubstrateExtrinsicParamsBuilder::new().nonce(nonce).build();
+
+	tokio::time::timeout(Duration::from_secs(60), async {
+		let progress =
+			client.tx().sign_and_submit_then_watch(&authorize_call, &signer, params).await?;
+		wait_for_in_best_block(progress).await?;
+		Ok::<_, anyhow::Error>(())
+	})
+	.await
+	.map_err(|_| anyhow!("authorize_bob_for_renewals_helper timed out"))??;
+
+	log::info!("Authorised Bob for {} transactions / {} bytes", transactions, bytes);
+	Ok(())
+}

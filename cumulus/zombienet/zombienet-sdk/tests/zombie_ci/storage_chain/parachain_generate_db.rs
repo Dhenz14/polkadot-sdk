@@ -8,22 +8,29 @@
 //!
 //! ## What it produces
 //!
-//! - **Archive DB**: A collator node with no pruning, containing all 1000 blocks with indexed
-//!   transaction data stored every 10 blocks (100 stores total).
-//! - **Pruned DB**: A full-sync node with `--blocks-pruning=100`, synced from the archive collator.
-//!   Old blocks beyond the pruning window are deleted.
+//! - **Archive DB**: A collator node with no pruning, containing `TARGET_BLOCKS` blocks with indexed
+//!   transaction data stored every `STORE_INTERVAL` blocks.
+//! - **Pruned DB**: A full-sync node with `--blocks-pruning=RETENTION_PERIOD`, synced from the
+//!   archive collator. Old blocks beyond the pruning window are deleted.
 //!
 //! ## How it works
 //!
 //! 1. Spawns a parachain network: 2 relay validators + 1 archive collator + 1 pruned full node
 //! 2. Waits for session change so the parachain starts producing blocks
-//! 3. Authorizes Alice for 150 store transactions upfront
-//! 4. Every 10 blocks, stores 2KB of unique test data via the collator
-//! 5. Waits for both nodes to reach block 1000 (finalized)
+//! 3. Authorizes Alice/Bob for store transactions upfront
+//! 4. Every `STORE_INTERVAL` blocks, stores 2KB of unique test data via the collator
+//! 5. Waits for both nodes to reach block `TARGET_BLOCKS` (finalized)
 //! 6. Copies parachain databases to `$DB_OUTPUT_DIR` (default: `./zombienet/test-databases/`)
 //!
 //! ## Environment Variables
 //!
+//! - `TARGET_BLOCKS` (default: `1000`)
+//! - `STORE_INTERVAL` (default: `10`)
+//! - `RETENTION_PERIOD` (default: `200`)
+//! - `RENEWABLE_STORE_COUNT` (default: `10`)
+//! - `RENEWAL_PASS_BLOCK` (default: `105`)
+//! - `RENEWAL_PASS_INTERVAL` (default: `80`)
+//! - `AUTHORIZE_TRANSACTIONS` (default: `100`)
 //! - `DB_OUTPUT_DIR`: Output directory for generated databases (default:
 //!   `./zombienet/test-databases/`)
 //! - Standard parachain env vars (see `parachain_sync_storage` module docs)
@@ -56,34 +63,84 @@ use zombienet_sdk::subxt::{
 use zombienet_sdk::subxt_signer::sr25519::dev;
 use zombienet_sdk::{NetworkConfig, NetworkConfigBuilder};
 
-const TARGET_BLOCKS: u64 = 1000;
-const STORE_INTERVAL: u64 = 10;
-const RETENTION_PERIOD: u32 = 200;
-const PRUNING_BLOCKS: u32 = RETENTION_PERIOD;
 const SESSION_CHANGE_TIMEOUT_SECS: u64 = 300;
-const RENEWABLE_STORE_COUNT: u64 = 10;
-const RENEWAL_PASS_BLOCK: u64 = 105;
-const RENEWAL_PASS_INTERVAL: u64 = 80;
-const LAST_RENEWAL_PASS_CEILING: u64 = TARGET_BLOCKS.saturating_sub(30);
 const DB_OUTPUT_DIR_ENV: &str = "DB_OUTPUT_DIR";
 const DEFAULT_DB_OUTPUT_DIR: &str = "./zombienet/test-databases";
-/// How many store transactions to authorize upfront.
-/// We store once every STORE_INTERVAL blocks across TARGET_BLOCKS, so
-/// TARGET_BLOCKS / STORE_INTERVAL = 50 stores. Add margin for safety.
-const AUTHORIZE_TRANSACTIONS: u32 = 100;
-/// Authorize enough bytes for all stores (each store is TEST_DATA_SIZE bytes).
-const AUTHORIZE_BYTES: u64 = (AUTHORIZE_TRANSACTIONS as u64) * (TEST_DATA_SIZE as u64) * 2;
 
-/// Timeout for reaching TARGET_BLOCKS. Parachain blocks are ~12s each in local
+/// Timeout for reaching the configured target block count. Parachain blocks are ~12s each in local
 /// testnet, so 500 blocks ≈ 6000s. Add generous margin.
 const GEN_TIMEOUT_SECS: u64 = 10000;
+
+struct GenDbConfig {
+	target_blocks: u64,
+	store_interval: u64,
+	retention_period: u32,
+	pruning_blocks: u32,
+	renewable_store_count: u64,
+	renewal_pass_block: u64,
+	renewal_pass_interval: u64,
+	last_renewal_pass_ceiling: u64,
+	authorize_transactions: u32,
+	authorize_bytes: u64,
+}
+
+impl GenDbConfig {
+	fn from_env() -> Result<Self> {
+		fn parse_env<T: std::str::FromStr>(name: &str, default: T) -> Result<T>
+		where
+			T::Err: std::fmt::Display,
+		{
+			match std::env::var(name) {
+				Ok(v) => v.parse::<T>().map_err(|e| anyhow!("{name}: {e}")),
+				Err(_) => Ok(default),
+			}
+		}
+
+		let target_blocks = parse_env("TARGET_BLOCKS", 1000u64)?;
+		let store_interval = parse_env("STORE_INTERVAL", 10u64)?;
+		let retention_period = parse_env("RETENTION_PERIOD", 200u32)?;
+		let renewable_store_count = parse_env("RENEWABLE_STORE_COUNT", 10u64)?;
+		let renewal_pass_block = parse_env("RENEWAL_PASS_BLOCK", 105u64)?;
+		let renewal_pass_interval = parse_env("RENEWAL_PASS_INTERVAL", 80u64)?;
+		let pruning_blocks = retention_period;
+		let last_renewal_pass_ceiling = target_blocks.saturating_sub(30);
+
+		let authorize_transactions = match std::env::var("AUTHORIZE_TRANSACTIONS") {
+			Ok(v) => v
+				.parse::<u32>()
+				.map_err(|e| anyhow!("AUTHORIZE_TRANSACTIONS: {e}"))?,
+			Err(_) => {
+				if std::env::var("TARGET_BLOCKS").is_ok() || std::env::var("STORE_INTERVAL").is_ok() {
+					let store_count = (target_blocks / store_interval).max(1);
+					((2 * store_count) + 10).min(200) as u32
+				} else {
+					100
+				}
+			}
+		};
+		let authorize_bytes = (authorize_transactions as u64) * (TEST_DATA_SIZE as u64) * 2;
+
+		Ok(Self {
+			target_blocks,
+			store_interval,
+			retention_period,
+			pruning_blocks,
+			renewable_store_count,
+			renewal_pass_block,
+			renewal_pass_interval,
+			last_renewal_pass_ceiling,
+			authorize_transactions,
+			authorize_bytes,
+		})
+	}
+}
 
 fn get_db_output_dir() -> PathBuf {
 	let dir = std::env::var(DB_OUTPUT_DIR_ENV).unwrap_or_else(|_| DEFAULT_DB_OUTPUT_DIR.into());
 	PathBuf::from(dir)
 }
 
-fn build_gendb_network_config() -> Result<NetworkConfig> {
+fn build_gendb_network_config(pruning_blocks: u32) -> Result<NetworkConfig> {
 	let relay_binary = RELAY_BINARY.to_string();
 	let para_binary = PARACHAIN_BINARY.to_string();
 	let para_chain_spec = PARACHAIN_CHAIN_SPEC.to_string();
@@ -98,7 +155,7 @@ fn build_gendb_network_config() -> Result<NetworkConfig> {
 		.map(|s| s.into())
 		.collect();
 
-	let pruning_flag = format!("--blocks-pruning={}", PRUNING_BLOCKS);
+	let pruning_flag = format!("--blocks-pruning={}", pruning_blocks);
 	let pruned_args: Vec<_> = vec![
 		"--sync=full",
 		"--ipfs-server",
@@ -147,7 +204,12 @@ fn build_gendb_network_config() -> Result<NetworkConfig> {
 }
 
 /// Authorize Alice for a large batch of store transactions upfront.
-async fn authorize_bulk_storage(client: &OnlineClient<SubstrateConfig>, nonce: u64) -> Result<()> {
+async fn authorize_bulk_storage(
+	client: &OnlineClient<SubstrateConfig>,
+	nonce: u64,
+	authorize_transactions: u32,
+	authorize_bytes: u64,
+) -> Result<()> {
 	let signer = dev::alice();
 
 	let authorize_call = zombienet_sdk::subxt::tx::dynamic(
@@ -156,8 +218,8 @@ async fn authorize_bulk_storage(client: &OnlineClient<SubstrateConfig>, nonce: u
 		vec![value! {
 			TransactionStorage(authorize_account {
 				who: Value::from_bytes(signer.public_key().0),
-				transactions: AUTHORIZE_TRANSACTIONS,
-				bytes: AUTHORIZE_BYTES
+				transactions: authorize_transactions,
+				bytes: authorize_bytes
 			})
 		}],
 	);
@@ -176,8 +238,8 @@ async fn authorize_bulk_storage(client: &OnlineClient<SubstrateConfig>, nonce: u
 
 	log::info!(
 		"Authorized Alice for {} transactions / {} bytes",
-		AUTHORIZE_TRANSACTIONS,
-		AUTHORIZE_BYTES,
+		authorize_transactions,
+		authorize_bytes,
 	);
 	Ok(())
 }
@@ -185,6 +247,8 @@ async fn authorize_bulk_storage(client: &OnlineClient<SubstrateConfig>, nonce: u
 async fn authorize_bob_for_renewals(
 	client: &OnlineClient<SubstrateConfig>,
 	nonce: u64,
+	authorize_transactions: u32,
+	authorize_bytes: u64,
 ) -> Result<()> {
 	let signer = dev::alice();
 	let bob = dev::bob();
@@ -195,8 +259,8 @@ async fn authorize_bob_for_renewals(
 		vec![value! {
 			TransactionStorage(authorize_account {
 				who: Value::from_bytes(bob.public_key().0),
-				transactions: AUTHORIZE_TRANSACTIONS,
-				bytes: AUTHORIZE_BYTES
+				transactions: authorize_transactions,
+				bytes: authorize_bytes
 			})
 		}],
 	);
@@ -213,7 +277,7 @@ async fn authorize_bob_for_renewals(
 	.await
 	.map_err(|_| anyhow!("bob authorization timed out"))??;
 
-	log::info!("Authorized Bob for {} transactions / {} bytes", AUTHORIZE_TRANSACTIONS, AUTHORIZE_BYTES);
+	log::info!("Authorized Bob for {} transactions / {} bytes", authorize_transactions, authorize_bytes);
 	Ok(())
 }
 
@@ -352,13 +416,20 @@ fn create_db_snapshot_tgz(
 async fn parachain_generate_databases() -> Result<()> {
 	const TEST: &str = "para_gen_db";
 	let _ = env_logger::Builder::from_env(Env::default().default_filter_or("info")).try_init();
+	let cfg = GenDbConfig::from_env()?;
 
 	test_log!(TEST, "=== Parachain Database Generation ===");
 	log::info!(
-		"Generating archive + pruned databases ({} blocks, store every {} blocks, pruning={})",
-		TARGET_BLOCKS,
-		STORE_INTERVAL,
-		PRUNING_BLOCKS,
+		"GenDbConfig: target_blocks={}, store_interval={}, retention_period={}, pruning_blocks={}, renewable_store_count={}, renewal_pass_block={}, renewal_pass_interval={}, authorize_transactions={}, authorize_bytes={}",
+		cfg.target_blocks,
+		cfg.store_interval,
+		cfg.retention_period,
+		cfg.pruning_blocks,
+		cfg.renewable_store_count,
+		cfg.renewal_pass_block,
+		cfg.renewal_pass_interval,
+		cfg.authorize_transactions,
+		cfg.authorize_bytes,
 	);
 
 	verify_parachain_binaries()?;
@@ -370,10 +441,10 @@ async fn parachain_generate_databases() -> Result<()> {
 	test_log!(
 		TEST,
 		"Phase 1: Spawning network (collator + pruned-node with --blocks-pruning={})",
-		PRUNING_BLOCKS
+		cfg.pruning_blocks
 	);
 
-	let config = build_gendb_network_config()?;
+	let config = build_gendb_network_config(cfg.pruning_blocks)?;
 	let network = initialize_network(config).await?;
 	network.wait_until_is_up(NETWORK_READY_TIMEOUT_SECS).await?;
 
@@ -388,8 +459,8 @@ async fn parachain_generate_databases() -> Result<()> {
 	test_log!(
 		TEST,
 		"Phase 2: Storing data every {} blocks up to block {}",
-		STORE_INTERVAL,
-		TARGET_BLOCKS
+		cfg.store_interval,
+		cfg.target_blocks
 	);
 
 	let collator1 = network.get_node("collator-1").context("Failed to get collator-1 node")?;
@@ -397,30 +468,42 @@ async fn parachain_generate_databases() -> Result<()> {
 
 	let mut nonce = get_alice_nonce(collator1).await?;
 
-	set_retention_period(&collator_client, RETENTION_PERIOD, nonce).await?;
+	set_retention_period(&collator_client, cfg.retention_period, nonce).await?;
 	nonce += 1;
 
-	authorize_bulk_storage(&collator_client, nonce).await?;
+	authorize_bulk_storage(
+		&collator_client,
+		nonce,
+		cfg.authorize_transactions,
+		cfg.authorize_bytes,
+	)
+	.await?;
 	nonce += 1;
 
-	authorize_bob_for_renewals(&collator_client, nonce).await?;
+	authorize_bob_for_renewals(
+		&collator_client,
+		nonce,
+		cfg.authorize_transactions,
+		cfg.authorize_bytes,
+	)
+	.await?;
 	nonce += 1;
 
 	// Wait for parachain to start producing and track current height
 	wait_for_block_height(collator1, 1, BLOCK_PRODUCTION_TIMEOUT_SECS).await?;
 
 	let mut renewable_entries: Vec<(u64, u32)> = Vec::new();
-	let mut next_renewal_block: u64 = RENEWAL_PASS_BLOCK;
+	let mut next_renewal_block: u64 = cfg.renewal_pass_block;
 	let mut bob_nonce_counter: u64 = 0;
-	let mut next_store_block: u64 = STORE_INTERVAL;
+	let mut next_store_block: u64 = cfg.store_interval;
 	let mut store_count: u64 = 0;
 
-	while next_store_block <= TARGET_BLOCKS {
+	while next_store_block <= cfg.target_blocks {
 		let renewal_ready = !renewable_entries.is_empty() ||
-			(store_count >= RENEWABLE_STORE_COUNT &&
-				next_store_block > RENEWABLE_STORE_COUNT * STORE_INTERVAL);
+			(store_count >= cfg.renewable_store_count &&
+				next_store_block > cfg.renewable_store_count * cfg.store_interval);
 		if renewal_ready &&
-			next_renewal_block <= LAST_RENEWAL_PASS_CEILING &&
+			next_renewal_block <= cfg.last_renewal_pass_ceiling &&
 			next_store_block >= next_renewal_block
 		{
 			wait_for_block_height(collator1, next_renewal_block, GEN_TIMEOUT_SECS)
@@ -434,7 +517,7 @@ async fn parachain_generate_databases() -> Result<()> {
 				"Renewal pass at block {}: renewing {} entries (RetentionPeriod={})",
 				next_renewal_block,
 				renewable_entries.len(),
-				RETENTION_PERIOD,
+				cfg.retention_period,
 			);
 
 			log::info!(
@@ -453,7 +536,7 @@ async fn parachain_generate_databases() -> Result<()> {
 					"Renewed: was block {}, now block {} (expires ~block {})",
 					entry.0,
 					renew_block,
-					renew_block + RETENTION_PERIOD as u64 + 1,
+					renew_block + cfg.retention_period as u64 + 1,
 				);
 				entry.0 = renew_block;
 				wait_for_block_height(collator1, renew_block + 2, GEN_TIMEOUT_SECS).await?;
@@ -464,7 +547,7 @@ async fn parachain_generate_databases() -> Result<()> {
 				next_renewal_block,
 				renewable_entries.len(),
 			);
-			next_renewal_block += RENEWAL_PASS_INTERVAL;
+			next_renewal_block += cfg.renewal_pass_interval;
 		}
 
 		wait_for_block_height(collator1, next_store_block, GEN_TIMEOUT_SECS)
@@ -474,7 +557,7 @@ async fn parachain_generate_databases() -> Result<()> {
 		let pattern = format!("PARA_GENDB_{:04}_", next_store_block);
 		let test_data = generate_test_data(TEST_DATA_SIZE, pattern.as_bytes());
 
-		let is_renewable = store_count + 1 <= RENEWABLE_STORE_COUNT;
+		let is_renewable = store_count + 1 <= cfg.renewable_store_count;
 		let block_num = if is_renewable {
 			store_data_finalized(&collator_client, &test_data, nonce).await?
 		} else {
@@ -488,7 +571,7 @@ async fn parachain_generate_databases() -> Result<()> {
 			log::info!(
 				"Tracked renewable entry {}/{}: finalized at block {}",
 				store_count,
-				RENEWABLE_STORE_COUNT,
+				cfg.renewable_store_count,
 				block_num,
 			);
 		}
@@ -497,14 +580,14 @@ async fn parachain_generate_databases() -> Result<()> {
 			log::info!(
 				"Store {}/{}: {} bytes at block {} (target was {})",
 				store_count,
-				TARGET_BLOCKS / STORE_INTERVAL,
+				cfg.target_blocks / cfg.store_interval,
 				TEST_DATA_SIZE,
 				block_num,
 				next_store_block,
 			);
 		}
 
-		next_store_block += STORE_INTERVAL;
+		next_store_block += cfg.store_interval;
 	}
 
 	anyhow::ensure!(
@@ -513,7 +596,7 @@ async fn parachain_generate_databases() -> Result<()> {
 		store_count,
 	);
 	anyhow::ensure!(
-		next_renewal_block > RENEWAL_PASS_BLOCK,
+		next_renewal_block > cfg.renewal_pass_block,
 		"BUG: renewal pass was never executed (store_count={}, next_renewal_block={})",
 		store_count,
 		next_renewal_block,
@@ -526,21 +609,21 @@ async fn parachain_generate_databases() -> Result<()> {
 	);
 
 	// === Phase 3: Wait for both nodes to reach target + finality ===
-	test_log!(TEST, "Phase 3: Waiting for block {} finalized on both nodes", TARGET_BLOCKS);
+	test_log!(TEST, "Phase 3: Waiting for block {} finalized on both nodes", cfg.target_blocks);
 
-	wait_for_finalized_height(collator1, TARGET_BLOCKS, GEN_TIMEOUT_SECS)
+	wait_for_finalized_height(collator1, cfg.target_blocks, GEN_TIMEOUT_SECS)
 		.await
 		.context("Collator did not finalize target block")?;
-	log::info!("✓ Collator finalized block {}", TARGET_BLOCKS);
+	log::info!("✓ Collator finalized block {}", cfg.target_blocks);
 
 	let pruned_node = network.get_node("pruned-node").context("Failed to get pruned-node")?;
-	wait_for_block_height(pruned_node, TARGET_BLOCKS, SYNC_TIMEOUT_SECS)
+	wait_for_block_height(pruned_node, cfg.target_blocks, SYNC_TIMEOUT_SECS)
 		.await
 		.context("Pruned node did not reach target block")?;
-	wait_for_finalized_height(pruned_node, TARGET_BLOCKS, GEN_TIMEOUT_SECS)
+	wait_for_finalized_height(pruned_node, cfg.target_blocks, GEN_TIMEOUT_SECS)
 		.await
 		.context("Pruned node did not finalize target block")?;
-	log::info!("✓ Pruned node finalized block {}", TARGET_BLOCKS);
+	log::info!("✓ Pruned node finalized block {}", cfg.target_blocks);
 
 	// === Phase 4: Archive databases as .tgz snapshots ===
 	test_log!(TEST, "Phase 4: Archiving databases to {}", output_dir.display());
@@ -622,7 +705,7 @@ async fn parachain_generate_databases() -> Result<()> {
 	test_log!(
 		TEST,
 		"=== Database generation complete: {} blocks, {} stores, {} renewals, archive={:.1}MB, pruned={:.1}MB, relay={:.1}MB ===",
-		TARGET_BLOCKS,
+		cfg.target_blocks,
 		store_count,
 		renewable_entries.len(),
 		archive_size as f64 / 1_048_576.0,

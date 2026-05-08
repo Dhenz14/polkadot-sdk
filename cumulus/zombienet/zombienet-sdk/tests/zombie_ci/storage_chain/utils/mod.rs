@@ -1,14 +1,14 @@
 // Copyright (C) Parity Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
-pub mod bitswap;
+pub mod bitswap_rpc;
 pub mod config;
 pub mod crypto;
 pub mod network;
 pub mod sync;
 pub mod tx;
 
-pub use bitswap::*;
+pub use bitswap_rpc::*;
 pub use config::*;
 pub use crypto::*;
 pub use network::*;

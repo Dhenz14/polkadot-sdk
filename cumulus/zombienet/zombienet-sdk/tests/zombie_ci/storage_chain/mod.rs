@@ -6,5 +6,4 @@ pub mod utils;
 #[cfg(feature = "generate-snapshots")]
 mod parachain_generate_db;
 
-mod parachain_tip_rollover;
-mod parachain_warp_sync_pruning;
+mod parachain_tip_sync_with_renewals;

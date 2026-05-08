@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778257123630,
+  "lastUpdate": 1778259888034,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "oliver.tale-yazdi@parity.io",
-            "name": "Oliver Tale-Yazdi",
-            "username": "ggwpez"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "7648b4105c269d6a3395d90b053c2e04c5932bc3",
-          "message": "Stronger WASM compression (#9875)\n\nUse strongest compression 22 instead of just 3. See\n[docs](https://docs.rs/zstd/0.13.3/zstd/stream/write/struct.Encoder.html#method.new).\nReduces our KAH compressed size by 25%.\n\nBuild time by compression level:\n\n| Compression | Build Time | Size    | Decomp Time |\n  |-------------|-----------|---------|-------------|\n  | 3           | 5:54      | 3192172 | 0.013039s   |\n  | 10          | 5:58      | 2716940 | 0.011962s   |\n  | 22          | 6:06      | 2387562 | 0.013745s   |\n\n---------\n\nSigned-off-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>",
-          "timestamp": "2025-09-30T11:05:07Z",
-          "tree_id": "2fe20eaaaaff302082b5a4507a9302b2265ff7ef",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/7648b4105c269d6a3395d90b053c2e04c5932bc3"
-        },
-        "date": 1759236485526,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.241606446366669,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19075206686666668,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.13090856623333333,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "bcd139f350ac253b4cc0409993e1d070c4bcc396",
+          "message": "Bump WAH spec_version (#12030)",
+          "timestamp": "2026-05-08T15:43:48Z",
+          "tree_id": "399624bb07580079f378d1c4fac02e84281153cc",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/bcd139f350ac253b4cc0409993e1d070c4bcc396"
+        },
+        "date": 1778259865926,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13259414373333336,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 10.832783332366668,
             "unit": "seconds"
           }
         ]

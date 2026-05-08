@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778193271969,
+  "lastUpdate": 1778227051232,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "alex.theissen@me.com",
-            "name": "Alexander Theißen",
-            "username": "athei"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "50372ea7fa3601d43db7e9200d8b249c67dbdf66",
-          "message": "Allow sending transactions from an Ethereum address derived account id (#8757)\n\nWe always allowed signing transactions using an Bitcoin/Eth style\nSECP256k1 key. The account in this case is simply the blake2 hash of the\npublic key.\n\nThis address derivation is problematic: It requires the public key in\norder to derive the account id. On Ethereum you simply can't know the\npublic key of an address. This is why the mapping in pallet_revive is\ndefined as `address <-> account_id`.\n\nThis PR adds a new signature variant that allows signing a transaction\nwith an account id as origin that matches this mapping.\n\n## Why is this important?\n\n### Example1 \nA wallet contains an SECP256k1 key and wants to interact with native\nPolkadot APIs. It can sign the transaction using this key. However,\nwithout this change the origin of that transaction will be different\nthan the one it would appear under if it had signed an Ethereum\ntransaction.\n\n### Example2\nA chain using an Ethereum style address (like Mythical) wants to send\nsome tokens to one of their users account on AssetHub. How would they\nknow what is the address of that user on AssetHub? With this change they\ncan just pad the address with `0xEE` and rely on the fact that the user\ncan interact with AssetHub using their existing key.\n\n## Why a new variant?\nWe can't modify the existing variant. Otherwise the same signature would\nsuddenly map to a different account making people lose access to their\nfunds. Instead, we add a new variant that adds control over an\nadditional account for the same signature.\n\n## A new `KeccakSigner` and `KeccakSignature`\n\nAfter considering feedback by @Moliholy I am convinced that we should\nuse keccak instead of blake2b for this new `MultiSignature` variant.\nReasoning is that this will make it much simpler for Ethereum tooling to\ngenerate such signatures. Since this signature is specifically created\nfor Ethereum interop it just makes sense to also use keccak here.\n\nTo that end I made the `ecdsa::{KeccakSigner, KeccakSignature}` generic\nover their hash algorithm. Please note that I am using tags here and not\nthe `Hasher` trait directly. This makes things more complicated but it\nwas necessary: All Hasher implementations are in higher level crates and\ncan't be directly referenced here. But I would have to reference it in\norder to make this a non breaking change. The `Signer` and `Signature`\ntypes behave exactly the same way as before.\n\n---------\n\nCo-authored-by: joe petrowski <25483142+joepetrowski@users.noreply.github.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-29T14:11:17Z",
-          "tree_id": "30ab5c454ed6fb858003e6b6e13f2d4212883b0b",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/50372ea7fa3601d43db7e9200d8b249c67dbdf66"
-        },
-        "date": 1759160877681,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.013198094440000006,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.16046661967333337,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02237338171333333,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.00748624114666666,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "bitfield-distribution",
             "value": 0.02361708732666667,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "10196091+Ank4n@users.noreply.github.com",
+            "name": "Ankan",
+            "username": "Ank4n"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "67190176f144a642c3e3831dc13248d4327bbdf1",
+          "message": "[Staking] Use offence era for proportional slash distribution (#11999)\n\n## Bug\nWhen a slash is applied, `StakingLedger::slash` decides which unlocking\nchunks are still slashable based on `bonding_duration` from a reference\nera. We were passing the **slash application era** (offence_era +\n`SlashDeferDuration`) instead of the **offence era** in the extrinsic\nbased apply slash.\n\n## Impact\nNo funds escape slashing, only the distribution between active and\nunlocking chunks is off.\n\n### Example\nGiven: Total balance 1000 (active 100, unlock chunk 900), 50% slash:\n- Correct slash: 50 from active + 450 from chunk\n- Buggy slash: 100 from active + 400 from chunk\n\nShown in [test\nhere](https://github.com/paritytech/polkadot-sdk/compare/ankn-slash-test).",
+          "timestamp": "2026-05-08T06:13:29Z",
+          "tree_id": "01a271b5374c1fcd629189e61b0cb68018102061",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/67190176f144a642c3e3831dc13248d4327bbdf1"
+        },
+        "date": 1778227028160,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.023758468406666674,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.0069647516733333335,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009514444653333304,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14046393767999998,
             "unit": "seconds"
           }
         ]

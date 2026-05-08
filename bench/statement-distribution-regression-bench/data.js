@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778257220980,
+  "lastUpdate": 1778259980348,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "alex.theissen@me.com",
-            "name": "Alexander Theißen",
-            "username": "athei"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "c3f62bf918ef6879390dc6a2cf9f91caac23f5b5",
-          "message": "[pallet_transaction_payment]: Share withdrawn tx fee credit with other pallets (#9780)\n\nReplaces https://github.com/paritytech/polkadot-sdk/pull/9590.\n\nThe audit of #9590 showed that holding the txfee as held balance and\nespecially playing around with `providers` causes a lot of troubles.\n\nThis PR is a much lighter change. It keeps the original withdraw/deposit\npattern. It simply stores the withdrawn `Credit` and allows other\npallets to withdraw from it.\n\nIt is also better in terms of performance since all tx signers share a\nsingle storage item (instead of a named hold per account).\n\n---------\n\nCo-authored-by: joe petrowski <25483142+joepetrowski@users.noreply.github.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
-          "timestamp": "2025-09-29T22:19:05Z",
-          "tree_id": "6e4aac4ae217869a0122375a4f1a02bc4bbf3da7",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/c3f62bf918ef6879390dc6a2cf9f91caac23f5b5"
-        },
-        "date": 1759188653665,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.95599999999999,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03412836861000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04440201912999995,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.08621123677599993,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "egor@parity.io",
+            "name": "Egor_P",
+            "username": "EgorPopelyaev"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "bcd139f350ac253b4cc0409993e1d070c4bcc396",
+          "message": "Bump WAH spec_version (#12030)",
+          "timestamp": "2026-05-08T15:43:48Z",
+          "tree_id": "399624bb07580079f378d1c4fac02e84281153cc",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/bcd139f350ac253b4cc0409993e1d070c4bcc396"
+        },
+        "date": 1778259958594,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.11799999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.03859524213999999,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08214376474599991,
             "unit": "seconds"
           }
         ]

@@ -21,8 +21,10 @@
 //! [`IndexedTransactionFetcher::fetch_many`] for a batch of `(content_hash, hashing)` pairs and
 //! what to do with the returned bytes.
 
+use async_trait::async_trait;
+use futures::channel::oneshot;
 use sc_network::{
-	bitswap::{self, FetchOutcome, MAX_WANTED_BLOCKS_PER_REQUEST},
+	bitswap::{self, BitswapRequestSender, FetchOutcome, MAX_WANTED_BLOCKS_PER_REQUEST},
 	NetworkRequest, PeerId,
 };
 use sc_network_sync::SyncingService;
@@ -38,10 +40,27 @@ const LOG_TARGET: &str = "storage-chain-fetcher";
 const BITSWAP_PER_PEER_TIMEOUT: Duration = Duration::from_secs(5);
 const MAX_PEERS_PER_IMPORT: usize = 8;
 
-/// Late-bound network handles populated after `build_network` returns.
+/// Source of currently-connected sync peer IDs. Abstracted so the fetcher can be unit-tested
+/// without spinning up a full `SyncingService`. The production blanket impl on
+/// `SyncingService<Block>` calls `peers_info()` and projects to the peer-id column.
+#[async_trait]
+pub trait BitswapPeerSource: Send + Sync {
+	async fn current_peers(&self) -> Result<Vec<PeerId>, oneshot::Canceled>;
+}
+
+#[async_trait]
+impl<B: BlockT> BitswapPeerSource for SyncingService<B> {
+	async fn current_peers(&self) -> Result<Vec<PeerId>, oneshot::Canceled> {
+		Ok(self.peers_info().await?.into_iter().map(|(peer, _)| peer).collect())
+	}
+}
+
+/// Late-bound network handle populated after `build_network` returns.
 pub type NetworkHandle = Arc<OnceLock<Arc<dyn NetworkRequest + Send + Sync>>>;
-/// Late-bound `SyncingService` handle populated after `build_network` returns.
-pub type SyncingHandle<Block> = Arc<OnceLock<Arc<SyncingService<Block>>>>;
+/// Late-bound peer-source handle populated after `build_network` returns. Production code coerces
+/// `Arc<SyncingService<Block>>` to `Arc<dyn BitswapPeerSource + Send + Sync>` via the blanket impl
+/// in this module.
+pub type SyncingHandle = Arc<OnceLock<Arc<dyn BitswapPeerSource + Send + Sync>>>;
 
 /// Reasons an [`IndexedTransactionFetcher::fetch_many`] call can fail outright.
 ///
@@ -56,27 +75,34 @@ pub enum FetchError {
 	SyncingHandleUnset,
 }
 
-/// Fetcher that resolves a single indexed-transaction hash via bitswap.
+/// Fetcher that resolves indexed-transaction hashes via bitswap.
 ///
 /// Owns the late-bound network/sync handles plus the per-peer iteration policy. The block-import
-/// path holds one of these and calls [`Self::fetch`] for each missing renew hash.
+/// path holds one of these and calls [`Self::fetch_many`] (verified path, runtime-API discovery)
+/// or [`Self::fetch_many_unverified`] (unverified path, host-call discovery) for each batch of
+/// missing renew hashes.
 ///
 /// Cloning is cheap: every field is an `Arc`-equivalent.
 pub struct IndexedTransactionFetcher<Block: BlockT> {
 	network: NetworkHandle,
-	syncing_service: SyncingHandle<Block>,
+	peer_source: SyncingHandle,
+	_phantom: std::marker::PhantomData<Block>,
 }
 
 impl<Block: BlockT> Clone for IndexedTransactionFetcher<Block> {
 	fn clone(&self) -> Self {
-		Self { network: self.network.clone(), syncing_service: self.syncing_service.clone() }
+		Self {
+			network: self.network.clone(),
+			peer_source: self.peer_source.clone(),
+			_phantom: std::marker::PhantomData,
+		}
 	}
 }
 
 impl<Block: BlockT> IndexedTransactionFetcher<Block> {
 	/// Build a new fetcher backed by the given late-bound handles.
-	pub fn new(network: NetworkHandle, syncing_service: SyncingHandle<Block>) -> Self {
-		Self { network, syncing_service }
+	pub fn new(network: NetworkHandle, peer_source: SyncingHandle) -> Self {
+		Self { network, peer_source, _phantom: std::marker::PhantomData }
 	}
 
 	/// Resolve a batch of `(content_hash, hashing)` pairs via bitswap across up to
@@ -93,12 +119,12 @@ impl<Block: BlockT> IndexedTransactionFetcher<Block> {
 			return Ok(HashMap::new());
 		}
 		let network = self.network.get().ok_or(FetchError::NetworkHandleUnset)?;
-		let sync = self.syncing_service.get().ok_or(FetchError::SyncingHandleUnset)?;
+		let peer_source = self.peer_source.get().ok_or(FetchError::SyncingHandleUnset)?;
 
-		let peers = match sync.peers_info().await {
-			Ok(peers) => peers.into_iter().map(|(peer, _)| peer).collect::<Vec<_>>(),
+		let peers = match peer_source.current_peers().await {
+			Ok(peers) => peers,
 			Err(_) => {
-				log::warn!(target: LOG_TARGET, "peers_info() channel cancelled");
+				log::warn!(target: LOG_TARGET, "current_peers() channel cancelled");
 				return Ok(HashMap::new());
 			},
 		};
@@ -124,13 +150,65 @@ impl<Block: BlockT> IndexedTransactionFetcher<Block> {
 
 		Ok(acquired)
 	}
+
+	/// Resolve a batch of `ContentHash`es via bitswap across up to [`MAX_PEERS_PER_IMPORT`] peers.
+	///
+	/// Differs from [`Self::fetch_many`] in that the caller does NOT supply a `HashingAlgorithm`
+	/// per hash. This is for renews discovered via `IndexOperation::Renew { hash, .. }`
+	/// host-call output, which carries only the 32-byte content hash. The substrate bitswap
+	/// server is algorithm-agnostic (looks up by 32-byte digest only) so the request succeeds
+	/// regardless of the real hashing algorithm; the caller must verify integrity by other means
+	/// (post-commit runtime-API cross-check).
+	///
+	/// Sends one WANT-BLOCK per hash per peer (the unverified bitswap path is single-WANT).
+	/// Returns only successfully fetched entries.
+	pub async fn fetch_many_unverified(
+		&self,
+		wants: &[ContentHash],
+	) -> Result<HashMap<ContentHash, Vec<u8>>, FetchError> {
+		if wants.is_empty() {
+			return Ok(HashMap::new());
+		}
+		let network = self.network.get().ok_or(FetchError::NetworkHandleUnset)?;
+		let peer_source = self.peer_source.get().ok_or(FetchError::SyncingHandleUnset)?;
+
+		let peers = match peer_source.current_peers().await {
+			Ok(peers) => peers,
+			Err(_) => {
+				log::warn!(target: LOG_TARGET, "current_peers() channel cancelled");
+				return Ok(HashMap::new());
+			},
+		};
+		if peers.is_empty() {
+			log::debug!(
+				target: LOG_TARGET,
+				"no connected sync peers, cannot fetch via bitswap yet",
+			);
+			return Ok(HashMap::new());
+		}
+
+		let mut remaining: Vec<ContentHash> = wants.to_vec();
+		let mut acquired: HashMap<ContentHash, Vec<u8>> = HashMap::new();
+
+		for peer in peers.into_iter().take(MAX_PEERS_PER_IMPORT) {
+			if remaining.is_empty() {
+				break;
+			}
+			let from_peer =
+				try_fetch_from_peer_unverified(network.as_ref(), peer, &remaining).await;
+			acquired.extend(from_peer);
+			remaining.retain(|hash| !acquired.contains_key(hash));
+		}
+
+		Ok(acquired)
+	}
 }
 
 /// Try every chunk of `wants` against a single peer in sequence. Returns whatever blocks the
 /// peer actually served. A timeout or per-chunk error aborts the remaining chunks for this peer
 /// and lets the caller move on to the next one.
-async fn try_fetch_from_peer(
-	network: &(dyn NetworkRequest + Send + Sync),
+async fn try_fetch_from_peer<N: BitswapRequestSender + ?Sized>(
+	network: &N,
 	peer: PeerId,
 	wants: &[(ContentHash, HashingAlgorithm)],
 ) -> HashMap<ContentHash, Vec<u8>> {
@@ -164,6 +242,50 @@ async fn try_fetch_from_peer(
 					}
 				}
 			},
+		}
+	}
+	acquired
+}
+
+/// Unverified-path counterpart of [`try_fetch_from_peer`]. Issues one single-hash
+/// `bitswap::fetch_many_unverified` per hash because the unverified protocol can't disambiguate
+/// multi-hash responses (no digest in `MessageBlock`). Stops on first timeout or transport error.
+async fn try_fetch_from_peer_unverified<N: BitswapRequestSender + ?Sized>(
+	network: &N,
+	peer: PeerId,
+	wants: &[ContentHash],
+) -> HashMap<ContentHash, Vec<u8>> {
+	let mut acquired: HashMap<ContentHash, Vec<u8>> = HashMap::new();
+	for &hash in wants {
+		match with_timeout(
+			bitswap::fetch_many_unverified(network, peer, &[hash]),
+			BITSWAP_PER_PEER_TIMEOUT,
+		)
+		.await
+		{
+			None => {
+				log::debug!(
+					target: LOG_TARGET,
+					"fetch_many_unverified to {peer:?}: timeout for hash {hash:?}",
+				);
+				return acquired;
+			},
+			Some(Err(e)) => {
+				log::debug!(target: LOG_TARGET, "fetch_many_unverified to {peer:?}: {e:?}");
+				return acquired;
+			},
+			Some(Ok(per_cid)) =>
+				for (h, outcome) in per_cid {
+					if let FetchOutcome::Block(data) = outcome {
+						log::debug!(
+							target: LOG_TARGET,
+							"fetched {} unverified bytes for {:?} from {peer:?}",
+							data.len(),
+							h,
+						);
+						acquired.insert(h, data);
+					}
+				},
 		}
 	}
 	acquired

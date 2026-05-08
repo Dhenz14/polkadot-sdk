@@ -45,7 +45,9 @@
 
 mod fetcher;
 
-pub use fetcher::{FetchError, IndexedTransactionFetcher, NetworkHandle, SyncingHandle};
+pub use fetcher::{
+	BitswapPeerSource, FetchError, IndexedTransactionFetcher, NetworkHandle, SyncingHandle,
+};
 
 use sc_client_api::backend::{
 	Backend as BackendT, PREFETCHED_INDEXED_TRANSACTIONS_INTERMEDIATE_KEY,
@@ -54,10 +56,11 @@ use sc_client_db::{
 	classify_indexed_extrinsics, Backend, ClassifiedExtrinsic, IndexedTransactionMeta,
 };
 use sc_consensus::{BlockCheckParams, BlockImport, BlockImportParams, ImportResult};
-use sp_api::{ApiExt, ProvideRuntimeApi};
+use sp_api::{ApiExt, CallApiAt, CallContext, Core, ProvideRuntimeApi};
 use sp_blockchain::Backend as BlockchainBackendT;
 use sp_consensus::{BlockOrigin, Error as ConsensusError};
-use sp_runtime::traits::{Block as BlockT, Header as HeaderT};
+use sp_runtime::traits::{Block as BlockT, HashingFor, Header as HeaderT};
+use sp_state_machine::StorageChanges;
 use sp_transaction_storage_proof::{
 	runtime_api::TransactionStorageApi, ContentHash, HashingAlgorithm, IndexedTransactionInfo,
 };
@@ -104,8 +107,8 @@ impl<Block, Inner, Client> BlockImport<Block> for StorageChainBlockImport<Block,
 where
 	Block: BlockT<Hash = sc_client_db::DbHash>,
 	Inner: BlockImport<Block, Error = ConsensusError> + Send + Sync,
-	Client: ProvideRuntimeApi<Block> + Send + Sync,
-	Client::Api: TransactionStorageApi<Block>,
+	Client: ProvideRuntimeApi<Block> + CallApiAt<Block> + Send + Sync,
+	Client::Api: TransactionStorageApi<Block> + Core<Block>,
 {
 	type Error = ConsensusError;
 
@@ -135,8 +138,8 @@ where
 impl<Block, Inner, Client> StorageChainBlockImport<Block, Inner, Client>
 where
 	Block: BlockT<Hash = sc_client_db::DbHash>,
-	Client: ProvideRuntimeApi<Block> + Send + Sync,
-	Client::Api: TransactionStorageApi<Block>,
+	Client: ProvideRuntimeApi<Block> + CallApiAt<Block> + Send + Sync,
+	Client::Api: TransactionStorageApi<Block> + Core<Block>,
 {
 	/// Returns `true` iff the block should pass through the bitswap-fetch path.
 	///
@@ -289,6 +292,50 @@ where
 			})
 			.collect();
 		params.insert_intermediate(PREFETCHED_INDEXED_TRANSACTIONS_INTERMEDIATE_KEY, payload);
+	}
+
+	/// Execute the block via the runtime API to obtain its `StorageChanges`, including the
+	/// `transaction_index_changes` host-call output the wrapper needs for tip-discovery.
+	///
+	/// Mirrors the recipe in `cumulus/client/consensus/aura/.../slot_based/block_import.rs`
+	/// minus proof-recording. Caller MUST reassign `params.state_action` to
+	/// `ApplyChanges(Changes(_))` of the returned value before forwarding to the inner block
+	/// import, otherwise the inner client re-executes (double execution).
+	fn execute_block(
+		&self,
+		params: &BlockImportParams<Block>,
+	) -> Result<StorageChanges<HashingFor<Block>>, ConsensusError> {
+		let parent_hash = *params.header.parent_hash();
+		let body = params.body.clone().unwrap_or_default();
+		let block = Block::new(params.header.clone(), body);
+
+		let mut runtime_api = self.client.runtime_api();
+		runtime_api.set_call_context(CallContext::Onchain { import: true });
+
+		runtime_api.execute_block(parent_hash, block.into()).map_err(|e| {
+			ConsensusError::Other(format!("execute_block: runtime_api.execute_block: {e}").into())
+		})?;
+
+		let state = self.client.state_at(parent_hash).map_err(|e| {
+			ConsensusError::Other(format!("execute_block: state_at({parent_hash:?}): {e}").into())
+		})?;
+
+		let gen_storage_changes = runtime_api.into_storage_changes(&state, parent_hash).map_err(
+			|e| ConsensusError::Other(format!("execute_block: into_storage_changes: {e}").into()),
+		)?;
+
+		if params.header.state_root() != &gen_storage_changes.transaction_storage_root {
+			return Err(ConsensusError::Other(
+				format!(
+					"execute_block: state root mismatch: header={:?}, executed={:?}",
+					params.header.state_root(),
+					gen_storage_changes.transaction_storage_root,
+				)
+				.into(),
+			));
+		}
+
+		Ok(gen_storage_changes)
 	}
 }
 

@@ -299,7 +299,7 @@ pub(crate) trait BaseNodeSpec {
 			Self::InitBlockImport::init_block_import(client.clone())?;
 
 		let network_handle: NetworkHandle = Arc::new(OnceLock::new());
-		let syncing_handle: SyncingHandle<Self::Block> = Arc::new(OnceLock::new());
+		let syncing_handle: SyncingHandle = Arc::new(OnceLock::new());
 
 		let fetcher = IndexedTransactionFetcher::new(
 			Arc::clone(&network_handle),
@@ -474,7 +474,10 @@ pub(crate) trait NodeSpec: BaseNodeSpec {
 
 			let _ = network_handle
 				.set(network.clone() as Arc<dyn sc_network::NetworkRequest + Send + Sync>);
-			let _ = syncing_handle.set(sync_service.clone());
+			let _ = syncing_handle.set(
+				sync_service.clone()
+					as Arc<dyn cumulus_client_storage_chain_sync::BitswapPeerSource + Send + Sync>,
+			);
 
 			let peer_id = network.local_peer_id();
 

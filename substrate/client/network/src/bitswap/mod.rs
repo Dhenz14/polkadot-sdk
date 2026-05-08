@@ -46,7 +46,10 @@ use unsigned_varint::encode as varint_encode;
 pub mod client;
 pub(crate) mod schema;
 
-pub use client::{fetch_many, BitswapError, FetchOutcome, MAX_WANTED_BLOCKS_PER_REQUEST};
+pub use client::{
+	fetch_many, fetch_many_unverified, BitswapError, BitswapRequestSender, FetchOutcome,
+	MAX_WANTED_BLOCKS_PER_REQUEST,
+};
 
 pub(crate) use schema::bitswap::Message as BitswapProtoMessage;
 

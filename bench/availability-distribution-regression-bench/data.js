@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778230030505,
+  "lastUpdate": 1778246738635,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "alex.theissen@me.com",
-            "name": "Alexander Theißen",
-            "username": "athei"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "c3f62bf918ef6879390dc6a2cf9f91caac23f5b5",
-          "message": "[pallet_transaction_payment]: Share withdrawn tx fee credit with other pallets (#9780)\n\nReplaces https://github.com/paritytech/polkadot-sdk/pull/9590.\n\nThe audit of #9590 showed that holding the txfee as held balance and\nespecially playing around with `providers` causes a lot of troubles.\n\nThis PR is a much lighter change. It keeps the original withdraw/deposit\npattern. It simply stores the withdrawn `Credit` and allows other\npallets to withdraw from it.\n\nIt is also better in terms of performance since all tx signers share a\nsingle storage item (instead of a named hold per account).\n\n---------\n\nCo-authored-by: joe petrowski <25483142+joepetrowski@users.noreply.github.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
-          "timestamp": "2025-09-29T22:19:05Z",
-          "tree_id": "6e4aac4ae217869a0122375a4f1a02bc4bbf3da7",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/c3f62bf918ef6879390dc6a2cf9f91caac23f5b5"
-        },
-        "date": 1759188599168,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.02242545451333333,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15862557048000012,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012877488420000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.0075406585799999894,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-distribution",
             "value": 0.007394691360000002,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "41779041+alvicsam@users.noreply.github.com",
+            "name": "Alexander Samusev",
+            "username": "alvicsam"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f2bc410c455ea0a82162d92ce4dcc41ae644c143",
+          "message": "ci: new ci-unified with updated forklift and resolc (#12019)\n\ncc https://github.com/paritytech/devops/issues/5285",
+          "timestamp": "2026-05-08T12:01:00Z",
+          "tree_id": "d8731de162658dcfd33d371c1d0d6ac3aa6a182d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/f2bc410c455ea0a82162d92ce4dcc41ae644c143"
+        },
+        "date": 1778246716318,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007122918946666668,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14165717864666671,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.023853804326666665,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009628209473333314,
             "unit": "seconds"
           }
         ]

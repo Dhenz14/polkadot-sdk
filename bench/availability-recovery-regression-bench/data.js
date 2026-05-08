@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778193241396,
+  "lastUpdate": 1778227019099,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "roberthambrock@gmail.com",
-            "name": "Robert Hambrock",
-            "username": "Lederstrumpf"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "66e9b9a941acd8ffa0b16b796323dc91dd5d25cf",
-          "message": "Add `mmr_generateAncestryProof` rpc call (#9295)\n\n# Description\n\nAdds `generateAncestryProof` to the mmr RPC. An RPC method for\ngenerating ancestry proofs is required for cross-chain slashing by\ncross-chain fishermen https://github.com/Snowfork/snowbridge/pull/1493.\nConsequently, this PR also adds the mmr runtime api method\n`generate_ancestry_proof`. While such a method was already exposed by\nthe beefy-mmr runtime api, this PR opts for moving it to the mmr runtime\napi instead due to the following considerations:\n1. Invoking beefy-mmr's `generate_proof` method via RPC would require\nadding the offchain-db extension to the beefy-rpc, which is a more\ninvasive change with boilerplate that's not needed since the mmr RPC\nalready uses the offchain-db extension for generating leaf proofs.\n2. Since the ancestry proofs are for MMR, it is more natural to expose\nthe method directly on the mmr runtime api - the beefy-mmr pallet's\n`generate_proof` method is merely a wrapper around the mmr pallet's\n`generate_ancestry_proof` method.\n\nSome other misc. changes documented under `Review Notes`.\n\n## Integration\n\nThe integration is the same as for the beefy-mmr runtime api's\n`generate_proof` method.\n\n~~The integration is the same as for the beefy-mmr runtime api's\n`generate_proof` method, except that the optional `at` specifier is\nremoved for the method here since the method is idempotent wrt. the\nblock height invoked at, so long as `at` >= `best_known_block_number`.\nRemoving the specifier reduces likelihood of spurious errors from\nincorrect usage. I can revert the `at` specifier removal however if\ndesired for compatibility.~~\n\nFor example use, see https://github.com/Snowfork/snowbridge/pull/1493.\n\n## Review Notes\n\n- Adds `generate_ancestry_proof` method to mmr runtime api\n(https://github.com/lederstrumpf/polkadot-sdk/commit/682eb4a1411f7194a7277606b7ebe3688e8d5df1)\n- Adds `mmr_generateAncestryProof` rpc method\n(https://github.com/lederstrumpf/polkadot-sdk/commit/5d0eac9f1f48f049bec9846ef497763f5c2fc950,\nhttps://github.com/lederstrumpf/polkadot-sdk/commit/5d0eac9f1f)\n- Adds new `InvalidEquivocationProofSessionMember` error to beefy pallet\n(https://github.com/lederstrumpf/polkadot-sdk/commit/682eb4a141) (note:\nthis change is unrelated to the PR's main purpose, but helps\nimplementers with more granular error reporting. I'm open to removing\nthis change).\n- Deprecates\n`pallet_beefy::generate_ancestry_proof::generate_ancestry_proof` and\n`pallet_beefy::AncestryHelper::generate_proof`. Deprecation penciled in\nfor September 2025 - I'm open to change this date or undo the\ndeprecation.\n(https://github.com/lederstrumpf/polkadot-sdk/commit/6619169ecd)\n- ~~Removes `at` specifier for `pallet_mmr::generate_ancestry_proof`\n(https://github.com/lederstrumpf/polkadot-sdk/commit/bcadda2ce67cdb472b19db722d1ea3827e5869a5)\n(as mentioned in the `Integration` section, fine to undo)~~ *(Update:\nreverted removal of `at` specifier to allow fork handling).*\n\nPR can be tested using https://github.com/Snowfork/snowbridge/pull/1493.\n\nIf PR's approach is accepted, will open the associated PRs in\nhttps://github.com/polkadot-fellows/runtimes &\nhttps://github.com/polkadot-js/api.\n\n---------\n\nCo-authored-by: Adrian Catangiu <adrian@parity.io>",
-          "timestamp": "2025-09-29T17:19:47Z",
-          "tree_id": "81385a89241a9410f0f3e433b7ca69e1145f2455",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/66e9b9a941acd8ffa0b16b796323dc91dd5d25cf"
-        },
-        "date": 1759170572041,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.238864213100005,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19584414249999996,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.1362056445,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "10196091+Ank4n@users.noreply.github.com",
+            "name": "Ankan",
+            "username": "Ank4n"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "67190176f144a642c3e3831dc13248d4327bbdf1",
+          "message": "[Staking] Use offence era for proportional slash distribution (#11999)\n\n## Bug\nWhen a slash is applied, `StakingLedger::slash` decides which unlocking\nchunks are still slashable based on `bonding_duration` from a reference\nera. We were passing the **slash application era** (offence_era +\n`SlashDeferDuration`) instead of the **offence era** in the extrinsic\nbased apply slash.\n\n## Impact\nNo funds escape slashing, only the distribution between active and\nunlocking chunks is off.\n\n### Example\nGiven: Total balance 1000 (active 100, unlock chunk 900), 50% slash:\n- Correct slash: 50 from active + 450 from chunk\n- Buggy slash: 100 from active + 400 from chunk\n\nShown in [test\nhere](https://github.com/paritytech/polkadot-sdk/compare/ankn-slash-test).",
+          "timestamp": "2026-05-08T06:13:29Z",
+          "tree_id": "01a271b5374c1fcd629189e61b0cb68018102061",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/67190176f144a642c3e3831dc13248d4327bbdf1"
+        },
+        "date": 1778226996435,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 10.835907738866666,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1319510916666667,
             "unit": "seconds"
           }
         ]

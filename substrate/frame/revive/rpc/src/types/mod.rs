@@ -20,11 +20,13 @@ mod fee_history;
 mod log;
 mod receipt;
 mod sync;
+mod trace;
 pub mod subscriptions;
 
 pub use fee_history::*;
 pub use log::*;
 pub use receipt::*;
 pub use sync::*;
+pub use trace::*;
 pub use subscriptions::*;
 pub(crate) use receipt::transaction_info_from_receipt;

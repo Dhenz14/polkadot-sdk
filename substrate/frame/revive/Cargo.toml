@@ -26,7 +26,6 @@ environmental = { workspace = true }
 ethereum-standards = { workspace = true }
 ethereum-types = { workspace = true, features = ["codec", "rlp", "serialize"] }
 hex-literal = { workspace = true }
-humantime-serde = { optional = true, workspace = true }
 impl-trait-for-tuples = { workspace = true }
 k256 = { features = ["alloc", "ecdsa"], workspace = true, optional = true }
 log = { workspace = true }
@@ -103,7 +102,6 @@ std = [
 	"frame-benchmarking?/std",
 	"frame-support/std",
 	"frame-system/std",
-	"humantime-serde",
 	"k256?/std",
 	"log/std",
 	"num-bigint/std",

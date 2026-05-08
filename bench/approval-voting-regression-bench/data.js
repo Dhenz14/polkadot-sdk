@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778230061198,
+  "lastUpdate": 1778246770879,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "roberthambrock@gmail.com",
-            "name": "Robert Hambrock",
-            "username": "Lederstrumpf"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "66e9b9a941acd8ffa0b16b796323dc91dd5d25cf",
-          "message": "Add `mmr_generateAncestryProof` rpc call (#9295)\n\n# Description\n\nAdds `generateAncestryProof` to the mmr RPC. An RPC method for\ngenerating ancestry proofs is required for cross-chain slashing by\ncross-chain fishermen https://github.com/Snowfork/snowbridge/pull/1493.\nConsequently, this PR also adds the mmr runtime api method\n`generate_ancestry_proof`. While such a method was already exposed by\nthe beefy-mmr runtime api, this PR opts for moving it to the mmr runtime\napi instead due to the following considerations:\n1. Invoking beefy-mmr's `generate_proof` method via RPC would require\nadding the offchain-db extension to the beefy-rpc, which is a more\ninvasive change with boilerplate that's not needed since the mmr RPC\nalready uses the offchain-db extension for generating leaf proofs.\n2. Since the ancestry proofs are for MMR, it is more natural to expose\nthe method directly on the mmr runtime api - the beefy-mmr pallet's\n`generate_proof` method is merely a wrapper around the mmr pallet's\n`generate_ancestry_proof` method.\n\nSome other misc. changes documented under `Review Notes`.\n\n## Integration\n\nThe integration is the same as for the beefy-mmr runtime api's\n`generate_proof` method.\n\n~~The integration is the same as for the beefy-mmr runtime api's\n`generate_proof` method, except that the optional `at` specifier is\nremoved for the method here since the method is idempotent wrt. the\nblock height invoked at, so long as `at` >= `best_known_block_number`.\nRemoving the specifier reduces likelihood of spurious errors from\nincorrect usage. I can revert the `at` specifier removal however if\ndesired for compatibility.~~\n\nFor example use, see https://github.com/Snowfork/snowbridge/pull/1493.\n\n## Review Notes\n\n- Adds `generate_ancestry_proof` method to mmr runtime api\n(https://github.com/lederstrumpf/polkadot-sdk/commit/682eb4a1411f7194a7277606b7ebe3688e8d5df1)\n- Adds `mmr_generateAncestryProof` rpc method\n(https://github.com/lederstrumpf/polkadot-sdk/commit/5d0eac9f1f48f049bec9846ef497763f5c2fc950,\nhttps://github.com/lederstrumpf/polkadot-sdk/commit/5d0eac9f1f)\n- Adds new `InvalidEquivocationProofSessionMember` error to beefy pallet\n(https://github.com/lederstrumpf/polkadot-sdk/commit/682eb4a141) (note:\nthis change is unrelated to the PR's main purpose, but helps\nimplementers with more granular error reporting. I'm open to removing\nthis change).\n- Deprecates\n`pallet_beefy::generate_ancestry_proof::generate_ancestry_proof` and\n`pallet_beefy::AncestryHelper::generate_proof`. Deprecation penciled in\nfor September 2025 - I'm open to change this date or undo the\ndeprecation.\n(https://github.com/lederstrumpf/polkadot-sdk/commit/6619169ecd)\n- ~~Removes `at` specifier for `pallet_mmr::generate_ancestry_proof`\n(https://github.com/lederstrumpf/polkadot-sdk/commit/bcadda2ce67cdb472b19db722d1ea3827e5869a5)\n(as mentioned in the `Integration` section, fine to undo)~~ *(Update:\nreverted removal of `at` specifier to allow fork handling).*\n\nPR can be tested using https://github.com/Snowfork/snowbridge/pull/1493.\n\nIf PR's approach is accepted, will open the associated PRs in\nhttps://github.com/polkadot-fellows/runtimes &\nhttps://github.com/polkadot-js/api.\n\n---------\n\nCo-authored-by: Adrian Catangiu <adrian@parity.io>",
-          "timestamp": "2025-09-29T17:19:47Z",
-          "tree_id": "81385a89241a9410f0f3e433b7ca69e1145f2455",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/66e9b9a941acd8ffa0b16b796323dc91dd5d25cf"
-        },
-        "date": 1759170625823,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 63640.19,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 52946,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005437638280000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.475723465800002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.522860152299999,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.431122278479999,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.000021525980000000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.49908128271,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.909926312180001,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.00002099159,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.4849242187000025,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.657823405731066,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.329075348450003,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.000021525980000000002,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.00002099159,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "approval-voting-parallel/approval-voting-parallel-db",
             "value": 2.4610966213999985,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "41779041+alvicsam@users.noreply.github.com",
+            "name": "Alexander Samusev",
+            "username": "alvicsam"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f2bc410c455ea0a82162d92ce4dcc41ae644c143",
+          "message": "ci: new ci-unified with updated forklift and resolc (#12019)\n\ncc https://github.com/paritytech/devops/issues/5285",
+          "timestamp": "2026-05-08T12:01:00Z",
+          "tree_id": "d8731de162658dcfd33d371c1d0d6ac3aa6a182d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/f2bc410c455ea0a82162d92ce4dcc41ae644c143"
+        },
+        "date": 1778246748354,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 63625.159999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 52942.90000000001,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.670745103559948,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.479209520319989,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.794905509109959,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.000024952030000000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.0064642382800000064,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.8902318279999992,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.000027398069999999996,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.592673157032862,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.000024952030000000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.83839324969,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.823132735709998,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.000027398069999999996,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.838408022450001,
             "unit": "seconds"
           }
         ]

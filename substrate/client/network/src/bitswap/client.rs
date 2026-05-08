@@ -111,13 +111,30 @@ where
 		)));
 	}
 
-	let mut wanted: HashMap<Cid, (ContentHash, HashingAlgorithm)> =
-		HashMap::with_capacity(wants.len());
+	let wanted = build_wanted_map(wants)?;
+	let response = send_request(network, peer, &wanted).await?;
+	Ok(classify_response(response, &wanted, peer))
+}
+
+fn build_wanted_map(
+	wants: &[(ContentHash, HashingAlgorithm)],
+) -> Result<HashMap<Cid, (ContentHash, HashingAlgorithm)>, BitswapError> {
+	let mut wanted = HashMap::with_capacity(wants.len());
 	for &(content_hash, hashing) in wants {
 		let cid = cid_for_hash(content_hash, hashing)?;
 		wanted.insert(cid, (content_hash, hashing));
 	}
+	Ok(wanted)
+}
 
+async fn send_request<N>(
+	network: &N,
+	peer: PeerId,
+	wanted: &HashMap<Cid, (ContentHash, HashingAlgorithm)>,
+) -> Result<BitswapMessage, BitswapError>
+where
+	N: BitswapRequestSender + ?Sized,
+{
 	let entries: Vec<Entry> = wanted
 		.keys()
 		.map(|cid| Entry {
@@ -163,14 +180,17 @@ where
 		},
 	};
 
-	let response = BitswapMessage::decode(&payload[..]).map_err(|err| {
-		debug!(
-			target: LOG_TARGET,
-			"client: failed to decode batch response from {peer}: {err}",
-		);
+	BitswapMessage::decode(&payload[..]).map_err(|err| {
+		debug!(target: LOG_TARGET, "client: failed to decode batch response from {peer}: {err}");
 		BitswapError::DecodeError(err.to_string())
-	})?;
+	})
+}
 
+fn classify_response(
+	response: BitswapMessage,
+	wanted: &HashMap<Cid, (ContentHash, HashingAlgorithm)>,
+	peer: PeerId,
+) -> HashMap<ContentHash, FetchOutcome> {
 	let mut result: HashMap<ContentHash, FetchOutcome> = HashMap::with_capacity(wanted.len());
 
 	for block in response.payload {
@@ -179,7 +199,7 @@ where
 		}) else {
 			continue;
 		};
-		let Some(content_hash) = lookup_wanted(&wanted, &cid, peer, "block") else {
+		let Some(content_hash) = lookup_wanted(wanted, &cid, peer, "block") else {
 			continue;
 		};
 		debug!(
@@ -196,7 +216,7 @@ where
 		}) else {
 			continue;
 		};
-		let Some(content_hash) = lookup_wanted(&wanted, &cid, peer, "presence") else {
+		let Some(content_hash) = lookup_wanted(wanted, &cid, peer, "presence") else {
 			continue;
 		};
 		if result.contains_key(&content_hash) {
@@ -220,7 +240,7 @@ where
 		result.entry(content_hash).or_insert(FetchOutcome::Missing);
 	}
 
-	Ok(result)
+	result
 }
 
 fn cid_for_hash(content_hash: ContentHash, hashing: HashingAlgorithm) -> Result<Cid, BitswapError> {

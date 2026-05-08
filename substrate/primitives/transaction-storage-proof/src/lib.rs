@@ -431,11 +431,9 @@ mod hashing_algorithm_tests {
 
 	#[test]
 	fn from_multihash_code_round_trips() {
-		for algo in [
-			HashingAlgorithm::Blake2b256,
-			HashingAlgorithm::Sha2_256,
-			HashingAlgorithm::Keccak256,
-		] {
+		for algo in
+			[HashingAlgorithm::Blake2b256, HashingAlgorithm::Sha2_256, HashingAlgorithm::Keccak256]
+		{
 			assert_eq!(HashingAlgorithm::from_multihash_code(algo.multihash_code()), Some(algo));
 		}
 	}
@@ -449,14 +447,8 @@ mod hashing_algorithm_tests {
 	#[test]
 	fn hash_dispatches_to_correct_algorithm() {
 		let data = b"polkadot storage chain";
-		assert_eq!(
-			HashingAlgorithm::Blake2b256.hash(data),
-			sp_crypto_hashing::blake2_256(data),
-		);
+		assert_eq!(HashingAlgorithm::Blake2b256.hash(data), sp_crypto_hashing::blake2_256(data),);
 		assert_eq!(HashingAlgorithm::Sha2_256.hash(data), sp_crypto_hashing::sha2_256(data));
-		assert_eq!(
-			HashingAlgorithm::Keccak256.hash(data),
-			sp_crypto_hashing::keccak_256(data),
-		);
+		assert_eq!(HashingAlgorithm::Keccak256.hash(data), sp_crypto_hashing::keccak_256(data),);
 	}
 }

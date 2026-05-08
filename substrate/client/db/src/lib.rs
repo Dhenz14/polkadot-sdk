@@ -78,7 +78,6 @@ use sp_core::{
 	storage::{well_known_keys, ChildInfo},
 };
 use sp_database::Transaction;
-use sp_transaction_storage_proof::HashingAlgorithm;
 use sp_runtime::{
 	generic::BlockId,
 	traits::{
@@ -92,6 +91,7 @@ use sp_state_machine::{
 	OffchainChangesCollection, StateMachineStats, StorageCollection, StorageIterator, StorageKey,
 	StorageValue, UsageInfo as StateUsageInfo,
 };
+use sp_transaction_storage_proof::HashingAlgorithm;
 use sp_trie::{cache::SharedTrieCache, prefixed_key, MemoryDB, MerkleValue, PrefixedMemoryDB};
 use utils::BLOCK_GAP_CURRENT_VERSION;
 
@@ -1080,8 +1080,7 @@ impl<Block: BlockT> sc_client_api::backend::BlockImportOperation<Block>
 		data: Vec<([u8; 32], Vec<u8>)>,
 	) -> ClientResult<()> {
 		for (hash, bytes) in data {
-			self.prefetched_indexed_transactions
-				.insert(DbHash::from_slice(&hash), bytes);
+			self.prefetched_indexed_transactions.insert(DbHash::from_slice(&hash), bytes);
 		}
 		Ok(())
 	}
@@ -2292,17 +2291,16 @@ fn apply_index_ops<Block: BlockT>(
 	// the per-occurrence refcount bumps (`apply_index_ops` already emits one Reference per
 	// renew occurrence, matching the per-occurrence Release that prune emits).
 	let mut prefetched_stored: HashSet<DbHash> = HashSet::new();
-	let store_prefetched = |tx: &mut Transaction<DbHash>,
-	                        stored: &mut HashSet<DbHash>,
-	                        hash: DbHash| {
-		if stored.contains(&hash) {
-			return;
-		}
-		if let Some(bytes) = prefetched.get(&hash) {
-			tx.store(columns::TRANSACTION, hash, bytes.clone());
-			stored.insert(hash);
-		}
-	};
+	let store_prefetched =
+		|tx: &mut Transaction<DbHash>, stored: &mut HashSet<DbHash>, hash: DbHash| {
+			if stored.contains(&hash) {
+				return;
+			}
+			if let Some(bytes) = prefetched.get(&hash) {
+				tx.store(columns::TRANSACTION, hash, bytes.clone());
+				stored.insert(hash);
+			}
+		};
 	let mut n_inserted = 0usize;
 	let mut n_renew_slots = 0usize;
 	let mut n_renew_hashes = 0usize;
@@ -2455,9 +2453,7 @@ fn classify_by_extrinsic_index<Block: BlockT>(
 				continue;
 			}
 		}
-		out.push(ClassifiedExtrinsic::Renew {
-			hashes: vec![(meta.content_hash, meta.hashing)],
-		});
+		out.push(ClassifiedExtrinsic::Renew { hashes: vec![(meta.content_hash, meta.hashing)] });
 	}
 	out
 }
@@ -2562,10 +2558,8 @@ pub fn apply_body_with_indexed_meta<Block: BlockT>(
 				} else {
 					let db_hashes: Vec<DbHash> =
 						hashes.iter().map(|(h, _)| DbHash::from_slice(h)).collect();
-					db_extrinsics.push(DbExtrinsic::MultiRenew {
-						hashes: db_hashes,
-						extrinsic: encoded,
-					});
+					db_extrinsics
+						.push(DbExtrinsic::MultiRenew { hashes: db_hashes, extrinsic: encoded });
 					for (hash, _) in hashes {
 						missing.push(hash);
 					}
@@ -5376,10 +5370,7 @@ pub(crate) mod tests {
 			Default::default(),
 			Default::default(),
 			vec![UncheckedXt::new_transaction(0.into(), ())],
-			Some(vec![IndexOperation::Renew {
-				extrinsic: 0,
-				hash: payload_hash_arr.to_vec(),
-			}]),
+			Some(vec![IndexOperation::Renew { extrinsic: 0, hash: payload_hash_arr.to_vec() }]),
 			vec![(payload_hash_arr, payload.clone())],
 		)
 		.unwrap();
@@ -5489,7 +5480,10 @@ pub(crate) mod tests {
 		.unwrap();
 
 		let bc = backend.blockchain();
-		assert_eq!(bc.indexed_transaction(payload_hash).unwrap().as_deref(), Some(payload.as_slice()));
+		assert_eq!(
+			bc.indexed_transaction(payload_hash).unwrap().as_deref(),
+			Some(payload.as_slice())
+		);
 		let body = bc.block_indexed_body(block1).unwrap().unwrap();
 		assert_eq!(body.len(), 1);
 		assert_eq!(body[0], payload);
@@ -6916,8 +6910,7 @@ pub(crate) mod tests {
 		fn fast_path_classifies_renew_when_tail_does_not_match() {
 			let body = vec![make_extrinsic(0xAA)];
 			let encoded_len = body[0].encode().len() as u32;
-			let meta =
-				vec![make_meta([0u8; 32], encoded_len, 0, HashingAlgorithm::Blake2b256)];
+			let meta = vec![make_meta([0u8; 32], encoded_len, 0, HashingAlgorithm::Blake2b256)];
 			let result = classify_indexed_extrinsics::<Block>(&body, &meta);
 			assert_eq!(result.len(), 1);
 			match &result[0] {

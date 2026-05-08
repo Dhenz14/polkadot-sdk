@@ -5,14 +5,14 @@
 
 #[cfg(feature = "generate-snapshots")]
 use super::{config::TRANSACTION_TIMEOUT_SECS, crypto::retention_period_storage_key};
-use anyhow::{Result, anyhow};
+use anyhow::{anyhow, Result};
 use codec::Decode;
 use std::time::Duration;
 use zombienet_sdk::{
 	subxt::{
-		OnlineClient,
 		config::substrate::{SubstrateConfig, SubstrateExtrinsicParamsBuilder},
-		dynamic::{Value, tx},
+		dynamic::{tx, Value},
+		OnlineClient,
 	},
 	subxt_signer::sr25519::dev,
 };

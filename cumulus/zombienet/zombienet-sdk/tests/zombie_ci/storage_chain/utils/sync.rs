@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 use super::config::*;
-use anyhow::{Context, Result, anyhow};
+use anyhow::{anyhow, Context, Result};
 use std::time::Duration;
 use zombienet_orchestrator::network::node::LogLineCountOptions;
-use zombienet_sdk::subxt::{OnlineClient, config::substrate::SubstrateConfig};
+use zombienet_sdk::subxt::{config::substrate::SubstrateConfig, OnlineClient};
 
 pub fn log_line_at_least_once(timeout_secs: u64) -> LogLineCountOptions {
 	LogLineCountOptions::new(|count| count >= 1, Duration::from_secs(timeout_secs), false)

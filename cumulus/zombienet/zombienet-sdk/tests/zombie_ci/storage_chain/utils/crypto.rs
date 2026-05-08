@@ -1,7 +1,7 @@
 // Copyright (C) Parity Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
-use blake2::{Blake2b, Digest, digest::consts::U32};
+use blake2::{digest::consts::U32, Blake2b, Digest};
 
 pub fn blake2_256(data: &[u8]) -> [u8; 32] {
 	let mut hasher = Blake2b::<U32>::new();

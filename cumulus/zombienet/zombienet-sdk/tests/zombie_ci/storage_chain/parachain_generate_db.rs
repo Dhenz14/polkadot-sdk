@@ -8,8 +8,8 @@
 //!
 //! ## What it produces
 //!
-//! - **Archive DB**: A collator node with no pruning, containing `TARGET_BLOCKS` blocks with indexed
-//!   transaction data stored every `STORE_INTERVAL` blocks.
+//! - **Archive DB**: A collator node with no pruning, containing `TARGET_BLOCKS` blocks with
+//!   indexed transaction data stored every `STORE_INTERVAL` blocks.
 //! - **Pruned DB**: A full-sync node with `--blocks-pruning=RETENTION_PERIOD`, synced from the
 //!   archive collator. Old blocks beyond the pruning window are deleted.
 //!
@@ -42,26 +42,27 @@
 //! ```
 
 use super::utils::{
-		generate_test_data, get_alice_nonce,
-		initialize_network,
-		renew_data, set_retention_period, verify_parachain_binaries, wait_for_block_height,
-		wait_for_finalized_height, wait_for_session_change_on_node,
-		BLOCK_PRODUCTION_TIMEOUT_SECS, NETWORK_READY_TIMEOUT_SECS, NODE_LOG_CONFIG, PARA_ID, PARACHAIN_BINARY, PARACHAIN_CHAIN_SPEC, RELAY_BINARY, RELAY_CHAIN,
-		SYNC_TIMEOUT_SECS, TEST_DATA_SIZE,
+	generate_test_data, get_alice_nonce, initialize_network, renew_data, set_retention_period,
+	verify_parachain_binaries, wait_for_block_height, wait_for_finalized_height,
+	wait_for_session_change_on_node, BLOCK_PRODUCTION_TIMEOUT_SECS, NETWORK_READY_TIMEOUT_SECS,
+	NODE_LOG_CONFIG, PARACHAIN_BINARY, PARACHAIN_CHAIN_SPEC, PARA_ID, RELAY_BINARY, RELAY_CHAIN,
+	SYNC_TIMEOUT_SECS, TEST_DATA_SIZE,
 };
 use crate::test_log;
 use anyhow::{anyhow, Context, Result};
 use env_logger::Env;
 use flate2::{write::GzEncoder, Compression};
 use std::path::{Path, PathBuf};
-use zombienet_sdk::subxt::{
-	config::substrate::{SubstrateConfig, SubstrateExtrinsicParamsBuilder},
-	dynamic::{tx, Value},
-	ext::scale_value::value,
-	OnlineClient,
+use zombienet_sdk::{
+	subxt::{
+		config::substrate::{SubstrateConfig, SubstrateExtrinsicParamsBuilder},
+		dynamic::{tx, Value},
+		ext::scale_value::value,
+		OnlineClient,
+	},
+	subxt_signer::sr25519::dev,
+	NetworkConfig, NetworkConfigBuilder,
 };
-use zombienet_sdk::subxt_signer::sr25519::dev;
-use zombienet_sdk::{NetworkConfig, NetworkConfigBuilder};
 
 const SESSION_CHANGE_TIMEOUT_SECS: u64 = 300;
 const DB_OUTPUT_DIR_ENV: &str = "DB_OUTPUT_DIR";
@@ -106,17 +107,16 @@ impl GenDbConfig {
 		let last_renewal_pass_ceiling = target_blocks.saturating_sub(30);
 
 		let authorize_transactions = match std::env::var("AUTHORIZE_TRANSACTIONS") {
-			Ok(v) => v
-				.parse::<u32>()
-				.map_err(|e| anyhow!("AUTHORIZE_TRANSACTIONS: {e}"))?,
+			Ok(v) => v.parse::<u32>().map_err(|e| anyhow!("AUTHORIZE_TRANSACTIONS: {e}"))?,
 			Err(_) => {
-				if std::env::var("TARGET_BLOCKS").is_ok() || std::env::var("STORE_INTERVAL").is_ok() {
+				if std::env::var("TARGET_BLOCKS").is_ok() || std::env::var("STORE_INTERVAL").is_ok()
+				{
 					let store_count = (target_blocks / store_interval).max(1);
 					((2 * store_count) + 10).min(200) as u32
 				} else {
 					100
 				}
-			}
+			},
 		};
 		let authorize_bytes = (authorize_transactions as u64) * (TEST_DATA_SIZE as u64) * 2;
 
@@ -150,29 +150,25 @@ fn build_gendb_network_config(pruning_blocks: u32) -> Result<NetworkConfig> {
 	let relay_args: Vec<_> = vec!["-lruntime=debug"].into_iter().map(|s| s.into()).collect();
 	let relay_args2 = relay_args.clone();
 
-	let collator_args: Vec<_> = vec!["--ipfs-server", NODE_LOG_CONFIG]
-		.into_iter()
-		.map(|s| s.into())
-		.collect();
+	let collator_args: Vec<_> =
+		vec!["--ipfs-server", NODE_LOG_CONFIG].into_iter().map(|s| s.into()).collect();
 
 	let pruning_flag = format!("--blocks-pruning={}", pruning_blocks);
-	let pruned_args: Vec<_> = vec![
-		"--sync=full",
-		"--ipfs-server",
-		pruning_flag.as_str(),
-		NODE_LOG_CONFIG,
-	]
-	.into_iter()
-	.map(|s| s.into())
-	.collect();
+	let pruned_args: Vec<_> =
+		vec!["--sync=full", "--ipfs-server", pruning_flag.as_str(), NODE_LOG_CONFIG]
+			.into_iter()
+			.map(|s| s.into())
+			.collect();
 
 	NetworkConfigBuilder::new()
 		.with_relaychain(|relaychain| {
 			relaychain
 				.with_chain(relay_chain.as_str())
 				.with_default_command(relay_binary.as_str())
-				.with_node(|node| node.with_name("alice").validator(true).with_args(relay_args))
-				.with_node(|node| node.with_name("bob").validator(true).with_args(relay_args2))
+				.with_validator(|node| {
+					node.with_name("alice").validator(true).with_args(relay_args)
+				})
+				.with_validator(|node| node.with_name("bob").validator(true).with_args(relay_args2))
 		})
 		.with_parachain(|parachain| {
 			parachain
@@ -277,7 +273,11 @@ async fn authorize_bob_for_renewals(
 	.await
 	.map_err(|_| anyhow!("bob authorization timed out"))??;
 
-	log::info!("Authorized Bob for {} transactions / {} bytes", authorize_transactions, authorize_bytes);
+	log::info!(
+		"Authorized Bob for {} transactions / {} bytes",
+		authorize_transactions,
+		authorize_bytes
+	);
 	Ok(())
 }
 
@@ -522,12 +522,15 @@ async fn parachain_generate_databases() -> Result<()> {
 
 			log::info!(
 				"Starting renewal pass at block {} (nonce={})",
-				next_renewal_block, bob_nonce_counter,
+				next_renewal_block,
+				bob_nonce_counter,
 			);
 			for entry in renewable_entries.iter_mut() {
 				log::info!(
 					"Renewing block={}, index={}, bob_nonce={}",
-					entry.0, entry.1, bob_nonce_counter,
+					entry.0,
+					entry.1,
+					bob_nonce_counter,
 				);
 				let renew_block =
 					renew_data(&collator_client, entry.0, entry.1, bob_nonce_counter).await?;
@@ -602,11 +605,7 @@ async fn parachain_generate_databases() -> Result<()> {
 		next_renewal_block,
 	);
 
-	log::info!(
-		"All {} stores and {} renewals complete",
-		store_count,
-		renewable_entries.len(),
-	);
+	log::info!("All {} stores and {} renewals complete", store_count, renewable_entries.len(),);
 
 	// === Phase 3: Wait for both nodes to reach target + finality ===
 	test_log!(TEST, "Phase 3: Waiting for block {} finalized on both nodes", cfg.target_blocks);

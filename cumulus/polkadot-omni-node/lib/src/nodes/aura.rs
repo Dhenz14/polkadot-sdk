@@ -206,7 +206,11 @@ where
 	StartConsensus: self::StartConsensus<
 			Block,
 			RuntimeApi,
-			crate::common::spec::WrappedBlockImport<Block, InitBlockImport::BlockImport, RuntimeApi>,
+			crate::common::spec::WrappedBlockImport<
+				Block,
+				InitBlockImport::BlockImport,
+				RuntimeApi,
+			>,
 			InitBlockImport::BlockImportAuxiliaryData,
 		> + 'static,
 	InitBlockImport: self::InitBlockImport<Block, RuntimeApi> + Send + 'static,

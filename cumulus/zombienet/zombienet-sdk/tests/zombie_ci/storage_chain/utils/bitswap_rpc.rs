@@ -16,11 +16,11 @@
 //! | RPC transport error                            | `Err(BitswapRpcError::Transport)` |
 //! | hex decode failure (should never happen)       | `Err(BitswapRpcError::Decoding)` |
 
-use anyhow::{Result, anyhow};
+use anyhow::{anyhow, Result};
 use std::time::Duration;
 use zombienet_sdk::{
-	NetworkNode,
 	subxt::{backend::rpc::RpcClient, ext::subxt_rpcs::rpc_params},
+	NetworkNode,
 };
 
 /// Errors from a `bitswap_v1_get` RPC call.

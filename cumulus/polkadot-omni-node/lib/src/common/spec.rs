@@ -30,14 +30,14 @@ use crate::{
 };
 use codec::Encode;
 use cumulus_client_bootnodes::{start_bootnode_tasks, StartBootnodeTasksParams};
-use cumulus_client_storage_chain_sync::{
-	IndexedTransactionFetcher, NetworkHandle, StorageChainBlockImport, SyncingHandle,
-};
 use cumulus_client_cli::CollatorOptions;
 use cumulus_client_service::{
 	build_network, build_relay_chain_interface, prepare_node_config, start_relay_chain_tasks,
 	BuildNetworkParams, CollatorSybilResistance, DARecoveryProfile, ParachainTracingExecuteBlock,
 	StartRelayChainTasksParams,
+};
+use cumulus_client_storage_chain_sync::{
+	IndexedTransactionFetcher, NetworkHandle, StorageChainBlockImport, SyncingHandle,
 };
 use cumulus_primitives_core::{BlockT, GetParachainInfo, ParaId};
 use cumulus_relay_chain_interface::{OverseerHandle, RelayChainInterface};
@@ -313,8 +313,7 @@ pub(crate) trait BaseNodeSpec {
 			fetcher,
 		);
 
-		let block_import =
-			ParachainBlockImport::new(storage_chain_block_import, backend.clone());
+		let block_import = ParachainBlockImport::new(storage_chain_block_import, backend.clone());
 
 		let import_queue = Self::BuildImportQueue::build_import_queue(
 			client.clone(),
@@ -385,8 +384,7 @@ pub(crate) trait NodeSpec: BaseNodeSpec {
 	) -> Pin<Box<dyn Future<Output = sc_service::error::Result<TaskManager>>>>
 	where
 		Net: NetworkBackend<Self::Block, Hash>,
-		sp_runtime::traits::NumberFor<Self::Block>:
-			sp_runtime::traits::UniqueSaturatedInto<u64>,
+		sp_runtime::traits::NumberFor<Self::Block>: sp_runtime::traits::UniqueSaturatedInto<u64>,
 	{
 		let fut = async move {
 			let mut parachain_config = prepare_node_config(parachain_config);
@@ -474,9 +472,8 @@ pub(crate) trait NodeSpec: BaseNodeSpec {
 				})
 				.await?;
 
-			let _ = network_handle.set(
-				network.clone() as Arc<dyn sc_network::NetworkRequest + Send + Sync>,
-			);
+			let _ = network_handle
+				.set(network.clone() as Arc<dyn sc_network::NetworkRequest + Send + Sync>);
 			let _ = syncing_handle.set(sync_service.clone());
 
 			let peer_id = network.local_peer_id();

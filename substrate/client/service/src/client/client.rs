@@ -487,15 +487,14 @@ where
 			..
 		} = import_block;
 
-		let prefetched_indexed_transactions = match intermediates
-			.remove(PREFETCHED_INDEXED_TRANSACTIONS_INTERMEDIATE_KEY)
-		{
-			Some(boxed) => match boxed.downcast::<Vec<([u8; 32], Vec<u8>)>>() {
-				Ok(payload) => *payload,
-				Err(_) => return Err(Error::IncompletePipeline),
-			},
-			None => Vec::new(),
-		};
+		let prefetched_indexed_transactions =
+			match intermediates.remove(PREFETCHED_INDEXED_TRANSACTIONS_INTERMEDIATE_KEY) {
+				Some(boxed) => match boxed.downcast::<Vec<([u8; 32], Vec<u8>)>>() {
+					Ok(payload) => *payload,
+					Err(_) => return Err(Error::IncompletePipeline),
+				},
+				None => Vec::new(),
+			};
 
 		if !intermediates.is_empty() {
 			return Err(Error::IncompletePipeline);

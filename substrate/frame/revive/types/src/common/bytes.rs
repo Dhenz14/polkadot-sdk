@@ -17,7 +17,7 @@
 
 use alloc::{format, string::String, vec::Vec};
 use alloy_core::hex;
-use codec::{Decode, Encode, MaxEncodedLen};
+use codec::{Decode, DecodeWithMemTracking, Encode, MaxEncodedLen};
 use core::{
 	fmt::{Debug, Display, Formatter, Result as FmtResult},
 	str::FromStr,
@@ -33,6 +33,7 @@ macro_rules! impl_hex {
 		#[derive(
 			Encode,
 			Decode,
+			DecodeWithMemTracking,
 			Eq,
 			PartialEq,
 			Ord,
@@ -282,11 +283,57 @@ mod tests {
 	use super::*;
 
 	#[test]
+	fn converts_bytes_to_minimal_hex_without_padding() {
+		// Arrange
+		let bytes = Bytes(U256::from(4).to_big_endian().to_vec());
+
+		// Act
+		let result = bytes.to_short_hex();
+
+		// Assert
+		assert_eq!(result, "0x4");
+	}
+
+	#[test]
+	fn converts_bytes_to_hex_without_prefix() {
+		// Arrange
+		let bytes = Bytes(vec![0x12, 0x34, 0x56, 0x78]);
+
+		// Act
+		let result = bytes.to_hex_no_prefix();
+
+		// Assert
+		assert_eq!(result, "12345678");
+	}
+
+	#[test]
+	fn serializes_and_deserializes_hex_byte_wrappers() {
+		// Arrange
+		let byte = Byte(42);
+		let bytes = Bytes(b"bello world".to_vec());
+		let bytes256 = Bytes256([42u8; 256]);
+
+		// Act
+		let byte_json = serde_json::to_string(&byte).unwrap();
+		let bytes_json = serde_json::to_string(&bytes).unwrap();
+		let bytes256_json = serde_json::to_string(&bytes256).unwrap();
+
+		// Assert
+		assert_eq!(byte_json, "\"0x2a\"");
+		assert_eq!(serde_json::from_str::<Byte>(&byte_json).unwrap(), byte);
+		assert_eq!(bytes_json, "\"0x62656c6c6f20776f726c64\"");
+		assert_eq!(serde_json::from_str::<Bytes>(&bytes_json).unwrap(), bytes);
+		assert_eq!(serde_json::from_str::<Bytes256>(&bytes256_json).unwrap(), bytes256);
+	}
+
+	#[test]
 	fn rejects_scale_encoded_vec_above_limit() {
 		// Arrange
 		let encoded = vec![1u8, 2, 3].encode();
+
 		// Act
 		let decoded = BoundedBytes::<2>::decode(&mut &encoded[..]);
+
 		// Assert
 		assert!(decoded.is_err());
 	}
@@ -296,8 +343,10 @@ mod tests {
 		// Arrange
 		let original = BoundedBytes::<4>::try_from(vec![1u8, 2, 3]).unwrap();
 		let encoded = original.encode();
+
 		// Act
 		let decoded = BoundedBytes::<4>::decode(&mut &encoded[..]).unwrap();
+
 		// Assert
 		assert_eq!(decoded, original);
 		assert_eq!(&decoded.0[..], &[1u8, 2, 3]);

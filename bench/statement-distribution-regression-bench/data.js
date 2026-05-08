@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778246802179,
+  "lastUpdate": 1778254843928,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "alex.theissen@me.com",
-            "name": "Alexander Theißen",
-            "username": "athei"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "50372ea7fa3601d43db7e9200d8b249c67dbdf66",
-          "message": "Allow sending transactions from an Ethereum address derived account id (#8757)\n\nWe always allowed signing transactions using an Bitcoin/Eth style\nSECP256k1 key. The account in this case is simply the blake2 hash of the\npublic key.\n\nThis address derivation is problematic: It requires the public key in\norder to derive the account id. On Ethereum you simply can't know the\npublic key of an address. This is why the mapping in pallet_revive is\ndefined as `address <-> account_id`.\n\nThis PR adds a new signature variant that allows signing a transaction\nwith an account id as origin that matches this mapping.\n\n## Why is this important?\n\n### Example1 \nA wallet contains an SECP256k1 key and wants to interact with native\nPolkadot APIs. It can sign the transaction using this key. However,\nwithout this change the origin of that transaction will be different\nthan the one it would appear under if it had signed an Ethereum\ntransaction.\n\n### Example2\nA chain using an Ethereum style address (like Mythical) wants to send\nsome tokens to one of their users account on AssetHub. How would they\nknow what is the address of that user on AssetHub? With this change they\ncan just pad the address with `0xEE` and rely on the fact that the user\ncan interact with AssetHub using their existing key.\n\n## Why a new variant?\nWe can't modify the existing variant. Otherwise the same signature would\nsuddenly map to a different account making people lose access to their\nfunds. Instead, we add a new variant that adds control over an\nadditional account for the same signature.\n\n## A new `KeccakSigner` and `KeccakSignature`\n\nAfter considering feedback by @Moliholy I am convinced that we should\nuse keccak instead of blake2b for this new `MultiSignature` variant.\nReasoning is that this will make it much simpler for Ethereum tooling to\ngenerate such signatures. Since this signature is specifically created\nfor Ethereum interop it just makes sense to also use keccak here.\n\nTo that end I made the `ecdsa::{KeccakSigner, KeccakSignature}` generic\nover their hash algorithm. Please note that I am using tags here and not\nthe `Hasher` trait directly. This makes things more complicated but it\nwas necessary: All Hasher implementations are in higher level crates and\ncan't be directly referenced here. But I would have to reference it in\norder to make this a non breaking change. The `Signer` and `Signature`\ntypes behave exactly the same way as before.\n\n---------\n\nCo-authored-by: joe petrowski <25483142+joepetrowski@users.noreply.github.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-29T14:11:17Z",
-          "tree_id": "30ab5c454ed6fb858003e6b6e13f2d4212883b0b",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/50372ea7fa3601d43db7e9200d8b249c67dbdf66"
-        },
-        "date": 1759160932116,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.92999999999992,
-            "unit": "KiB"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.033924609982000004,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04419155373599988,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.038816118694000014,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "claravanstaden64@gmail.com",
+            "name": "Clara van Staden",
+            "username": "claravanstaden"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "2b5a0e15122b7d24eca7371d20d5f8b7e31fa9fd",
+          "message": "Snowbridge: Set default asset claimer to local network (#11919)\n\nThe inbound-queue v2 message converter falls back to the Snowbridge\nsovereign account on AssetHub as the asset claimer when no explicit\nclaimer is supplied. Previously this fallback used `AccountId32 {\nnetwork: None, .. }`, which did not match the location AssetHub's\nsigned-origin converter produces (it sets `network:\nSome(LocalNetwork)`). The trap-key hash stored on `AssetsTrapped`\ntherefore could not be matched by a signed `polkadotXcm.claim_assets`\ncall, making default-claimer trapped funds effectively unrecoverable\nwithout a runtime upgrade.\n\nThis PR sets `network: Some(LocalNetwork::get())` on the fallback\nclaimer so its `Location` agrees with what `SignedToAccountId32<_, _,\nLocalNetwork>` yields on AssetHub, and adds a test covering the\nno-claimer-supplied path.\n\n---------\n\nCo-authored-by: Branislav Kontur <bkontur@gmail.com>",
+          "timestamp": "2026-05-08T13:59:03Z",
+          "tree_id": "aa40f757496e1f52cf0c7a61dd30ab49f089c50b",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/2b5a0e15122b7d24eca7371d20d5f8b7e31fa9fd"
+        },
+        "date": 1778254821547,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.11800000000002,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038806275277999985,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.0802485947099999,
             "unit": "seconds"
           }
         ]

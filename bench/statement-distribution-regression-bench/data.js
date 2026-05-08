@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778254843928,
+  "lastUpdate": 1778257220980,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "roberthambrock@gmail.com",
-            "name": "Robert Hambrock",
-            "username": "Lederstrumpf"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "66e9b9a941acd8ffa0b16b796323dc91dd5d25cf",
-          "message": "Add `mmr_generateAncestryProof` rpc call (#9295)\n\n# Description\n\nAdds `generateAncestryProof` to the mmr RPC. An RPC method for\ngenerating ancestry proofs is required for cross-chain slashing by\ncross-chain fishermen https://github.com/Snowfork/snowbridge/pull/1493.\nConsequently, this PR also adds the mmr runtime api method\n`generate_ancestry_proof`. While such a method was already exposed by\nthe beefy-mmr runtime api, this PR opts for moving it to the mmr runtime\napi instead due to the following considerations:\n1. Invoking beefy-mmr's `generate_proof` method via RPC would require\nadding the offchain-db extension to the beefy-rpc, which is a more\ninvasive change with boilerplate that's not needed since the mmr RPC\nalready uses the offchain-db extension for generating leaf proofs.\n2. Since the ancestry proofs are for MMR, it is more natural to expose\nthe method directly on the mmr runtime api - the beefy-mmr pallet's\n`generate_proof` method is merely a wrapper around the mmr pallet's\n`generate_ancestry_proof` method.\n\nSome other misc. changes documented under `Review Notes`.\n\n## Integration\n\nThe integration is the same as for the beefy-mmr runtime api's\n`generate_proof` method.\n\n~~The integration is the same as for the beefy-mmr runtime api's\n`generate_proof` method, except that the optional `at` specifier is\nremoved for the method here since the method is idempotent wrt. the\nblock height invoked at, so long as `at` >= `best_known_block_number`.\nRemoving the specifier reduces likelihood of spurious errors from\nincorrect usage. I can revert the `at` specifier removal however if\ndesired for compatibility.~~\n\nFor example use, see https://github.com/Snowfork/snowbridge/pull/1493.\n\n## Review Notes\n\n- Adds `generate_ancestry_proof` method to mmr runtime api\n(https://github.com/lederstrumpf/polkadot-sdk/commit/682eb4a1411f7194a7277606b7ebe3688e8d5df1)\n- Adds `mmr_generateAncestryProof` rpc method\n(https://github.com/lederstrumpf/polkadot-sdk/commit/5d0eac9f1f48f049bec9846ef497763f5c2fc950,\nhttps://github.com/lederstrumpf/polkadot-sdk/commit/5d0eac9f1f)\n- Adds new `InvalidEquivocationProofSessionMember` error to beefy pallet\n(https://github.com/lederstrumpf/polkadot-sdk/commit/682eb4a141) (note:\nthis change is unrelated to the PR's main purpose, but helps\nimplementers with more granular error reporting. I'm open to removing\nthis change).\n- Deprecates\n`pallet_beefy::generate_ancestry_proof::generate_ancestry_proof` and\n`pallet_beefy::AncestryHelper::generate_proof`. Deprecation penciled in\nfor September 2025 - I'm open to change this date or undo the\ndeprecation.\n(https://github.com/lederstrumpf/polkadot-sdk/commit/6619169ecd)\n- ~~Removes `at` specifier for `pallet_mmr::generate_ancestry_proof`\n(https://github.com/lederstrumpf/polkadot-sdk/commit/bcadda2ce67cdb472b19db722d1ea3827e5869a5)\n(as mentioned in the `Integration` section, fine to undo)~~ *(Update:\nreverted removal of `at` specifier to allow fork handling).*\n\nPR can be tested using https://github.com/Snowfork/snowbridge/pull/1493.\n\nIf PR's approach is accepted, will open the associated PRs in\nhttps://github.com/polkadot-fellows/runtimes &\nhttps://github.com/polkadot-js/api.\n\n---------\n\nCo-authored-by: Adrian Catangiu <adrian@parity.io>",
-          "timestamp": "2025-09-29T17:19:47Z",
-          "tree_id": "81385a89241a9410f0f3e433b7ca69e1145f2455",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/66e9b9a941acd8ffa0b16b796323dc91dd5d25cf"
-        },
-        "date": 1759170653228,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 127.95999999999995,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04512286613999996,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03469496178400001,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.0802485947099999,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "52418509+georgepisaltu@users.noreply.github.com",
+            "name": "georgepisaltu",
+            "username": "georgepisaltu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "5989c0a8b435447d3197040eb162525c92db80c9",
+          "message": "Extend PGAS filter to allow batches (#12027)\n\n# Description\n\nJust as the title says.\n\n---------\n\nSigned-off-by: georgepisaltu <george.pisaltu@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-05-08T14:58:35Z",
+          "tree_id": "d6c9d3cb684c45a2745fa71e489ca73ba1ef0b86",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/5989c0a8b435447d3197040eb162525c92db80c9"
+        },
+        "date": 1778257197705,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 128.10000000000002,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038630698858,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08621123677599993,
             "unit": "seconds"
           }
         ]

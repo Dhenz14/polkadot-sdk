@@ -17,7 +17,8 @@
 //! Ethereum debug-tracing request types owned by the Ethereum RPC crate.
 
 use pallet_revive::evm::{
-	CallTracerConfig, ExecutionTracerConfig, PrestateTracerConfig, StateOverrideSet, TracerType,
+	CallTracerConfig, ExecutionTracerConfig, H256, PrestateTracerConfig, StateOverrideSet, Trace,
+	TracerType,
 };
 use serde::{
 	Deserialize, Serialize,
@@ -123,6 +124,17 @@ pub struct TraceCallConfig {
 	/// Optional state overrides to apply before executing the traced call.
 	#[serde(default, skip_serializing_if = "Option::is_none")]
 	pub state_overrides: Option<StateOverrideSet>,
+}
+
+/// Trace returned for a transaction in `debug_traceBlockByNumber`.
+#[derive(Serialize, Deserialize, Clone, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct TransactionTrace {
+	/// The transaction hash.
+	pub tx_hash: H256,
+	/// The trace of the transaction.
+	#[serde(rename = "result")]
+	pub trace: Trace,
 }
 
 #[cfg(test)]

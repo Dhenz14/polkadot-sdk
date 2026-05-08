@@ -725,17 +725,6 @@ pub struct CallLog {
 	pub position: u32,
 }
 
-/// A transaction trace
-#[derive(Serialize, Deserialize, Clone, Debug)]
-#[serde(rename_all = "camelCase")]
-pub struct TransactionTrace {
-	/// The transaction hash.
-	pub tx_hash: H256,
-	/// The trace of the transaction.
-	#[serde(rename = "result")]
-	pub trace: Trace,
-}
-
 /// Serialize stack values using minimal hex format (like Geth)
 fn serialize_stack_minimal<S>(stack: &Vec<Bytes>, serializer: S) -> Result<S::Ok, S::Error>
 where

@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778227019099,
+  "lastUpdate": 1778229999429,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "alex.theissen@me.com",
-            "name": "Alexander Theißen",
-            "username": "athei"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "c3f62bf918ef6879390dc6a2cf9f91caac23f5b5",
-          "message": "[pallet_transaction_payment]: Share withdrawn tx fee credit with other pallets (#9780)\n\nReplaces https://github.com/paritytech/polkadot-sdk/pull/9590.\n\nThe audit of #9590 showed that holding the txfee as held balance and\nespecially playing around with `providers` causes a lot of troubles.\n\nThis PR is a much lighter change. It keeps the original withdraw/deposit\npattern. It simply stores the withdrawn `Credit` and allows other\npallets to withdraw from it.\n\nIt is also better in terms of performance since all tx signers share a\nsingle storage item (instead of a named hold per account).\n\n---------\n\nCo-authored-by: joe petrowski <25483142+joepetrowski@users.noreply.github.com>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
-          "timestamp": "2025-09-29T22:19:05Z",
-          "tree_id": "6e4aac4ae217869a0122375a4f1a02bc4bbf3da7",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/c3f62bf918ef6879390dc6a2cf9f91caac23f5b5"
-        },
-        "date": 1759188572167,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19302666033333332,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.312319013400002,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.1319510916666667,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@kchr.de",
+            "name": "Bastian Köcher",
+            "username": "bkchr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b18fb34a8ae348df5866e4b718d82871d744e60d",
+          "message": "Improve the sync (#12017)\n\nWe should not panic and handle it more gracefully.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-05-08T07:25:10Z",
+          "tree_id": "4f8e0ac1191f5681370fde931673c8105e7d75fe",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/b18fb34a8ae348df5866e4b718d82871d744e60d"
+        },
+        "date": 1778229977098,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 10.956468210966664,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1326447821,
             "unit": "seconds"
           }
         ]

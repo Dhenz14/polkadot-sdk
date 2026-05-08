@@ -127,7 +127,7 @@ where
 		let renews = self.classify_renew_hashes(&params)?;
 		let missing = self.filter_missing(renews);
 		let fetched = self.fetch_all(missing).await?;
-		Self::attach_prefetched(&mut params, fetched)?;
+		Self::attach_prefetched(&mut params, fetched);
 		self.inner.import_block(params).await
 	}
 }
@@ -264,8 +264,7 @@ where
 			.collect())
 	}
 
-	/// Verifies every fetched blob against its declared content hash and attaches the resulting
-	/// `Vec<(ContentHash, Vec<u8>)>` to `params.intermediates` under
+	/// Attaches the fetched `Vec<(ContentHash, Vec<u8>)>` to `params.intermediates` under
 	/// [`PREFETCHED_INDEXED_TRANSACTIONS_INTERMEDIATE_KEY`]. The inner client extracts the
 	/// payload in `apply_block` and forwards it to the backend, which stores the bytes in the
 	/// TRANSACTION column atomically with the block's BODY_INDEX writes.
@@ -274,31 +273,22 @@ where
 	fn attach_prefetched(
 		params: &mut BlockImportParams<Block>,
 		fetched: Vec<(ContentHash, HashingAlgorithm, Vec<u8>)>,
-	) -> Result<(), ConsensusError> {
+	) {
 		if fetched.is_empty() {
-			return Ok(());
+			return;
 		}
-		let mut payload: Vec<(ContentHash, Vec<u8>)> = Vec::with_capacity(fetched.len());
-		for (hash, hashing, data) in fetched {
-			let computed = hashing.hash(&data);
-			if computed != hash {
-				return Err(ConsensusError::Other(
-					format!(
-						"prefetched indexed transaction hash mismatch: declared={hash:?}, \
-						 computed={computed:?}"
-					)
-					.into(),
-				));
-			}
-			log::info!(
-				target: LOG_TARGET,
-				"attaching bitswap-fetched indexed transaction {:?} to BlockImportParams",
-				hash,
-			);
-			payload.push((hash, data));
-		}
+		let payload: Vec<(ContentHash, Vec<u8>)> = fetched
+			.into_iter()
+			.map(|(hash, _, data)| {
+				log::info!(
+					target: LOG_TARGET,
+					"attaching bitswap-fetched indexed transaction {:?} to BlockImportParams",
+					hash,
+				);
+				(hash, data)
+			})
+			.collect();
 		params.insert_intermediate(PREFETCHED_INDEXED_TRANSACTIONS_INTERMEDIATE_KEY, payload);
-		Ok(())
 	}
 }
 

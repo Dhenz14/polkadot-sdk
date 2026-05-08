@@ -18,7 +18,11 @@
 
 mod hex_serde;
 
+pub use ethereum_types::*;
 pub use pallet_revive_types::common::{Byte, Bytes, Bytes8, Bytes32, Bytes256};
+
+mod block;
+pub use block::*;
 
 mod rlp_codec;
 pub use rlp;
@@ -32,8 +36,11 @@ pub use debug_rpc_types::*;
 mod rpc_types;
 pub use rpc_types::{DryRunConfig, TracingConfig};
 
-mod rpc_types_gen;
-pub use rpc_types_gen::*;
+mod state_override;
+pub use state_override::*;
+
+mod transaction;
+pub use transaction::*;
 
 #[cfg(feature = "std")]
 mod account;

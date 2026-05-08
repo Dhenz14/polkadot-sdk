@@ -21,6 +21,8 @@ path = "src/main.rs"
 
 [dependencies]
 anyhow = { workspace = true }
+alloy-primitives = { workspace = true, default-features = true }
+alloy-rpc-types = { workspace = true, default-features = true, features = ["trace"] }
 clap = { workspace = true, features = ["derive", "env"] }
 codec = { workspace = true, features = ["derive"] }
 derive_more = { workspace = true }
@@ -60,9 +62,7 @@ tokio-stream = { workspace = true }
 
 [dev-dependencies]
 alloy-network = { workspace = true, default-features = true }
-alloy-primitives = { workspace = true, default-features = true }
 alloy-provider = { workspace = true, default-features = true, features = ["debug-api", "reqwest"] }
-alloy-rpc-types = { workspace = true, default-features = true, features = ["trace"] }
 alloy-signer-local = { workspace = true, default-features = true }
 env_logger = { workspace = true }
 frame-system = { workspace = true, default-features = true }

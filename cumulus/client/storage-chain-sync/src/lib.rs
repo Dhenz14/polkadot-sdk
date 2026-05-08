@@ -24,15 +24,15 @@
 //!
 //! `StorageChainBlockImport` interposes between consensus and the inner import:
 //!
-//! 1. On every incoming tip block (`NetworkInitialSync` / `NetworkBroadcast` /
-//!    `ConsensusBroadcast` / `Own` origin, `body.is_some()`, runtime exposes
-//!    `TransactionStorageApi >= 2`), it asks the runtime which indexed transactions the block
-//!    references via `indexed_transactions(block_number)`.
+//! 1. On every incoming tip block (`NetworkInitialSync` / `NetworkBroadcast` / `ConsensusBroadcast`
+//!    / `Own` origin, `body.is_some()`, runtime exposes `TransactionStorageApi >= 2`), it asks the
+//!    runtime which indexed transactions the block references via
+//!    `indexed_transactions(block_number)`.
 //! 2. It feeds the body and runtime metadata through `sc_client_db::classify_indexed_extrinsics`,
 //!    which returns the renew hashes whose data is **not** carried in the body and is **not**
 //!    already on disk.
-//! 3. For each such hash it issues a bitswap `WANT-BLOCK` to a connected peer. On success the
-//!    data is verified against the algorithm declared by the runtime.
+//! 3. For each such hash it issues a bitswap `WANT-BLOCK` to a connected peer. On success the data
+//!    is verified against the algorithm declared by the runtime.
 //! 4. The verified `(content_hash, bytes)` pairs are attached to `BlockImportParams.intermediates`
 //!    under [`PREFETCHED_INDEXED_TRANSACTIONS_INTERMEDIATE_KEY`]. The inner client extracts the
 //!    payload and forwards it to the backend, which writes the data to the TRANSACTION column in
@@ -149,14 +149,14 @@ where
 			return false;
 		}
 		match params.origin {
-			BlockOrigin::NetworkInitialSync
-			| BlockOrigin::NetworkBroadcast
-			| BlockOrigin::ConsensusBroadcast
-			| BlockOrigin::Own => {},
-			BlockOrigin::Genesis
-			| BlockOrigin::File
-			| BlockOrigin::WarpSync
-			| BlockOrigin::GapSync => return false,
+			BlockOrigin::NetworkInitialSync |
+			BlockOrigin::NetworkBroadcast |
+			BlockOrigin::ConsensusBroadcast |
+			BlockOrigin::Own => {},
+			BlockOrigin::Genesis |
+			BlockOrigin::File |
+			BlockOrigin::WarpSync |
+			BlockOrigin::GapSync => return false,
 		}
 		let parent_hash = *params.header.parent_hash();
 		self.client
@@ -237,9 +237,11 @@ where
 		}
 
 		let wants: Vec<_> = missing.into_iter().collect();
-		let acquired = self.fetcher.fetch_many(&wants).await.map_err(|e| {
-			ConsensusError::Other(format!("bitswap fetch_many: {e}").into())
-		})?;
+		let acquired = self
+			.fetcher
+			.fetch_many(&wants)
+			.await
+			.map_err(|e| ConsensusError::Other(format!("bitswap fetch_many: {e}").into()))?;
 		if acquired.len() != wants.len() {
 			let missing_count = wants.len() - acquired.len();
 			return Err(ConsensusError::Other(
@@ -382,11 +384,9 @@ mod tests {
 
 	#[test]
 	fn is_supported_accepts_all_hashings_with_raw_codec() {
-		for algo in [
-			HashingAlgorithm::Blake2b256,
-			HashingAlgorithm::Sha2_256,
-			HashingAlgorithm::Keccak256,
-		] {
+		for algo in
+			[HashingAlgorithm::Blake2b256, HashingAlgorithm::Sha2_256, HashingAlgorithm::Keccak256]
+		{
 			let i = info([0u8; 32], 100, algo, RAW_CID_CODEC, u32::MAX);
 			assert!(is_supported(&&i), "{algo:?} should be supported with RAW codec");
 		}
@@ -394,11 +394,9 @@ mod tests {
 
 	#[test]
 	fn is_supported_rejects_non_raw_codec() {
-		for algo in [
-			HashingAlgorithm::Blake2b256,
-			HashingAlgorithm::Sha2_256,
-			HashingAlgorithm::Keccak256,
-		] {
+		for algo in
+			[HashingAlgorithm::Blake2b256, HashingAlgorithm::Sha2_256, HashingAlgorithm::Keccak256]
+		{
 			let i = info([0u8; 32], 100, algo, 0x70, u32::MAX);
 			assert!(!is_supported(&&i), "{algo:?} with non-RAW codec should be rejected");
 		}

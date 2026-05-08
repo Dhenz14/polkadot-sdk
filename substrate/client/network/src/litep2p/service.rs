@@ -297,11 +297,8 @@ impl Litep2pNetworkService {
 		};
 
 		let litep2p_peer: litep2p::PeerId = peer.into();
-		let cmd = super::bitswap::BitswapOutboundCmd {
-			peer: litep2p_peer,
-			cid,
-			response_tx: sender,
-		};
+		let cmd =
+			super::bitswap::BitswapOutboundCmd { peer: litep2p_peer, cid, response_tx: sender };
 		if let Err(e) = cmd_tx.try_send(cmd) {
 			log::warn!(
 				target: LOG_TARGET,

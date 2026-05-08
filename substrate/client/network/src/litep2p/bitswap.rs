@@ -23,15 +23,14 @@
 //! correlation) functionality.
 //!
 //! Outbound flow:
-//! 1. [`Litep2pNetworkService::start_request`] decodes the WANT protobuf and
-//!    forwards a [`BitswapOutboundCmd`] on the command channel.
-//! 2. [`BitswapService::run`] consumes the command, records the pending
-//!    `(peer, cid) -> response_tx` entry, and calls `handle.send_request`.
-//! 3. When litep2p fires a [`BitswapEvent::Response`], the service correlates
-//!    responses by CID, re-encodes each as a [`BitswapProtoMessage`], and
-//!    resolves the oneshot senders.
-//! 4. Stale entries are reaped by a periodic ticker (avoids leak since
-//!    `send_request` has no delivery failure event).
+//! 1. [`Litep2pNetworkService::start_request`] decodes the WANT protobuf and forwards a
+//!    [`BitswapOutboundCmd`] on the command channel.
+//! 2. [`BitswapService::run`] consumes the command, records the pending `(peer, cid) ->
+//!    response_tx` entry, and calls `handle.send_request`.
+//! 3. When litep2p fires a [`BitswapEvent::Response`], the service correlates responses by CID,
+//!    re-encodes each as a [`BitswapProtoMessage`], and resolves the oneshot senders.
+//! 4. Stale entries are reaped by a periodic ticker (avoids leak since `send_request` has no
+//!    delivery failure event).
 
 use crate::{
 	bitswap::{is_cid_supported, BitswapProtoMessage, Prefix, PROTOCOL_NAME},
@@ -62,8 +61,7 @@ const CMD_CHANNEL_CAPACITY: usize = 256;
 const REQUEST_TIMEOUT: Duration = Duration::from_secs(30);
 const EXPIRY_TICK_INTERVAL: Duration = Duration::from_secs(10);
 
-pub(crate) type ResponseSender =
-	oneshot::Sender<Result<(Vec<u8>, ProtocolName), RequestFailure>>;
+pub(crate) type ResponseSender = oneshot::Sender<Result<(Vec<u8>, ProtocolName), RequestFailure>>;
 
 /// Outbound bitswap command sent from [`super::service::Litep2pNetworkService`].
 pub(crate) struct BitswapOutboundCmd {
@@ -139,11 +137,7 @@ impl<Block: BlockT> BitswapService<Block> {
 		}
 	}
 
-	async fn handle_inbound_request(
-		&mut self,
-		peer: litep2p::PeerId,
-		cids: Vec<(Cid, WantType)>,
-	) {
+	async fn handle_inbound_request(&mut self, peer: litep2p::PeerId, cids: Vec<(Cid, WantType)>) {
 		log::debug!(target: LOG_TARGET, "bitswap: handle inbound request from {peer:?} for {cids:?}");
 
 		let response: Vec<ResponseType> = cids
@@ -164,8 +158,7 @@ impl<Block: BlockT> BitswapService<Block> {
 						WantType::Block => ResponseType::Block { cid, block: transaction },
 						_ => ResponseType::Presence { cid, presence: BlockPresenceType::Have },
 					},
-					None =>
-						ResponseType::Presence { cid, presence: BlockPresenceType::DontHave },
+					None => ResponseType::Presence { cid, presence: BlockPresenceType::DontHave },
 				}
 			})
 			.collect();
@@ -180,10 +173,7 @@ impl<Block: BlockT> BitswapService<Block> {
 		response_tx: ResponseSender,
 	) {
 		log::debug!(target: LOG_TARGET, "bitswap: outbound WANT for {cid} to {peer:?}");
-		self.pending
-			.entry((peer, cid))
-			.or_default()
-			.push((response_tx, Instant::now()));
+		self.pending.entry((peer, cid)).or_default().push((response_tx, Instant::now()));
 		self.handle.send_request(peer, vec![(cid, WantType::Block)]).await;
 	}
 }
@@ -243,9 +233,8 @@ pub(crate) fn handle_inbound_response(
 			Err(e) => {
 				log::warn!(target: LOG_TARGET, "bitswap: failed to encode response for {cid}: {e:?}");
 				for (tx, _) in waiters {
-					let _ = tx.send(Err(RequestFailure::Network(
-						OutboundFailure::ConnectionClosed,
-					)));
+					let _ =
+						tx.send(Err(RequestFailure::Network(OutboundFailure::ConnectionClosed)));
 				}
 				let _ = e;
 				continue;
@@ -260,11 +249,7 @@ pub(crate) fn handle_inbound_response(
 
 /// Remove pending entries older than `timeout`; send [`RequestFailure::Network`] timeout
 /// failures to their waiters.
-pub(crate) fn reap_expired_pending(
-	pending: &mut PendingMap,
-	timeout: Duration,
-	now: Instant,
-) {
+pub(crate) fn reap_expired_pending(pending: &mut PendingMap, timeout: Duration, now: Instant) {
 	let mut drop_keys = Vec::new();
 	for ((peer, cid), waiters) in pending.iter_mut() {
 		let original_len = waiters.len();
@@ -311,18 +296,15 @@ pub(crate) fn encode_response_as_bitswap_message(
 				mh_type: cid.hash().code(),
 				mh_len: cid.hash().size(),
 			};
-			msg.payload.push(MessageBlock {
-				prefix: prefix.to_bytes(),
-				data: block.clone(),
-			});
+			msg.payload
+				.push(MessageBlock { prefix: prefix.to_bytes(), data: block.clone() });
 		},
 		ResponseType::Presence { cid, presence } => {
 			let r#type = match presence {
 				BlockPresenceType::Have => ProtoPresenceType::Have as i32,
 				BlockPresenceType::DontHave => ProtoPresenceType::DontHave as i32,
 			};
-			msg.block_presences
-				.push(BlockPresence { cid: cid.to_bytes(), r#type });
+			msg.block_presences.push(BlockPresence { cid: cid.to_bytes(), r#type });
 		},
 	}
 
@@ -450,10 +432,7 @@ mod tests {
 		let (tx_a, rx_a) = oneshot::channel();
 		let (tx_b, rx_b) = oneshot::channel();
 		let mut pending: PendingMap = HashMap::new();
-		pending.insert(
-			(peer, cid),
-			vec![(tx_a, Instant::now()), (tx_b, Instant::now())],
-		);
+		pending.insert((peer, cid), vec![(tx_a, Instant::now()), (tx_b, Instant::now())]);
 
 		handle_inbound_response(
 			&mut pending,
@@ -486,10 +465,7 @@ mod tests {
 		reap_expired_pending(&mut pending, Duration::from_secs(30), Instant::now());
 
 		let stale_result = rx_stale.await.unwrap();
-		assert!(matches!(
-			stale_result,
-			Err(RequestFailure::Network(OutboundFailure::Timeout))
-		));
+		assert!(matches!(stale_result, Err(RequestFailure::Network(OutboundFailure::Timeout))));
 		assert_eq!(pending.get(&(peer, cid)).map(|v| v.len()), Some(1));
 		assert!(rx_fresh.try_recv().is_err() || rx_fresh.try_recv().unwrap().is_none());
 	}

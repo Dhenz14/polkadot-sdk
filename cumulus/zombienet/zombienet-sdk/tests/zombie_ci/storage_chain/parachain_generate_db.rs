@@ -10,8 +10,9 @@
 //!
 //! - **Archive DB**: A collator node with no pruning, containing `TARGET_BLOCKS` blocks with
 //!   indexed transaction data stored every `STORE_INTERVAL` blocks.
-//! - **Pruned DB**: A full-sync node with `--blocks-pruning=RETENTION_PERIOD`, synced from the
-//!   archive collator. Old blocks beyond the pruning window are deleted.
+//! - **Pruned DB**: A full-sync node with short `--blocks-pruning`, synced from the archive
+//!   collator. Old blocks beyond the pruning window are deleted.
+//! - **Manifest**: JSON metadata describing renewable entries for tests that consume snapshots.
 //!
 //! ## How it works
 //!
@@ -20,13 +21,14 @@
 //! 3. Authorizes Alice/Bob for store transactions upfront
 //! 4. Every `STORE_INTERVAL` blocks, stores 2KB of unique test data via the collator
 //! 5. Waits for both nodes to reach block `TARGET_BLOCKS` (finalized)
-//! 6. Copies parachain databases to `$DB_OUTPUT_DIR` (default: `./zombienet/test-databases/`)
+//! 6. Copies parachain databases and the renewable-entry manifest to `$DB_OUTPUT_DIR` (default:
+//!    `./zombienet/test-databases/`)
 //!
 //! ## Environment Variables
 //!
 //! - `TARGET_BLOCKS` (default: `1000`)
 //! - `STORE_INTERVAL` (default: `10`)
-//! - `RETENTION_PERIOD` (default: `200`)
+//! - `PRUNING_BLOCKS` (default: fixture retention period, `200`)
 //! - `RENEWABLE_STORE_COUNT` (default: `10`)
 //! - `RENEWAL_PASS_BLOCK` (default: `105`)
 //! - `RENEWAL_PASS_INTERVAL` (default: `80`)
@@ -42,11 +44,12 @@
 //! ```
 
 use super::utils::{
-	generate_test_data, get_alice_nonce, initialize_network, renew_data, set_retention_period,
-	verify_parachain_binaries, wait_for_block_height, wait_for_finalized_height,
-	wait_for_session_change_on_node, BLOCK_PRODUCTION_TIMEOUT_SECS, NETWORK_READY_TIMEOUT_SECS,
-	NODE_LOG_CONFIG, PARACHAIN_BINARY, PARACHAIN_CHAIN_SPEC, PARA_ID, RELAY_BINARY, RELAY_CHAIN,
-	SYNC_TIMEOUT_SECS, TEST_DATA_SIZE,
+	archive_manifest_path, blake2_256, get_alice_nonce, hash_to_cid, initialize_network,
+	renew_data_with_hash, test_data_for_store_target_block, verify_parachain_binaries,
+	wait_for_block_height, wait_for_finalized_height, wait_for_session_change_on_node,
+	RenewableEntryManifest, SnapshotManifest, BLOCK_PRODUCTION_TIMEOUT_SECS,
+	FIXTURE_RETENTION_PERIOD, NETWORK_READY_TIMEOUT_SECS, NODE_LOG_CONFIG, PARACHAIN_BINARY,
+	PARACHAIN_CHAIN_SPEC, PARA_ID, RELAY_BINARY, RELAY_CHAIN, SYNC_TIMEOUT_SECS, TEST_DATA_SIZE,
 };
 use crate::test_log;
 use anyhow::{anyhow, Context, Result};
@@ -75,7 +78,6 @@ const GEN_TIMEOUT_SECS: u64 = 10000;
 struct GenDbConfig {
 	target_blocks: u64,
 	store_interval: u64,
-	retention_period: u32,
 	pruning_blocks: u32,
 	renewable_store_count: u64,
 	renewal_pass_block: u64,
@@ -99,11 +101,10 @@ impl GenDbConfig {
 
 		let target_blocks = parse_env("TARGET_BLOCKS", 1000u64)?;
 		let store_interval = parse_env("STORE_INTERVAL", 10u64)?;
-		let retention_period = parse_env("RETENTION_PERIOD", 200u32)?;
+		let pruning_blocks = parse_env("PRUNING_BLOCKS", FIXTURE_RETENTION_PERIOD)?;
 		let renewable_store_count = parse_env("RENEWABLE_STORE_COUNT", 10u64)?;
 		let renewal_pass_block = parse_env("RENEWAL_PASS_BLOCK", 105u64)?;
 		let renewal_pass_interval = parse_env("RENEWAL_PASS_INTERVAL", 80u64)?;
-		let pruning_blocks = retention_period;
 		let last_renewal_pass_ceiling = target_blocks.saturating_sub(30);
 
 		let authorize_transactions = match std::env::var("AUTHORIZE_TRANSACTIONS") {
@@ -123,7 +124,6 @@ impl GenDbConfig {
 		Ok(Self {
 			target_blocks,
 			store_interval,
-			retention_period,
 			pruning_blocks,
 			renewable_store_count,
 			renewal_pass_block,
@@ -420,10 +420,10 @@ async fn parachain_generate_databases() -> Result<()> {
 
 	test_log!(TEST, "=== Parachain Database Generation ===");
 	log::info!(
-		"GenDbConfig: target_blocks={}, store_interval={}, retention_period={}, pruning_blocks={}, renewable_store_count={}, renewal_pass_block={}, renewal_pass_interval={}, authorize_transactions={}, authorize_bytes={}",
+		"GenDbConfig: target_blocks={}, store_interval={}, fixture_retention_period={}, pruning_blocks={}, renewable_store_count={}, renewal_pass_block={}, renewal_pass_interval={}, authorize_transactions={}, authorize_bytes={}",
 		cfg.target_blocks,
 		cfg.store_interval,
-		cfg.retention_period,
+		FIXTURE_RETENTION_PERIOD,
 		cfg.pruning_blocks,
 		cfg.renewable_store_count,
 		cfg.renewal_pass_block,
@@ -435,6 +435,8 @@ async fn parachain_generate_databases() -> Result<()> {
 	verify_parachain_binaries()?;
 
 	let output_dir = get_db_output_dir();
+	std::fs::create_dir_all(&output_dir)
+		.with_context(|| format!("Failed to create output dir {}", output_dir.display()))?;
 	log::info!("Output directory: {}", output_dir.display());
 
 	// === Phase 1: Spawn network (archive collator + pruned full node) ===
@@ -468,9 +470,6 @@ async fn parachain_generate_databases() -> Result<()> {
 
 	let mut nonce = get_alice_nonce(collator1).await?;
 
-	set_retention_period(&collator_client, cfg.retention_period, nonce).await?;
-	nonce += 1;
-
 	authorize_bulk_storage(
 		&collator_client,
 		nonce,
@@ -492,7 +491,7 @@ async fn parachain_generate_databases() -> Result<()> {
 	// Wait for parachain to start producing and track current height
 	wait_for_block_height(collator1, 1, BLOCK_PRODUCTION_TIMEOUT_SECS).await?;
 
-	let mut renewable_entries: Vec<(u64, u32)> = Vec::new();
+	let mut renewable_entries: Vec<RenewableEntryManifest> = Vec::new();
 	let mut next_renewal_block: u64 = cfg.renewal_pass_block;
 	let mut bob_nonce_counter: u64 = 0;
 	let mut next_store_block: u64 = cfg.store_interval;
@@ -517,7 +516,7 @@ async fn parachain_generate_databases() -> Result<()> {
 				"Renewal pass at block {}: renewing {} entries (RetentionPeriod={})",
 				next_renewal_block,
 				renewable_entries.len(),
-				cfg.retention_period,
+				FIXTURE_RETENTION_PERIOD,
 			);
 
 			log::info!(
@@ -527,22 +526,40 @@ async fn parachain_generate_databases() -> Result<()> {
 			);
 			for entry in renewable_entries.iter_mut() {
 				log::info!(
-					"Renewing block={}, index={}, bob_nonce={}",
-					entry.0,
-					entry.1,
+					"Renewing entry={}, block={}, index={}, bob_nonce={}",
+					entry.entry,
+					entry.latest_renewal_block,
+					entry.latest_renewal_index,
 					bob_nonce_counter,
 				);
-				let renew_block =
-					renew_data(&collator_client, entry.0, entry.1, bob_nonce_counter).await?;
+				let outcome = renew_data_with_hash(
+					&collator_client,
+					entry.latest_renewal_block,
+					entry.latest_renewal_index,
+					bob_nonce_counter,
+				)
+				.await?;
 				bob_nonce_counter += 1;
-				log::info!(
-					"Renewed: was block {}, now block {} (expires ~block {})",
-					entry.0,
-					renew_block,
-					renew_block + cfg.retention_period as u64 + 1,
+
+				let expected_content_hash = hex::decode(&entry.content_hash)
+					.with_context(|| format!("Invalid manifest hash for entry {}", entry.entry))?;
+				anyhow::ensure!(
+					expected_content_hash.as_slice() == outcome.content_hash.as_slice(),
+					"renewed content hash mismatch for entry {}",
+					entry.entry,
 				);
-				entry.0 = renew_block;
-				wait_for_block_height(collator1, renew_block + 2, GEN_TIMEOUT_SECS).await?;
+
+				log::info!(
+					"Renewed: was block {}, now block {} index {} (expires ~block {})",
+					entry.latest_renewal_block,
+					outcome.renewed_at_block,
+					outcome.renewed_index,
+					outcome.renewed_at_block + FIXTURE_RETENTION_PERIOD as u64 + 1,
+				);
+				entry.latest_renewal_block = outcome.renewed_at_block;
+				entry.latest_renewal_index = outcome.renewed_index;
+				wait_for_block_height(collator1, outcome.renewed_at_block + 2, GEN_TIMEOUT_SECS)
+					.await?;
 			}
 
 			log::info!(
@@ -557,8 +574,7 @@ async fn parachain_generate_databases() -> Result<()> {
 			.await
 			.with_context(|| format!("Collator did not reach block {}", next_store_block))?;
 
-		let pattern = format!("PARA_GENDB_{:04}_", next_store_block);
-		let test_data = generate_test_data(TEST_DATA_SIZE, pattern.as_bytes());
+		let test_data = test_data_for_store_target_block(next_store_block);
 
 		let is_renewable = store_count + 1 <= cfg.renewable_store_count;
 		let block_num = if is_renewable {
@@ -570,11 +586,22 @@ async fn parachain_generate_databases() -> Result<()> {
 		store_count += 1;
 
 		if is_renewable {
-			renewable_entries.push((block_num, 0));
+			let entry = store_count - 1;
+			let content_hash = blake2_256(&test_data);
+			renewable_entries.push(RenewableEntryManifest {
+				entry,
+				original_store_target_block: next_store_block,
+				original_block: block_num,
+				latest_renewal_block: block_num,
+				latest_renewal_index: 0,
+				content_hash: hex::encode(content_hash),
+				cid: hash_to_cid(&content_hash),
+			});
 			log::info!(
-				"Tracked renewable entry {}/{}: finalized at block {}",
+				"Tracked renewable entry {}/{}: target block {}, finalized at block {}",
 				store_count,
 				cfg.renewable_store_count,
+				next_store_block,
 				block_num,
 			);
 		}
@@ -667,6 +694,20 @@ async fn parachain_generate_databases() -> Result<()> {
 		)
 	})?;
 	log::info!("Saved raw relay chain spec: {}", raw_relay_spec_dst.display());
+
+	let manifest = SnapshotManifest {
+		target_blocks: cfg.target_blocks,
+		store_interval: cfg.store_interval,
+		retention_period: FIXTURE_RETENTION_PERIOD,
+		renewable_store_count: cfg.renewable_store_count,
+		entries: renewable_entries.clone(),
+	};
+	let archive_manifest = archive_manifest_path(&output_dir);
+	let manifest_file = std::fs::File::create(&archive_manifest)
+		.with_context(|| format!("Failed to create {}", archive_manifest.display()))?;
+	serde_json::to_writer_pretty(manifest_file, &manifest)
+		.with_context(|| format!("Failed to write {}", archive_manifest.display()))?;
+	log::info!("Saved archive manifest: {}", archive_manifest.display());
 
 	// Collator snapshot includes both parachain data/ AND embedded relay-data/ so that
 	// when restored the collator's embedded relay chain state matches the parachain state.

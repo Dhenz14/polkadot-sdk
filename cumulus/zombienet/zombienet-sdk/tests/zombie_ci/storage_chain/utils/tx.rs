@@ -1,10 +1,8 @@
 // Copyright (C) Parity Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
-//! Subxt transaction helpers: nonce management, storage operations, retention period.
+//! Subxt transaction helpers: nonce management and storage operations.
 
-#[cfg(feature = "generate-snapshots")]
-use super::{config::TRANSACTION_TIMEOUT_SECS, crypto::retention_period_storage_key};
 use anyhow::{anyhow, Result};
 use codec::Decode;
 use std::time::Duration;
@@ -19,18 +17,19 @@ use zombienet_sdk::{
 
 pub struct RenewOutcome {
 	pub renewed_at_block: u64,
+	pub renewed_index: u32,
 	pub content_hash: [u8; 32],
 }
 
 fn renewed_content_hash(
 	events: &zombienet_sdk::subxt::blocks::ExtrinsicEvents<SubstrateConfig>,
-) -> Result<[u8; 32]> {
+) -> Result<(u32, [u8; 32])> {
 	for event in events.iter() {
 		let event = event?;
 		if event.pallet_name() == "TransactionStorage" && event.variant_name() == "Renewed" {
-			let (_index, content_hash): (u32, [u8; 32]) =
+			let (index, content_hash): (u32, [u8; 32]) =
 				Decode::decode(&mut &event.field_bytes()[..])?;
-			return Ok(content_hash);
+			return Ok((index, content_hash));
 		}
 	}
 
@@ -97,45 +96,6 @@ pub async fn wait_for_finalized(
 	anyhow::bail!("Transaction stream ended without InFinalizedBlock status")
 }
 
-/// Returns (block_number, next_nonce). Waits for best block.
-#[cfg(feature = "generate-snapshots")]
-pub async fn set_retention_period(
-	client: &OnlineClient<SubstrateConfig>,
-	retention_period: u32,
-	nonce: u64,
-) -> Result<()> {
-	let signer = dev::alice();
-	let key = retention_period_storage_key();
-	let value_bytes = retention_period.to_le_bytes().to_vec();
-
-	log::info!(
-		"Setting RetentionPeriod to {} blocks via sudo (key: 0x{}, value: 0x{})",
-		retention_period,
-		hex::encode(&key),
-		hex::encode(&value_bytes)
-	);
-
-	let items = Value::unnamed_composite([Value::unnamed_composite([
-		Value::from_bytes(&key),
-		Value::from_bytes(&value_bytes),
-	])]);
-
-	let set_storage_call = tx("System", "set_storage", vec![items]);
-	let sudo_call = tx("Sudo", "sudo", vec![set_storage_call.into_value()]);
-	let params = SubstrateExtrinsicParamsBuilder::new().nonce(nonce).build();
-
-	tokio::time::timeout(Duration::from_secs(TRANSACTION_TIMEOUT_SECS), async {
-		let progress = client.tx().sign_and_submit_then_watch(&sudo_call, &signer, params).await?;
-		wait_for_in_best_block(progress).await?;
-		Ok::<_, anyhow::Error>(())
-	})
-	.await
-	.map_err(|_| anyhow!("set_retention_period transaction timed out"))??;
-
-	log::info!("RetentionPeriod set successfully");
-	Ok(())
-}
-
 #[cfg(feature = "generate-snapshots")]
 pub async fn get_alice_nonce(node: &zombienet_sdk::NetworkNode) -> Result<u64> {
 	let client: OnlineClient<SubstrateConfig> = node.wait_client().await?;
@@ -169,15 +129,16 @@ pub async fn renew_data_with_hash(
 		anyhow!("renew transaction timed out (block={}, index={}, nonce={})", block, index, nonce)
 	})??;
 
-	let content_hash = renewed_content_hash(&_events)?;
+	let (renewed_index, content_hash) = renewed_content_hash(&_events)?;
 	let b = client.blocks().at(block_hash).await?;
 	log::info!(
-		"Renew included at block {} (renewed entry from block {}, index {})",
+		"Renew included at block {} index {} (renewed entry from block {}, index {})",
 		b.number(),
+		renewed_index,
 		block,
 		index
 	);
-	Ok(RenewOutcome { renewed_at_block: b.number() as u64, content_hash })
+	Ok(RenewOutcome { renewed_at_block: b.number() as u64, renewed_index, content_hash })
 }
 
 #[cfg(feature = "generate-snapshots")]

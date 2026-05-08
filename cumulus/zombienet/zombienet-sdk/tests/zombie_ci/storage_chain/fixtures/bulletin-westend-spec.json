@@ -103,7 +103,7 @@
           "byteFee": 10,
           "entryFee": 1000,
           "preimageAuthorizations": [],
-          "retentionPeriod": 201600
+		  "retentionPeriod": 200
         }
       }
     }

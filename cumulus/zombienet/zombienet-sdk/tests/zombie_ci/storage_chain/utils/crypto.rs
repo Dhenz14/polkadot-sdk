@@ -12,29 +12,6 @@ pub fn blake2_256(data: &[u8]) -> [u8; 32] {
 	output
 }
 
-#[cfg(feature = "generate-snapshots")]
-pub fn twox_128(data: &[u8]) -> [u8; 16] {
-	use std::hash::Hasher;
-	let mut h0 = twox_hash::XxHash64::with_seed(0);
-	let mut h1 = twox_hash::XxHash64::with_seed(1);
-	h0.write(data);
-	h1.write(data);
-	let r0 = h0.finish();
-	let r1 = h1.finish();
-	let mut result = [0u8; 16];
-	result[0..8].copy_from_slice(&r0.to_le_bytes());
-	result[8..16].copy_from_slice(&r1.to_le_bytes());
-	result
-}
-
-#[cfg(feature = "generate-snapshots")]
-pub fn retention_period_storage_key() -> Vec<u8> {
-	let mut key = Vec::new();
-	key.extend_from_slice(&twox_128(b"TransactionStorage"));
-	key.extend_from_slice(&twox_128(b"RetentionPeriod"));
-	key
-}
-
 pub fn hash_to_cid(hash: &[u8; 32]) -> String {
 	use cid::Cid;
 	use multihash::Multihash;

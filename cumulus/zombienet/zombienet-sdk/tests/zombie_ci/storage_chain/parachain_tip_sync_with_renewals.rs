@@ -18,49 +18,42 @@
 //!
 //! # Snapshot fixtures required
 //!
-//! This test loads a 300-block parachain snapshot produced by the same generator
-//! as `parachain_warp_sync_pruning` (`parachain_generate_db.rs`), but parametrized
-//! down via env vars:
+//! This test loads a 300-block parachain snapshot and manifest produced by the
+//! same generator as `parachain_warp_sync_pruning` (`parachain_generate_db.rs`),
+//! but parametrized down via env vars:
 //!
 //! ```bash
 //! TARGET_BLOCKS=300 \
 //! DB_OUTPUT_DIR=cumulus/zombienet/zombienet-sdk/tests/zombie_ci/storage_chain/fixtures/test-databases \
 //! ZOMBIE_PROVIDER=native \
 //!   cargo test --release -p cumulus-zombienet-sdk-tests \
-//!     --features generate-snapshots \
+//!     --features "storage-chain generate-snapshots" \
 //!     -- parachain_generate_databases --nocapture
 //!
-//! mv .../fixtures/test-databases/archive.tgz .../fixtures/test-databases/tip-sync-300.tgz
+//! cp .../fixtures/test-databases/archive.tgz .../fixtures/test-databases/tip-sync-300.tgz
+//! cp .../fixtures/test-databases/archive-manifest.json \
+//!   .../fixtures/test-databases/tip-sync-300-manifest.json
 //! ```
 //!
 //! Until those fixtures exist this test is `#[ignore]`d.
 //!
-//! # Why the renew target is statically known
+//! # Why the renew target comes from the manifest
 //!
-//! The test couples to the snapshot generator's deterministic behavior. With:
-//!   - `TARGET_BLOCKS=300`, `STORE_INTERVAL=10` → 30 stores total
-//!   - `RENEWABLE_STORE_COUNT=10` → first 10 stores marked renewable (originally at blocks 10, 20,
-//!     …, 100, each at index 0)
-//!   - `RENEWAL_PASS_BLOCK=105`, `RENEWAL_PASS_INTERVAL=80`, `LAST_RENEWAL_PASS_CEILING=270` →
-//!     renewal passes at blocks 105 and 185 only; 185 + 80 = 265 ≤ 270 so a third pass at 265 is
-//!     included. With `TARGET_BLOCKS - 30 = 270`, the cutoff allows passes at 105, 185, 265.
-//!
-//! Therefore the **last renewal pass lands at block 265**, with the 10 renewable
-//! entries placed at indices 0..10 within that block (one renew extrinsic per
-//! entry, in the order Bob authorised them). Entries get pruned at block
-//! `265 + RETENTION_PERIOD(200) = 465`. The collator continues producing blocks
-//! after the 300-block snapshot loads; we trigger fresh renews of (265, i) once
-//! best block has advanced past 265.
+//! The stored blob identity is deterministic, but the exact block/index of the
+//! latest generated renewal is captured from chain events while building the
+//! snapshot. The test consumes that manifest directly instead of probing blocks.
 
 use super::utils::{
 	bitswap_v1_get, blake2_256,
 	build_parachain_network_config_three_relay_validators_with_snapshots, expect_dont_have,
-	expect_no_log_line, generate_test_data, get_best_block_height, hash_to_cid, initialize_network,
-	renew_data_with_hash, verify_parachain_binaries, verify_warp_sync_completed,
-	wait_for_block_height, wait_for_finalized_height, wait_for_fullnode, wait_for_new_block_beyond,
-	wait_for_relay_chain_to_sync, wait_for_session_change_on_node, ParachainSnapshots,
-	BLOCK_PRODUCTION_TIMEOUT_SECS, NETWORK_READY_TIMEOUT_SECS, NODE_LOG_CONFIG, PARACHAIN_BINARY,
-	PARA_ID, SYNC_TIMEOUT_SECS, TEST_DATA_SIZE,
+	expect_no_log_line, get_best_block_height, hash_to_cid, initialize_network,
+	renew_data_with_hash, renewable_entry_data, verify_parachain_binaries,
+	verify_warp_sync_completed, wait_for_block_height, wait_for_finalized_height,
+	wait_for_fullnode, wait_for_new_block_beyond, wait_for_relay_chain_to_sync,
+	wait_for_session_change_on_node, RenewableEntryManifest, ResolvedSnapshots,
+	BLOCK_PRODUCTION_TIMEOUT_SECS, FIXTURE_RETENTION_PERIOD, NETWORK_READY_TIMEOUT_SECS,
+	NODE_LOG_CONFIG, PARACHAIN_BINARY, PARA_ID, SNAPSHOT_STORE_INTERVAL, SYNC_TIMEOUT_SECS,
+	TIP_SYNC_RENEWABLE_STORE_COUNT, TIP_SYNC_TARGET_BLOCKS,
 };
 use crate::test_log;
 use anyhow::{anyhow, Context, Result};
@@ -69,62 +62,17 @@ use std::time::Duration;
 use zombienet_orchestrator::AddCollatorOptions;
 use zombienet_sdk::subxt::{config::substrate::SubstrateConfig, OnlineClient};
 
-// Snapshot constants the test couples to (see the file-level doc).
-const SNAPSHOT_STORE_INTERVAL: u64 = 10;
-
 // Test parameters
 const N_RENEW_EXERCISES: u64 = 5; // <= snapshot's RENEWABLE_STORE_COUNT (10)
 const WARP_PRUNING_BLOCKS: u32 = 100;
 const SESSION_CHANGE_TIMEOUT_SECS: u64 = 300;
 const BITSWAP_RPC_POLL_TIMEOUT_SECS: u64 = 60;
 
-/// Reproduce the data blob the snapshot generator stored for renewable entry `i`
-/// (0-indexed). Mirrors `parachain_generate_db::generate_test_data` exactly.
-fn snapshot_renewable_entry_data(i: u64) -> Vec<u8> {
-	let original_store_block = (i + 1) * SNAPSHOT_STORE_INTERVAL;
-	let pattern = format!("PARA_GENDB_{:04}_", original_store_block);
-	generate_test_data(TEST_DATA_SIZE, pattern.as_bytes())
-}
-
-/// Snapshot fixture paths expected on disk. See file-level doc for regeneration.
-struct ResolvedSnapshots {
-	collator: std::path::PathBuf,
-	relay: std::path::PathBuf,
-	chain_spec: std::path::PathBuf,
-	relay_chain_spec: std::path::PathBuf,
-}
-
-impl ResolvedSnapshots {
-	fn load() -> Result<Self> {
-		let snapshot_dir = "tests/zombie_ci/storage_chain/fixtures/test-databases";
-		let snapshot_base = std::path::Path::new(snapshot_dir);
-		let collator =
-			std::fs::canonicalize(snapshot_base.join("tip-sync-300.tgz")).with_context(|| {
-				format!(
-					"tip-sync-300.tgz not found in {}. Generate it with: \
-					 TARGET_BLOCKS=300 ... cargo test ... parachain_generate_databases",
-					snapshot_dir
-				)
-			})?;
-		let relay = std::fs::canonicalize(snapshot_base.join("relay.tgz"))
-			.with_context(|| format!("relay.tgz not found in {}", snapshot_dir))?;
-		let chain_spec = std::fs::canonicalize(snapshot_base.join("raw-chain-spec.json"))
-			.with_context(|| format!("raw-chain-spec.json not found in {}", snapshot_dir))?;
-		let relay_chain_spec = std::fs::canonicalize(
-			snapshot_base.join("raw-relay-chain-spec.json"),
-		)
-		.with_context(|| format!("raw-relay-chain-spec.json not found in {}", snapshot_dir))?;
-		Ok(Self { collator, relay, chain_spec, relay_chain_spec })
-	}
-
-	fn as_parachain_snapshots(&self) -> ParachainSnapshots<'_> {
-		ParachainSnapshots {
-			collator: self.collator.to_str().expect("non-utf8 path"),
-			relay: self.relay.to_str().expect("non-utf8 path"),
-			chain_spec: self.chain_spec.to_str().expect("non-utf8 path"),
-			relay_chain_spec: self.relay_chain_spec.to_str().expect("non-utf8 path"),
-		}
-	}
+fn manifest_content_hash(entry: &RenewableEntryManifest) -> Result<[u8; 32]> {
+	let mut hash = [0u8; 32];
+	hex::decode_to_slice(&entry.content_hash, &mut hash)
+		.with_context(|| format!("invalid content_hash for manifest entry {}", entry.entry))?;
+	Ok(hash)
 }
 
 #[tokio::test(flavor = "multi_thread")]
@@ -132,13 +80,47 @@ impl ResolvedSnapshots {
 			 but the sync node still does not expose renewed content via bitswap_v1_get after \
 			 importing the renew blocks. This remaining failure appears feature-level, not \
 			 test-setup-only. Snapshot fixture: TARGET_BLOCKS=300 cargo test ... \
-			 parachain_generate_databases, then mv archive.tgz tip-sync-300.tgz."]
+			 parachain_generate_databases, then copy archive.tgz and archive-manifest.json into \
+			 the tip-sync fixture names."]
 async fn parachain_tip_sync_with_renewals_test() -> Result<()> {
 	const TEST: &str = "para_tip_sync_renewals";
 	let _ = env_logger::Builder::from_env(Env::default().default_filter_or("info")).try_init();
 
 	verify_parachain_binaries()?;
 	let snaps = ResolvedSnapshots::load()?;
+	let manifest = snaps.load_manifest()?;
+	anyhow::ensure!(
+		manifest.target_blocks == TIP_SYNC_TARGET_BLOCKS,
+		"unexpected manifest target_blocks: got {}, expected {}",
+		manifest.target_blocks,
+		TIP_SYNC_TARGET_BLOCKS,
+	);
+	anyhow::ensure!(
+		manifest.store_interval == SNAPSHOT_STORE_INTERVAL,
+		"unexpected manifest store_interval: got {}, expected {}",
+		manifest.store_interval,
+		SNAPSHOT_STORE_INTERVAL,
+	);
+	anyhow::ensure!(
+		manifest.retention_period == FIXTURE_RETENTION_PERIOD,
+		"unexpected manifest retention_period: got {}, expected {}",
+		manifest.retention_period,
+		FIXTURE_RETENTION_PERIOD,
+	);
+	anyhow::ensure!(
+		manifest.renewable_store_count == TIP_SYNC_RENEWABLE_STORE_COUNT,
+		"unexpected manifest renewable_store_count: got {}, expected {}",
+		manifest.renewable_store_count,
+		TIP_SYNC_RENEWABLE_STORE_COUNT,
+	);
+	anyhow::ensure!(
+		manifest.entries.len() >= N_RENEW_EXERCISES as usize,
+		"manifest has only {} renewable entries, need {}",
+		manifest.entries.len(),
+		N_RENEW_EXERCISES,
+	);
+	let renew_targets =
+		manifest.entries.iter().take(N_RENEW_EXERCISES as usize).collect::<Vec<_>>();
 
 	test_log!(TEST, "Loaded snapshot fixtures from disk");
 
@@ -198,12 +180,25 @@ async fn parachain_tip_sync_with_renewals_test() -> Result<()> {
 	// ─────────────────────────────────────────────────────────────────────────
 	// Phase 3: sanity — sync-node has NO pre-warp snapshot data.
 	// ─────────────────────────────────────────────────────────────────────────
-	for i in 0..N_RENEW_EXERCISES {
-		let data = snapshot_renewable_entry_data(i);
+	for entry in &renew_targets {
+		let data = renewable_entry_data(entry.entry);
+		let expected_hash = manifest_content_hash(entry)?;
+		anyhow::ensure!(
+			blake2_256(&data) == expected_hash,
+			"manifest hash does not match deterministic data for entry {}",
+			entry.entry,
+		);
 		let cid = hash_to_cid(&blake2_256(&data));
+		anyhow::ensure!(
+			cid == entry.cid,
+			"manifest CID does not match deterministic data for entry {}",
+			entry.entry,
+		);
 		expect_dont_have(sync_node, &cid, Duration::from_secs(BITSWAP_RPC_POLL_TIMEOUT_SECS))
 			.await
-			.with_context(|| format!("pre-renewal: sync-node should not have entry {i} ({cid})"))?;
+			.with_context(|| {
+				format!("pre-renewal: sync-node should not have entry {} ({cid})", entry.entry)
+			})?;
 	}
 	test_log!(
 		TEST,
@@ -214,11 +209,9 @@ async fn parachain_tip_sync_with_renewals_test() -> Result<()> {
 	// Phase 4: continuous renewals — the core of the test.
 	//
 	// `pallet_transaction_storage::renew(block, index)` requires the entry to
-	// still exist at (block, index). Since the snapshot generator's renewal
-	// passes placed entries at staggered, run-dependent blocks, the test
-	// discovers valid renewal targets by walking backward from the collator's
-	// current best block and probing `renew(N, 0)` until N_RENEW_EXERCISES
-	// renewals succeed.
+	// still exist at (block, index). The snapshot generator records the latest
+	// valid renewal targets in the fixture manifest, so the test renews those
+	// targets directly instead of probing historical blocks.
 	// ─────────────────────────────────────────────────────────────────────────
 	let collator_client: OnlineClient<SubstrateConfig> = collator1.wait_client().await?;
 	let mut bob_nonce = collator_client
@@ -228,56 +221,45 @@ async fn parachain_tip_sync_with_renewals_test() -> Result<()> {
 		)
 		.await?;
 
-	let mut successful_renews = 0usize;
 	let mut renewed_hashes = Vec::new();
-	let collator_best = get_best_block_height(collator1).await?;
-	let search_floor = collator_best.saturating_sub(200);
-	let mut first_renew_error: Option<String> = None;
 
-	for candidate_block in search_floor..collator_best {
-		if successful_renews >= N_RENEW_EXERCISES as usize {
-			break;
-		}
-		match renew_data_with_hash(&collator_client, candidate_block, 0, bob_nonce).await {
-			Ok(outcome) => {
-				let renew_block = outcome.renewed_at_block;
-				test_log!(
-					TEST,
-					"✓ Renew {}/{}: block={}, index=0 → renewed at block {}",
-					successful_renews + 1,
-					N_RENEW_EXERCISES,
-					candidate_block,
-					renew_block
-				);
-				bob_nonce += 1;
-				successful_renews += 1;
-				renewed_hashes.push(outcome.content_hash);
-
-				wait_for_finalized_height(collator1, renew_block, BLOCK_PRODUCTION_TIMEOUT_SECS)
-					.await?;
-				wait_for_block_height(sync_node, renew_block, SYNC_TIMEOUT_SECS).await?;
-			},
-			Err(err) => {
-				if first_renew_error.is_none() {
-					first_renew_error = Some(format!(
-						"block={}, index=0, nonce={}: {err:#}",
-						candidate_block, bob_nonce,
-					));
-				}
-				continue;
-			},
-		}
-	}
-
-	if successful_renews < N_RENEW_EXERCISES as usize {
-		return Err(anyhow!(
-			"Only managed {} renewals out of {} requested (search range {}..{}). First renew error: {}",
-			successful_renews,
+	for (i, entry) in renew_targets.iter().enumerate() {
+		let expected_hash = manifest_content_hash(entry)?;
+		let outcome = renew_data_with_hash(
+			&collator_client,
+			entry.latest_renewal_block,
+			entry.latest_renewal_index,
+			bob_nonce,
+		)
+		.await
+		.with_context(|| {
+			format!(
+				"renewing manifest entry {} at block {}, index {}",
+				entry.entry, entry.latest_renewal_block, entry.latest_renewal_index,
+			)
+		})?;
+		anyhow::ensure!(
+			outcome.content_hash == expected_hash,
+			"renewed content hash mismatch for manifest entry {}",
+			entry.entry,
+		);
+		let renew_block = outcome.renewed_at_block;
+		test_log!(
+			TEST,
+			"✓ Renew {}/{}: entry={}, block={}, index={} → renewed at block {} index {}",
+			i + 1,
 			N_RENEW_EXERCISES,
-			search_floor,
-			collator_best,
-			first_renew_error.unwrap_or_else(|| "<none captured>".into()),
-		));
+			entry.entry,
+			entry.latest_renewal_block,
+			entry.latest_renewal_index,
+			renew_block,
+			outcome.renewed_index,
+		);
+		bob_nonce += 1;
+		renewed_hashes.push(expected_hash);
+
+		wait_for_finalized_height(collator1, renew_block, BLOCK_PRODUCTION_TIMEOUT_SECS).await?;
+		wait_for_block_height(sync_node, renew_block, SYNC_TIMEOUT_SECS).await?;
 	}
 
 	let deadline = std::time::Instant::now() + Duration::from_secs(BITSWAP_RPC_POLL_TIMEOUT_SECS);

@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778254748284,
+  "lastUpdate": 1778257123630,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "git@kchr.de",
-            "name": "Bastian Köcher",
-            "username": "bkchr"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "bfa664265cc94e201f297f070b8eadb90c634f64",
-          "message": "bip39: Switch back to the main fork (#9872)\n\nClose: https://github.com/paritytech/polkadot-sdk/issues/9870\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
-          "timestamp": "2025-09-30T10:10:01Z",
-          "tree_id": "9d0883eeb9d403dfa86abebc12991c0c05509f3f",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/bfa664265cc94e201f297f070b8eadb90c634f64"
-        },
-        "date": 1759232527358,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.274028623899998,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19506474713333338,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.13727594613333333,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "52418509+georgepisaltu@users.noreply.github.com",
+            "name": "georgepisaltu",
+            "username": "georgepisaltu"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "5989c0a8b435447d3197040eb162525c92db80c9",
+          "message": "Extend PGAS filter to allow batches (#12027)\n\n# Description\n\nJust as the title says.\n\n---------\n\nSigned-off-by: georgepisaltu <george.pisaltu@parity.io>\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-05-08T14:58:35Z",
+          "tree_id": "d6c9d3cb684c45a2745fa71e489ca73ba1ef0b86",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/5989c0a8b435447d3197040eb162525c92db80c9"
+        },
+        "date": 1778257100648,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.131184908933337,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13090856623333333,
             "unit": "seconds"
           }
         ]

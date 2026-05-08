@@ -576,17 +576,6 @@ mod tests {
 	}
 
 	#[tokio::test]
-	async fn fetch_many_request_failure_propagates() {
-		let stub = StubSender::new([Err(RequestFailure::NotConnected)]);
-
-		let hash = HashingAlgorithm::Blake2b256.hash(b"any");
-		let err = fetch_many(&stub, PeerId::random(), &[(hash, HashingAlgorithm::Blake2b256)])
-			.await
-			.expect_err("network failure must propagate");
-		assert!(matches!(err, BitswapError::RequestFailed(_)));
-	}
-
-	#[tokio::test]
 	async fn fetch_many_dispatches_per_entry_hashing() {
 		let data_b2 = b"blake2b-payload".to_vec();
 		let data_sha = b"sha2-256-payload".to_vec();
@@ -621,5 +610,186 @@ mod tests {
 		assert!(matches!(result.get(&hash_b2), Some(FetchOutcome::Block(d)) if *d == data_b2));
 		assert!(matches!(result.get(&hash_sha), Some(FetchOutcome::Block(d)) if *d == data_sha));
 		assert!(matches!(result.get(&hash_kec), Some(FetchOutcome::Block(d)) if *d == data_kec));
+	}
+
+	#[tokio::test]
+	async fn fetch_many_block_beats_presence_for_same_cid() {
+		let data = b"both-block-and-presence".to_vec();
+		let hash = HashingAlgorithm::Blake2b256.hash(&data);
+
+		let response = encode_response(
+			&[(HashingAlgorithm::Blake2b256, data.clone())],
+			&[(hash, HashingAlgorithm::Blake2b256, BlockPresenceType::DontHave as i32)],
+		);
+		let stub = StubSender::new([Ok(response)]);
+
+		let result = fetch_many(&stub, PeerId::random(), &[(hash, HashingAlgorithm::Blake2b256)])
+			.await
+			.unwrap();
+
+		assert_eq!(result.len(), 1);
+		assert!(matches!(result.get(&hash), Some(FetchOutcome::Block(d)) if *d == data));
+	}
+
+	#[tokio::test]
+	async fn fetch_many_response_decode_failure() {
+		let stub = StubSender::new([Ok(vec![0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff])]);
+
+		let hash = HashingAlgorithm::Blake2b256.hash(b"any");
+		let err = fetch_many(&stub, PeerId::random(), &[(hash, HashingAlgorithm::Blake2b256)])
+			.await
+			.expect_err("malformed response bytes must surface as DecodeError");
+		assert!(matches!(err, BitswapError::DecodeError(_)));
+	}
+
+	#[tokio::test]
+	async fn fetch_many_channel_cancelled_propagates() {
+		struct DroppingSender;
+		impl BitswapRequestSender for DroppingSender {
+			fn start_bitswap_request(
+				&self,
+				_peer: PeerId,
+				_protocol: ProtocolName,
+				_payload: Vec<u8>,
+				tx: oneshot::Sender<Result<(Vec<u8>, ProtocolName), RequestFailure>>,
+				_connect: IfDisconnected,
+			) {
+				drop(tx);
+			}
+		}
+
+		let hash = HashingAlgorithm::Blake2b256.hash(b"any");
+		let err =
+			fetch_many(&DroppingSender, PeerId::random(), &[(hash, HashingAlgorithm::Blake2b256)])
+				.await
+				.expect_err("dropped channel must surface as RequestFailed");
+		assert!(matches!(err, BitswapError::RequestFailed(_)));
+	}
+
+	#[tokio::test]
+	async fn fetch_many_unsupported_multihash_in_block_dropped() {
+		let wanted_data = b"wanted".to_vec();
+		let wanted_hash = HashingAlgorithm::Blake2b256.hash(&wanted_data);
+
+		// Peer sends a block whose prefix declares multihash code 0x99 (no `HashingAlgorithm`
+		// maps to it). `cid_from_block_prefix` rejects with `UnsupportedHashing` and the block
+		// is dropped, leaving the wanted entry unfilled and the backfill marks it `Missing`.
+		const UNSUPPORTED_MH_CODE: u64 = 0x99;
+		let bad_prefix = Prefix {
+			version: CidVersion::V1,
+			codec: RAW_CODEC,
+			mh_type: UNSUPPORTED_MH_CODE,
+			mh_len: 32,
+		}
+		.to_bytes();
+
+		let mut payload_msg = BitswapMessage::default();
+		payload_msg.payload =
+			vec![MessageBlock { prefix: bad_prefix, data: b"some-bytes".to_vec() }];
+		let response = payload_msg.encode_to_vec();
+
+		let stub = StubSender::new([Ok(response)]);
+
+		let result =
+			fetch_many(&stub, PeerId::random(), &[(wanted_hash, HashingAlgorithm::Blake2b256)])
+				.await
+				.unwrap();
+
+		assert_eq!(result.len(), 1);
+		assert!(matches!(result.get(&wanted_hash), Some(FetchOutcome::Missing)));
+	}
+
+	#[tokio::test]
+	async fn fetch_many_at_exactly_max_wanted_blocks_succeeds() {
+		let mut wants: Vec<(ContentHash, HashingAlgorithm)> =
+			Vec::with_capacity(MAX_WANTED_BLOCKS_PER_REQUEST);
+		let mut blocks: Vec<(HashingAlgorithm, Vec<u8>)> =
+			Vec::with_capacity(MAX_WANTED_BLOCKS_PER_REQUEST);
+		for i in 0..MAX_WANTED_BLOCKS_PER_REQUEST {
+			let data = format!("payload-{i}").into_bytes();
+			let hash = HashingAlgorithm::Blake2b256.hash(&data);
+			wants.push((hash, HashingAlgorithm::Blake2b256));
+			blocks.push((HashingAlgorithm::Blake2b256, data));
+		}
+
+		let response = encode_response(&blocks, &[]);
+		let stub = StubSender::new([Ok(response)]);
+
+		let result = fetch_many(&stub, PeerId::random(), &wants)
+			.await
+			.expect("exactly MAX_WANTED_BLOCKS_PER_REQUEST must succeed");
+
+		assert_eq!(result.len(), MAX_WANTED_BLOCKS_PER_REQUEST);
+		for (hash, _) in &wants {
+			assert!(matches!(result.get(hash), Some(FetchOutcome::Block(_))));
+		}
+	}
+
+	#[tokio::test]
+	async fn fetch_many_malformed_presence_cid_dropped() {
+		let wanted_data = b"wanted".to_vec();
+		let wanted_hash = HashingAlgorithm::Blake2b256.hash(&wanted_data);
+
+		// Peer puts garbage bytes in `presence.cid`. `Cid::read_bytes` errors, the presence is
+		// dropped, the wanted entry is backfilled as `Missing`.
+		let mut response_msg = BitswapMessage::default();
+		response_msg.block_presences = vec![BlockPresence {
+			cid: vec![0xde, 0xad, 0xbe, 0xef],
+			r#type: BlockPresenceType::DontHave as i32,
+		}];
+		let response = response_msg.encode_to_vec();
+		let stub = StubSender::new([Ok(response)]);
+
+		let result =
+			fetch_many(&stub, PeerId::random(), &[(wanted_hash, HashingAlgorithm::Blake2b256)])
+				.await
+				.unwrap();
+
+		assert_eq!(result.len(), 1);
+		assert!(matches!(result.get(&wanted_hash), Some(FetchOutcome::Missing)));
+	}
+
+	#[tokio::test]
+	async fn fetch_many_mostly_presences_response() {
+		let served_data = b"the-only-served".to_vec();
+		let served_hash = HashingAlgorithm::Blake2b256.hash(&served_data);
+		let pruned_a = HashingAlgorithm::Blake2b256.hash(b"pruned-a");
+		let pruned_b = HashingAlgorithm::Blake2b256.hash(b"pruned-b");
+		let pruned_c = HashingAlgorithm::Blake2b256.hash(b"pruned-c");
+		let pruned_d = HashingAlgorithm::Blake2b256.hash(b"pruned-d");
+
+		let response = encode_response(
+			&[(HashingAlgorithm::Blake2b256, served_data.clone())],
+			&[
+				(pruned_a, HashingAlgorithm::Blake2b256, BlockPresenceType::DontHave as i32),
+				(pruned_b, HashingAlgorithm::Blake2b256, BlockPresenceType::DontHave as i32),
+				(pruned_c, HashingAlgorithm::Blake2b256, BlockPresenceType::DontHave as i32),
+				(pruned_d, HashingAlgorithm::Blake2b256, BlockPresenceType::DontHave as i32),
+			],
+		);
+		let stub = StubSender::new([Ok(response)]);
+
+		let result = fetch_many(
+			&stub,
+			PeerId::random(),
+			&[
+				(served_hash, HashingAlgorithm::Blake2b256),
+				(pruned_a, HashingAlgorithm::Blake2b256),
+				(pruned_b, HashingAlgorithm::Blake2b256),
+				(pruned_c, HashingAlgorithm::Blake2b256),
+				(pruned_d, HashingAlgorithm::Blake2b256),
+			],
+		)
+		.await
+		.unwrap();
+
+		assert_eq!(result.len(), 5);
+		assert!(
+			matches!(result.get(&served_hash), Some(FetchOutcome::Block(d)) if *d == served_data)
+		);
+		assert!(matches!(result.get(&pruned_a), Some(FetchOutcome::DontHave)));
+		assert!(matches!(result.get(&pruned_b), Some(FetchOutcome::DontHave)));
+		assert!(matches!(result.get(&pruned_c), Some(FetchOutcome::DontHave)));
+		assert!(matches!(result.get(&pruned_d), Some(FetchOutcome::DontHave)));
 	}
 }

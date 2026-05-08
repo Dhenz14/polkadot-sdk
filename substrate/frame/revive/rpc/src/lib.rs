@@ -38,6 +38,7 @@ pub mod cli;
 pub mod client;
 pub mod example;
 pub mod subxt_client;
+pub mod types;
 
 #[cfg(test)]
 mod tests;
@@ -56,6 +57,7 @@ pub use receipt_extractor::*;
 
 mod apis;
 pub use apis::*;
+pub use types::*;
 
 pub const LOG_TARGET: &str = "eth-rpc";
 

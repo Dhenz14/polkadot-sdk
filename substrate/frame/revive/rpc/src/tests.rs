@@ -19,8 +19,9 @@
 //! [evm-test-suite](https://github.com/paritytech/evm-test-suite) repository.
 
 use crate::{
-	BlockInfoProvider, ChainMetadata, DbContext, DebugRpcClient, EthRpcClient, ReceiptExtractor,
-	ReceiptProvider, SubxtBlockInfoProvider, SyncLabel,
+	BlockInfoProvider, BoundedOneOrMany, ChainMetadata, DbContext, DebugRpcClient, EthRpcClient,
+	ReceiptExtractor, ReceiptProvider, SubxtBlockInfoProvider, SubscriptionItem, SubscriptionKind,
+	SubscriptionOptions, SyncLabel,
 	cli::{self, CliCommand},
 	client::{Client, GapFillRequest, SubscriptionGapQueue, connect},
 	example::TransactionBuilder,
@@ -45,9 +46,8 @@ use jsonrpsee::{
 use pallet_revive::{
 	create1,
 	evm::{
-		Account, Block, BlockHeader, BoundedOneOrMany, FilterResults, GenericTransaction, H256,
-		HashesOrTransactionInfos, Log, SubscriptionItem, SubscriptionKind, SubscriptionOptions,
-		Trace, TransactionInfo, TransactionUnsigned, U256,
+		Account, Block, BlockHeader, FilterResults, GenericTransaction, H256,
+		HashesOrTransactionInfos, Log, Trace, TransactionInfo, TransactionUnsigned, U256,
 	},
 	precompiles::alloy::{
 		self,

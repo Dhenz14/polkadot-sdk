@@ -39,6 +39,7 @@ sc-cli = { workspace = true, default-features = true }
 sc-rpc = { workspace = true, default-features = true }
 sc-rpc-api = { workspace = true, default-features = true }
 sc-service = { workspace = true, default-features = true }
+scale-info = { workspace = true, features = ["derive"] }
 serde = { workspace = true, default-features = true, features = [
 	"alloc",
 	"derive",

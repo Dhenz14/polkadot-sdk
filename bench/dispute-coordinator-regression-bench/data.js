@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778227149548,
+  "lastUpdate": 1778230124556,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "FereMouSiopi@proton.me",
-            "name": "FereMouSiopi",
-            "username": "FereMouSiopi"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "f239e76aadf90ed1023debaef155710239f9d865",
-          "message": "Update `pallet-asset-rewards` to use BlockNumberProvider (#9826)\n\nresolves #9816\n\n---------\n\nCo-authored-by: Francisco Aguirre <franciscoaguirreperez@gmail.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
-          "timestamp": "2025-09-29T10:10:57Z",
-          "tree_id": "f2485c637c99e6de2f3288a27f9353058cbe2d69",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/f239e76aadf90ed1023debaef155710239f9d865"
-        },
-        "date": 1759144987122,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.008721447119999988,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005167388659999986,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0026726371500000005,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-distribution",
             "value": 0.00958482442999998,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "git@kchr.de",
+            "name": "Bastian Köcher",
+            "username": "bkchr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b18fb34a8ae348df5866e4b718d82871d744e60d",
+          "message": "Improve the sync (#12017)\n\nWe should not panic and handle it more gracefully.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-05-08T07:25:10Z",
+          "tree_id": "4f8e0ac1191f5681370fde931673c8105e7d75fe",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/b18fb34a8ae348df5866e4b718d82871d744e60d"
+        },
+        "date": 1778230102512,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.010324510249999991,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.00264851018,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.00935754494999998,
             "unit": "seconds"
           }
         ]

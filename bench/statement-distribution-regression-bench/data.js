@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778230092345,
+  "lastUpdate": 1778246802179,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "49718502+alexggh@users.noreply.github.com",
-            "name": "Alexandru Gheorghe",
-            "username": "alexggh"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "d79598b79213c8d6e557115ed057d4894e6cd787",
-          "message": "pallet-revive: allow changing immutables (#9801)\n\n... to be used in polkadot foundry to make sure EVM state is in sync\nwith pallet-revive state.\n\nFixes: https://github.com/paritytech/foundry-polkadot/issues/277\n\n---------\n\nSigned-off-by: Alexandru Gheorghe <alexandru.gheorghe@parity.io>\nCo-authored-by: Alexander Theißen <alex.theissen@me.com>",
-          "timestamp": "2025-09-29T13:58:56Z",
-          "tree_id": "cea97acfc73c4a52ceebe945241070a046fb01da",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/d79598b79213c8d6e557115ed057d4894e6cd787"
-        },
-        "date": 1759158585419,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.954,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04403906814999993,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.034320574102000005,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.039480325596,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "41779041+alvicsam@users.noreply.github.com",
+            "name": "Alexander Samusev",
+            "username": "alvicsam"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f2bc410c455ea0a82162d92ce4dcc41ae644c143",
+          "message": "ci: new ci-unified with updated forklift and resolc (#12019)\n\ncc https://github.com/paritytech/devops/issues/5285",
+          "timestamp": "2026-05-08T12:01:00Z",
+          "tree_id": "d8731de162658dcfd33d371c1d0d6ac3aa6a182d",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/f2bc410c455ea0a82162d92ce4dcc41ae644c143"
+        },
+        "date": 1778246779598,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.082,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08823076175199995,
+            "unit": "seconds"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.038816118694000014,
             "unit": "seconds"
           }
         ]

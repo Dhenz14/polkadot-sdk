@@ -221,61 +221,6 @@ impl From<revive_storage_types::EthereumBlockV1> for Block {
 	}
 }
 
-/// Block header object returned by `newHeads` subscriptions.
-#[derive(Debug, Default, Clone, Serialize, Deserialize, Eq, PartialEq)]
-#[serde(rename_all = "camelCase")]
-pub struct BlockHeader {
-	/// Number
-	pub number: U256,
-	/// Hash
-	pub hash: H256,
-	/// Parent block hash
-	pub parent_hash: H256,
-	/// Nonce
-	pub nonce: Bytes8,
-	/// Ommers hash
-	pub sha_3_uncles: H256,
-	/// Bloom filter
-	pub logs_bloom: Bytes256,
-	/// Transactions root
-	pub transactions_root: H256,
-	/// State root
-	pub state_root: H256,
-	/// Receipts root
-	pub receipts_root: H256,
-	/// Coinbase
-	pub miner: Address,
-	/// Extra data
-	pub extra_data: Bytes,
-	/// Gas limit
-	pub gas_limit: U256,
-	/// Gas used
-	pub gas_used: U256,
-	/// Timestamp
-	pub timestamp: U256,
-}
-
-impl From<Block> for BlockHeader {
-	fn from(block: Block) -> Self {
-		Self {
-			number: block.number,
-			hash: block.hash,
-			parent_hash: block.parent_hash,
-			nonce: block.nonce,
-			sha_3_uncles: block.sha_3_uncles,
-			logs_bloom: block.logs_bloom,
-			transactions_root: block.transactions_root,
-			state_root: block.state_root,
-			receipts_root: block.receipts_root,
-			miner: block.miner,
-			extra_data: block.extra_data,
-			gas_limit: block.gas_limit,
-			gas_used: block.gas_used,
-			timestamp: block.timestamp,
-		}
-	}
-}
-
 /// Transaction object generic to all types
 #[derive(
 	Debug, Default, Clone, Encode, Decode, TypeInfo, Serialize, Deserialize, Eq, PartialEq,

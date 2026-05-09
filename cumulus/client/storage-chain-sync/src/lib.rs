@@ -55,12 +55,15 @@ use sc_client_api::backend::{
 use sc_client_db::{
 	classify_indexed_extrinsics, Backend, ClassifiedExtrinsic, IndexedTransactionMeta,
 };
-use sc_consensus::{BlockCheckParams, BlockImport, BlockImportParams, ImportResult};
+use sc_consensus::{
+	BlockCheckParams, BlockImport, BlockImportParams, ImportResult, StateAction,
+	StorageChanges as ConsensusStorageChanges,
+};
 use sp_api::{ApiExt, CallApiAt, CallContext, Core, ProvideRuntimeApi};
 use sp_blockchain::Backend as BlockchainBackendT;
 use sp_consensus::{BlockOrigin, Error as ConsensusError};
 use sp_runtime::traits::{Block as BlockT, HashingFor, Header as HeaderT};
-use sp_state_machine::StorageChanges;
+use sp_state_machine::{IndexOperation, StorageChanges};
 use sp_transaction_storage_proof::{
 	runtime_api::TransactionStorageApi, ContentHash, HashingAlgorithm, IndexedTransactionInfo,
 };
@@ -127,7 +130,7 @@ where
 			return self.inner.import_block(params).await;
 		}
 
-		let renews = self.classify_renew_hashes(&params)?;
+		let renews = self.classify_renew_hashes(&mut params)?;
 		let missing = self.filter_missing(renews);
 		let fetched = self.fetch_all(missing).await?;
 		Self::attach_prefetched(&mut params, fetched);
@@ -168,101 +171,154 @@ where
 			.unwrap_or(false)
 	}
 
-	/// Returns every renew (hash, hashing) pair declared by the runtime for this block. Pure —
-	/// does no DB lookup; [`Self::filter_missing`] filters this set down to entries whose data is
-	/// not yet on disk.
+	/// Discover the renew hashes this block needs the wrapper to bitswap-fetch, dispatching
+	/// across three sources depending on `params.state_action` and `params.origin`:
 	///
-	/// `indexed_transactions(block_n)` is contracted (per `TransactionStorageApi v2`) to return an
-	/// empty vec for blocks outside the runtime's retention window — so calls for blocks far below
-	/// the tip silently yield an empty set, which is the right behaviour for a tip-only wrapper.
+	/// - **Case A** (already executed): `params.state_action.as_storage_changes().is_some()` —
+	///   the upstream proposer (or a previous wrapper invocation) has already executed the
+	///   block and populated `StorageChanges`. Read `transaction_index_changes` directly. No
+	///   execution cost. Common for `BlockOrigin::Own` parachain blocks (cumulus collator
+	///   pre-executes per `cumulus/client/consensus/aura/src/collator.rs:535-539`).
+	///
+	/// - **Case C** (gap-sync, runtime-API path): `BlockOrigin::GapSync` — block already
+	///   committed against on-chain state, so `TransactionStorageApi::indexed_transactions`
+	///   returns the right metadata. Currently unreachable because `should_intercept` rejects
+	///   `GapSync` in PR-1; PR-2 will widen the gate. Kept here as the right discovery path
+	///   for committed historical state.
+	///
+	/// - **Case B** (tip block, not yet executed): re-execute via [`Self::execute_block`] to
+	///   obtain `transaction_index_changes`, then reassign `params.state_action` to the
+	///   executed `StorageChanges` so the inner block-import takes the no-execute happy path
+	///   (avoids double execution).
+	///
+	/// `&mut params` is required because case B mutates `params.state_action`.
 	fn classify_renew_hashes(
 		&self,
-		params: &BlockImportParams<Block>,
-	) -> Result<HashSet<(ContentHash, HashingAlgorithm)>, ConsensusError> {
+		params: &mut BlockImportParams<Block>,
+	) -> Result<RenewHashes, ConsensusError> {
 		let parent_hash = *params.header.parent_hash();
 		let block_number = *params.header.number();
 
-		let infos = self
-			.client
-			.runtime_api()
-			.indexed_transactions(parent_hash, block_number)
-			.map_err(|e| {
-				ConsensusError::Other(
-					format!("indexed_transactions runtime API failed: {e}").into(),
-				)
+		if let Some(changes) = params.state_action.as_storage_changes() {
+			let renews = extract_renews_from_index_ops(&changes.transaction_index_changes);
+			if !renews.is_empty() {
+				log::debug!(
+					target: LOG_TARGET,
+					"block #{block_number:?} ({parent_hash:?}): case A peek, {} renew hashes",
+					renews.len(),
+				);
+			}
+			return Ok(RenewHashes::Unverified(renews));
+		}
+
+		if matches!(params.origin, BlockOrigin::GapSync) {
+			let infos = self
+				.client
+				.runtime_api()
+				.indexed_transactions(parent_hash, block_number)
+				.map_err(|e| {
+					ConsensusError::Other(
+						format!("indexed_transactions runtime API failed: {e}").into(),
+					)
+				})?;
+			let body = params.body.as_ref().ok_or_else(|| {
+				ConsensusError::Other("StorageChainBlockImport: body absent after gate".into())
 			})?;
+			let renews = body_classify_renews::<Block>(&infos, body);
+			if !renews.is_empty() {
+				log::debug!(
+					target: LOG_TARGET,
+					"block #{block_number:?} ({parent_hash:?}): case C runtime-API, \
+					 {} indexed entries, {} renew hashes",
+					infos.len(),
+					renews.len(),
+				);
+			}
+			return Ok(RenewHashes::Verified(renews));
+		}
 
-		let body = params.body.as_ref().ok_or_else(|| {
-			ConsensusError::Other("StorageChainBlockImport: body absent after gate".into())
-		})?;
-
-		let renews = body_classify_renews::<Block>(&infos, body);
-
+		let gen_storage_changes = self.execute_block(params)?;
+		let renews = extract_renews_from_index_ops(&gen_storage_changes.transaction_index_changes);
 		if !renews.is_empty() {
 			log::debug!(
 				target: LOG_TARGET,
-				"block #{:?} ({:?}): {} indexed entries, {} renew hashes",
-				block_number,
-				parent_hash,
-				infos.len(),
+				"block #{block_number:?} ({parent_hash:?}): case B re-executed, \
+				 {} renew hashes",
 				renews.len(),
 			);
 		}
 
-		Ok(renews)
+		params.state_action =
+			StateAction::ApplyChanges(ConsensusStorageChanges::Changes(gen_storage_changes));
+
+		Ok(RenewHashes::Unverified(renews))
 	}
 
 	/// Drops every entry whose data is already in the local TRANSACTION column.
-	fn filter_missing(
-		&self,
-		renews: HashSet<(ContentHash, HashingAlgorithm)>,
-	) -> HashSet<(ContentHash, HashingAlgorithm)> {
-		renews
-			.into_iter()
-			.filter(|(hash, _)| {
-				!self
-					.backend
-					.blockchain()
-					.has_indexed_transaction((*hash).into())
-					.unwrap_or(false)
-			})
-			.collect()
+	fn filter_missing(&self, renews: RenewHashes) -> RenewHashes {
+		let already_present = |hash: &ContentHash| {
+			self.backend.blockchain().has_indexed_transaction((*hash).into()).unwrap_or(false)
+		};
+		match renews {
+			RenewHashes::Verified(set) => RenewHashes::Verified(
+				set.into_iter().filter(|(hash, _)| !already_present(hash)).collect(),
+			),
+			RenewHashes::Unverified(set) =>
+				RenewHashes::Unverified(set.into_iter().filter(|hash| !already_present(hash)).collect()),
+		}
 	}
 
-	/// Resolves every missing entry by delegating to the fetcher's batch API. Returns `Err`
-	/// if any entry was not served by any peer.
+	/// Resolves every missing entry by delegating to the fetcher's batch API, dispatching to
+	/// the verified or unverified path based on the [`RenewHashes`] variant. Returns `Err` if
+	/// any entry was not served by any peer.
 	async fn fetch_all(
 		&self,
-		missing: HashSet<(ContentHash, HashingAlgorithm)>,
-	) -> Result<Vec<(ContentHash, HashingAlgorithm, Vec<u8>)>, ConsensusError> {
+		missing: RenewHashes,
+	) -> Result<Vec<(ContentHash, Vec<u8>)>, ConsensusError> {
 		if missing.is_empty() {
 			return Ok(Default::default());
 		}
 
-		let wants: Vec<_> = missing.into_iter().collect();
-		let acquired = self
-			.fetcher
-			.fetch_many(&wants)
-			.await
-			.map_err(|e| ConsensusError::Other(format!("bitswap fetch_many: {e}").into()))?;
-		if acquired.len() != wants.len() {
-			let missing_count = wants.len() - acquired.len();
+		let (wanted_hashes, acquired) = match missing {
+			RenewHashes::Verified(set) => {
+				let wants: Vec<(ContentHash, HashingAlgorithm)> = set.into_iter().collect();
+				let acquired = self.fetcher.fetch_many(&wants).await.map_err(|e| {
+					ConsensusError::Other(format!("bitswap fetch_many: {e}").into())
+				})?;
+				let hashes: Vec<ContentHash> = wants.into_iter().map(|(h, _)| h).collect();
+				(hashes, acquired)
+			},
+			RenewHashes::Unverified(set) => {
+				let wants: Vec<ContentHash> = set.into_iter().collect();
+				let acquired =
+					self.fetcher.fetch_many_unverified(&wants).await.map_err(|e| {
+						ConsensusError::Other(
+							format!("bitswap fetch_many_unverified: {e}").into(),
+						)
+					})?;
+				(wants, acquired)
+			},
+		};
+
+		if acquired.len() != wanted_hashes.len() {
+			let missing_count = wanted_hashes.len() - acquired.len();
 			return Err(ConsensusError::Other(
 				format!(
-					"bitswap fetch_many: {missing_count} of {} entries not served",
-					wants.len(),
+					"bitswap fetch: {missing_count} of {} entries not served",
+					wanted_hashes.len(),
 				)
 				.into(),
 			));
 		}
-		Ok(wants
+
+		Ok(wanted_hashes
 			.into_iter()
-			.map(|(hash, hashing)| {
+			.map(|hash| {
 				let data = acquired
 					.get(&hash)
 					.expect("all hashes present; len equality verified above; qed")
 					.clone();
-				(hash, hashing, data)
+				(hash, data)
 			})
 			.collect())
 	}
@@ -275,23 +331,18 @@ where
 	/// No-op when `fetched` is empty so we don't pollute the intermediates map.
 	fn attach_prefetched(
 		params: &mut BlockImportParams<Block>,
-		fetched: Vec<(ContentHash, HashingAlgorithm, Vec<u8>)>,
+		fetched: Vec<(ContentHash, Vec<u8>)>,
 	) {
 		if fetched.is_empty() {
 			return;
 		}
-		let payload: Vec<(ContentHash, Vec<u8>)> = fetched
-			.into_iter()
-			.map(|(hash, _, data)| {
-				log::info!(
-					target: LOG_TARGET,
-					"attaching bitswap-fetched indexed transaction {:?} to BlockImportParams",
-					hash,
-				);
-				(hash, data)
-			})
-			.collect();
-		params.insert_intermediate(PREFETCHED_INDEXED_TRANSACTIONS_INTERMEDIATE_KEY, payload);
+		for (hash, _) in &fetched {
+			log::info!(
+				target: LOG_TARGET,
+				"attaching bitswap-fetched indexed transaction {hash:?} to BlockImportParams",
+			);
+		}
+		params.insert_intermediate(PREFETCHED_INDEXED_TRANSACTIONS_INTERMEDIATE_KEY, fetched);
 	}
 
 	/// Execute the block via the runtime API to obtain its `StorageChanges`, including the
@@ -337,6 +388,46 @@ where
 
 		Ok(gen_storage_changes)
 	}
+}
+
+/// The renew hashes a block needs the wrapper to bitswap-fetch, tagged by the discovery path
+/// that produced them.
+///
+/// `Verified` carries `(ContentHash, HashingAlgorithm)` pairs sourced from the runtime API
+/// (`TransactionStorageApi::indexed_transactions`); the algorithm is authoritative and bitswap
+/// can verify response integrity by recomputing hashes.
+///
+/// `Unverified` carries bare `ContentHash`es sourced from `IndexOperation::Renew` host calls
+/// (via [`StorageChainBlockImport::execute_block`] or `params.state_action.as_storage_changes()`).
+/// Host calls don't carry the hashing algorithm, so bitswap matches responses by request-side
+/// CID and skips integrity verification; the caller is responsible for a post-commit
+/// runtime-API cross-check to detect malicious peers.
+enum RenewHashes {
+	Verified(HashSet<(ContentHash, HashingAlgorithm)>),
+	Unverified(HashSet<ContentHash>),
+}
+
+impl RenewHashes {
+	fn is_empty(&self) -> bool {
+		match self {
+			Self::Verified(s) => s.is_empty(),
+			Self::Unverified(s) => s.is_empty(),
+		}
+	}
+}
+
+/// Extract `Renew` content-hashes from a `StorageChanges::transaction_index_changes` host-call
+/// log. `Insert` operations are intentionally ignored: their bytes are already in the block body
+/// and `apply_index_ops` slices them out directly. Duplicate renew hashes (multi-renew shape)
+/// dedupe via the `HashSet`; the inner `apply_index_ops` increments refcount per occurrence
+/// using the same fetched bytes.
+fn extract_renews_from_index_ops(ops: &[IndexOperation]) -> HashSet<ContentHash> {
+	ops.iter()
+		.filter_map(|op| match op {
+			IndexOperation::Renew { hash, .. } => hash.as_slice().try_into().ok(),
+			IndexOperation::Insert { .. } => None,
+		})
+		.collect()
 }
 
 fn is_supported(info: &&IndexedTransactionInfo) -> bool {
@@ -510,5 +601,46 @@ mod tests {
 				([3; 32], HashingAlgorithm::Keccak256),
 			]),
 		);
+	}
+
+	#[test]
+	fn extract_renews_from_index_ops_returns_only_renew_hashes() {
+		let ops = vec![
+			IndexOperation::Insert { extrinsic: 0, hash: vec![0xaa; 32], size: 100 },
+			IndexOperation::Renew { extrinsic: 1, hash: vec![0xbb; 32] },
+			IndexOperation::Insert { extrinsic: 2, hash: vec![0xcc; 32], size: 200 },
+			IndexOperation::Renew { extrinsic: 3, hash: vec![0xdd; 32] },
+		];
+		let renews = extract_renews_from_index_ops(&ops);
+		assert_eq!(renews, HashSet::from([[0xbb; 32], [0xdd; 32]]));
+	}
+
+	#[test]
+	fn extract_renews_from_index_ops_dedupes_duplicate_hashes() {
+		let h = [0x42; 32];
+		let ops = vec![
+			IndexOperation::Renew { extrinsic: 0, hash: h.to_vec() },
+			IndexOperation::Renew { extrinsic: 1, hash: h.to_vec() },
+			IndexOperation::Renew { extrinsic: 2, hash: h.to_vec() },
+		];
+		let renews = extract_renews_from_index_ops(&ops);
+		assert_eq!(renews, HashSet::from([h]));
+	}
+
+	#[test]
+	fn extract_renews_from_index_ops_handles_empty_input() {
+		let renews = extract_renews_from_index_ops(&[]);
+		assert!(renews.is_empty());
+	}
+
+	#[test]
+	fn extract_renews_from_index_ops_drops_malformed_hash_length() {
+		let ops = vec![
+			IndexOperation::Renew { extrinsic: 0, hash: vec![0xee; 31] },
+			IndexOperation::Renew { extrinsic: 1, hash: vec![0xff; 32] },
+			IndexOperation::Renew { extrinsic: 2, hash: vec![0x11; 33] },
+		];
+		let renews = extract_renews_from_index_ops(&ops);
+		assert_eq!(renews, HashSet::from([[0xff; 32]]));
 	}
 }

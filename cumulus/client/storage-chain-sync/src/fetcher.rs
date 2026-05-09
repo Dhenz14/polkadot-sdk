@@ -247,18 +247,18 @@ async fn try_fetch_from_peer<N: BitswapRequestSender + ?Sized>(
 	acquired
 }
 
-/// Unverified-path counterpart of [`try_fetch_from_peer`]. Issues one single-hash
-/// `bitswap::fetch_many_unverified` per hash because the unverified protocol can't disambiguate
-/// multi-hash responses (no digest in `MessageBlock`). Stops on first timeout or transport error.
+/// Unverified-path counterpart of [`try_fetch_from_peer`]. Same chunk size as the verified path
+/// because [`bitswap::fetch_many_unverified`] uses positional response correlation to handle
+/// multi-WANT batches; see its docstring for the order-correlation contract.
 async fn try_fetch_from_peer_unverified<N: BitswapRequestSender + ?Sized>(
 	network: &N,
 	peer: PeerId,
 	wants: &[ContentHash],
 ) -> HashMap<ContentHash, Vec<u8>> {
 	let mut acquired: HashMap<ContentHash, Vec<u8>> = HashMap::new();
-	for &hash in wants {
+	for chunk in wants.chunks(MAX_WANTED_BLOCKS_PER_REQUEST) {
 		match with_timeout(
-			bitswap::fetch_many_unverified(network, peer, &[hash]),
+			bitswap::fetch_many_unverified(network, peer, chunk),
 			BITSWAP_PER_PEER_TIMEOUT,
 		)
 		.await
@@ -266,7 +266,8 @@ async fn try_fetch_from_peer_unverified<N: BitswapRequestSender + ?Sized>(
 			None => {
 				log::debug!(
 					target: LOG_TARGET,
-					"fetch_many_unverified to {peer:?}: timeout for hash {hash:?}",
+					"fetch_many_unverified to {peer:?}: timeout (chunk size {})",
+					chunk.len(),
 				);
 				return acquired;
 			},
@@ -275,15 +276,15 @@ async fn try_fetch_from_peer_unverified<N: BitswapRequestSender + ?Sized>(
 				return acquired;
 			},
 			Some(Ok(per_cid)) =>
-				for (h, outcome) in per_cid {
+				for (hash, outcome) in per_cid {
 					if let FetchOutcome::Block(data) = outcome {
 						log::debug!(
 							target: LOG_TARGET,
 							"fetched {} unverified bytes for {:?} from {peer:?}",
 							data.len(),
-							h,
+							hash,
 						);
-						acquired.insert(h, data);
+						acquired.insert(hash, data);
 					}
 				},
 		}

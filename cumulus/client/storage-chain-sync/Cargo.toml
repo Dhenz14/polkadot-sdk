@@ -28,4 +28,5 @@ sp-consensus = { workspace = true, default-features = true }
 sp-runtime = { workspace = true, default-features = true }
 sp-state-machine = { workspace = true, default-features = true }
 sp-transaction-storage-proof = { workspace = true, default-features = true }
+sp-trie = { workspace = true, default-features = true }
 thiserror = { workspace = true }

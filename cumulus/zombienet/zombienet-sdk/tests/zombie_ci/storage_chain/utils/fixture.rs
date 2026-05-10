@@ -3,18 +3,36 @@
 
 //! Shared storage-chain snapshot fixture layout and manifest helpers.
 
-use super::{blake2_256, generate_test_data, hash_to_cid, ParachainSnapshots, TEST_DATA_SIZE};
+use super::{generate_test_data, ParachainSnapshots, TEST_DATA_SIZE};
 use anyhow::{Context, Result};
 use serde::{Deserialize, Serialize};
-use std::path::{Path, PathBuf};
+#[cfg(feature = "generate-snapshots")]
+use std::path::Path;
+use std::path::PathBuf;
 
 pub const FIXTURE_RETENTION_PERIOD: u32 = 200;
 pub const SNAPSHOT_STORE_INTERVAL: u64 = 10;
 pub const TIP_SYNC_TARGET_BLOCKS: u64 = 300;
 pub const TIP_SYNC_RENEWABLE_STORE_COUNT: u64 = 10;
 
+#[cfg(feature = "generate-snapshots")]
 pub const ARCHIVE_MANIFEST_FILE: &str = "archive-manifest.json";
-pub const TIP_SYNC_MANIFEST_FILE: &str = "tip-sync-300-manifest.json";
+
+pub const TIP_SYNC_SNAPSHOT_ENV: &str = "STORAGE_CHAIN_TIP_SYNC_SNAPSHOT";
+pub const RELAY_SNAPSHOT_ENV: &str = "STORAGE_CHAIN_RELAY_SNAPSHOT";
+pub const RAW_CHAIN_SPEC_ENV: &str = "STORAGE_CHAIN_RAW_CHAIN_SPEC";
+pub const RAW_RELAY_CHAIN_SPEC_ENV: &str = "STORAGE_CHAIN_RAW_RELAY_CHAIN_SPEC";
+pub const TIP_SYNC_MANIFEST_ENV: &str = "STORAGE_CHAIN_TIP_SYNC_MANIFEST";
+
+// Placeholder URLs until the storage-chain fixture bucket exists. Local runs should set the
+// matching snapshot/manifest overrides above to point at freshly generated fixtures. Chain specs
+// are checked into this repository and intentionally do not use GCS defaults.
+const DEFAULT_TIP_SYNC_SNAPSHOT: &str =
+	"https://storage.googleapis.com/fake-storage-chain-fixtures/tip-sync-300.tgz";
+const DEFAULT_RELAY_SNAPSHOT: &str =
+	"https://storage.googleapis.com/fake-storage-chain-fixtures/relay.tgz";
+const DEFAULT_TIP_SYNC_MANIFEST: &str =
+	"https://storage.googleapis.com/fake-storage-chain-fixtures/tip-sync-300-manifest.json";
 
 const SNAPSHOT_DIR: &str = "tests/zombie_ci/storage_chain/fixtures/test-databases";
 
@@ -48,12 +66,14 @@ pub struct ResolvedSnapshots {
 
 impl ResolvedSnapshots {
 	pub fn load() -> Result<Self> {
-		let collator = canonicalize_fixture(tip_sync_snapshot_path(), "tip-sync-300.tgz")?;
-		let relay = canonicalize_fixture(relay_snapshot_path(), "relay.tgz")?;
-		let chain_spec = canonicalize_fixture(raw_chain_spec_path(), "raw-chain-spec.json")?;
+		let collator =
+			fixture_from_env_or_default(TIP_SYNC_SNAPSHOT_ENV, DEFAULT_TIP_SYNC_SNAPSHOT);
+		let relay = fixture_from_env_or_default(RELAY_SNAPSHOT_ENV, DEFAULT_RELAY_SNAPSHOT);
+		let chain_spec = fixture_from_env_or_local(RAW_CHAIN_SPEC_ENV, raw_chain_spec_path())?;
 		let relay_chain_spec =
-			canonicalize_fixture(raw_relay_chain_spec_path(), "raw-relay-chain-spec.json")?;
-		let manifest = canonicalize_fixture(tip_sync_manifest_path(), TIP_SYNC_MANIFEST_FILE)?;
+			fixture_from_env_or_local(RAW_RELAY_CHAIN_SPEC_ENV, raw_relay_chain_spec_path())?;
+		let manifest =
+			fixture_from_env_or_default(TIP_SYNC_MANIFEST_ENV, DEFAULT_TIP_SYNC_MANIFEST);
 
 		Ok(Self { collator, relay, chain_spec, relay_chain_spec, manifest })
 	}
@@ -75,24 +95,13 @@ impl ResolvedSnapshots {
 	}
 }
 
-pub fn fixture_snapshot_dir() -> PathBuf {
-	PathBuf::from(SNAPSHOT_DIR)
-}
-
-pub fn tip_sync_snapshot_path() -> PathBuf {
-	fixture_snapshot_dir().join("tip-sync-300.tgz")
-}
-
-pub fn tip_sync_manifest_path() -> PathBuf {
-	fixture_snapshot_dir().join(TIP_SYNC_MANIFEST_FILE)
-}
-
+#[cfg(feature = "generate-snapshots")]
 pub fn archive_manifest_path(output_dir: &Path) -> PathBuf {
 	output_dir.join(ARCHIVE_MANIFEST_FILE)
 }
 
-pub fn relay_snapshot_path() -> PathBuf {
-	fixture_snapshot_dir().join("relay.tgz")
+pub fn fixture_snapshot_dir() -> PathBuf {
+	PathBuf::from(SNAPSHOT_DIR)
 }
 
 pub fn raw_chain_spec_path() -> PathBuf {
@@ -103,6 +112,21 @@ pub fn raw_relay_chain_spec_path() -> PathBuf {
 	fixture_snapshot_dir().join("raw-relay-chain-spec.json")
 }
 
+fn fixture_from_env_or_default(env_var: &str, default_url: &str) -> PathBuf {
+	std::env::var(env_var)
+		.map(PathBuf::from)
+		.unwrap_or_else(|_| PathBuf::from(default_url))
+}
+
+fn fixture_from_env_or_local(env_var: &str, local_path: PathBuf) -> Result<PathBuf> {
+	match std::env::var(env_var) {
+		Ok(path) => Ok(PathBuf::from(path)),
+		Err(_) => std::fs::canonicalize(&local_path).with_context(|| {
+			format!("checked-in chain spec fixture not found: {}", local_path.display(),)
+		}),
+	}
+}
+
 pub fn test_data_for_store_target_block(block: u64) -> Vec<u8> {
 	let pattern = format!("PARA_GENDB_{block:04}_");
 	generate_test_data(TEST_DATA_SIZE, pattern.as_bytes())
@@ -111,22 +135,4 @@ pub fn test_data_for_store_target_block(block: u64) -> Vec<u8> {
 pub fn renewable_entry_data(entry: u64) -> Vec<u8> {
 	let original_store_target_block = (entry + 1) * SNAPSHOT_STORE_INTERVAL;
 	test_data_for_store_target_block(original_store_target_block)
-}
-
-pub fn renewable_entry_content_hash(entry: u64) -> [u8; 32] {
-	blake2_256(&renewable_entry_data(entry))
-}
-
-pub fn renewable_entry_cid(entry: u64) -> String {
-	hash_to_cid(&renewable_entry_content_hash(entry))
-}
-
-fn canonicalize_fixture(path: PathBuf, file_name: &str) -> Result<PathBuf> {
-	std::fs::canonicalize(&path).with_context(|| {
-		format!(
-			"{} not found in {}. Generate storage-chain fixtures and copy archive outputs into the tip-sync fixture names.",
-			file_name,
-			fixture_snapshot_dir().display(),
-		)
-	})
 }

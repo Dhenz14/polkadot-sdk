@@ -275,7 +275,7 @@ async fn try_fetch_from_peer_unverified<N: BitswapRequestSender + ?Sized>(
 				log::debug!(target: LOG_TARGET, "fetch_many_unverified to {peer:?}: {e:?}");
 				return acquired;
 			},
-			Some(Ok(per_cid)) =>
+			Some(Ok(per_cid)) => {
 				for (hash, outcome) in per_cid {
 					if let FetchOutcome::Block(data) = outcome {
 						log::debug!(
@@ -286,7 +286,8 @@ async fn try_fetch_from_peer_unverified<N: BitswapRequestSender + ?Sized>(
 						);
 						acquired.insert(hash, data);
 					}
-				},
+				}
+			},
 		}
 	}
 	acquired

@@ -18,24 +18,26 @@
 //!
 //! # Snapshot fixtures required
 //!
-//! This test loads a 300-block parachain snapshot and manifest produced by the
-//! same generator as `parachain_warp_sync_pruning` (`parachain_generate_db.rs`),
-//! but parametrized down via env vars:
+//! This test loads a 300-block parachain snapshot and manifest produced by
+//! `parachain_generate_db.rs`. CI will use GCS fixture URLs; until those buckets exist,
+//! local runs should point the fixture env vars at generated files:
 //!
 //! ```bash
 //! TARGET_BLOCKS=300 \
 //! DB_OUTPUT_DIR=cumulus/zombienet/zombienet-sdk/tests/zombie_ci/storage_chain/fixtures/test-databases \
 //! ZOMBIE_PROVIDER=native \
 //!   cargo test --release -p cumulus-zombienet-sdk-tests \
-//!     --features "storage-chain generate-snapshots" \
+//!     --features "zombie-ci generate-snapshots" \
 //!     -- parachain_generate_databases --nocapture
 //!
-//! cp .../fixtures/test-databases/archive.tgz .../fixtures/test-databases/tip-sync-300.tgz
-//! cp .../fixtures/test-databases/archive-manifest.json \
-//!   .../fixtures/test-databases/tip-sync-300-manifest.json
+//! STORAGE_CHAIN_TIP_SYNC_SNAPSHOT=.../tip-sync-300.tgz \
+//! STORAGE_CHAIN_RELAY_SNAPSHOT=.../relay.tgz \
+//! STORAGE_CHAIN_TIP_SYNC_MANIFEST=.../tip-sync-300-manifest.json \
+//! ZOMBIE_PROVIDER=native \
+//!   cargo test --release -p cumulus-zombienet-sdk-tests \
+//!     --features zombie-ci \
+//!     -- parachain_tip_sync_with_renewals_test --nocapture
 //! ```
-//!
-//! Until those fixtures exist this test is `#[ignore]`d.
 //!
 //! # Why the renew target comes from the manifest
 //!
@@ -76,12 +78,6 @@ fn manifest_content_hash(entry: &RenewableEntryManifest) -> Result<[u8; 32]> {
 }
 
 #[tokio::test(flavor = "multi_thread")]
-#[ignore = "Transaction construction now succeeds when reusing Bob's snapshot nonce/state, \
-			 but the sync node still does not expose renewed content via bitswap_v1_get after \
-			 importing the renew blocks. This remaining failure appears feature-level, not \
-			 test-setup-only. Snapshot fixture: TARGET_BLOCKS=300 cargo test ... \
-			 parachain_generate_databases, then copy archive.tgz and archive-manifest.json into \
-			 the tip-sync fixture names."]
 async fn parachain_tip_sync_with_renewals_test() -> Result<()> {
 	const TEST: &str = "para_tip_sync_renewals";
 	let _ = env_logger::Builder::from_env(Env::default().default_filter_or("info")).try_init();

@@ -46,8 +46,10 @@
 //!
 //! - **Case C** (runtime-API path). For gap-sync blocks (already committed against on-chain
 //!   state), `TransactionStorageApi::indexed_transactions(block_n)` returns authoritative
-//!   metadata. Currently unreachable in PR-1 because [`Self::should_intercept`] rejects
-//!   `BlockOrigin::GapSync`; PR-2 widens the gate.
+//!   metadata. Wrapper prefetch requires every metadata entry to carry a concrete
+//!   `extrinsic_index`; if any entry reports `u32::MAX`, the wrapper skips case-C bitswap and
+//!   passes the block through to inner import. Currently unreachable in PR-1 because
+//!   [`Self::should_intercept`] rejects `BlockOrigin::GapSync`; PR-2 widens the gate.
 //!
 //! Cases A and B both source from `IndexOperation::Renew` host calls — these carry only the
 //! 32-byte content hash, not the hashing algorithm. Case C sources from the runtime API which
@@ -60,7 +62,8 @@
 //! correlation across multi-WANT batches works because the substrate server preserves request
 //! order in its response payload and emits DontHave presences for missing entries.
 //!
-//! Case C → [`bitswap::fetch_many`]: standard verified path with per-entry `HashingAlgorithm`.
+//! Case C → [`bitswap::fetch_many`]: standard verified path with per-entry `HashingAlgorithm`,
+//! only when all runtime-API entries include concrete body indexes.
 //!
 //! # Post-commit verification
 //!
@@ -245,7 +248,9 @@ where
 	///
 	/// - **Case C** (gap-sync, runtime-API path): `BlockOrigin::GapSync` — block already
 	///   committed against on-chain state, so `TransactionStorageApi::indexed_transactions`
-	///   returns the right metadata. Currently unreachable because `should_intercept` rejects
+	///   returns the right metadata. Wrapper bitswap requires concrete `extrinsic_index`
+	///   values; if any entry reports `u32::MAX`, metadata is passed through to inner import
+	///   without wrapper prefetch. Currently unreachable because `should_intercept` rejects
 	///   `GapSync` in PR-1; PR-2 will widen the gate. Kept here as the right discovery path
 	///   for committed historical state.
 	///
@@ -284,6 +289,14 @@ where
 						format!("indexed_transactions runtime API failed: {e}").into(),
 					)
 				})?;
+			if infos.iter().any(|info| info.extrinsic_index == u32::MAX) {
+				log::debug!(
+					target: LOG_TARGET,
+					"block #{block_number:?} ({parent_hash:?}): case C runtime-API returned \
+					 metadata without concrete extrinsic indexes; skipping wrapper bitswap",
+				);
+				return Ok(RenewHashes::Verified(HashSet::new()));
+			}
 			let body = params.body.as_ref().ok_or_else(|| {
 				ConsensusError::Other("StorageChainBlockImport: body absent after gate".into())
 			})?;
@@ -626,7 +639,8 @@ fn to_db_meta(info: &IndexedTransactionInfo) -> IndexedTransactionMeta {
 ///
 /// Has no side effects (no DB, no network, no `&self`). Filters out entries whose `cid_codec` is
 /// not the IPFS RAW codec (these are not bitswap-fetchable). Multi-renew shapes (multiple metas
-/// at the same `extrinsic_index`) are flattened into individual hashes.
+/// at the same concrete `extrinsic_index`) are flattened into individual hashes. Callers that
+/// require all-or-nothing handling for unknown indexes must guard before calling this helper.
 fn body_classify_renews<Block: BlockT>(
 	infos: &[IndexedTransactionInfo],
 	body: &[Block::Extrinsic],
@@ -692,7 +706,7 @@ mod tests {
 		for algo in
 			[HashingAlgorithm::Blake2b256, HashingAlgorithm::Sha2_256, HashingAlgorithm::Keccak256]
 		{
-			let i = info([0u8; 32], 100, algo, RAW_CID_CODEC, u32::MAX);
+			let i = info([0u8; 32], 100, algo, RAW_CID_CODEC, 0);
 			assert!(is_supported(&&i), "{algo:?} should be supported with RAW codec");
 		}
 	}
@@ -702,7 +716,7 @@ mod tests {
 		for algo in
 			[HashingAlgorithm::Blake2b256, HashingAlgorithm::Sha2_256, HashingAlgorithm::Keccak256]
 		{
-			let i = info([0u8; 32], 100, algo, 0x70, u32::MAX);
+			let i = info([0u8; 32], 100, algo, 0x70, 0);
 			assert!(!is_supported(&&i), "{algo:?} with non-RAW codec should be rejected");
 		}
 	}

@@ -105,7 +105,8 @@ pub struct IndexedTransactionInfo {
 	pub cid_codec: CidCodec,
 	/// Extrinsic index that produced this entry via `store` or `renew`.
 	///
-	/// `u32::MAX` when the producing pallet does not record it.
+	/// Consumers that need to map entries back to a block body may ignore indexes that do not
+	/// identify a concrete body position.
 	pub extrinsic_index: u32,
 }
 

@@ -2247,17 +2247,16 @@ fn apply_state_commit(
 
 /// Metadata about an indexed transaction provided by the runtime.
 ///
-/// `extrinsic_index` enables a fast classification path in
-/// [`apply_body_with_indexed_meta`]: the entry can be looked up directly in the body without
-/// scanning. When the producing pallet does not record it, the value is `u32::MAX` and the
-/// classification falls back to a tail-bytes hash search.
+/// `extrinsic_index` is expected to be the concrete body position that produced this entry via
+/// `store` or `renew`. [`apply_body_with_indexed_meta`] looks entries up directly by this index
+/// and does not scan the body for entries with unknown positions.
 #[derive(Clone, Debug)]
 pub struct IndexedTransactionMeta {
 	/// Content hash of the indexed data blob.
 	pub content_hash: [u8; 32],
 	/// Size of the indexed data blob in bytes.
 	pub size: u32,
-	/// Extrinsic index that produced this entry (`u32::MAX` if unknown).
+	/// Extrinsic index that produced this entry.
 	pub extrinsic_index: u32,
 	/// Algorithm used to compute `content_hash`.
 	pub hashing: HashingAlgorithm,
@@ -2395,21 +2394,14 @@ pub enum ClassifiedExtrinsic {
 /// the store ops) and by consumers that only need to know which renew hashes are missing locally
 /// (e.g. `StorageChainBlockImport`).
 ///
-/// Two classification paths:
-/// 1. **Fast path** when every meta entry has a real `extrinsic_index` (`!= u32::MAX`): direct
-///    lookup into `body[idx]`, group by index for multi-renew detection.
-/// 2. **Fallback** when any meta entry has `extrinsic_index == u32::MAX`: scan body, hash each
-///    extrinsic tail, match against `content_hash`. O(N×M) worst case.
+/// Entries are grouped by their concrete `extrinsic_index` and matched directly against
+/// `body[idx]`. Metadata whose index does not correspond to a body position is ignored by this
+/// classifier.
 pub fn classify_indexed_extrinsics<Block: BlockT>(
 	body: &[Block::Extrinsic],
 	indexed_meta: &[IndexedTransactionMeta],
 ) -> Vec<ClassifiedExtrinsic> {
-	let any_unknown_index = indexed_meta.iter().any(|m| m.extrinsic_index == u32::MAX);
-	if any_unknown_index {
-		classify_by_tail_scan::<Block>(body, indexed_meta)
-	} else {
-		classify_by_extrinsic_index::<Block>(body, indexed_meta)
-	}
+	classify_by_extrinsic_index::<Block>(body, indexed_meta)
 }
 
 fn classify_by_extrinsic_index<Block: BlockT>(
@@ -2418,6 +2410,9 @@ fn classify_by_extrinsic_index<Block: BlockT>(
 ) -> Vec<ClassifiedExtrinsic> {
 	let mut entries_at: HashMap<u32, Vec<&IndexedTransactionMeta>> = HashMap::new();
 	for meta in indexed_meta {
+		if meta.extrinsic_index == u32::MAX {
+			continue;
+		}
 		entries_at.entry(meta.extrinsic_index).or_default().push(meta);
 	}
 
@@ -2454,55 +2449,6 @@ fn classify_by_extrinsic_index<Block: BlockT>(
 			}
 		}
 		out.push(ClassifiedExtrinsic::Renew { hashes: vec![(meta.content_hash, meta.hashing)] });
-	}
-	out
-}
-
-fn classify_by_tail_scan<Block: BlockT>(
-	body: &[Block::Extrinsic],
-	indexed_meta: &[IndexedTransactionMeta],
-) -> Vec<ClassifiedExtrinsic> {
-	let mut matched: HashMap<usize, ([u8; 32], usize, Vec<u8>, HashingAlgorithm)> = HashMap::new();
-	let mut renew_queue: Vec<([u8; 32], HashingAlgorithm)> = Vec::new();
-
-	for meta in indexed_meta {
-		let size = meta.size as usize;
-		let mut found = false;
-
-		for (i, ext) in body.iter().enumerate() {
-			if matched.contains_key(&i) {
-				continue;
-			}
-			let encoded = ext.encode();
-			if encoded.len() < size {
-				continue;
-			}
-			let tail = &encoded[encoded.len() - size..];
-			if meta.hashing.hash(tail) == meta.content_hash {
-				matched.insert(
-					i,
-					(meta.content_hash, encoded.len() - size, tail.to_vec(), meta.hashing),
-				);
-				found = true;
-				break;
-			}
-		}
-
-		if !found {
-			renew_queue.push((meta.content_hash, meta.hashing));
-		}
-	}
-
-	let mut out = Vec::with_capacity(body.len());
-	let mut renews = renew_queue.into_iter();
-	for (i, _ext) in body.iter().enumerate() {
-		if let Some((hash, header_len, tail, hashing)) = matched.remove(&i) {
-			out.push(ClassifiedExtrinsic::Insert { hash, header_len, tail, hashing });
-		} else if let Some((hash, hashing)) = renews.next() {
-			out.push(ClassifiedExtrinsic::Renew { hashes: vec![(hash, hashing)] });
-		} else {
-			out.push(ClassifiedExtrinsic::Full);
-		}
 	}
 	out
 }
@@ -6950,13 +6896,13 @@ pub(crate) mod tests {
 		}
 
 		#[test]
-		fn fallback_path_uses_tail_scan_when_extrinsic_index_max() {
+		fn unknown_extrinsic_index_is_ignored() {
 			let body = vec![make_extrinsic(0xCC)];
 			let meta =
 				vec![meta_for_full_extrinsic(&body[0], u32::MAX, HashingAlgorithm::Blake2b256)];
 			let result = classify_indexed_extrinsics::<Block>(&body, &meta);
 			assert_eq!(result.len(), 1);
-			assert!(matches!(result[0], ClassifiedExtrinsic::Insert { .. }));
+			assert!(matches!(result[0], ClassifiedExtrinsic::Full));
 		}
 
 		#[test]

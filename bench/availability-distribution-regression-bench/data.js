@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778259918954,
+  "lastUpdate": 1778493569651,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "oliver.tale-yazdi@parity.io",
-            "name": "Oliver Tale-Yazdi",
-            "username": "ggwpez"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "7648b4105c269d6a3395d90b053c2e04c5932bc3",
-          "message": "Stronger WASM compression (#9875)\n\nUse strongest compression 22 instead of just 3. See\n[docs](https://docs.rs/zstd/0.13.3/zstd/stream/write/struct.Encoder.html#method.new).\nReduces our KAH compressed size by 25%.\n\nBuild time by compression level:\n\n| Compression | Build Time | Size    | Decomp Time |\n  |-------------|-----------|---------|-------------|\n  | 3           | 5:54      | 3192172 | 0.013039s   |\n  | 10          | 5:58      | 2716940 | 0.011962s   |\n  | 22          | 6:06      | 2387562 | 0.013745s   |\n\n---------\n\nSigned-off-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>",
-          "timestamp": "2025-09-30T11:05:07Z",
-          "tree_id": "2fe20eaaaaff302082b5a4507a9302b2265ff7ef",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/7648b4105c269d6a3395d90b053c2e04c5932bc3"
-        },
-        "date": 1759236513223,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007691958119999993,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012966313206666668,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022484690579999994,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15840284314,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-distribution",
             "value": 0.0070188435933333316,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "oliver.tale-yazdi@parity.io",
+            "name": "Oliver Tale-Yazdi",
+            "username": "ggwpez"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d803f1b216332a65c20ea78573078a12d88b4eeb",
+          "message": "omni-bencher: expose BLS host functions (#12035)\n\nSigned-off-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>",
+          "timestamp": "2026-05-11T08:36:39Z",
+          "tree_id": "6d7ff3bcb96c5391f8c5fab70565ce350f58aa7e",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/d803f1b216332a65c20ea78573078a12d88b4eeb"
+        },
+        "date": 1778493546877,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007102386846666667,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.023566462520000005,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009599030086666642,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.13980521163333332,
             "unit": "seconds"
           }
         ]

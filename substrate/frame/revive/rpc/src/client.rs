@@ -23,7 +23,8 @@ pub(crate) mod storage_api;
 use crate::{
 	BlockId, BlockInfoProvider, BlockNumberOrTag, FeeHistoryProvider, FeeHistoryResult, Filter,
 	Log, ReceiptInfo, ReceiptProvider, SubxtBlockInfoProvider, SyncLabel, SyncingProgress,
-	SyncingStatus, TracerType, TransactionTrace, block_sync::SyncCheckpoint,
+	SyncingStatus, TracerType, TransactionTrace,
+	block_sync::SyncCheckpoint,
 	subxt_client::{self, SrcChainConfig, revive::calls::types::EthTransact},
 	types::transaction_info_from_receipt,
 };

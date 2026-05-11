@@ -17,8 +17,8 @@
 //! The [`EthRpcServer`] RPC server implementation
 #![cfg_attr(docsrs, feature(doc_cfg))]
 
-use client::ClientError;
 pub use alloy_rpc_types::{BlockId, BlockNumberOrTag, Filter};
+use client::ClientError;
 use futures::{Stream, StreamExt, TryStreamExt};
 use jsonrpsee::{
 	PendingSubscriptionSink, SubscriptionMessage, SubscriptionSink,
@@ -479,11 +479,7 @@ impl EthRpcServer for EthRpcServerImpl {
 		Ok(None)
 	}
 
-	async fn get_transaction_count(
-		&self,
-		address: H160,
-		block: BlockId,
-	) -> RpcResult<U256> {
+	async fn get_transaction_count(&self, address: H160, block: BlockId) -> RpcResult<U256> {
 		let hash = self.client.block_hash_for_id(block).await?;
 		let runtime_api = self.client.runtime_api(hash);
 		let nonce = runtime_api.nonce(address).await?;

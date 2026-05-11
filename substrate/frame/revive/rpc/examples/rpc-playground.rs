@@ -29,7 +29,9 @@ async fn main() -> anyhow::Result<()> {
 	let block = client.get_block_by_number(BlockNumberOrTag::Latest.into(), false).await?;
 	println!("Latest block: {block:#?}");
 
-	let nonce = client.get_transaction_count(account.address(), BlockNumberOrTag::Latest.into()).await?;
+	let nonce = client
+		.get_transaction_count(account.address(), BlockNumberOrTag::Latest.into())
+		.await?;
 	println!("Account nonce: {nonce:?}");
 
 	let balance = client.get_balance(account.address(), BlockNumberOrTag::Latest.into()).await?;

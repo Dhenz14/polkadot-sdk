@@ -15,8 +15,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 use crate::{
-	Address, BlockInfoProvider, BlockNumberOrTag, Bytes, ChainMetadata, ClientError, Filter,
-	Log, ReceiptExtractor, ReceiptInfo, SubxtBlockInfoProvider, SyncLabel, SyncStateKey,
+	Address, BlockInfoProvider, BlockNumberOrTag, Bytes, ChainMetadata, ClientError, Filter, Log,
+	ReceiptExtractor, ReceiptInfo, SubxtBlockInfoProvider, SyncLabel, SyncStateKey,
 	block_sync::SyncCheckpoint,
 	client::{SubstrateBlock, SubstrateBlockNumber},
 };
@@ -783,8 +783,7 @@ impl<B: BlockInfoProvider> ReceiptProvider<B> {
 			}
 			if topic.len() == 1 {
 				if let Some(hash) = topic.iter().next() {
-					qb.push(format_args!(" AND topic_{i} = "))
-						.push_bind(hash.as_slice().to_vec());
+					qb.push(format_args!(" AND topic_{i} = ")).push_bind(hash.as_slice().to_vec());
 				}
 			} else {
 				qb.push(format_args!(" AND topic_{i} IN ("));
@@ -1300,28 +1299,19 @@ mod tests {
 
 		// from_block filter
 		let logs = provider
-			.logs(
-				Some(Filter::new().from_block(log2.block_number.as_u64())),
-				&resolve_block_number,
-			)
+			.logs(Some(Filter::new().from_block(log2.block_number.as_u64())), &resolve_block_number)
 			.await?;
 		assert_eq!(logs, vec![log2.clone()]);
 
 		// from_block filter (using latest block)
 		let logs = provider
-			.logs(
-				Some(Filter::new().from_block(BlockNumberOrTag::Latest)),
-				&resolve_block_number,
-			)
+			.logs(Some(Filter::new().from_block(BlockNumberOrTag::Latest)), &resolve_block_number)
 			.await?;
 		assert_eq!(logs, vec![log2.clone()]);
 
 		// to_block filter
 		let logs = provider
-			.logs(
-				Some(Filter::new().to_block(log1.block_number.as_u64())),
-				&resolve_block_number,
-			)
+			.logs(Some(Filter::new().to_block(log1.block_number.as_u64())), &resolve_block_number)
 			.await?;
 		assert_eq!(logs, vec![log1.clone()]);
 
@@ -1389,12 +1379,10 @@ mod tests {
 		// multiple topic for topic_0
 		let logs = provider
 			.logs(
-				Some(
-					Filter::new().from_block(BlockNumberOrTag::Earliest).event_signature(vec![
-						b256_from_h256(log1.topics[0]),
-						b256_from_h256(log2.topics[0]),
-					]),
-				),
+				Some(Filter::new().from_block(BlockNumberOrTag::Earliest).event_signature(vec![
+					b256_from_h256(log1.topics[0]),
+					b256_from_h256(log2.topics[0]),
+				])),
 				&resolve_block_number,
 			)
 			.await?;

@@ -53,16 +53,18 @@ impl<'de> Deserialize<'de> for TracerConfig {
 			Some(TracerKind::CallTracer) => TracerType::CallTracer(
 				decode_optional_tracer_config::<CallTracerConfig, D::Error>(raw.tracer_config)?,
 			),
-			Some(TracerKind::PrestateTracer) => TracerType::PrestateTracer(
-				decode_optional_tracer_config::<PrestateTracerConfig, D::Error>(
-					raw.tracer_config,
-				)?,
-			),
-			Some(TracerKind::ExecutionTracer) => TracerType::ExecutionTracer(
-				decode_optional_tracer_config::<ExecutionTracerConfig, D::Error>(
-					raw.tracer_config,
-				)?,
-			),
+			Some(TracerKind::PrestateTracer) => {
+				TracerType::PrestateTracer(decode_optional_tracer_config::<
+					PrestateTracerConfig,
+					D::Error,
+				>(raw.tracer_config)?)
+			},
+			Some(TracerKind::ExecutionTracer) => {
+				TracerType::ExecutionTracer(decode_optional_tracer_config::<
+					ExecutionTracerConfig,
+					D::Error,
+				>(raw.tracer_config)?)
+			},
 			None => TracerType::ExecutionTracer(Some(raw.execution_tracer_config)),
 		};
 

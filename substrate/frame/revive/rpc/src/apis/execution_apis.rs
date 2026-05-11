@@ -133,11 +133,7 @@ pub trait EthRpc {
 
 	/// Returns the number of transactions sent from an address.
 	#[method(name = "eth_getTransactionCount")]
-	async fn get_transaction_count(
-		&self,
-		address: Address,
-		block: BlockId,
-	) -> RpcResult<U256>;
+	async fn get_transaction_count(&self, address: Address, block: BlockId) -> RpcResult<U256>;
 
 	/// Returns the receipt of a transaction by transaction hash.
 	#[method(name = "eth_getTransactionReceipt")]

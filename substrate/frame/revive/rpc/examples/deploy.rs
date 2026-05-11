@@ -40,7 +40,9 @@ async fn main() -> anyhow::Result<()> {
 
 	println!("\n\n=== Deploying contract ===\n\n");
 
-	let nonce = client.get_transaction_count(account.address(), BlockNumberOrTag::Latest.into()).await?;
+	let nonce = client
+		.get_transaction_count(account.address(), BlockNumberOrTag::Latest.into())
+		.await?;
 	let tx = TransactionBuilder::new(client.clone())
 		.value(5_000_000_000_000u128.into())
 		.input(input)

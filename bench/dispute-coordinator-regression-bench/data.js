@@ -1,57 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778260011154,
+  "lastUpdate": 1778493667402,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "dispute-coordinator-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "49699333+dependabot[bot]@users.noreply.github.com",
-            "name": "dependabot[bot]",
-            "username": "dependabot[bot]"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "28dda33b18ce3d1a3e50fe728b2cfb8b84a97f79",
-          "message": "Bump the ci_dependencies group with 2 updates (#9858)\n\nBumps the ci_dependencies group with 2 updates:\n[actions/cache](https://github.com/actions/cache) and\n[actions-rust-lang/setup-rust-toolchain](https://github.com/actions-rust-lang/setup-rust-toolchain).\n\nUpdates `actions/cache` from 4.2.4 to 4.3.0\n<details>\n<summary>Release notes</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/actions/cache/releases\">actions/cache's\nreleases</a>.</em></p>\n<blockquote>\n<h2>v4.3.0</h2>\n<h2>What's Changed</h2>\n<ul>\n<li>Add note on runner versions by <a\nhref=\"https://github.com/GhadimiR\"><code>@​GhadimiR</code></a> in <a\nhref=\"https://redirect.github.com/actions/cache/pull/1642\">actions/cache#1642</a></li>\n<li>Prepare <code>v4.3.0</code> release by <a\nhref=\"https://github.com/Link\"><code>@​Link</code></a>- in <a\nhref=\"https://redirect.github.com/actions/cache/pull/1655\">actions/cache#1655</a></li>\n</ul>\n<h2>New Contributors</h2>\n<ul>\n<li><a href=\"https://github.com/GhadimiR\"><code>@​GhadimiR</code></a>\nmade their first contribution in <a\nhref=\"https://redirect.github.com/actions/cache/pull/1642\">actions/cache#1642</a></li>\n</ul>\n<p><strong>Full Changelog</strong>: <a\nhref=\"https://github.com/actions/cache/compare/v4...v4.3.0\">https://github.com/actions/cache/compare/v4...v4.3.0</a></p>\n</blockquote>\n</details>\n<details>\n<summary>Changelog</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/actions/cache/blob/main/RELEASES.md\">actions/cache's\nchangelog</a>.</em></p>\n<blockquote>\n<h1>Releases</h1>\n<h3>4.3.0</h3>\n<ul>\n<li>Bump <code>@actions/cache</code> to <a\nhref=\"https://redirect.github.com/actions/toolkit/pull/2132\">v4.1.0</a></li>\n</ul>\n<h3>4.2.4</h3>\n<ul>\n<li>Bump <code>@actions/cache</code> to v4.0.5</li>\n</ul>\n<h3>4.2.3</h3>\n<ul>\n<li>Bump <code>@actions/cache</code> to v4.0.3 (obfuscates SAS token in\ndebug logs for cache entries)</li>\n</ul>\n<h3>4.2.2</h3>\n<ul>\n<li>Bump <code>@actions/cache</code> to v4.0.2</li>\n</ul>\n<h3>4.2.1</h3>\n<ul>\n<li>Bump <code>@actions/cache</code> to v4.0.1</li>\n</ul>\n<h3>4.2.0</h3>\n<p>TLDR; The cache backend service has been rewritten from the ground up\nfor improved performance and reliability. <a\nhref=\"https://github.com/actions/cache\">actions/cache</a> now integrates\nwith the new cache service (v2) APIs.</p>\n<p>The new service will gradually roll out as of <strong>February 1st,\n2025</strong>. The legacy service will also be sunset on the same date.\nChanges in these release are <strong>fully backward\ncompatible</strong>.</p>\n<p><strong>We are deprecating some versions of this action</strong>. We\nrecommend upgrading to version <code>v4</code> or <code>v3</code> as\nsoon as possible before <strong>February 1st, 2025.</strong> (Upgrade\ninstructions below).</p>\n<p>If you are using pinned SHAs, please use the SHAs of versions\n<code>v4.2.0</code> or <code>v3.4.0</code></p>\n<p>If you do not upgrade, all workflow runs using any of the deprecated\n<a href=\"https://github.com/actions/cache\">actions/cache</a> will\nfail.</p>\n<p>Upgrading to the recommended versions will not break your\nworkflows.</p>\n<h3>4.1.2</h3>\n<ul>\n<li>Add GitHub Enterprise Cloud instances hostname filters to inform API\nendpoint choices - <a\nhref=\"https://redirect.github.com/actions/cache/pull/1474\">#1474</a></li>\n<li>Security fix: Bump braces from 3.0.2 to 3.0.3 - <a\nhref=\"https://redirect.github.com/actions/cache/pull/1475\">#1475</a></li>\n</ul>\n<h3>4.1.1</h3>\n<ul>\n<li>Restore original behavior of <code>cache-hit</code> output - <a\nhref=\"https://redirect.github.com/actions/cache/pull/1467\">#1467</a></li>\n</ul>\n<h3>4.1.0</h3>\n<ul>\n<li>Ensure <code>cache-hit</code> output is set when a cache is missed -\n<a\nhref=\"https://redirect.github.com/actions/cache/pull/1404\">#1404</a></li>\n<li>Deprecate <code>save-always</code> input - <a\nhref=\"https://redirect.github.com/actions/cache/pull/1452\">#1452</a></li>\n</ul>\n<!-- raw HTML omitted -->\n</blockquote>\n<p>... (truncated)</p>\n</details>\n<details>\n<summary>Commits</summary>\n<ul>\n<li><a\nhref=\"https://github.com/actions/cache/commit/0057852bfaa89a56745cba8c7296529d2fc39830\"><code>0057852</code></a>\nMerge pull request <a\nhref=\"https://redirect.github.com/actions/cache/issues/1655\">#1655</a>\nfrom actions/Link-/prepare-4.3.0</li>\n<li><a\nhref=\"https://github.com/actions/cache/commit/4f5ea67f1cc87b2d4239690fa12a12fc32096d68\"><code>4f5ea67</code></a>\nUpdate licensed cache</li>\n<li><a\nhref=\"https://github.com/actions/cache/commit/9fcad95d03062fb8399cdbd79ae6041c7692b6c8\"><code>9fcad95</code></a>\nUpgrade actions/cache to 4.1.0 and prepare 4.3.0 release</li>\n<li><a\nhref=\"https://github.com/actions/cache/commit/638ed79f9dc94c1de1baef91bcab5edaa19451f4\"><code>638ed79</code></a>\nMerge pull request <a\nhref=\"https://redirect.github.com/actions/cache/issues/1642\">#1642</a>\nfrom actions/GhadimiR-patch-1</li>\n<li><a\nhref=\"https://github.com/actions/cache/commit/3862dccb1765f1ff6e623be1f4fd3a5b47a30d27\"><code>3862dcc</code></a>\nAdd note on runner versions</li>\n<li>See full diff in <a\nhref=\"https://github.com/actions/cache/compare/0400d5f644dc74513175e3cd8d07132dd4860809...0057852bfaa89a56745cba8c7296529d2fc39830\">compare\nview</a></li>\n</ul>\n</details>\n<br />\n\nUpdates `actions-rust-lang/setup-rust-toolchain` from 1.15.0 to 1.15.1\n<details>\n<summary>Release notes</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/actions-rust-lang/setup-rust-toolchain/releases\">actions-rust-lang/setup-rust-toolchain's\nreleases</a>.</em></p>\n<blockquote>\n<h2>v1.15.1</h2>\n<h2>What's Changed</h2>\n<ul>\n<li>Bump Swatinem/rust-cache from 2.8.0 to 2.8.1 by <a\nhref=\"https://github.com/dependabot\"><code>@​dependabot</code></a>[bot]\nin <a\nhref=\"https://redirect.github.com/actions-rust-lang/setup-rust-toolchain/pull/73\">actions-rust-lang/setup-rust-toolchain#73</a></li>\n</ul>\n<p><strong>Full Changelog</strong>: <a\nhref=\"https://github.com/actions-rust-lang/setup-rust-toolchain/compare/v1.15.0...v1.15.1\">https://github.com/actions-rust-lang/setup-rust-toolchain/compare/v1.15.0...v1.15.1</a></p>\n</blockquote>\n</details>\n<details>\n<summary>Changelog</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/actions-rust-lang/setup-rust-toolchain/blob/main/CHANGELOG.md\">actions-rust-lang/setup-rust-toolchain's\nchangelog</a>.</em></p>\n<blockquote>\n<h1>Changelog</h1>\n<p>All notable changes to this project will be documented in this\nfile.</p>\n<p>The format is based on <a\nhref=\"https://keepachangelog.com/en/1.0.0/\">Keep a Changelog</a>,\nand this project adheres to <a\nhref=\"https://semver.org/spec/v2.0.0.html\">Semantic Versioning</a>.</p>\n<h2>[Unreleased]</h2>\n<h2>[1.15.1] - 2025-09-23</h2>\n<ul>\n<li>Update <code>Swatinem/rust-cache</code> to v2.8.1</li>\n</ul>\n<h2>[1.15.0] - 2025-09-14</h2>\n<ul>\n<li>Add support for non-root source directory.\nAccept source code and <code>rust-toolchain.toml</code> file in\nsubdirectories of the repository.\nAdds a new parameter <code>rust-src-dir</code> that controls the lookup\nfor toolchain files and sets a default value for the\n<code>cache-workspace</code> input. (<a\nhref=\"https://redirect.github.com/actions-rust-lang/setup-rust-toolchain/issues/69\">#69</a>\nby <a href=\"https://github.com/Kubaryt\"><code>@​Kubaryt</code></a>)</li>\n</ul>\n<h2>[1.14.1] - 2025-08-28</h2>\n<ul>\n<li>Pin <code>Swatinem/rust-cache</code> action to a full commit SHA (<a\nhref=\"https://redirect.github.com/actions-rust-lang/setup-rust-toolchain/issues/68\">#68</a>\nby <a\nhref=\"https://github.com/JohnTitor\"><code>@​JohnTitor</code></a>)</li>\n</ul>\n<h2>[1.14.0] - 2025-08-23</h2>\n<ul>\n<li>Add new parameters <code>cache-all-crates</code> and\n<code>cache-workspace-crates</code> that are propagated to\n<code>Swatinem/rust-cache</code> as <code>cache-all-crates</code> and\n<code>cache-workspace-crates</code></li>\n</ul>\n<h2>[1.13.0] - 2025-06-16</h2>\n<ul>\n<li>Add new parameter <code>cache-provider</code> that is propagated to\n<code>Swatinem/rust-cache</code> as <code>cache-provider</code> (<a\nhref=\"https://redirect.github.com/actions-rust-lang/setup-rust-toolchain/issues/65\">#65</a>\nby <a\nhref=\"https://github.com/mindrunner\"><code>@​mindrunner</code></a>)</li>\n</ul>\n<h2>[1.12.0] - 2025-04-23</h2>\n<ul>\n<li>Add support for installing rustup on Windows (<a\nhref=\"https://redirect.github.com/actions-rust-lang/setup-rust-toolchain/issues/58\">#58</a>\nby <a href=\"https://github.com/maennchen\"><code>@​maennchen</code></a>)\nThis adds support for using Rust on the GitHub provided Windows ARM\nrunners.</li>\n</ul>\n<h2>[1.11.0] - 2025-02-24</h2>\n<ul>\n<li>Add new parameter <code>cache-bin</code> that is propagated to\n<code>Swatinem/rust-cache</code> as <code>cache-bin</code> (<a\nhref=\"https://redirect.github.com/actions-rust-lang/setup-rust-toolchain/issues/51\">#51</a>\nby <a\nhref=\"https://github.com/enkhjile\"><code>@​enkhjile</code></a>)</li>\n<li>Add new parameter <code>cache-shared-key</code> that is propagated\nto <code>Swatinem/rust-cache</code> as <code>shared-key</code> (<a\nhref=\"https://redirect.github.com/actions-rust-lang/setup-rust-toolchain/issues/52\">#52</a>\nby <a\nhref=\"https://github.com/skanehira\"><code>@​skanehira</code></a>)</li>\n</ul>\n<h2>[1.10.1] - 2024-10-01</h2>\n<ul>\n<li>Fix problem matcher for rustfmt output.\nThe format has changed since <a\nhref=\"https://redirect.github.com/rust-lang/rustfmt/pull/5971\">rust-lang/rustfmt#5971</a>\nand now follows the form &quot;filename:line&quot;.\nThanks to <a\nhref=\"https://github.com/0xcypher02\"><code>@​0xcypher02</code></a> for\npointing out the problem.</li>\n</ul>\n<h2>[1.10.0] - 2024-09-23</h2>\n<ul>\n<li>Add new parameter <code>cache-directories</code> that is propagated\nto <code>Swatinem/rust-cache</code> (<a\nhref=\"https://redirect.github.com/actions-rust-lang/setup-rust-toolchain/issues/44\">#44</a>\nby <a\nhref=\"https://github.com/pranc1ngpegasus\"><code>@​pranc1ngpegasus</code></a>)</li>\n</ul>\n<!-- raw HTML omitted -->\n</blockquote>\n<p>... (truncated)</p>\n</details>\n<details>\n<summary>Commits</summary>\n<ul>\n<li><a\nhref=\"https://github.com/actions-rust-lang/setup-rust-toolchain/commit/02be93da58aa71fb456aa9c43b301149248829d8\"><code>02be93d</code></a>\nUpdate <code>Swatinem/rust-cache</code> to v2.8.1</li>\n<li><a\nhref=\"https://github.com/actions-rust-lang/setup-rust-toolchain/commit/69e48024603c91b996af4004a08116c7b9bf95c1\"><code>69e4802</code></a>\nMerge pull request <a\nhref=\"https://redirect.github.com/actions-rust-lang/setup-rust-toolchain/issues/73\">#73</a>\nfrom actions-rust-lang/dependabot/github_actions/Swati...</li>\n<li><a\nhref=\"https://github.com/actions-rust-lang/setup-rust-toolchain/commit/183cfebcbd070909e5077c3b4a44326e8e8418f5\"><code>183cfeb</code></a>\nBump Swatinem/rust-cache from 2.8.0 to 2.8.1</li>\n<li>See full diff in <a\nhref=\"https://github.com/actions-rust-lang/setup-rust-toolchain/compare/2fcdc490d667999e01ddbbf0f2823181beef6b39...02be93da58aa71fb456aa9c43b301149248829d8\">compare\nview</a></li>\n</ul>\n</details>\n<br />\n\n\nDependabot will resolve any conflicts with this PR as long as you don't\nalter it yourself. You can also trigger a rebase manually by commenting\n`@dependabot rebase`.\n\n[//]: # (dependabot-automerge-start)\n[//]: # (dependabot-automerge-end)\n\n---\n\n<details>\n<summary>Dependabot commands and options</summary>\n<br />\n\nYou can trigger Dependabot actions by commenting on this PR:\n- `@dependabot rebase` will rebase this PR\n- `@dependabot recreate` will recreate this PR, overwriting any edits\nthat have been made to it\n- `@dependabot merge` will merge this PR after your CI passes on it\n- `@dependabot squash and merge` will squash and merge this PR after\nyour CI passes on it\n- `@dependabot cancel merge` will cancel a previously requested merge\nand block automerging\n- `@dependabot reopen` will reopen this PR if it is closed\n- `@dependabot close` will close this PR and stop Dependabot recreating\nit. You can achieve the same result by closing it manually\n- `@dependabot show <dependency name> ignore conditions` will show all\nof the ignore conditions of the specified dependency\n- `@dependabot ignore <dependency name> major version` will close this\ngroup update PR and stop Dependabot creating any more for the specific\ndependency's major version (unless you unignore this specific\ndependency's major version or upgrade to it yourself)\n- `@dependabot ignore <dependency name> minor version` will close this\ngroup update PR and stop Dependabot creating any more for the specific\ndependency's minor version (unless you unignore this specific\ndependency's minor version or upgrade to it yourself)\n- `@dependabot ignore <dependency name>` will close this group update PR\nand stop Dependabot creating any more for the specific dependency\n(unless you unignore this specific dependency or upgrade to it yourself)\n- `@dependabot unignore <dependency name>` will remove all of the ignore\nconditions of the specified dependency\n- `@dependabot unignore <dependency name> <ignore condition>` will\nremove the ignore condition of the specified dependency and ignore\nconditions\n\n\n</details>\n\n---------\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>\nCo-authored-by: Alexander Samusev <41779041+alvicsam@users.noreply.github.com>",
-          "timestamp": "2025-09-30T10:38:51+02:00",
-          "tree_id": "a3afe168fd1dfafe2cbf054dd108250dd0200235",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/28dda33b18ce3d1a3e50fe728b2cfb8b84a97f79"
-        },
-        "date": 1759223626287,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 23.800000000000004,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 227.09999999999997,
-            "unit": "KiB"
-          },
-          {
-            "name": "dispute-distribution",
-            "value": 0.00871144795999999,
-            "unit": "seconds"
-          },
-          {
-            "name": "dispute-coordinator",
-            "value": 0.0026169470600000003,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.005181347619999992,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -24499,6 +24450,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "dispute-distribution",
             "value": 0.00951719936999998,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "oliver.tale-yazdi@parity.io",
+            "name": "Oliver Tale-Yazdi",
+            "username": "ggwpez"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d803f1b216332a65c20ea78573078a12d88b4eeb",
+          "message": "omni-bencher: expose BLS host functions (#12035)\n\nSigned-off-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>",
+          "timestamp": "2026-05-11T08:36:39Z",
+          "tree_id": "6d7ff3bcb96c5391f8c5fab70565ce350f58aa7e",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/d803f1b216332a65c20ea78573078a12d88b4eeb"
+        },
+        "date": 1778493644118,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 227.09999999999997,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 23.800000000000004,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.009946674200000007,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-coordinator",
+            "value": 0.0026452340900000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "dispute-distribution",
+            "value": 0.009273418319999987,
             "unit": "seconds"
           }
         ]

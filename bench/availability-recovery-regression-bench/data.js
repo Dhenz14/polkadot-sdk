@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778493537041,
+  "lastUpdate": 1778512893199,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "22591718+RomarQ@users.noreply.github.com",
-            "name": "Rodrigo Quelhas",
-            "username": "RomarQ"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "2732b6a9157a9ac501cac43ca46f6abffc90f275",
-          "message": "Remove deprecated/unused consensus code (#9869)\n\nThis pull request removes unused consensus-related code from the\ncodebase. The removed code was not referenced or required by any\nexisting logic or features, and its removal helps to:\n\n- Reduce technical debt\n- Simplify the codebase for future maintenance",
-          "timestamp": "2025-09-30T19:30:48Z",
-          "tree_id": "9b60638e2014955757ab321bdbfd3379674e622e",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/2732b6a9157a9ac501cac43ca46f6abffc90f275"
-        },
-        "date": 1759266519863,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19868092623333333,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.252833310233331,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.1397458430666667,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "823a550f4be744bd1ba9e47a2ce82ede6e8aa4bd",
+          "message": "Statement store e2e integration tests lite person setup (#11415)\n\n## Summary\n\n- Add a lite person registration test that exercises the full\nPeopleLite::attest flow on a live parachain, including ring-VRF key\ngeneration, attestation, and subsequent statement submission.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-05-11T13:19:23Z",
+          "tree_id": "477f2e189ec1398609b4e1066c16c114d813fc65",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/823a550f4be744bd1ba9e47a2ce82ede6e8aa4bd"
+        },
+        "date": 1778512871034,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.13783271950000003,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 10.985920292299998,
             "unit": "seconds"
           }
         ]

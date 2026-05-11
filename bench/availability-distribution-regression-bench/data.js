@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778493569651,
+  "lastUpdate": 1778512923948,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "yrong1997@gmail.com",
-            "name": "Ron",
-            "username": "yrong"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "0e272fe76b037587908b52110a485749661aec97",
-          "message": "Snowbridge: Refactor with Alloy primitives and clean up code (#9204)\n\nJust some cleanup — not blocking the V2 release if it can’t be included\nin time.\n\n---------\n\nCo-authored-by: Adrian Catangiu <adrian@parity.io>",
-          "timestamp": "2025-09-30T12:45:39Z",
-          "tree_id": "764fd3841a44da693a68d786bc5648b6f8bbc33f",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/0e272fe76b037587908b52110a485749661aec97"
-        },
-        "date": 1759241030464,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.012923629193333327,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.007413650006666645,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.15796711873333333,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022340871999999998,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-store",
             "value": 0.13980521163333332,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "823a550f4be744bd1ba9e47a2ce82ede6e8aa4bd",
+          "message": "Statement store e2e integration tests lite person setup (#11415)\n\n## Summary\n\n- Add a lite person registration test that exercises the full\nPeopleLite::attest flow on a live parachain, including ring-VRF key\ngeneration, attestation, and subsequent statement submission.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-05-11T13:19:23Z",
+          "tree_id": "477f2e189ec1398609b4e1066c16c114d813fc65",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/823a550f4be744bd1ba9e47a2ce82ede6e8aa4bd"
+        },
+        "date": 1778512902290,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.007258285193333336,
+            "unit": "seconds"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.023817946406666665,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.14125723693333342,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.00974055195333331,
             "unit": "seconds"
           }
         ]

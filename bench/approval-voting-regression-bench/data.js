@@ -1,107 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778493601002,
+  "lastUpdate": 1778512955008,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "approval-voting-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "oliver.tale-yazdi@parity.io",
-            "name": "Oliver Tale-Yazdi",
-            "username": "ggwpez"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "7648b4105c269d6a3395d90b053c2e04c5932bc3",
-          "message": "Stronger WASM compression (#9875)\n\nUse strongest compression 22 instead of just 3. See\n[docs](https://docs.rs/zstd/0.13.3/zstd/stream/write/struct.Encoder.html#method.new).\nReduces our KAH compressed size by 25%.\n\nBuild time by compression level:\n\n| Compression | Build Time | Size    | Decomp Time |\n  |-------------|-----------|---------|-------------|\n  | 3           | 5:54      | 3192172 | 0.013039s   |\n  | 10          | 5:58      | 2716940 | 0.011962s   |\n  | 22          | 6:06      | 2387562 | 0.013745s   |\n\n---------\n\nSigned-off-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>",
-          "timestamp": "2025-09-30T11:05:07Z",
-          "tree_id": "2fe20eaaaaff302082b5a4507a9302b2265ff7ef",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/7648b4105c269d6a3395d90b053c2e04c5932bc3"
-        },
-        "date": 1759236540839,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 52939.90000000001,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 63631.990000000005,
-            "unit": "KiB"
-          },
-          {
-            "name": "approval-voting/test-environment",
-            "value": 0.00001997733,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-0",
-            "value": 2.5085048137999992,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-1",
-            "value": 2.4923886481,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution",
-            "value": 0.00001991003,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-3",
-            "value": 2.50286445256,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-db",
-            "value": 1.9587698796099893,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
-            "value": 0.4433688729400004,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 2.622297459570972,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel",
-            "value": 12.458942609329991,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-distribution/test-environment",
-            "value": 0.00001991003,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-parallel-2",
-            "value": 2.5472913051700012,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting",
-            "value": 0.00001997733,
-            "unit": "seconds"
-          },
-          {
-            "name": "approval-voting-parallel/approval-voting-gather-signatures",
-            "value": 0.005754637150000009,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -49499,6 +49400,105 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 4.3672331320229345,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "823a550f4be744bd1ba9e47a2ce82ede6e8aa4bd",
+          "message": "Statement store e2e integration tests lite person setup (#11415)\n\n## Summary\n\n- Add a lite person registration test that exercises the full\nPeopleLite::attest flow on a live parachain, including ring-VRF key\ngeneration, attestation, and subsequent statement submission.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-05-11T13:19:23Z",
+          "tree_id": "477f2e189ec1398609b4e1066c16c114d813fc65",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/823a550f4be744bd1ba9e47a2ce82ede6e8aa4bd"
+        },
+        "date": 1778512932758,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 52939.3,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 63625.12000000001,
+            "unit": "KiB"
+          },
+          {
+            "name": "approval-voting",
+            "value": 0.00002349769,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution",
+            "value": 0.00002618804,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel",
+            "value": 14.715798483649968,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-1",
+            "value": 2.842310249859998,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting/test-environment",
+            "value": 0.00002349769,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-2",
+            "value": 2.920781162319999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-3",
+            "value": 2.8089657604999996,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-distribution/test-environment",
+            "value": 0.00002618804,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-db",
+            "value": 2.5006182870400027,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-subsystem",
+            "value": 0.7741264754099688,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 4.294610601183072,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-parallel-0",
+            "value": 2.863316720429999,
+            "unit": "seconds"
+          },
+          {
+            "name": "approval-voting-parallel/approval-voting-gather-signatures",
+            "value": 0.005679828090000004,
             "unit": "seconds"
           }
         ]

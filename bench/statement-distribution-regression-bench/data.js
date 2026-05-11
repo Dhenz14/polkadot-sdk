@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778493634360,
+  "lastUpdate": 1778512986053,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "88332432+dastansam@users.noreply.github.com",
-            "name": "Dastan",
-            "username": "dastansam"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "cfce3b96be3fe7348c88ba1deeaa701834240d38",
-          "message": "`pallet-assets`: extract precompiles to a separate crate (#9796)\n\ncloses #9434 \n\n###  Description\n\nAssets pallet includes `pallet-revive` precompiles and subsequently pull\na lot of EVM related dependencies by default. This forces downstream\nusers that only want `pallet-assets` functionality to pull unrelated\ndependencies and causes confusion (why do we have bunch of ethereum\ncrates in the dependency tree of `pallet-assets`?). This extracts\nprecompiles into its own crate\n\n---------\n\nCo-authored-by: Alexander Theißen <alex.theissen@me.com>\nCo-authored-by: Bastian Köcher <git@kchr.de>",
-          "timestamp": "2025-09-30T09:11:50Z",
-          "tree_id": "5425894d473ec0ee79c528aca01d4f7facb1e1dd",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/cfce3b96be3fe7348c88ba1deeaa701834240d38"
-        },
-        "date": 1759227642133,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.94999999999995,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.044198789759999954,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.03397442745000001,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.08718569035999989,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "15388928+DenzelPenzel@users.noreply.github.com",
+            "name": "DenzelPenzel",
+            "username": "DenzelPenzel"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "823a550f4be744bd1ba9e47a2ce82ede6e8aa4bd",
+          "message": "Statement store e2e integration tests lite person setup (#11415)\n\n## Summary\n\n- Add a lite person registration test that exercises the full\nPeopleLite::attest flow on a live parachain, including ring-VRF key\ngeneration, attestation, and subsequent statement submission.\n\n---------\n\nCo-authored-by: cmd[bot] <41898282+github-actions[bot]@users.noreply.github.com>",
+          "timestamp": "2026-05-11T13:19:23Z",
+          "tree_id": "477f2e189ec1398609b4e1066c16c114d813fc65",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/823a550f4be744bd1ba9e47a2ce82ede6e8aa4bd"
+        },
+        "date": 1778512963832,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 128.168,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.0386239605,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.08615941031199989,
             "unit": "seconds"
           }
         ]

@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778259888034,
+  "lastUpdate": 1778493537041,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "yrong1997@gmail.com",
-            "name": "Ron",
-            "username": "yrong"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "0e272fe76b037587908b52110a485749661aec97",
-          "message": "Snowbridge: Refactor with Alloy primitives and clean up code (#9204)\n\nJust some cleanup — not blocking the V2 release if it can’t be included\nin time.\n\n---------\n\nCo-authored-by: Adrian Catangiu <adrian@parity.io>",
-          "timestamp": "2025-09-30T12:45:39Z",
-          "tree_id": "764fd3841a44da693a68d786bc5648b6f8bbc33f",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/0e272fe76b037587908b52110a485749661aec97"
-        },
-        "date": 1759241003310,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.2322584998,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19508687833333332,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-recovery",
             "value": 10.832783332366668,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "oliver.tale-yazdi@parity.io",
+            "name": "Oliver Tale-Yazdi",
+            "username": "ggwpez"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d803f1b216332a65c20ea78573078a12d88b4eeb",
+          "message": "omni-bencher: expose BLS host functions (#12035)\n\nSigned-off-by: Oliver Tale-Yazdi <oliver.tale-yazdi@parity.io>",
+          "timestamp": "2026-05-11T08:36:39Z",
+          "tree_id": "6d7ff3bcb96c5391f8c5fab70565ce350f58aa7e",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/d803f1b216332a65c20ea78573078a12d88b4eeb"
+        },
+        "date": 1778493514339,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 10.922639266133334,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.1397458430666667,
             "unit": "seconds"
           }
         ]

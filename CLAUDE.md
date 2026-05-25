@@ -2,6 +2,21 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Hive Ecosystem Fork Boundary
+
+This checkout is the `Dhenz14/polkadot-sdk` fork of upstream Polkadot SDK. In
+the Hive ecosystem it is a dependency mirror and toolchain reference for
+NeuraChain benchmarking, runtime compatibility, and FRAME development. It is
+not Hive-owned product/runtime code and must not be counted as a Hive
+capability-bearing repo. Hive feature, capability, and product claims belong in
+the Hive-AI, HivePoA, NeuraChain, IDE, wiki, or public-product repos that
+consume this SDK.
+
+When you need upstream truth, compare against `paritytech/polkadot-sdk` before
+changing behavior. When you need Hive truth, update the consuming Hive repo and
+only touch this fork for SDK compatibility, policy, documentation boundary, or
+fork-sync work.
+
 ## Repository Overview
 
 The Polkadot SDK is a monorepo containing all components needed to build on the Polkadot network. It was formed by

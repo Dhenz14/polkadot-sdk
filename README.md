@@ -17,6 +17,12 @@ forks](https://img.shields.io/github/forks/paritytech/polkadot-sdk)
 
 </div>
 
+> **Hive ecosystem fork boundary:** `Dhenz14/polkadot-sdk` is a dependency
+> mirror and toolchain reference for NeuraChain/FRAME work. It is not
+> Hive-owned product/runtime code and is intentionally docs-only in the Hive
+> ecosystem map. Hive feature and capability claims belong in the consuming
+> Hive repos, not in this upstream SDK fork.
+
 ## ⚡ Quickstart
 If you want to get an example node running quickly you can execute the following getting started script:
 

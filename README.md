@@ -24,11 +24,26 @@ forks](https://img.shields.io/github/forks/paritytech/polkadot-sdk)
 > Hive repos, not in this upstream SDK fork.
 
 ## ⚡ Quickstart
-If you want to get an example node running quickly you can execute the following getting started script:
+This fork keeps the getting-started flow inside the `Dhenz14/polkadot-sdk`
+boundary. Prefer the script checked into the revision you are building:
 
+```sh
+git clone https://github.com/Dhenz14/polkadot-sdk.git
+cd polkadot-sdk
+sh scripts/getting-started.sh
 ```
-curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/paritytech/polkadot-sdk/master/scripts/getting-started.sh | bash
+
+If you need a one-file bootstrap before cloning, pin the Dhenz14 fork to a
+specific commit or tag and inspect the file before running it:
+
+```sh
+curl --proto '=https' --tlsv1.2 -fsSLo /tmp/polkadot-sdk-getting-started.sh \
+  https://raw.githubusercontent.com/Dhenz14/polkadot-sdk/7d1a000e9c0567df00cb475c28b2e31e0ca78ad4/scripts/getting-started.sh
+sh /tmp/polkadot-sdk-getting-started.sh
 ```
+
+Do not pipe a moving upstream `paritytech/polkadot-sdk` `master` raw script
+directly into a shell from this fork's README.
 
 ## 👩🏽‍💻 Building
 
